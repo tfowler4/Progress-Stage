@@ -1,0 +1,55 @@
+<div id="body-wrapper">
+    <div id="body-content">
+        <div class="vertical-separator"></div>
+
+        <?php if ( !empty($data->_dialogOptions) ): ?>
+            <?php echo Functions::showDialogWindow($data->_dialogOptions); ?>
+
+            <div class="vertical-separator"></div>
+        <?php endif; ?>
+
+        <div id="form-table-wrapper">
+            <form method="POST" action="<?php echo PAGE_CONTACTUS; ?>" autocomplete="off">
+                <table class="form-table standard">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Contact Us</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Email Address</th>
+                            <td><input id="contact-email" type="text" name="contact-email" class="required"></td>
+                         </tr>
+                        <tr>
+                            <th>Feedback</th>
+                            <td>
+                                <select id="contact-feedback" name="contact-feedback">
+                                    <option value="">Select Feedback Type</option>
+                                    <option value="General Feedback">General Feedback</option>
+                                    <option value="Guild Details Request">Guild Details Request</option>
+                                    <option value="UI Layout Issues">UI Layout Issues</option>
+                                    <option value=">Account Problem">Account Problem</option>
+                                    <option value="Submission Errors">Submission Errors</option>
+                                    <option value="Feature Request">Feature Request</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Message</th>
+                            <td><textarea id="contact-message" name="contact-message" class="required"></textarea></td>
+                         </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">
+                                <input id="contact-active" type="hidden" name='active' value="Active">
+                                <input id="contact-submit" type="submit" value="Submit">
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>

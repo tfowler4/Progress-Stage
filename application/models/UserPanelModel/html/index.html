@@ -1,0 +1,393 @@
+<div id="body-wrapper">
+
+    <div id="body-content">
+
+        <div class="vertical-separator"></div>
+
+
+
+        <div class="option-container user">
+
+            <div class="option-title">Account Management</div>
+
+            <div class="option-content">
+
+                <table>
+
+                    <thead>
+
+                            <th>
+
+                                <?php echo $data->_userDetails->_userName; ?>
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <th>Email Address</th>
+
+                        </tr>
+
+                        <tr>
+
+                            <td><?php echo $data->_userDetails->_emailAddress; ?></td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Date Created</th>
+
+                        </tr>
+
+                        <tr>
+
+                            <td><?php echo Functions::formatDate($data->_userDetails->_dateCreated, 'm-d-Y'); ?></td>
+
+                        </tr>
+
+                    </tbody>
+
+                    <tfoot>
+
+                    </tfoot>
+
+                </table>
+
+            </div>
+
+            
+
+            <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModel::USER_EMAIL,'<div class="option-footer">Change Email Address</div>', true); ?>
+
+            <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModel::USER_PASSWORD,'<div class="option-footer">Change Password</div>', true); ?>
+
+        </div>
+
+
+
+        <?php foreach ( $data->_userGuilds as $guildId => $guildDetails ): ?>
+
+            <div class="option-container guild">
+
+                <div class="option-title">Guild Management</div>
+
+
+
+                <div id="guild-pane-<?php echo $guildDetails->_guildId; ?>" class="option-footer guild"><?php echo $guildDetails->_nameLink; ?></div>
+
+                <div id="guild-content-<?php echo $guildDetails->_guildId; ?>" class="option-content guild active">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+
+                                    <div style="height:200px; vertical-align:middle; line-height:200px;">
+
+                                        <?php echo $guildDetails->_logo; ?>
+
+                                    </div>
+
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+
+                                <th>Date Created</th>
+
+                            </tr>
+
+                            <tr>
+
+                                <td><?php echo Functions::formatDate($guildDetails->_dateCreated, 'm-d-Y'); ?></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Server</th>
+
+                            </tr>
+
+                            <tr>
+
+                                <td><?php echo $guildDetails->_serverLink; ?></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Faction</th>
+
+                            </tr>
+
+                            <tr>
+
+                                <td><?php echo $guildDetails->_faction; ?></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Country</th>
+
+                            </tr>
+
+                            <tr>
+
+                                <td><?php echo $guildDetails->_countryLink; ?></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Guild Leader</th>
+
+                            </tr>
+
+                            <tr>
+
+                                <td><?php echo $guildDetails->_leader; ?></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Status</th>
+
+                            </tr>
+
+                            <tr>
+
+                                <td><?php echo $guildDetails->_active; ?></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Number of Raid Teams</th>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>
+
+                                    <?php echo (count($data->_raidTeams[$guildDetails->_guildId])+1); ?>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                        <tfoot>
+
+                            <!--<tr>
+
+                                <th colspan="2">
+
+                                    <?php echo Functions::getImageFaction($guildDetails->_faction); ?>
+
+                                </th>
+
+                            </tr>-->
+
+                        </tfoot>
+
+                    </table>
+
+
+
+                    <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModel::GUILD_EDIT .'/' . $guildDetails->_guildId,'<div class="option-footer">Edit Guild Details</div>', true); ?>
+
+                    <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModel::KILLS_ADD.'/' . $guildDetails->_guildId,'<div class="option-footer">Add/Edit Kill Submissions</div>', true); ?>
+
+                    <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModel::GUILD_RAID_TEAM.'/' . $guildDetails->_guildId,'<div class="option-footer">Add Raid Team</div>', true); ?>
+
+                    <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModel::GUILD_REMOVE.'/' . $guildDetails->_guildId,'<div class="option-footer">Remove Guild</div>', true); ?>
+
+                </div>
+
+                
+
+                <?php foreach( $data->_raidTeams[$guildDetails->_guildId] as $guildId => $guildDetails ): ?>
+
+                    <div id="guild-pane-<?php echo $guildDetails->_guildId; ?>" class="option-footer guild"><?php echo $guildDetails->_nameLink; ?></div>
+
+                    <div id="guild-content-<?php echo $guildDetails->_guildId; ?>" class="option-content guild hidden">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+
+                                        <div style="height:200px; vertical-align:middle; line-height:200px;">
+
+                                            <?php echo $guildDetails->_logo; ?>
+
+                                        </div>
+
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+
+                                    <th>Date Created</th>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td><?php echo Functions::formatDate($guildDetails->_dateCreated, 'm-d-Y'); ?></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>Server</th>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td><?php echo $guildDetails->_serverLink; ?></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>Faction</th>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td><?php echo $guildDetails->_faction; ?></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>Country</th>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td><?php echo $guildDetails->_countryLink; ?></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>Raid Leader</th>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td><?php echo $guildDetails->_leader; ?></td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <th>Status</th>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td><?php echo $guildDetails->_active; ?></td>
+
+                                </tr>
+
+                            </tbody>
+
+                            <tfoot>
+
+                                <!--<tr>
+
+                                    <th colspan="2">
+
+                                        <?php echo Functions::getImageFaction($guildDetails->_faction); ?>
+
+                                    </th>
+
+                                </tr>-->
+
+                            </tfoot>
+
+                        </table>
+
+
+
+                        <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModel::GUILD_EDIT .'/' . $guildDetails->_guildId,'<div class="option-footer">Edit Raid Team Details</div>', true); ?>
+
+                        <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModel::KILLS_ADD.'/' . $guildDetails->_guildId,'<div class="option-footer">Add/Edit Kill Submissions</div>', true); ?>
+
+                        <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModel::GUILD_REMOVE.'/' . $guildDetails->_guildId,'<div class="option-footer">Remove Raid Team</div>', true); ?>
+
+                    </div>
+
+                <?php endforeach; ?>
+
+            </div>
+
+        <?php endforeach; ?>
+
+        <?php for ( $i = $data->_numOfGuilds; $i < UserPanelModel::MAX_GUILDS; $i++ ): ?>
+
+        <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, 
+
+                                                    UserPanelModel::GUILD_ADD,
+
+                                                    '<div class="option-container guild new">
+
+                                                     <div class="option-title">Guild Management</div>
+
+                                                     <div class="option-content new">Add New Guild</div>
+
+                                                     </div>', 
+
+                                                    true); ?>
+
+        <?php endfor; ?>
+
+
+
+        <div class="clear"></div>
+
+
+
+        <div class="vertical-separator"></div>
+
+
+
+    </div>
+
+</div>

@@ -1,0 +1,213 @@
+<?php
+	Header('Content-type: image/png');
+	Header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+	Header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
+	Header('Pragma: no-cache');
+
+	$ROOT 			= dirname(dirname(dirname(__FILE__)));
+	include_once 	"{$ROOT}/configuration.php";
+
+	//***************START-DECLARING VARIABLES**************
+	$guild_details = array();
+	//***************END-DECLARING VARIABLES**************
+
+	$guild_id 		= $_GET['gid'];
+	$rank_type 		= $content = $progress = $rank_abbrev = "";
+	$select_system 	= $_GET['system'];
+	$select_dungeon = $_GET['dungeon'];
+	$select_tier  	= $_GET['tier'];
+	$select_size  	= $_GET['size'];
+	$show_points 	= $_GET['points'];
+	$show_trend 	= $_GET['trend'];
+	$show_display 	= $_GET['display'];
+	$show_rank		= 1;
+	$img_trend 		= $type = $dungeon = "";
+	$starting_point = 390;
+
+	$GLOBALS['fold_widgets'] 	= "{$ROOT}/images/widgets/";
+	$GLOBALS['fold_flags'] 		= "{$ROOT}/images/flags/";
+	$GLOBALS['fold_fonts']		= "{$ROOT}/fonts/";
+
+	$guild_details = get_guild_details($guild_id);
+	$rank_abbrev = $GLOBALS['point_system_abbrev'][$select_system];
+
+	if ( isset($_GET['display']) && $_GET['display'] == "" ) $show_display = 1;
+
+	if ( isset($_GET['rank']) && $_GET['rank'] == "2" ) $rank_type = "World";
+	if ( isset($_GET['rank']) && $_GET['rank'] == "1" ) $rank_type = "Region";
+	if ( isset($_GET['rank']) && $_GET['rank'] == "0" ) $rank_type = "Server";
+	if ( !isset($_GET['rank']) ) $rank_type = "World";
+
+	// All-Time Ranking
+	/*
+	if ( $select_tier == 0 && !isset($GLOBALS['raid_size'][$select_size]) ) { 
+		$ranking_details 	= $guild_details['overall_details']; 
+		$content 			= "All-Time $rank_abbrev Ranking";
+
+		foreach ( $guild_details['tier_details'] as $tier => $tier_details ) {
+			if ( strlen($progress) > 0 ) {
+				$progress .= ", ".$tier_details['standing']." {$GLOBALS['global_tier_array'][$tier]['alt_tier']}";  
+			} else {
+				$progress = $tier_details['standing']." {$GLOBALS['global_tier_array'][$tier]['alt_tier']}";   
+			}
+			
+		}   
+	}
+	*/
+
+	// All-Time Raid Size Ranking
+	/*
+	if ( $select_tier == 0 && isset($GLOBALS['raid_size'][$select_size]) ) { 
+		$ranking_details 	= $guild_details['direct_raid_size_details'][$select_size]; 
+		$content 			= "All-Time $select_size-Mans $rank_abbrev Ranking";
+
+		foreach ( $guild_details['dungeon_details'] as $dungeon_id => $dungeon_details ) {
+			if ( $GLOBALS['global_dungeon_array'][$dungeon_id]['players'] != $select_size || $GLOBALS['global_dungeon_array'][$dungeon_id]['dungeon_type'] != 0 ) continue;
+			
+			if ( strlen($progress) > 0 ) {
+				$progress .= ", ".$guild_details['dungeon_details'][$dungeon_id]['standing']." ".$GLOBALS['global_dungeon_array'][$dungeon_id]['abbreviation'];  
+			} else {
+				$progress = $guild_details['dungeon_details'][$dungeon_id]['standing']." ".$GLOBALS['global_dungeon_array'][$dungeon_id]['abbreviation'];    
+			}
+		}   
+	}
+	*/
+	// Tier Ranking
+	/*
+	if ( isset($guild_details['tier_details'][$select_tier]) && !isset($GLOBALS['raid_size'][$select_size]) ) { 
+		$ranking_details 	= $guild_details['tier_details'][$select_tier]; 
+		$content 			= "Tier $select_tier $rank_abbrev Ranking";
+
+		foreach ( $guild_details['dungeon_details'] as $dungeon_id => $dungeon_details ) {
+			if ( $GLOBALS['global_dungeon_array'][$dungeon_id]['tier'] != $select_tier || $GLOBALS['global_dungeon_array'][$dungeon_id]['dungeon_type'] != 0 ) continue;
+
+			if ( strlen($progress) > 0 ) {
+				$progress .= ", ".$guild_details['dungeon_details'][$dungeon_id]['standing']." ".$GLOBALS['global_dungeon_array'][$dungeon_id]['abbreviation'];  
+			} else {
+				$progress = $guild_details['dungeon_details'][$dungeon_id]['standing']." ".$GLOBALS['global_dungeon_array'][$dungeon_id]['abbreviation'];    
+			}
+		}
+	}
+	*/
+	// Tier Raid Size Ranking
+	/*
+	if ( isset($guild_details['tier_details'][$select_tier]) && isset($GLOBALS['raid_size'][$select_size]) ) { 
+		$ranking_details 	= $guild_details['raid_size_details'][$select_tier][$select_size];
+		$content 			= "Tier $select_tier $select_size-Mans $rank_abbrev Ranking";
+
+		foreach ( $guild_details['dungeon_details'] as $dungeon_id => $dungeon_details ) {
+			if ( $GLOBALS['global_dungeon_array'][$dungeon_id]['tier'] != $select_tier || $GLOBALS['global_dungeon_array'][$dungeon_id]['players'] != $select_size || $GLOBALS['global_dungeon_array'][$dungeon_id]['dungeon_type'] != 0 ) continue;
+			
+			if ( strlen($progress) > 0 ) {
+				$progress .= ", ".$guild_details['dungeon_details'][$dungeon_id]['standing']." ".$GLOBALS['global_dungeon_array'][$dungeon_id]['abbreviation'];  
+			} else {
+				$progress = $guild_details['dungeon_details'][$dungeon_id]['standing']." ".$GLOBALS['global_dungeon_array'][$dungeon_id]['abbreviation'];    
+			}
+		}   
+	}
+	*/
+	// Dungeon Ranking
+	if ( isset($guild_details['dungeon_details'][$select_dungeon]) ) { 
+		$ranking_details 	= $guild_details['dungeon_details'][$select_dungeon]; 
+		$content 			= $GLOBALS['global_dungeon_array'][$select_dungeon]['abbreviation']." $rank_abbrev Ranking";
+		$progress 			= $guild_details['dungeon_details'][$select_dungeon]['standing']." ".$GLOBALS['global_dungeon_array'][$select_dungeon]['abbreviation'];  
+	}
+
+	$points 	= "(".number_format($ranking_details[$select_system]['points'], 2, ".", ",").")";
+	$rank 		= format_ordinal($ranking_details[$select_system][strtolower($rank_type)]['rank']);
+	$trend 		= $ranking_details[$select_system]['trend'];
+	$name 		= $guild_details['name'];
+	$server 	= $guild_details['server'];
+	$faction 	= strtolower($guild_details['faction']);
+	$region 	= $guild_details['region'];
+	$country 	= strtolower(str_replace(" ", "_", $guild_details['country']));
+	$site 		= substr($GLOBALS['host_name'], 11);
+
+	if ( $rank_type == "World" ) $rank = "World $rank";
+	if ( $rank_type == "Region" ) $rank = "$region $rank";
+	if ( $rank_type == "Server" ) $rank = "$server $rank";
+
+	$box_name = $box_rank = $box_points = $box_content = array();
+
+	$image 		= "";
+	$dungeon 	= str_replace(":", "", $GLOBALS['global_dungeon_array'][$select_dungeon]['name']);
+	$dungeon 	= str_replace(" ", "_", $dungeon);
+	$dungeon 	= strtolower($dungeon);
+	$image_path = "{$GLOBALS['fold_widgets']}bg_widget_{$faction}_{$dungeon}.png";
+
+	if ( isset($guild_details['dungeon_details'][$select_dungeon]) && file_exists($image_path) ) {
+		$image = imagecreatefrompng("{$GLOBALS['fold_widgets']}bg_widget_{$faction}_{$dungeon}.png");
+	} else {
+		$image = imagecreatefrompng("{$GLOBALS['fold_widgets']}bg_widget_{$faction}.png");
+	}
+	
+	imageAlphaBlending($image, true);
+	imageSaveAlpha($image, true);
+
+	$font_arial_regular		= "{$GLOBALS['fold_fonts']}ARIAL.TTF";
+	$font_arial_bold 		= "{$GLOBALS['fold_fonts']}ARIALBD.TTF";
+	$font_arial_black  		= "{$GLOBALS['fold_fonts']}ARIBLK.TTF";
+	$font_verdana_regular 	= "{$GLOBALS['fold_fonts']}VERDANA.TTF";
+	$font_verdana_bold 		= "{$GLOBALS['fold_fonts']}VERDANAB.TTF";
+	$font_verdana_italic 	= "{$GLOBALS['fold_fonts']}VERDANAI.TTF";
+	$white 					= imagecolorallocate($image, 255, 255, 255); 
+
+	$flag = imagecreatefrompng("{$GLOBALS['fold_flags']}{$country}.png");
+	imagecopymerge($image, $flag, 60, "7.5", 0, 0, 29, 13, 100);
+
+	imageTTFText($image, 9, 0, 92, 18, $white, $font_verdana_italic, $region."-".$server);
+
+	$box_name = imagettfbbox("13.5", 0, $font_arial_bold, $name);
+
+	imageTTFText($image, "13.5", 0, 60, 40, $white, $font_arial_bold, $name);
+	imageTTFText($image, "7.5", 0, 60 + ($box_name[2] + 7), 40, $white, $font_arial_bold, $progress); 
+
+	if ( $show_points == 1 && $show_display == 1 ) {
+		$box_points = imagettfbbox("7.5", 0, $font_verdana_bold, $points);
+	} else {
+		$box_points = imagettfbbox("7.5", 0, $font_verdana_bold, "");
+	}
+
+	if ( $show_rank == 1 && $show_display == 1 ) {
+		$box_rank = imagettfbbox(12, 0, $font_arial_black, $rank);
+	} else {
+		$box_rank = imagettfbbox(12, 0, $font_arial_black, "");
+	}
+	
+	if ( $show_trend == 1 && $show_display == 1 ) {
+		$trend = "";
+		if ( ($img_trend != "" || $img_trend != "NEW") && $img_trend  > 0 ) $trend = imagecreatefrompng("{$GLOBALS['fold_widgets']}widget_trend_up.png"); 
+		if ( ($img_trend != "" || $img_trend != "NEW") && $img_trend  < 0 ) $trend = imagecreatefrompng("{$GLOBALS['fold_widgets']}widget_trend_down.png");
+
+		if ( $trend != "" ) {
+			imagecopy($image, $trend, $starting_point + (599 - $starting_point - $box_rank[2] - $box_points[2]) / 2 - 20, 5, 0, 0, 16, 16); 
+		}
+	}
+
+	if ( $show_rank == 1 && $show_display == 1) {
+		imageTTFText($image, 12, 0, $starting_point + (599 - $starting_point - $box_rank[2] - $box_points[2]) / 2, 20, $white, $font_arial_black, $rank);
+	}
+
+	if ( $show_points == 1 && $show_display == 1 ) {
+		imageTTFText($image, "7.5", 0, $starting_point + (599 - $starting_point + $box_rank[2] - $box_points[2]) / 2 + 5, 20, $white, $font_verdana_bold, $points);
+	}
+
+	if ( $show_display == 1 ) {
+		$box_content = imagettfbbox("7.5", 0, $font_verdana_bold, $content);
+		imageTTFText($image, "7.5", 0, $starting_point + (599 - $starting_point - $box_content[2]) / 2, 31, $white, $font_verdana_bold, $content);
+
+		$box_site = imagettfbbox("7.5", 0, $font_verdana_bold, $site);
+		imageTTFText($image, "7.5", 0, $starting_point + (599 - $starting_point - $box_site[2]) / 2, 42, $white, $font_verdana_bold, $site);
+	} else {
+		$box_content = imagettfbbox("7.5", 0, $font_verdana_bold, $content);
+		imageTTFText($image, "7.5", 0, $starting_point + (599 - $starting_point - $box_content[2]) / 2, 21, $white, $font_verdana_bold, $content);
+
+		$box_site = imagettfbbox("7.5", 0, $font_verdana_bold, $site);
+		imageTTFText($image, "7.5", 0, $starting_point + (599 - $starting_point - $box_site[2]) / 2, 32, $white, $font_verdana_bold, $site);
+	}              
+	
+	imagepng($image);
+	imagedestroy($image);
+
+	mysql_close($dblink);
+?>

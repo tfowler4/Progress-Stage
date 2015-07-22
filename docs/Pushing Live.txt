@@ -1,0 +1,5 @@
+1 - Remove all Ranking Data from Guild Table
+2 - Run Normalize Data (Ensure EncounterDetails is mapped for video to 5)
+3 - Remap EncounterDetails.php for video from 5 to 4 params index
+4 - Run updateEncounterStandings
+5 - Run Update All Point Rankings

@@ -1,0 +1,27 @@
+Guild Progression Insert String Format
+
+***Current Order***
+Encounter ID
+Date (yyyy-mm-dd)
+Time (hh:mm)
+Timezone
+Screenshot
+Video
+Server Rank
+Region Rank
+World Rank
+
+***New Order***
+Encounter ID
+Date (yyyy-mm-dd)
+Time (hh:mm)
+Timezone
+Video
+Server Rank
+Region Rank
+World Rank
+Country Rank
+Server
+
+***Example***
+198||2015-05-13||19:32||||636-198||||10||41||81

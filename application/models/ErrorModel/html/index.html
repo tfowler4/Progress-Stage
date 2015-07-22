@@ -1,0 +1,16 @@
+<div id="body-wrapper">
+    <div id="body-content">
+        <div class="vertical-separator"></div>
+        <?php 
+        $options['title'] = 'Woops!';
+        $options['message'] = 'If you are seeing this message, then possibly one of many things could have happened:<br>
+        A - Site is getting updated<br>
+        B - Raivee broke something<br>
+        C - Combination of A & B<br>
+        D - Raivee is asleep<br>
+
+        Needless to say, the goal is to not have the page looking like this for long!';
+            echo Functions::showDialogWindow($options);
+        ?>
+    </div>
+</div>

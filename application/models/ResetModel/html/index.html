@@ -1,0 +1,48 @@
+<div id="body-wrapper">
+    <div id="body-content">
+        <div class="vertical-separator"></div>
+
+        <?php if ( !empty($data->_dialogOptions) ): ?>
+            <?php echo Functions::showDialogWindow($data->_dialogOptions); ?>
+        <?php endif; ?>
+
+        <div class="clear"></div>
+
+        <div class="vertical-separator"></div>
+
+        <div id="form-table-wrapper">
+            <form method="POST" action="<?php echo PAGE_RESET_PASSWORD; ?>" autocomplete="off">
+                <table class="form-table">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Password Recovery</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Username</th>
+                            <td><input id="reset-username" type="text" name="reset-username"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>- OR - </td>
+                        </tr>
+                        <tr>
+                            <th>Email Address</th>
+                            <td><input id="reset-email" type="text" name="reset-email"></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">
+                                <input id="reset-active" type="hidden" name='active' value="Active">
+                                <input id="reset-submit" type="submit" value="Submit">
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+
+    </div>
+</div>

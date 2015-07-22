@@ -1,0 +1,23 @@
+<div id="bottom-wrapper">
+    <div id="bottom-content">
+        <div style='width:33%; display:inline-block; vertical-align:middle;'>
+            <span style="display:inline-block; vertical-align:middle; height:100%;"></span>
+            <?php echo Functions::generateExternalHyperLink(LINK_GAME_1, $GLOBALS['images']['logo_game_1'], '', true); ?>
+        </div>
+        <div style='width:33%; display:inline-block; vertical-align:middle;'>
+            <span style="display:inline-block; vertical-align:middle; height:100%;"></span>
+            <?php echo $GLOBALS['images']['site_logo']; ?>
+        </div>
+        <div style='width:33%; display:inline-block; vertical-align:middle;'>
+            <span style="display:inline-block; vertical-align:middle; height:100%;"></span>
+            <?php echo Functions::generateExternalHyperLink(LINK_COMPANY_1, $GLOBALS['images']['logo_company_1'], '', true); ?>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div style="width:100%; background-color:#000000; padding-bottom:5px;">
+        &copy; 2011 RIFT Progress - All Rights Reserved. 
+        <?php echo Functions::generateInternalHyperlink('tos', '', '', 'Terms of Service', ''); ?>
+         | 
+         <?php echo Functions::generateInternalHyperlink('privacypolicy', '', '', 'Privacy Policy', ''); ?>
+    </div>
+</div>

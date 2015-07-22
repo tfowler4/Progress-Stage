@@ -1,0 +1,116 @@
+<div id="body-wrapper">
+    <div id="body-content">
+        <div class="vertical-separator"></div>
+
+        <div id="title-wrapper">
+            <div id="title-flag"><?php echo Functions::getImageFlag($data->_detailsPane->_country, 'medium'); ?></div>
+            <div id="title-text-wrapper">
+                <div id="title-name"><?php echo $data->_detailsPane->_name; ?></div>
+                <div id="title-server">Progression Standings</div>
+            </div>
+        </div>
+
+        <?php if ( !empty($data->_topGuildsArray) ): ?>
+            <div class="vertical-separator"></div>
+            <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_standing')); ?>
+        <?php endif; ?>
+
+        <div id="info-content-wrapper">
+            <table class="info_pane">
+                <thead>
+                    <tr>
+                        <th colspan="2">Server Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach( ServersModel::PANE_SERVER as $key => $value ): ?>
+                        <tr>
+                            <th><?php echo $key; ?></th>
+                            <td><?php echo $data->_detailsPane->$value; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="vertical-separator"></div>
+
+        <div class="clear"></div>
+
+        <div id="submenu-1">
+            <ul class="submenu">
+                <?php foreach ( CommonDataContainer::$tierArray as $tierId => $tierDetails ): ?>
+                    <?php echo $data->generateInternalHyperLink($tierDetails->_name, '<li>' . $tierDetails->_name . ' (' . $tierDetails->_altTier . ')</li>', false); ?>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <!--
+        <div id="submenu-2">
+            <ul class="submenu">
+                <?php echo $data->generateInternalHyperLink($data->_tier, '<li>View as Spreadsheet</li>', true); ?>
+            </ul>
+        </div>
+        -->
+        <div class="clear"></div>
+
+        <?php if ( $data->_isSpreadsheet): ?>
+            <?php foreach( $data->_standingsArr['data'] as $dungeonId => $guildArr ): ?>
+                <div class="table-wrapper standings">
+                    <table class="standings spreadsheet server">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="subHeader" colspan="<?php echo count((array)$data->_standingsArr['data']->$dungeonId->header)+3; ?>"><?php echo $data->_standingsArr['data']->$dungeonId->text; ?></th>
+                            </tr>
+                            <tr>
+                                <th>Rank</th>
+                                <th class='border-right'>Guild</th>
+                                <?php  $count = 1; foreach( $data->_standingsArr['data']->$dungeonId->header as $key => $value ): ?>
+                                    <th <?php if ( $count % 3 == 0 ): ?> class='border-right' <?php endif; ?> ><?php echo $value->_encounterShortName; $count++; ?></th>
+                                <?php endforeach; ?>
+                            </tr>
+                            <?php foreach( $data->_standingsArr['data']->$dungeonId->data as $guildId => $guildDetails ): ?>
+                                <tr>
+                                <td><?php echo $guildDetails->_rank; ?></td>
+                                <td class='border-right'><?php echo $guildDetails->_nameLink; ?></td>
+                                    <?php $count = 1; foreach( $data->_standingsArr['data']->$dungeonId->header as $key => $value ): ?>
+                                        <td <?php if ( $count % 3 == 0 ): ?> class='border-right' <?php endif; ?> ><?php echo (isset($guildDetails->_encounterDetails->$key->_datetime) ? $guildDetails->_encounterDetails->$key->_datetime : '--'); $count++; ?></td>
+                                    <?php endforeach; ?>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="vertical-separator"></div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="table-wrapper standings">
+                <table class="standings">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <?php foreach( $data->_standingsArray as $dungeonId => $dungeon ): ?>
+                            <?php echo Template::drawSubTitleTableRow($data->_tableHeader, $dungeon->header); ?>
+
+                            <?php if ( !empty($dungeon->data) ): ?>
+                                <?php echo Template::drawSubHeaderTableRow($data->_tableHeader); ?>
+
+                                <?php foreach( $dungeon->data as $guildId => $guildDetails ): ?>
+                                    <?php echo Template::drawBodyTableRow($data->_tableHeader, $guildDetails); ?>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <?php echo Template::drawEmptyGuildTableRow($data->_tableHeader, 'No guild data found.'); ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php  endif; ?>
+
+        <div class="vertical-separator"></div>
+
+        <?php echo Template::drawGlossary(ServersModel::GLOSSARY, 3); ?>
+
+    </div>
+</div>

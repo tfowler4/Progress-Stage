@@ -1,0 +1,43 @@
+<div id="body-wrapper">
+    <div id="body-content">
+        <div class="vertical-separator"></div>
+
+        <?php if ( !empty($data->_dialogOptions) ): ?>
+            <?php echo Functions::showDialogWindow($data->_dialogOptions); ?>
+
+            <div class="vertical-separator"></div>
+        <?php endif; ?>
+
+        <div id="form-table-wrapper">
+            <form method="POST" action="<?php echo PAGE_LOGIN; ?>" autocomplete="off">
+                <table class="form-table standard">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Login</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Username/Email</th>
+                            <td><input id="login-username" type="text" name="login-username" class="required"></td>
+                        <tr>
+                            <th>Password</th>
+                            <td><input id="login-password" type="password" name="login-password" class="required"></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">
+                                <input id="login-active" type="hidden" name='active' value="Active">
+                                <input id="login-submit" type="submit" value="Submit">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><?php echo Functions::generateInternalHyperlink('reset', '', '', 'Password Recovery', ''); ?></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>

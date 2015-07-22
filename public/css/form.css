@@ -1,0 +1,59 @@
+.overlay {
+    position: fixed;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.9); /* 0.7 = 70% opacity */
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 99;
+}
+
+.centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+}
+
+table.form-table.popup tbody tr th {
+    text-align: left !important;
+    height: 14px !important;
+    line-height: 14px !important;
+}
+
+table.form-table textarea {
+    background-color: #CCCCCC;
+    height: 200px;
+    width: 100%;
+    padding: 0px 5px 0px 5px;
+    border: 0px solid transparent;
+}
+
+table.form-table.popup select {
+    min-width: 100px !important;
+}
+
+table.form-table.standard select {
+    min-width: 50px !important;
+}
+
+.popup-window {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    max-height: 800px;
+    max-width: 95%;
+    overflow: auto;
+}
+
+.popup-window .table-wrapper {
+    width: auto !important;
+    max-width: 2000px !important;
+    white-space: nowrap;
+}
+
+.button-link {
+    font-size: 12px;
+}

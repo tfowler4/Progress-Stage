@@ -1,0 +1,243 @@
+<div id="body-wrapper">
+    <div id="body-content">
+        <div class="vertical-separator"></div>
+
+        <div id="info-content-wrapper">
+            <table class="info_pane">
+                <thead>
+                    <tr>
+                        <th colspan="2">Ranking Tidbits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach( HowtoModel::PANE_TIDBITS as $key => $value ): ?>
+                        <tr>
+                            <th><?php echo $key; ?></th>
+                            <td><?php echo $value; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="vertical-separator"></div>
+
+        <div class="clear"></div>
+
+        <div class="vertical-separator"></div>
+
+        <div class="clear"></div>
+
+        <div id="articles-wrapper">
+            <div class="article">
+                <div class="article-header">
+                    <div><?php echo GAME_NAME_1 . ' Progress "How Does it Work?"'; ?></div>
+                    <span>Explanation of our current active point systems.</span>
+                </div>
+                <div class="article-content">
+                    <p>
+                    <div class="table-wrapper">
+                        <table class='standings article-data'>
+                            <thead>
+                                <tr>
+                                    <th>--</th>
+                                    <th>Quality Progression (Default)</th>
+                                    <th>Aeyths Point</th>
+                                    <th>Aeyths Flat Point</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Description</td>
+                                    <td>'All encounters start with a base point value unmodified. Final dungeon encounter is modified to be the overall ranking regardless of previous encounters.'</td>
+                                    <td>'All encounters start with a base point value and is modified by # of guilds active in a dungeon.'</td>
+                                    <td>'All encounters use the same point base scale. Standard decay rate with no point modifications.'</td>
+                                </tr>
+                                <tr>
+                                    <td>Base Encounter Point Value</td>
+                                    <td><?php echo POINT_BASE; ?></td>
+                                    <td><?php echo POINT_BASE; ?></td>
+                                    <td><?php echo POINT_BASE_MOD; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Final Encounter Point Value</td>
+                                    <td>(<?php echo POINT_FINAL_BASE; ?> * #ofMobs) + (BEPV * #ofMobs)</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                </tr>
+                                <tr>
+                                    <td>Rate of Decay</td>
+                                    <td>-exp(NbT/50)</td>
+                                    <td>-exp(NbT/50)</td>
+                                    <td>-exp(NbT/50)</td>
+                                </tr>
+                                <tr>
+                                    <td>Starting Point Formula</td>
+                                    <td>BEPV</td>
+                                    <td>(NbHK/NKE) * BEPV</td>
+                                    <td>BEPV</td>
+                                </tr>
+                                <tr>
+                                    <td>Kill Value Formula</td>
+                                    <td>BEPV * Decay</td>
+                                    <td>(NbG/NbGD) * StartValue  * Decay</td>
+                                    <td>BEPV * Decay</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vertical-separator"></div>
+
+            <div class="article">
+                <div class="article-header">
+                    <div>Example Data</div>
+                    <span>A simulation of how each ranking system handles a 3 encounter dungeon.</span>
+                </div>
+                <div class="article-content">
+                    <p>
+                    <div class="table-wrapper">
+                        <table class='standings article-data'>
+                            <thead>
+                                <tr>
+                                    <th>Guild</th>
+                                    <th>Date</th>
+                                    <th>Quality Progression (Default)</th>
+                                    <th>Aeyths Point</th>
+                                    <th>Aeyths Point Flat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th colspan='5'>Encounter A (# of Kills: 63)</th>
+                                </tr>
+                                <tr>
+                                    <td>Guild A</td>
+                                    <td>09-18-2013 11:15:00</td>
+                                    <td>1,000.00</td>
+                                    <td>1,000.00</td>
+                                    <td>2,500.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Guild B</td>
+                                    <td>09-18-2013 11:42:00</td>
+                                    <td>999.63</td>
+                                    <td>999.63</td>
+                                    <td>2,499.06</td>
+                                </tr>
+                                <tr>
+                                    <td>Guild C</td>
+                                    <td>09-23-2013 01:12:00</td>
+                                    <td>912.45</td>
+                                    <td>912.45</td>
+                                    <td>2,281.12</td>
+                                </tr>
+                                <tr>
+                                    <th colspan='5'>Encounter B (# of Kills: 52)</th>
+                                </tr>
+                                <tr>
+                                    <td>Guild B</td>
+                                    <td>09-18-2013 13:43:00</td>
+                                    <td>1,000.00</td>
+                                    <td>1,468.38</td>
+                                    <td>2,500.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Guild A</td>
+                                    <td>09-18-2013 17:00:00</td>
+                                    <td>997.27</td>
+                                    <td>1,464.37</td>
+                                    <td>2,493.17</td>
+                                </tr>
+                                <tr>
+                                    <td>Guild C</td>
+                                    <td>09-24-2013 02:11:00</td>
+                                    <td>895.49</td>
+                                    <td>1,314.92</td>
+                                    <td>2,238.71</td>
+                                </tr>
+                                <tr>
+                                    <th colspan='5'>Encounter C (Final Encounter) (# of Kills: 40)</th>
+                                </tr>
+                                <tr>
+                                    <td>Guild B</td>
+                                    <td>09-20-2013 21:08:00</td>
+                                    <td>18,000.00</td>
+                                    <td>2,480.63</td>
+                                    <td>2,500.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Guild A</td>
+                                    <td>09-18-2013 17:00:00</td>
+                                    <td>15,085.02</td>
+                                    <td>1,998.56</td>
+                                    <td>2,014.17</td>
+                                </tr>
+                                <tr>
+                                    <td>Guild C</td>
+                                    <td>--</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <th colspan='5'>Dungeon Score (Highest Killed Encounter: 63)</th>
+                                </tr>
+                                <tr>
+                                    <td>Guild B</td>
+                                    <td>--</td>
+                                    <td>18,000.00</td>
+                                    <td>4,948.63</td>
+                                    <td>7,499.06</td>
+                                </tr>
+                                <tr>
+                                    <td>Guild A</td>
+                                    <td>--</td>
+                                    <td>15,085.02</td>
+                                    <td>4,462.93</td>
+                                    <td>7,007.34</td>
+                                </tr>
+                                <tr>
+                                    <td>Guild C</td>
+                                    <td>--</td>
+                                    <td>1,807.94</td>
+                                    <td>2,227.36</td>
+                                    <td>4,519.83</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="vertical-separator"></div>
+
+        <div id="glossary-wrapper">
+            <table class="glossary">
+                <thead>
+                    <tr>
+                        <th colspan="3">Glossary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $count = 0; foreach( HowtoModel::GLOSSARY as $key => $value ): ?>
+                        <?php if ( $count == 0 ): ?>
+                            <tr>
+                        <?php elseif( $count > 0 && $count % 3 == 0 ) : ?>
+                            </tr>
+                            <tr>
+                        <?php endif; ?>
+
+                        <td><?php echo $key . ': ' . $value; $count++; ?></td>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="vertical-separator"></div>
+
+    </div>
+</div>

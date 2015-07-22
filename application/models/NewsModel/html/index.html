@@ -1,0 +1,145 @@
+<div id="body-wrapper">
+    <div id="body-content">
+        <div class="vertical-separator"></div>
+
+        <?php if ( !empty($data->_recentRaids) ): ?>
+            <div id="recent-raids-wrapper">
+                <div class="scroll-button-recent left">&lt;</div>
+
+                <div id="latest-kills">
+                    <ul>
+                        <?php foreach( $data->_recentRaids as $key => $timestamp ): ?>
+                            <li>
+                                <div class="latest-guild"><?php echo $data->_recentRaids[$key]->guild; ?></div>
+                                <div class="latest-kill"><?php echo $data->_recentRaids[$key]->encounter; ?></div>
+                                <div class="latest-time"><?php echo $data->_recentRaids[$key]->time; ?></div>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+
+                <div class="scroll-button-recent right">&gt;</div>
+            </div>
+        <?php endif; ?>
+
+       <div class="vertical-separator"></div>
+
+        <div id="main-block">
+            <?php if ( !empty($data->_videoLinks) ): ?>
+                <div id="videos-wrapper">
+
+                    <div class="scroll-button left" style="">&lt;</div>
+                    <div id="media-pane">
+                        <ul>
+                            <?php foreach( $data->_videoLinks as $twitchId => $twitchDetails ): ?>
+                                <li><?php echo $twitchDetails->_imagePath; ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+
+                    <div class="scroll-button right" style="">&gt;</div>
+                </div>
+
+                <div class="vertical-separator"></div>
+            <?php endif; ?>
+
+            <div id="standings-wrapper">
+                <?php $count = 0; foreach( $data->_guildStandings as $dungeonId => $dungeonTable ): ?>
+                    <div class="table-wrapper standings medium">
+                        <table class="standings news">
+                            <thead>
+                            </thead>
+                            <tbody>
+                                <?php echo Template::drawSubTitleTableRow($data->_standingsTableHeader, $dungeonTable->header, 'View as Spreadsheet', $dungeonId); ?>
+
+                                <?php if ( !empty($dungeonTable->data) ): ?>
+                                    <?php echo Template::drawSubHeaderTableRow($data->_standingsTableHeader); ?>
+
+                                    <?php foreach( $dungeonTable->data as $guildId => $guildDetails ): ?>
+                                        <?php echo Template::drawBodyTableRow($data->_standingsTableHeader, $guildDetails); ?>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <?php echo Template::drawEmptyGuildTableRow($data->_standingsTableHeader, 'No guild data found.'); ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <?php if ( $count == 0 ): ?><div class="horizontal-separator"> </div><?php endif; ?>
+
+                    <?php $count++; ?>
+                <?php endforeach; ?>
+
+                <div class="vertical-separator"></div>
+            </div>
+
+            <div class="vertical-separator"></div>
+
+            <div id="articles-wrapper">
+                <?php foreach( $data->_newsArticles as $date => $article ): ?>
+                    <div class="article">
+                        <div class="article-header">
+                            <div><?php echo $article->title; ?></div>
+                            <span>Posted by: <?php echo $article->postedBy . ' @ ' . $article->date; ?></span>
+                        </div>
+
+                        <div class="article-content">
+                            <p><?php echo $article->content; ?></p>
+                        </div>
+                    </div>
+                    <div class="vertical-separator"></div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <div id="side-block">
+            <div id="rankings-wrapper">
+                <div class="block-title"><?php echo SITE_TITLE; ?> Top 10</div>
+
+                <?php if ( !empty(CommonDataContainer::$rankSystemArray) ): ?>
+                    <?php $count = 0; foreach( CommonDataContainer::$rankSystemArray as $systemId => $rankSystemDetails ): ?>
+                        <span id="system-selector-<?php echo $rankSystemDetails->_abbreviation; ?>" class="clickable <?php if ( $count == 0 ): ?> highlight<?php endif; ?> noselect"><?php echo $rankSystemDetails->_abbreviation; ?></span>
+
+                        <?php $count++; ?>
+                    <?php endforeach; ?>
+
+                    <div id="dungeon-slider">
+                        <?php $count = 0; foreach( $data->_guildRankings as $dungeonId => $dungeonDetails ): ?>
+                            <div id ="dungeon-rankings-clicker-<?php echo $dungeonId; ?>" class="side-rankings-header clickable noselect"><?php echo $dungeonDetails['name']; ?></div>
+                            <div id="dungeon-rankings-wrapper-<?php echo $dungeonId; ?>" class="block-subtitle-content <?php if ( $count > 0 ): ?>hidden <?php else: ?>active<?php endif; ?>">
+                                <?php if ( !empty($dungeonDetails['data']) ): ?>
+                                    <?php $system = 0; foreach( $dungeonDetails['data'] as $systemId => $guildArray ): ?>
+                                        <table id="dungeon-table-<?php echo $dungeonId; ?>-<?php echo $systemId; ?>" class="side-standings <?php if ( $system > 0 ): ?> hidden <?php endif; ?> <?php echo $systemId; ?>">
+                                            <thead>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach( $guildArray as $guildId => $guildDetails ): ?>
+                                                    <tr>
+                                                        <th><?php echo $guildDetails->guild; ?></th>
+                                                        <td rowspan="2" style="vertical-align:middle; text-align:right;"><b><?php echo $guildDetails->rank; ?></b></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="bold"><?php echo $guildDetails->points; ?></span> <?php echo $guildDetails->progress; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+
+                                        <?php $system++; ?>
+                                    <?php endforeach; ?>
+
+                                <?php else: ?>
+                                    Ranking data currently unavailable
+                                <?php endif; ?>
+                            </div>
+
+                            <?php $count++; ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    Ranking data currently unavailable
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>

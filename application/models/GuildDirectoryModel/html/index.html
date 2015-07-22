@@ -1,0 +1,72 @@
+<div id="body-wrapper">
+    <div id="body-content">
+
+         <div id="content_pane">
+            <?php foreach( $data->_newGuildsArr as $guildId => $guildDetails ): ?>
+                <div class='top-guild-separator'></div>
+                <div class='top-guild-container'>
+                    <div class='top-guild-logo'><?php echo $guildDetails->_logo; ?></div>
+                    <div class='top-guild-name'><?php echo $guildDetails->_name; ?></div>
+                    <div class='top-guild-place'><?php echo $guildDetails->_serverLink; ?> </div>
+                </div>
+                <div class='top-guild-separator'></div>
+            <?php endforeach; ?>
+         </div>
+
+        <div id="info_pane">
+            <table class="info_pane">
+                <thead>
+                    <tr>
+                        <th colspan="2">Guild Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach( $data->_settings['pane_data'] as $key => $value ): ?>
+                        <tr>
+                            <th><?php echo $key; ?></th>
+                            <td><?php echo $data->_detailsPane->$value; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="clear"></div>
+
+        <div id="submenu-2">
+            Guild Search
+            <ul class="submenu">
+                <li><input type="text"></li>
+            </ul>
+        </div>
+
+        <div class="clear"></div>
+
+        <table class="standings listing">
+            <thead>
+            </thead>
+            <tbody>
+                <?php  $count = 1; foreach( $data->_guildListing as $active => $regionArr ): ?>
+                    <?php foreach( $regionArr as $region => $guildArr ): ?>
+                        <tr>
+                            <th class="subHeader" colspan="<?php echo count($data->_settings['header_listing']);?>"><?php echo $active . ' ' . CommonDataContainer::$regionArray[$region]->_style . ' Guilds'; ?></th>
+                        </tr>
+                        <tr>
+                            <?php  $count = 1; foreach( $data->_settings['header_listing'] as $key => $value ): ?>
+                                <th <?php if ( $count % 3 == 0 ): ?> class='border-right' <?php endif; ?> ><?php echo $key; $count++; ?></th>
+                            <?php endforeach; ?>
+                        </tr>
+                        <?php foreach( $guildArr as $guildId => $guildDetails ): ?>
+                            <tr>
+                                <?php $count = 1; foreach( $data->_settings['header_listing'] as $key => $value ): ?>
+                                    <td <?php if ( $count % 3 == 0 ): ?> class='border-right' <?php endif; ?> ><?php echo $guildDetails->$value; $count++; ?></td>
+                                <?php endforeach; ?>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+    </div>
+</div>

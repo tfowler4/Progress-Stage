@@ -1,0 +1,193 @@
+<div id="faction-logo-preview">
+
+    <?php foreach(CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
+
+        <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> faded"><?php echo Functions::getImageFaction($factionDetails->_name); ?></div>
+
+    <?php endforeach; ?>
+
+</div>
+
+
+
+<div class="horizontal-separator"></div>
+
+
+
+<div id="form-table-wrapper">
+
+    <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModel::GUILD_ADD,'', false); ?>" autocomplete="off" enctype="multipart/form-data">
+
+        <table class="form-table">
+
+            <thead>
+
+                <tr>
+
+                    <th colspan="2">Create New Guild</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <th>Guild Name</th>
+
+                    <td><input id="controlpanel-guild-name" type="text" name="controlpanel-guild-name" value="<?php echo $data->_formFields->guildName; ?>"></td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Faction</th>
+
+                    <td>
+
+                        <select id="controlpanel-faction" name="controlpanel-faction">
+
+                            <option value="">Select Faction</option>
+
+                            <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
+
+                                <option value="<?php echo $factionId; ?>" <?php if (!empty($data->_formFields->faction) && $data->_formFields->faction == $factionId): ?>selected<?php endif; ?>><?php echo $factionDetails->_name; ?></option>
+
+                            <?php endforeach; ?>
+
+                        </select>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Server</th>
+
+                    <td>
+
+                        <select id="controlpanel-server" name="controlpanel-server">
+
+                            <option value="">Select Server</option>
+
+                            <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
+
+                                <option value="<?php echo $serverId; ?>" <?php if (!empty($data->_formFields->server) && $data->_formFields->server == $serverId): ?>selected<?php endif; ?>><?php echo $serverDetails->_region . '-' . $serverDetails->_name; ?></option>
+
+                            <?php endforeach; ?>
+
+                        </select>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Country</th>
+
+                    <td>
+
+                        <select id="controlpanel-country" name="controlpanel-country">
+
+                            <option value="">Select Country</option>
+
+                            <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
+
+                                <option value="<?php echo $countryId; ?>" <?php if (!empty($data->_formFields->country) && $data->_formFields->country == $countryId): ?>selected<?php endif; ?>><?php echo $countryDetails->_name; ?></option>
+
+                            <?php endforeach; ?>
+
+                        </select>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Guild Leader</th>
+
+                    <td><input id="controlpanel-guild-leader" type="text" name="controlpanel-guild-leader" value="<?php echo $data->_formFields->guildLeader; ?>"></td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Website</th>
+
+                    <td><input id="controlpanel-website" type="text" name="controlpanel-website" value="<?php echo $data->_formFields->website; ?>"></td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Facebook</th>
+
+                    <td><input id="controlpanel-facebook" type="text" name="controlpanel-facebook" value="<?php echo $data->_formFields->facebook; ?>"></td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Twitter</th>
+
+                    <td><input id="controlpanel-twitter" type="text" name="controlpanel-twitter" value="<?php echo $data->_formFields->twitter; ?>"></td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Google+</th>
+
+                    <td><input id="controlpanel-google" type="text" name="controlpanel-google" value="<?php echo $data->_formFields->google; ?>"></td>
+
+                </tr>
+
+                <tr>
+
+                    <th>Guild Logo</th>
+
+                    <td><input id="controlpanel-guild-logo" type="file" name="controlpanel-guild-logo" value="<?php echo $data->_formFields->guildLogo; ?>"></td>
+
+                </tr>
+
+            </tbody>
+
+            <tfoot>
+
+                <tr>
+
+                    <td colspan="2">
+
+                        <input id="controlpanel-active" type="hidden" name='active' value="Active">
+
+                        <input id="controlpanel-submit" type="submit" value="Submit">
+
+                    </td>
+
+                </tr>
+
+            </tfoot>
+
+        </table>
+
+    </form>
+
+</div>
+
+
+
+<div class="horizontal-separator"></div>
+
+
+
+<div id="preview-wrapper">
+
+    <div id="guild-logo-preview"></div>
+
+    <div id="country-flag-preview"></div>
+
+</div>

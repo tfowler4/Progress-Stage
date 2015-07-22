@@ -1,0 +1,241 @@
+<?php if ( $formId == 'login' ): ?>
+    <div id="form-table-wrapper">
+        <form method="POST" action="<?php echo PAGE_LOGIN; ?>" autocomplete="off">
+            <table class="form-table popup">
+                <thead>
+                    <tr>
+                        <th>Login</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Username</th>
+                    </tr>
+                    <tr>
+                        <td><input id="login-popup-username" type="text" name="login-username" class="required"></td>
+                     </tr>
+                    <tr>
+                        <th>Password</th>
+                     </tr>
+                    <tr>
+                        <td><input id="login-popup-password" type="password" name="login-password" class="required"></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <input id="login-popup-active" type="hidden" name='active' value="Active">
+                            <input id="login-popup-submit" type="submit" value="Submit">
+                        </td>
+                    </tr>
+                    <!--<tr>
+                        <td><?php echo Functions::generateInternalHyperlink('reset', '', '', 'Password Recovery', ''); ?></td>
+                    </tr>-->
+                    <tr>
+                        <td><a href="#" class="closePopup">Close</a></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+<?php elseif ($formId == 'logout' ): ?>
+    <div id="form-table-wrapper">
+        <form method="POST" action="<?php echo PAGE_LOGOUT; ?>" autocomplete="off">
+            <table class="form-table popup">
+                <thead>
+                    <tr>
+                        <th>Logging Out?</th>
+                    </tr>
+                </thead>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Are you sure you want to log out?</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input id="logout-popup-active" type="hidden" name='active' value="Active">
+                            <input id="logout-popup-confirm" type="submit" value="Logout">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="#" class="closePopup">Close</a></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+<?php elseif ($formId == 'contact' ): ?>
+    <div id="form-table-wrapper">
+        <form method="POST" action="<?php echo PAGE_CONTACTUS; ?>" autocomplete="off">
+            <table class="form-table popup">
+                <thead>
+                    <tr>
+                        <th>Contact Us</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Email Address</th>
+                    </tr>
+                    <tr>
+                        <td><input id="contact-popup-email" type="text" name="contact-email" class="required"></td>
+                     </tr>
+                    <tr>
+                        <th>Feedback</th>
+                     </tr>
+                    <tr>
+                        <td>
+                            <select id="contact-popup-feedback" name="contact-feedback">
+                                <option value="">Select Feedback Type</option>
+                                <option value="General Feedback">General Feedback</option>
+                                <option value="Guild Details Request">Guild Details Request</option>
+                                <option value="UI Layout Issues">UI Layout Issues</option>
+                                <option value=">Account Problem">Account Problem</option>
+                                <option value="Submission Errors">Submission Errors</option>
+                                <option value="Feature Request">Feature Request</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Message</th>
+                    </tr>
+                    <tr>
+                        <td><textarea id="contact-popup-message" name="contact-message" class="required"></textarea></td>
+                     </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <input id="contact-popup-active" type="hidden" name='active' value="Active">
+                            <input id="contact-popup-submit" type="submit" value="Submit">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="#" class="closePopup">Close</a></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+<?php elseif ($formId == 'quick' ): ?>
+    <div id="form-table-wrapper">
+        <form method="POST" action="<?php echo PAGE_QUICK; ?>" autocomplete="off" enctype="multipart/form-data">
+            <table class="form-table popup">
+                <thead>
+                    <tr>
+                        <th>Quick Kill Submission</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Guild Name</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select id="quick-popup-guild" name="quick-guild">
+                                <option value="">Select Guild</option>
+                                <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails): ?>
+                                    <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
+                     </tr>
+                    <tr>
+                        <th>Encounter</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select id="quick-popup-encounter" name="quick-encounter">
+                                <option value="">Select Encounter</option>
+                                <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails): ?>
+                                    <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . '-' . $encounterDetails->_encounterName; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
+                     </tr>
+                    <tr>
+                        <th>Date (M-D-Y)</th>
+                     </tr>
+                        <td>
+                           <select id="quick-popup-month" name="quick-month">
+                                <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
+                                    <?php if ( $month == date('m') ): ?> 
+                                        <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>  
+                           <select id="quick-popup-day" name="quick-day">
+                                <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
+                                    <?php if ( $day == date('d') ): ?> 
+                                        <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>  
+                           <select id="quick-popup-year" name="quick-year">
+                                <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
+                                    <?php if ( $year == date('Y') ): ?> 
+                                        <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Time (H:M UTC)</th>
+                     </tr>
+                        <td>
+                           <select id="quick-popup-hour" name="quick-hour">
+                                <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
+                                    <?php if ( $hour == date('H') ): ?> 
+                                        <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $hour; ?>"><?php echo $hourValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>  
+                           <select id="quick-popup-minute" name="quick-minute">
+                                <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
+                                    <?php if ( $minute == date('i') ): ?> 
+                                        <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $minute; ?>"><?php echo $minuteValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Screenshot</th>
+                    </tr>
+                    <tr>
+                        <td><input id="quick-popup-screenshot" type="file" name="quick-screenshot"></td>
+                    </tr>
+                    <tr>
+                        <th>Video Links (Use ";" to separate links)</th>
+                    </tr>
+                    <tr>
+                        <td><input id="quick-popup-video" type="text" name="quick-video" class="required"></td>
+                     </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <input id="quick-popup-active" type="hidden" name='active' value="Active">
+                            <input id="quick-popup-submit" type="submit" value="Submit">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="#" class="closePopup">Close</a></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+<?php endif; ?>

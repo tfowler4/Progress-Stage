@@ -1,0 +1,208 @@
+<div id="body-wrapper">
+    <div id="body-content">
+        <div class="vertical-separator"></div>
+
+        <div id="main-block">
+            <div id="title-wrapper">
+                <div id="title-flag"><?php echo Functions::getImageFlag($data->_guildDetails->_country, 'medium'); ?></div>
+                <div id="title-text-wrapper">
+                    <div id="title-name"><?php echo $data->_guildDetails->_name; ?></div>
+                    <div id="title-server"><?php echo $data->_guildDetails->_region . ' - ' . $data->_guildDetails->_server; ?></div>
+                </div>
+            </div>
+
+            <div class="vertical-separator"></div>
+
+            <div id="page-navigation">
+                <ul>
+                    <?php foreach( GuildModel::PANE_NAVIGATION as $header => $key ): ?>
+                        <?php if( $header == 'Recent Activity' && empty($data->_latestScreenshot) ): ?><?php continue; endif; ?>
+                        <li><?php echo $data->generateInternalAnchor($header); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        
+            <div class="vertical-separator"></div>
+
+            <?php if( !empty($data->_latestScreenshot) ): ?>
+                <span id="recent-activity-anchor" class="anchor"></span>
+                <div id="recent-activity-wrapper">
+                    <div id="recent-activity-title" class="title">Recent Activity</div>
+
+                    <div class="vertical-separator"></div>
+
+                    <div id="recent-activity-content">
+                        <div id="recent-activity-screenshot"><?php echo $data->_latestScreenshot; ?></div>
+
+                        <div id="recent-activity-description">
+                            <div class="title"><?php echo $data->_recentActivity['encounterName']; ?></div>
+                            <div class="details"><?php echo $data->_recentActivity['dungeon']; ?></div>
+                            <div class="details"><?php echo $data->_recentActivity['datetime']; ?></div>
+                            <div class="details"><?php echo $data->_recentActivity['worldRank']; ?></div>
+                            <div class="details"><?php echo $data->_recentActivity['regionRank']; ?></div>
+                            <div class="details"><?php echo $data->_recentActivity['serverRank']; ?></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vertical-separator"></div>
+            <?php endif; ?>
+
+            <span id="raid-progression-anchor" class="anchor"></span>
+            <div id="raid-progression-wrapper">
+                <div id="raid-progression-title" class="title">Raid Progression</div>
+
+                <div class="vertical-separator"></div>
+
+                <div class="table-wrapper standings">
+                    <table class="standings guild">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
+                                <?php echo Template::drawSubTitleTableRow($data->_raidProgressionTableHeader, $dungeonDetails->_name); ?>
+
+                                <?php if ( !empty($data->_guildDetails->_dungeonDetails->$dungeonId->_complete) ): ?>
+                                    <?php echo Template::drawSubHeaderTableRow($data->_raidProgressionTableHeader); ?>
+
+                                    <?php foreach( $data->_guildDetails->_encounterDetails as $encounterId => $encounterDetails ): ?>
+                                        <?php if( isset($dungeonDetails->_encounters->$encounterId) ): ?>
+                                            <?php echo Template::drawBodyTableRow($data->_raidProgressionTableHeader, $encounterDetails); ?>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <?php echo Template::drawEmptyGuildTableRow($data->_raidProgressionTableHeader, 'No guild data found.'); ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="vertical-separator"></div>
+
+            <span id="activity-timeline-anchor" class="anchor"></span>
+            <div id="activity-timeline-wrapper">
+                <div id="activity-timeline-title" class="title">Activity Timeline</div>
+
+                <div class="vertical-separator"></div>
+
+                <div class="table-wrapper standings">
+                    <table class="standings activity">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <?php echo Template::drawSubTitleTableRow($data->_activityTimelineTableHeader, 'Newest Descending'); ?>
+                            <?php echo Template::drawSubHeaderTableRow($data->_activityTimelineTableHeader); ?>
+
+                            <?php if ( !empty($data->_activityArray) ): ?>
+                                <?php foreach( $data->_activityArray as $encounterId => $encounterDetails ): ?>
+                                    <?php echo Template::drawBodyTableRow($data->_activityTimelineTableHeader, $encounterDetails); ?>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <?php echo Template::drawEmptyGuildTableRow($data->_activityTimelineTableHeader, 'No guild data found.'); ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <span id="guild-signature-anchor" class="anchor"></span>
+            <div id="guild-signature-wrapper">
+                <div id="guild-signature-title" class="title">Guild Signature</div>
+
+                <div class="vertical-separator"></div>
+
+                <div id="form-table-wrapper">
+                    <form method="POST" id="guild-sig-form">
+                        <table class="form-table">
+                            <thead>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Ranking Type</th>
+                                    <td>
+                                        <select class="guild-sig-rank" name='guild-sig-rank'>
+                                            <?php foreach ( CommonDataContainer::$rankSystemArray as $abbreviation => $rankSystemDetails ): ?>
+                                                <option value="<?php echo $abbreviation; ?>"><?php echo $rankSystemDetails->_name; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Dungeon Selection</th>
+                                    <td>
+                                        <select class="guild-sig-dungeon" name="guild-sig-dungeon">
+                                            <?php foreach ( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
+                                                <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>View Selection</th>
+                                    <td>
+                                        <input type="radio" class="guild-sig-view" name="guild-sig-view" value="0" checked="checked">World
+                                        <input type="radio" class="guild-sig-view" name="guild-sig-view" value="1">Server
+                                        <input type="radio" class="guild-sig-view" name="guild-sig-view" value="2">Region
+                                        <!--<input type="radio" class="guild-sig-view" name="guild-sig-view" value="3">Country-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan='2' style='text-align:center;'>
+                                        <div id='widget_display'></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Output Text</th>
+                                    <td>
+                                        <input type="radio" class="guild-sig-output-type" name="guild-sig-output-type" value="0" checked="checked">URL
+                                        <input type="radio" class="guild-sig-output-type" name="guild-sig-output-type" value="1" >HTML
+                                        <input type="radio" class="guild-sig-output-type" name="guild-sig-output-type" value="2">BBCODE
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan='2' style='text-align:center;'>
+                                        <input type="hidden" id="guild-sig-guild-id" name="guild-sig-guild-id" value="<?php echo $data->_guildDetails->_guildId; ?>" \>
+                                        <textarea id='textarea_output' style='height:25px; width:752px !important; text-align:center; font: normal 11px/1 Verdana !important;' disabled></textarea>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                        </table>
+                    </form>
+                    <script></script>
+                </div>
+            </div>
+        </div>
+
+        <div id="side-block">
+            <div class="vertical-separator"></div>
+
+            <div id="profile-wrapper">
+                <table class="profile-table">
+                    <thead>
+                        <tr>
+                            <th colspan="2"><div id="profile-logo"><?php echo $data->_guildDetails->_logo; ?></div></th>
+                        </tr>
+                        <tr>
+                            <th colspan="2"><div id="profile-name"><?php echo $data->_guildDetails->_name; ?></div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach( GuildModel::PANE_PROFILE as $header => $key ): ?>
+                            <tr>
+                                <th><?php echo $header; ?></th>
+                                <td><?php echo $data->_guildDetails->$key; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <tr>
+                            <td colspan="2"><div id="profile-faction-logo"><?php echo Functions::getImageFaction($data->_guildDetails->_faction); ?></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

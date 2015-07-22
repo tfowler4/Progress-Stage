@@ -1,0 +1,14 @@
+<div id="footer-wrapper">
+	<div id="footer-content">
+		Follow Us 
+        <?php echo Functions::generateExternalHyperLink(LINK_TWITTER, $GLOBALS['images']['twitter'] . ' Twitter', ''); ; ?>
+         
+        <?php echo Functions::generateExternalHyperLink(LINK_FACEBOOK, $GLOBALS['images']['facebook'] . ' Facebook', ''); ; ?>
+        <?php if ( LIVE == 0 ): ?>
+            <?php
+                echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.'; 
+                echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
+            ?>
+        <?php endif; ?>
+	</div>
+</div>
