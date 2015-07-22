@@ -1,0 +1,442 @@
+<div id="body-wrapper">
+    <div id="body-content">
+        <div class="vertical-separator" style="height:15px;"></div>
+        <div class="horizontal-separator"></div>
+        
+        <div class="popup" id="confirm-popup" style="display: none"></div>
+
+        <div class="admin-container tier">
+            <div class="admin-title">Create Tier</div>
+            <form id="form-tier-add" method="POST" action="http://localhost/stage/administrator">
+                <div class="admin-content tier">
+                    <table>
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Tier</th>
+                            </tr>
+                             <tr>
+                                <td>
+                                <select id="admin-tier" name="select-tier-num">
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Alt Name</th>
+                            </tr>
+                                <td><input id="admin-alt-name" type="text" name="alt-name" /></td>
+                            <tr>
+                            </tr>
+                            <tr>
+                                <th>Tier Name</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                <select id="admin-tier" name="select-tier">
+                                    <option value="Storm Legion">Storm Legion</option>
+                                    <option value="Empyrean Assault">Empyrean Assault</option>
+                                    <option value="Bindings of Blood">Blindings of Blood</option>
+                                    <option value="Nigthmare Tide">Nightmare Tide</option>
+                                    <option value="Echoes of Madness">Echoes of Madness</option>
+                                </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Start Date</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                <select id="date" name="select-month">
+                                    <option value="01">Jan</option>
+                                    <option value="02">Feb</option>
+                                    <option value="03">Mar</option>
+                                    <option value="04">Apr</option>
+                                    <option value="05">May</option>
+                                </select>
+                                <select id="date" name="select-day">
+                                    <option value="01">1</option>
+                                    <option value="12">12</option>
+                                    <option value="20">20</option>
+                                    <option value="24">24</option>
+                                    <option value="30">30</option>
+                                </select>
+                                <select id="date" name="select-year">
+                                    <option value="2015">2015</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+            <div class="admin-footer"><input id="admin-submit-tier" type="submit" value="Add Tier" /></div>
+            </form>
+        </div>
+        <div class="horizontal-separator"></div>
+
+       <div class="admin-container dungeon">
+            <div class="admin-title">Create Dungeon</div>
+            <form id="form-dungeon-add" method="POST" action="http://localhost/stage/administrator">
+                <div class="admin-content dungeon">
+                    <table>
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                            <tr>
+                                <td><input id="admin-name" type="text" name="dungeon-name" /></td>
+                            </tr>
+                            <tr>
+                                <th>Tier Name</th>
+                            </tr>
+                             <tr>
+                                <td>
+                                <select id="admin-tier" name="select-tier-num">
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>No. of Mobs</th>
+                            </tr>
+                             <tr>
+                                <td>
+                                <select id="admin-mobs" name="select-mobs-num">
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+            <div class="admin-footer"><input id="admin-submit-dungeon" type="submit" value="Add Dungeon" /></div>
+            </form>
+        </div>
+        <div class="horizontal-separator"></div>
+
+        <div class="admin-container encounter">
+            <div class="admin-title">Create Encounter</div>
+            <form id="form-encounter-add" method="POST" action="http://localhost/stage/administrator">
+                <div class="admin-content encounter">
+                    <table>
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                            <tr>
+                                <td><input id="admin-name" type="text" name="encounter-name" /></td>
+                            </tr>
+                            <tr>
+                                <th>Dungeon</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                <select id="admin-dungeon" name="select-dungeon">
+                                    <option value="Endless Eclipse">Endless Eclipse</option>
+                                    <option value="Frozen Tempest">Frozen Tempest</option>
+                                    <option value="Grim Awakening">Grim Awakening</option>
+                                    <option value="Infinity Gate">Infinity Gate</option>
+                                    <option value="Planebreaker Bastion">Planebreaker Bastion</option>
+                                </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Tier</th>
+                            </tr>
+                             <tr>
+                                <td>
+                                <select id="admin-tier" name="select-tier-num">
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Raid Size</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                <select id="admin-raid-size" name="select-raid-size">
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+            <div class="admin-footer"><input id="admin-submit-encounter" type="submit" value="Add Encounter" /></div>
+            </form>
+        </div>
+        <div class="vertical-separator" style="height:15px;"></div>
+        <div class="horizontal-separator"></div>
+
+       <div class="admin-container guild new">
+            <div class="admin-title">Add Guild</div>
+            <form id="form-guild-add" method="POST" action="http://localhost/stage/administrator">
+                <div class="admin-content guild new">
+                    <table>
+                        <thead>
+                        </thead>  
+                        <tbody>
+                             <tr>
+                                <th>Guild Name</th>
+                            </tr>
+                                <td><input id="admin-guild-name" type="text" name="guild-name" /></td>
+                            <tr>
+                            <tr>
+                                <th>Server</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                <select id="admin-server" name="select-server">
+                                    <option value="Deepwood">Deepwood</option>
+                                    <option value="Faeblight">Faeblight</option>
+                                    <option value="Greybriar">Greybriar</option>
+                                    <option value="Laethys">Laethys</option>
+                                    <option value="Seastone">Seastone</option>
+                                </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Country</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                <select id="admin-country" name="select-country">
+                                    <option value="Canada">Canada</option>
+                                    <option value="UK">UK</option>
+                                    <option value="US">US</option>
+                                    <option value="France">France</option>
+                                    <option value="Germany">Germany</option>
+                                </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            <div class="admin-footer"><input id="admin-submit-guild" type="submit" value="Add Guild" /></div>
+            </form>
+        </div>
+        <div class="horizontal-separator"></div>
+
+       <div class="admin-container guild edit">
+            <div class="admin-title">Edit Guild</div>
+            <form id="form-guild-edit" method="POST" action="http://localhost/stage/administrator">
+                <div class="admin-content guild edit">
+                    <table>
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                <select id="admin-guild" name="select-guild">
+                                    <option value="Trinity">Trinity</option>
+                                    <option value="Crayons">Crayons</option>
+                                    <option value="Bloodlust">Bloodlust</option>
+                                    <option value="The Chosen">The Chosen</option>
+                                    <option value="Babytown">Babytown</option>
+                                </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+            <div class="admin-footer"><input id="admin-submit-guild-edit" type="submit" value="Edit Guild" /></div>
+            </form>
+        </div>
+        <div class="horizontal-separator"></div>
+
+       <div class="admin-container guild remove">
+            <div class="admin-title">Remove Guild</div>
+            <form id="form-guild-remove" method="POST" action="http://localhost/stage/administrator">
+                <div class="admin-content guild remove">
+                    <table>
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                <select id="admin-guild" name="select-guild">
+                                    <option value="Trinity">Trinity</option>
+                                    <option value="Crayons">Crayons</option>
+                                    <option value="Bloodlust">Bloodlust</option>
+                                    <option value="The Chosen">The Chosen</option>
+                                    <option value="Babytown">Babytown</option>
+                                </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+            <div class="admin-footer"><input id="admin-submit-guild-remove" type="submit" value="Remove Guild" /></div>
+            </form>
+        </div>
+        <div class="vertical-separator" style="height:15px;"></div>
+        <div class="horizontal-separator"></div>
+
+        <div class="admin-container kill new">
+            <div class="admin-title">Add Kill</div>
+            <form id="form-kill-add" method="POST" action="http://localhost/stage/administrator">
+                <div class="admin-content kill new">
+                    <table>
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Encounter Name</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                <select id="admin-encounter" name="select-encounter">
+                                    <option value="Cyril">Cyril</option>
+                                    <option value="Crucia">Crucia</option>
+                                    <option value="Grand Falconer Zoles">Grand Falconer Zoles</option>
+                                    <option value="Jultharin">Jultharin</option>
+                                    <option value="General Typhiria">General Typhiria</option>
+                                </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                <select id="date" name="select-month">
+                                    <option value="Jan">Jan</option>
+                                    <option value="Feb">Feb</option>
+                                    <option value="Mar">Mar</option>
+                                    <option value="Apr">Apr</option>
+                                    <option value="May">May</option>
+                                </select>
+                                <select id="date" name="select-day">
+                                    <option value="1">1</option>
+                                    <option value="12">12</option>
+                                    <option value="20">20</option>
+                                    <option value="24">24</option>
+                                    <option value="30">30</option>
+                                </select>
+                                <select id="date" name="select-year">
+                                    <option value="2015">2015</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+            <div class="admin-footer"><input id="admin-submit-kill" type="submit" value="Add Kill" /></div>
+            </form>
+        </div>
+        <div class="horizontal-separator"></div>
+
+        <div class="admin-container kill edit">
+            <div class="admin-title">Edit Kill</div>
+            <form id="form-kill-edit" method="POST" action="http://localhost/stage/administrator">
+                <div class="admin-content kill edit">
+                    <table>
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                <select id="admin-guild" name="select-guild">
+                                    <option value="Trinity">Trinity</option>
+                                    <option value="Crayons">Crayons</option>
+                                    <option value="Bloodlust">Bloodlust</option>
+                                    <option value="The Chosen">The Chosen</option>
+                                    <option value="Babytown">Babytown</option>
+                                </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                 </div>
+             <div class="admin-footer"><input id="admin-submit-kill-edit" type="submit" value="Edit Kill" /></div>
+             </form>   
+        </div>
+        <div class="horizontal-separator"></div>
+
+        <div class="admin-container kill remove">
+            <div class="admin-title">Remove Kill</div>
+            <form id="form-kill-remove" method="POST" action="http://localhost/stage/administrator">
+                <div class="admin-content kill remove">
+                    <table>
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                <select id="admin-guild" name="select-guild">
+                                    <option value="Trinity">Trinity</option>
+                                    <option value="Crayons">Crayons</option>
+                                    <option value="Bloodlust">Bloodlust</option>
+                                    <option value="The Chosen">The Chosen</option>
+                                    <option value="Babytown">Babytown</option>
+                                </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                 </div>
+             <div class="admin-footer"><input id="admin-submit-kill-remove" type="submit" value="Remove Kill" /></div>
+             </form>  
+        </div>
+
+    </div>
+</div>
