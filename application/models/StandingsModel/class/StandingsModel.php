@@ -108,7 +108,7 @@ class StandingsModel extends Model {
     public function getDataDetails($tier, $dungeon, $encounter) {
         if ( !empty($this->_encounter) ) {
             $this->_dataType    = '_encounterDetails'; 
-            $this->_dataDetails = Functions::getEncounterByName($this->_encounter);
+            $this->_dataDetails = Functions::getEncounterByName($this->_encounter, $this->_dungeon);
             $this->_tableHeader = self::TABLE_HEADER_ENCOUNTER;
             $this->_identifier  = $this->_dataDetails->_encounterId;
             $this->title        = $this->_dataDetails->_encounterName;

@@ -431,11 +431,15 @@ class Functions {
         }
     }
 
-    public static function getEncounterByName($encounterName) {
+    public static function getEncounterByName($encounterName, $dungeonName) {
         $encounterName = str_replace("_", " ", $encounterName);
+        $dungeonName   = str_replace("_", " ", $dungeonName);
 
         foreach ( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ) {
-            if ( strcasecmp($encounterName, $encounterDetails->_name) == 0 ) { return $encounterDetails; }
+            if ( strcasecmp($encounterName, $encounterDetails->_name) == 0 
+                 && strcasecmp($dungeonName, $encounterDetails->_dungeon) == 0  ) { 
+                return $encounterDetails; 
+            }
         }
     }
 
