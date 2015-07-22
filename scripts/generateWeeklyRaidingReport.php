@@ -17,7 +17,7 @@ class WeeklyRaidingReport extends Script {
         self::$encountersKilledArray = array();
         self::$latestDateStrtotime   = strtotime('now');
         self::$latestDate            = date('m/d/Y', self::$latestDateStrtotime);
-        self::$earliestDateStrtotime = strtotime('-50 days', self::$latestDateStrtotime);
+        self::$earliestDateStrtotime = strtotime('-7 days', self::$latestDateStrtotime);
         self::$earliestDate          = date('m/d/Y', self::$earliestDateStrtotime);
         self::$databaseDate          = date('Y-m-d', self::$latestDateStrtotime) .' 00:00:00';
 
