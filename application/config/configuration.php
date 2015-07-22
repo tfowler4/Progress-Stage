@@ -18,6 +18,8 @@ define('POINT_BASE',       1000);
 define('POINT_FINAL_BASE', 5000);
 define('POINT_BASE_MOD',   2500);
 
+define('BITLY_TOKEN', '14b2b2e1c7525700db1573084e1a64ee45fb33da');
+
 // APF
 define('POINT_FINAL_BASE_NEW', serialize(array('10' => 5000,'20' => 25000)));
 
@@ -39,6 +41,15 @@ include(strtolower(GAME_NAME_1) . '/settings.php');
 foreach ( glob($_SERVER['DOCUMENT_ROOT'] . '/' . DOMAIN . '/application/config/*.php') as $fileName ) {
     if ( $fileName != $_SERVER['DOCUMENT_ROOT'] . '/' . DOMAIN . '/application/config/configuration.php' ) { include $fileName; }
 }
+
+// Facebook
+include ABSOLUTE_PATH . '/library/facebook/src/facebook.php';
+
+// Twitter
+include ABSOLUTE_PATH . '/library/twitter/codebird-php-master/src/codebird.php';
+
+// Bitly
+include ABSOLUTE_PATH . '/library/BitlyPHP/bitly.php';
 
 foreach ( glob($_SERVER['DOCUMENT_ROOT'] . '/' . DOMAIN . '/application/lib/*.php') as $fileName ) { include $fileName; }
 foreach ( glob($_SERVER['DOCUMENT_ROOT'] . '/' . DOMAIN . '/application/utils/*.php') as $fileName ) { include $fileName; }

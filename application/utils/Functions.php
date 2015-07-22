@@ -597,6 +597,71 @@ class Functions {
 
         return $retVal;
     }
+
+    public static function postFacebook($articleTitle, $type) {
+        // 0 - Standard News Article
+        // 1 - Weekly Report
+
+        $statusUpdate   = '';
+        $hyperlinkTitle = strtolower(str_replace(' ', '_', $articleTitle));
+        $hyperlinkTitle = strtolower(str_replace('#', 'poundsign', $hyperlinkTitle)); //%23
+        $hyperlink      = HOST_NAME . '/news/' . $hyperlinkTitle;
+        $pageId         = FACEBOOK_PAGE_ID;
+
+        $facebook = new Facebook(array(
+          'appId'  => FACEBOOK_APP_ID,
+          'secret' => FACEBOOK_SECRET
+
+        ));
+
+        $facebook->setAccessToken(FACEBOOK_TOKEN_APP);
+
+        $response = $facebook->api(
+            '/' . $pageId . '/links',
+            "POST",
+            array(
+                'link' => $hyperlink
+            )
+        );
+
+        var_dump($response);
+    }
+
+    public static function postTwitter($articleTitle, $type) {
+        // 0 - Standard News Article
+        // 1 - Weekly Report
+
+        $statusUpdate   = '';
+        $hyperlinkTitle = strtolower(str_replace(' ', '_', $articleTitle));
+        $hyperlinkTitle = strtolower(str_replace('#', 'poundsign', $hyperlinkTitle)); //%23
+        $hyperlink      = HOST_NAME . '/news/' . $hyperlinkTitle;
+        $hyperlinkShort = self::generateBitlyUrl($hyperlink);
+
+        \Codebird\Codebird::setConsumerKey(TWITTER_KEY, TWITTER_SECRET);
+        $cb = \Codebird\Codebird::getInstance();
+        $cb->setToken(TWITTER_TOKEN, TWITTER_TOKEN_SECRET);
+         
+        if ( $type == 0 ) {
+            $statusUpdate = 'Latest Article: ' . $articleTitle . ' ' . $hyperlinkShort;
+        } else if ( $type == 1 ) {
+            $statusUpdate = 'Check out the latest kills in our weekly raiding report! ' . $hyperlinkShort;
+        }
+
+        $params = array(
+          'status' => $statusUpdate . ' #' . GAME_NAME_1 . ' #mmo #raiding'
+        );
+
+        $reply = $cb->statuses_update($params);
+    }
+
+    public static function generateBitlyUrl($url) {
+        $params                 = array();
+        $params['access_token'] = BITLY_TOKEN;
+        $params['longUrl']      = 'http://www.google.com';
+        $results                = bitly_get('shorten', $params);
+
+        return $results['data']['url'];
+    }
 }
 
 Functions::init();

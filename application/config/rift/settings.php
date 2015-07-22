@@ -47,11 +47,11 @@ define('GOOGLE_ANALYTICS', "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=
 // https://graph.facebook.com/oauth/access_token?client_id=816307315051965&client_secret=97e6d3e3e7f6decc497428ec53b08cdd&grant_type=fb_exchange_token&fb_exchange_token=***ACCESS TOKEN HERE***
 
 // Facebook
-define('FACEBOOK_APP_ID',     '816307315051965');
-define('FACEBOOK_PAGE_ID',    '1404349913116107');
-define('FACEBOOK_SECRET',     '97e6d3e3e7f6decc497428ec53b08cdd');
-define('FACEBOOK_TOKEN_USER', 'CAALmbVuKjb0BAJNY3d7CtwvsksIZC9nRPLXUitvLyv5QZCf4pGz2eFl5NDKmRCh6XOdyo3ntNqhnr2rzYaaI0XSzpggbYBRPJOHslbt7TdapQDiAibkNOlZATK6vJRJEupUlMs4VwMrZAR86ZBu9QexlM8Wf5RVDZBOSR92JwXhugCcNcVIHhLUuZBtraNQ3UsZD');
-define('FACEBOOK_TOKEN_PAGE', 'CAALmbVuKjb0BAJNY3d7CtwvsksIZC9nRPLXUitvLyv5QZCf4pGz2eFl5NDKmRCh6XOdyo3ntNqhnr2rzYaaI0XSzpggbYBRPJOHslbt7TdapQDiAibkNOlZATK6vJRJEupUlMs4VwMrZAR86ZBu9QexlM8Wf5RVDZBOSR92JwXhugCcNcVIHhLUuZBtraNQ3UsZD');
+//define('FACEBOOK_APP_ID',     '816307315051965');
+//define('FACEBOOK_PAGE_ID',    '1404349913116107');
+//define('FACEBOOK_SECRET',     '97e6d3e3e7f6decc497428ec53b08cdd');
+//define('FACEBOOK_TOKEN_USER', 'CAALmbVuKjb0BAHJiOeYyQ5ZCJ2YeMBg0XXXTdQjSdubnP2XKGtZC93JOozcEl6HEScWJDDOCIyxhzSQklwZAQW6KtY3ywOWS1EQRZCBaTooUKz2VyPbIXB7WSYbsvzBS2aMGUNZBJ5Cn8foVbSw76ZA8IlRAdbUFMS8EUjYsgEHgKzENgYYXcB');
+//define('FACEBOOK_TOKEN_APP',  '816307315051965|U3PwC5ZAXEE84-FSKONeUQx8o4Q');
 
 // Twitter
 define('TWITTER_KEY',          'LbFIFyK8qx0GY72rlu52Q');

@@ -16,9 +16,9 @@ class WeeklyRaidingReport extends Script {
 
         self::$encountersKilledArray = array();
         self::$latestDateStrtotime   = strtotime('now');
-        self::$latestDate            = date('m/d/Y', self::$latestDateStrtotime);
+        self::$latestDate            = date('m-d-Y', self::$latestDateStrtotime);
         self::$earliestDateStrtotime = strtotime('-7 days', self::$latestDateStrtotime);
-        self::$earliestDate          = date('m/d/Y', self::$earliestDateStrtotime);
+        self::$earliestDate          = date('m-d-Y', self::$earliestDateStrtotime);
         self::$databaseDate          = date('Y-m-d', self::$latestDateStrtotime) .' 00:00:00';
 
         self::getPastWeekEncounters();
@@ -130,16 +130,14 @@ class WeeklyRaidingReport extends Script {
     }
 
     public static function createSocialMediaPosts() {
-        /*
-        Logger::log('INFO', 'Posting to Google+...');
-        create_post_google($news_details['title'], 1);
-
-        Logger::log('INFO', 'Posting to Facebook...');
-        create_post_facebook($news_details['title'], 1);
+        //Logger::log('INFO', 'Posting to Google+...');
+        //create_post_google($news_details['title'], 1);
+        
+        //Logger::log('INFO', 'Posting to Facebook...');
+        //Functions::postFacebook(self::$reportArticle->title, 1);
 
         Logger::log('INFO', 'Posting to Twitter...');
-        create_post_twitter($news_details['title'], 1);
-        */
+        Functions::postTwitter(self::$reportArticle->title, 1);
     }
 }
 
