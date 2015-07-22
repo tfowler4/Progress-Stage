@@ -22,7 +22,7 @@ class AdministratorModel extends Model {
 					break;
 			}
 		}
-
+		
 	}
 
 	public function addNewTier() {
@@ -43,7 +43,6 @@ class AdministratorModel extends Model {
 			$startDate
 			);
 
-		echo $sqlString;
 		die;
 	}
 
@@ -62,7 +61,6 @@ class AdministratorModel extends Model {
 			$numOfMobs
 			);
 
-		echo $sqlString;
 		die;		
 	}
 
@@ -83,7 +81,6 @@ class AdministratorModel extends Model {
 			$raidSize
 			);
 
-		echo $sqlString;
 		die;
 	}
 
@@ -102,7 +99,6 @@ class AdministratorModel extends Model {
 			$country
 			);
 
-		echo $sqlString;
 		die;
 	}
 }

@@ -48,7 +48,7 @@ include dirname(dirname(dirname(__FILE__))) . '/library/PHPMailer/PHPMailerAutol
 
 $sid = session_id();
 
-ob_start('ob_gzhandler');
+//ob_start('ob_gzhandler');
 
 if ( !isset($sid) || $sid == "" ) {
     session_start();
