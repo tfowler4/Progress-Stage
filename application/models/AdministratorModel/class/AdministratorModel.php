@@ -1,10 +1,21 @@
 <?php 
 
 class AdministratorModel extends Model {
+	protected $_userDetails;
 
 	public function __construct($module, $params) {
 		parent::__construct($module);
-		
+
+		if (isset($_SESSION['userDetails']) ) {
+			$this->_userDetails = $_SESSION['userDetails'];
+			
+			if ($this->_userDetails->_admin != 1) {
+				header('Location: ' . HOST_NAME);	
+			}
+		} else {
+			header('Location: ' . HOST_NAME);
+		}
+
 		if (isset($_POST['request']) ) {
 
 			switch ($_POST['request']) {
