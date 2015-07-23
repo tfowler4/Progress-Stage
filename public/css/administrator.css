@@ -34,12 +34,13 @@ div.admin-content.guild.new, div.admin-content.guild.edit, div.admin-content.gui
 div.admin-content.kill.new, div.admin-content.kill.edit, div.admin-content.kill.remove {
     height: 125px;
 }
-div.admin-container div.admin-footer, input[type="submit"] {
+div.admin-container div.admin-footer, .admin-submit {
     border-top: 1px solid #C0C0C0;
     border-top-right-radius: 2px;
     border-top-left-radius: 2px;
     font-size: 16px;
     font-weight: bold;
+    text-align: center;
 }
 
 div.admin-container div.admin-footer:hover {
@@ -81,23 +82,20 @@ div.admin-container > div.admin-content > table tfoot tr th {
     font-size: 14px !important;
 }
 
-input, select:not(#date) {
+.admin-textbox, .admin-select {
     width: 250px;
 }
 
-#date {
-    width: 80px;
+.admin-select.month, .admin-select.day, .admin-select.year {
+    width: 80px !important;
 }
 
-input[type="submit"] {
+.admin-submit {
     background: none;
     border: none;
     outline: none;
 }
 
-form {
-    text-align: left !important;
-}
 
 .overlay {
     position: fixed;
