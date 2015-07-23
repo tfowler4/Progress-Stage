@@ -151,7 +151,20 @@ class StandingsModel extends Model {
             if ( $this->_dataType == '_encounterDetails' ) { 
                 $sortArray[0][$guildId] = $progressionDetails->_strtotime; 
             } elseif ( $this->_dataType != '_encounterDetails' ) { 
-                $sortArray[$progressionDetails->_complete][$guildId] = $progressionDetails->_recentTime; 
+                
+
+                // If guild only submitted the final encounter, their complete will be equal to dungeon completion
+                if ( $progressionDetails->_complete != $this->_dataDetails->_numOfEncounters ) {
+                    $finalEncounterId = $this->_dataDetails->_finalEncounterId;
+
+                    if ( isset($guildDetails->_encounterDetails->$finalEncounterId) ) {
+                        $totalComplete = CommonDataContainer::$dungeonArray[$this->_identifier]->_numOfEncounters;
+
+                        $sortArray[$totalComplete][$guildId] = $progressionDetails->_recentTime;
+                    }
+                } else {
+                    $sortArray[$progressionDetails->_complete][$guildId] = $progressionDetails->_recentTime;
+                }
             }
         }
 
