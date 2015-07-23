@@ -80,7 +80,7 @@
         <ul class="nav" style="float:right; margin-right:100px;">
             <?php if ( MODULE_LOGIN_SET == 1): ?>
                 <?php if ( isset($_SESSION['logged']) && $_SESSION['logged'] == 'yes'): ?>
-                    <?php echo Functions::generateInternalHyperlink('controlpanel', '', '', '<li>Control Panel</li>', ''); ?>
+                    <?php echo Functions::generateInternalHyperlink('userpanel', '', '', '<li>Control Panel</li>', ''); ?>
                     <li id="logout-activator" class="activatePopUp">Logout</li>
                 <?php else: ?>
                     <li id="login-activator" class="activatePopUp">Login</li>

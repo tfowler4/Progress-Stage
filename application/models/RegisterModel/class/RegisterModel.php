@@ -122,8 +122,8 @@ class RegisterModel extends Model {
             $_SESSION['logged']      = 'yes';
             $_SESSION['userDetails'] = new User($user);
 
-            $pathToCP = HOST_NAME . '/controlpanel';
-            header('Location: ' . $pathToCP);
+            $pathToUP = HOST_NAME . '/userpanel';
+            header('Location: ' . $pathToUP);
         }
     }
 

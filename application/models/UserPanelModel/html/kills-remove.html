@@ -4,12 +4,12 @@ Are you sure you wish to remove the <?php echo CommonDataContainer::$encounterAr
 
 <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModel::KILLS_REMOVE . '/' . $data->_guildDetails->_guildId,'', false); ?>">
 
-    <input id="controlpanel-guild" type="hidden" name="controlpanel-guild" value="<?php echo $data->_guildDetails->_guildId; ?>">
+    <input id="userpanel-guild" type="hidden" name="userpanel-guild" value="<?php echo $data->_guildDetails->_guildId; ?>">
 
-    <input id="controlpanel-encounter" type="hidden" name="controlpanel-encounter" value="<?php echo $data->_encounterDetails->_encounterId; ?>">
+    <input id="userpanel-encounter" type="hidden" name="userpanel-encounter" value="<?php echo $data->_encounterDetails->_encounterId; ?>">
 
-    <input id="controlpanel-active" type="hidden" name='active' value="Active">
+    <input id="userpanel-active" type="hidden" name='active' value="Active">
 
-    <input id="controlpanel-submit" type="submit" value="Submit">
+    <input id="userpanel-submit" type="submit" value="Submit">
 
 </form>

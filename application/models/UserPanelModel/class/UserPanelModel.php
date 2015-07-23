@@ -60,7 +60,7 @@ class UserPanelModel extends Model {
             'Options'        => '_options'
         );
 
-    const PAGE_TITLE = 'Control Panel';
+    const PAGE_TITLE = 'User Panel';
 
     public function __construct($module, $params) {
         parent::__construct($module);
@@ -171,11 +171,11 @@ class UserPanelModel extends Model {
     }
 
     public function processUserForm() {
-        $this->_formFields->userId            = Post::get('controlpanel-user-id');
-        $this->_formFields->email             = Post::get('controlpanel-email');
-        $this->_formFields->oldPassword       = Post::get('controlpanel-password');
-        $this->_formFields->newPassword       = Post::get('controlpanel-new-password');
-        $this->_formFields->retypeNewPassword = Post::get('controlpanel-new-retype-password');
+        $this->_formFields->userId            = Post::get('userpanel-user-id');
+        $this->_formFields->email             = Post::get('userpanel-email');
+        $this->_formFields->oldPassword       = Post::get('userpanel-password');
+        $this->_formFields->newPassword       = Post::get('userpanel-new-password');
+        $this->_formFields->retypeNewPassword = Post::get('userpanel-new-retype-password');
 
         if ( $this->_action == self::USER_EMAIL ) {
             if ( !empty($this->_formFields->email) ) {
@@ -191,15 +191,15 @@ class UserPanelModel extends Model {
     }
 
     public function processKillForm() {
-        $this->_formFields->guildId    = Post::get('controlpanel-guild');
-        $this->_formFields->encounter  = Post::get('controlpanel-encounter');
-        $this->_formFields->dateMonth  = Post::get('controlpanel-month');
-        $this->_formFields->dateDay    = Post::get('controlpanel-day');
-        $this->_formFields->dateYear   = Post::get('controlpanel-year');
-        $this->_formFields->dateHour   = Post::get('controlpanel-hour');
-        $this->_formFields->dateMinute = Post::get('controlpanel-minute');
-        $this->_formFields->screenshot = Post::get('controlpanel-screenshot');
-        $this->_formFields->video      = Post::get('controlpanel-video');
+        $this->_formFields->guildId    = Post::get('userpanel-guild');
+        $this->_formFields->encounter  = Post::get('userpanel-encounter');
+        $this->_formFields->dateMonth  = Post::get('userpanel-month');
+        $this->_formFields->dateDay    = Post::get('userpanel-day');
+        $this->_formFields->dateYear   = Post::get('userpanel-year');
+        $this->_formFields->dateHour   = Post::get('userpanel-hour');
+        $this->_formFields->dateMinute = Post::get('userpanel-minute');
+        $this->_formFields->screenshot = Post::get('userpanel-screenshot');
+        $this->_formFields->video      = Post::get('userpanel-video');
 
         if ( !empty($this->_formFields->guildId)
              && !empty($this->_formFields->encounter) 
@@ -221,17 +221,17 @@ class UserPanelModel extends Model {
     }
 
     public function processGuildForm() {
-        $this->_formFields->guildId     = Post::get('controlpanel-guild-id');
-        $this->_formFields->guildName   = Post::get('controlpanel-guild-name');
-        $this->_formFields->faction     = Post::get('controlpanel-faction');
-        $this->_formFields->server      = Post::get('controlpanel-server');
-        $this->_formFields->country     = Post::get('controlpanel-country');
-        $this->_formFields->guildLeader = Post::get('controlpanel-guild-leader');
-        $this->_formFields->website     = Post::get('controlpanel-website');
-        $this->_formFields->facebook    = Post::get('controlpanel-facebook');
-        $this->_formFields->twitter     = Post::get('controlpanel-twitter');
-        $this->_formFields->google      = Post::get('controlpanel-google');
-        $this->_formFields->guildLogo   = Post::get('controlpanel-guild-logo');
+        $this->_formFields->guildId     = Post::get('userpanel-guild-id');
+        $this->_formFields->guildName   = Post::get('userpanel-guild-name');
+        $this->_formFields->faction     = Post::get('userpanel-faction');
+        $this->_formFields->server      = Post::get('userpanel-server');
+        $this->_formFields->country     = Post::get('userpanel-country');
+        $this->_formFields->guildLeader = Post::get('userpanel-guild-leader');
+        $this->_formFields->website     = Post::get('userpanel-website');
+        $this->_formFields->facebook    = Post::get('userpanel-facebook');
+        $this->_formFields->twitter     = Post::get('userpanel-twitter');
+        $this->_formFields->google      = Post::get('userpanel-google');
+        $this->_formFields->guildLogo   = Post::get('userpanel-guild-logo');
 
         if ( ($this->_action == self::GUILD_ADD 
              || $this->_action == self::GUILD_EDIT
@@ -537,7 +537,7 @@ class UserPanelModel extends Model {
     }
 
     public function generateInternalHyperLink($subMod, $function, $text, $link = true) {
-        $url       = PAGE_CONTROL_PANEL . $subMod . '/' . $function;
+        $url       = PAGE_USER_PANEL . $subMod . '/' . $function;
         $hyperlink = '';
 
         if ( $link ) {
@@ -551,7 +551,7 @@ class UserPanelModel extends Model {
     }
 
     public function loadFormFields() {
-        require 'ControlPanelFormFields.php';
+        require 'UserPanelFormFields.php';
     }
 
     public function getHTML($data) {

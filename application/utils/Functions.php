@@ -187,8 +187,8 @@ class Functions {
             case 'reset':
                 $href = PAGE_RESET_PASSWORD;
                 break;
-            case 'controlpanel':
-                $href = PAGE_CONTROL_PANEL;
+            case 'userpanel':
+                $href = PAGE_USER_PANEL;
                 break;
         }
         

@@ -1,13 +1,7 @@
 Are you sure you wish to remove <?php echo $data->_guildDetails->_name; ?>?
 
-
-
 <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModel::GUILD_REMOVE . '/' . $data->_guildDetails->_guildId,'', false); ?>" autocomplete="off" enctype="multipart/form-data">
-
-    <input id="controlpanel-guild-id" type="hidden" name="controlpanel-guild-id" value="<?php echo $data->_guildDetails->_guildId; ?>">
-
-    <input id="controlpanel-active" type="hidden" name='active' value="Active">
-
-    <input id="controlpanel-submit" type="submit" value="Submit">
-
+    <input id="userpanel-guild-id" type="hidden" name="userpanel-guild-id" value="<?php echo $data->_guildDetails->_guildId; ?>">
+    <input id="userpanel-active" type="hidden" name='active' value="Active">
+    <input id="userpanel-submit" type="submit" value="Submit">
 </form>
