@@ -35,7 +35,7 @@ class NewsModel extends Model {
         $this->_article = strtolower(str_replace("_"," ", $this->_article)); 
         $this->_article = strtolower(str_replace("poundsign","#", $this->_article));
 
-        //$this->_videoLinks     = $this->getLiveVideos(); Not Ready for Launch
+        $this->_videoLinks     = $this->getLiveVideos(); //Not Ready for Launch
         $this->_guildRankings  = $this->getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
         $this->_guildStandings = $this->getStandings(self::STANDINGS_DISPLAY, self::LIMIT_GUILD_STANDINGS);
         $this->_recentRaids    = $this->getRecentRaids(self::LIMIT_RECENT_RAIDS);
@@ -371,7 +371,7 @@ class NewsModel extends Model {
             "SELECT *
                FROM %s
               WHERE active = 1
-              LIMIT 5", 
+              LIMIT 10", 
                     DbFactory::TABLE_TWITCH
                 ));
         $query->execute();

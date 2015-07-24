@@ -32,7 +32,18 @@
                     <div id="media-pane">
                         <ul>
                             <?php foreach( $data->_videoLinks as $twitchId => $twitchDetails ): ?>
-                                <li><?php echo $twitchDetails->_imagePath; ?></li>
+                                <li>
+                                    <a href="<?php echo $twitchDetails->_hyperlink; ?>">
+                                        <div class="twitch-container">
+                                            <div class="twitch-overlay">
+                                                <div class="twitch-title">Now Streaming</div>
+                                                <div class="twitch-id"><?php echo $twitchDetails->_twitchId; ?></div>
+                                                <div class="twitch-guild"><?php echo $twitchDetails->_guildDetails->_name; ?></div>
+                                            </div>
+                                            <?php echo $twitchDetails->_image; ?>
+                                        </div>
+                                    </a>
+                                </li>
                             <?php endforeach; ?>
                         </ul>
                     </div>

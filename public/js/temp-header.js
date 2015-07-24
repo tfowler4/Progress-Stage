@@ -7,8 +7,8 @@ $(document).ready(function(){
     var maxRecentPaneSize = numOfRecentItems * recentSlideWidth;
 
     var numOfMediaItems   = $("#media-pane  ul li").length;
-    var mediaSlideDelay   = 500;
-    var mediaSlideWidth   = 788;
+    var mediaSlideDelay   = 400;
+    var mediaSlideWidth   = 900;
     var maxMediaPaneSize  = numOfMediaItems * mediaSlideWidth;
 
     var stopClick = false;
@@ -52,8 +52,13 @@ $(document).ready(function(){
 
         if ( (direction == 'left' && parseInt(pos) <= 0) 
              || (direction == 'right' && pos > (-1*maxMediaPaneSize) ) ) {
-            stopClick = true; 
-            $('#media-pane ul').animate({ left: pos }, mediaSlideDelay, function() {
+            stopClick = true;
+
+            // Twitch Overlay - Title Bar
+            $('.twitch-overlay').slideToggle(mediaSlideDelay).delay(mediaSlideDelay).slideToggle(mediaSlideDelay);
+
+            // Image Slider
+            $('#media-pane ul').delay(mediaSlideDelay).animate({ left: pos }, mediaSlideDelay, function() {
                 stopClick = false;
             });
         }

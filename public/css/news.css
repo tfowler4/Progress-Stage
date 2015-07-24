@@ -19,14 +19,15 @@
 
 .scroll-button {
     display: inline-block;
-    opacity: 0.25;
+    opacity: .25;
     height: 100%;
-    width: 46px;
+    width: 50px;
     color: #000;
+    padding: 0;
     font-size: 38px;
     font-family: Verdana, Geneva, sans-serif;
     vertical-align: middle;
-    line-height: 375px;
+    line-height: 500px;
     cursor: default;
     text-align: center;
     -webkit-user-select: none;
@@ -38,46 +39,87 @@
 
 #videos-wrapper {
     display:inline-block;
-    width: 890px;
-    height: 375px;
+    width: 1000px; /*890*/
+    height: 500px;
     text-align: left;
     vertical-align: top;
+
 }
 
 #media-pane {
     display:inline-block;
-    width: 788px;
+    width: 900px; /*788*/
     height: 100%;
     overflow: hidden;
     position: relative;
     margin: 0;
+    margin-left: -4px;
+    margin-right: -6px;
     padding: 0;
     border: 0;
     vertical-align: top;
 }
 
-#media-pane > ul {
+#media-pane ul {
     display: inline-block;
     left: 0px;
     list-style: none;
     height: 100%;
     width: 1000%;
+    margin: 0;
+    padding: 0;
+    border: 0;
     overflow: hidden;
     position: relative;
     vertical-align: top;
 }
 
-#media-pane > ul > li {
-    height: 375px;
+#media-pane ul li {
+    height: 500px;
     float: left;
     position: relative;
 }
 
-#media-pane > ul > li > img {
+#media-pane ul li img {
     display: inline-block;
     margin: auto;
-    height: 375px;
-    width:  788px;
+    height: 500px;
+    width:  900px;
+}
+
+.twitch-overlay {
+    position: absolute;
+    bottom: 0;
+    height: 75px;
+    width: 900px;
+    background-color: rgba(0, 0, 0, .9);
+}
+
+.twitch-title {
+    padding-left: 4px;
+    height: 25px;
+    line-height: 25px;
+    font-size: 15px;
+    vertical-align: middle;
+}
+
+.twitch-id {
+    padding-left: 4px;
+    height: 25px;
+    line-height: 25px;
+    vertical-align: middle;
+    color: #FFFFFF;
+}
+
+.twitch-guild {
+    padding-left: 4px;
+    height: 25px;
+    line-height: 25px;
+    font-size:20px;
+    font-weight: normal;
+    letter-spacing: 2px;
+    font-family: Impact, sans-serif;
+    vertical-align: middle;
 }
 
 #recent-raids-wrapper {

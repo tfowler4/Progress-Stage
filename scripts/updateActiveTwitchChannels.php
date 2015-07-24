@@ -7,6 +7,9 @@ class Twitch extends Script {
     protected static $_twitchChannels = array();
     protected static $_activeChannels = array();
 
+    const IMAGE_HEIGHT = 500;
+    const IMAGE_WIDTH  = 900;
+
     public static function init() {
         Logger::log('INFO', 'Starting Update Twitch Channel...');
 
@@ -19,7 +22,11 @@ class Twitch extends Script {
             if ( isset($twitchObject['stream']['_id']) && isset($twitchObject['stream']['preview']['large']) ) {
                 if ( !empty($twitchObject['stream']['game']) && $twitchObject['stream']['game'] != GAME_NAME_1 ) { continue; }
 
-                $twitchImage = $twitchObject['stream']['preview']['large'];
+                // Resize the image to what we want on the news page
+                $twitchImage = $twitchObject['stream']['preview']['template'];
+                $twitchImage = str_replace('{width}', self::IMAGE_WIDTH, $twitchImage);
+                $twitchImage = str_replace('{height}', self::IMAGE_HEIGHT, $twitchImage);
+
                 $twitchUrl = 'http://www.twitch.tv/' . $twitchDetails['twitch_id'];
 
                 //Move file to folder
