@@ -228,6 +228,11 @@ class UpdateAllPointRankings extends Script {
             $currentRegionRank  = $rankValues->_rank->_region;
             $currentCountryRank = $rankValues->_rank->_country;
 
+            $currentWorldTrend   = $rankValues->_trend->_world;
+            $currentServerTrend  = $rankValues->_trend->_server;
+            $currentRegionTrend  = $rankValues->_trend->_region;
+            $currentCountryTrend = $rankValues->_trend->_country;
+
             // Rank went down Current Rank 1 New Rank 5, Trend = -4
             if ( $newWorldRank < $currentWorldRank ) { $trendDetails['trend']['world'] = $newWorldRank - $currentWorldRank; }
             if ( $newServerRank < $currentServerRank ) { $trendDetails['trend']['server'][$server] = $newServerRank - $currentServerRank; }
@@ -240,11 +245,17 @@ class UpdateAllPointRankings extends Script {
             if ( $newRegionRank > $currentRegionRank ) { $trendDetails['trend']['region'][$region] = $currentRegionRank - $newRegionRank; }
             if ( $newCountryRank > $currentCountryRank ) { $trendDetails['trend']['country'][$country] = $currentCountryRank - $newCountryRank; }
 
-            // Rank did not change
-            if ( $newWorldRank == $currentWorldRank ) { $trendDetails['trend']['world'] = '--'; }
-            if ( $newServerRank == $currentServerRank ) { $trendDetails['trend']['server'][$server] = '--'; }
-            if ( $newRegionRank == $currentRegionRank ) { $trendDetails['trend']['region'][$region] = '--'; }
-            if ( $newCountryRank == $currentCountryRank ) { $trendDetails['trend']['country'][$country] = '--'; }
+            // Rank did not change and you have no current trend
+            if ( $newWorldRank == $currentWorldRank && $currentWorldTrend == '--' ) { $trendDetails['trend']['world'] = '--'; }
+            if ( $newServerRank == $currentServerRank && $currentServerTrend == '--' ) { $trendDetails['trend']['server'][$server] = '--'; }
+            if ( $newRegionRank == $currentRegionRank && $currentRegionTrend == '--' ) { $trendDetails['trend']['region'][$region] = '--'; }
+            if ( $newCountryRank == $currentCountryRank && $currentCountryTrend == '--' ) { $trendDetails['trend']['country'][$country] = '--'; }
+
+            // Rank did not change and you have a trend value keep it
+            if ( $newWorldRank == $currentWorldRank && $currentWorldTrend != '--' ) { $trendDetails['trend']['world'] = $currentWorldTrend; }
+            if ( $newServerRank == $currentServerRank && $currentServerTrend != '--' ) { $trendDetails['trend']['server'][$server] = $currentServerTrend; }
+            if ( $newRegionRank == $currentRegionRank && $currentRegionTrend != '--' ) { $trendDetails['trend']['region'][$region] = $currentRegionTrend; }
+            if ( $newCountryRank == $currentCountryRank && $currentCountryTrend != '--' ) { $trendDetails['trend']['country'][$country] = $currentCountryTrend; }
 
             // Prev Rank
             $trendDetails['prev-rank']['world']             = $currentWorldRank;

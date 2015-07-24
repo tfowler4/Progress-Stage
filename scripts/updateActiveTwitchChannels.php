@@ -16,6 +16,11 @@ class Twitch extends Script {
         self::cleanTwitchDirectory();
         self::getTwitchChannels();
 
+        $directory = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/twitch/');
+        if( !is_dir($directory)) {
+            mkdir($directory, 0777, true);
+        }
+
         foreach ( self::$_twitchChannels as $twitchId => $twitchDetails) {
             $twitchObject = self::getChannelStream($twitchDetails['twitch_id']);
 
@@ -31,7 +36,8 @@ class Twitch extends Script {
 
                 //Move file to folder
                 echo "File Moving Begin<br>";
-                $imagePath = ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/twitch/' . $twitchId;
+
+                $imagePath = $directory . $twitchId);
 
                 if ( file_exists($imagePath) ) {
                     unlink($imagePath);
@@ -52,7 +58,7 @@ class Twitch extends Script {
     }
 
     public static function cleanTwitchDirectory() {
-        $path = ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/twitch/';
+        $path = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/twitch/');
 
         $files = glob($path . '*'); // get all file names
 
