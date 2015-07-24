@@ -8,15 +8,16 @@ class pushStageToLive {
     static protected $_newFileLocation;
     static protected $_destinationFolder;
     static protected $_currentFileLocation;
-    static protected $_exemptFolders = array('docs', 'images', 'scripts', 'temp');
+    static protected $_exemptFolders    = array('docs', 'images', 'temp');
     
-    const SOURCE_FOLDER = ABSOLUTE_PATH;
+    const SOURCE_FOLDER                 = ABSOLUTE_PATH;
 
     static public function init() {
-        $folders = explode("/", self::SOURCE_FOLDER);
-        $replace_folder = array(3 => 'live-');
-        $folder = array_replace($folders, $replace_folder);
-        self::$_destinationFolder = implode("/", $folder);
+        $folders        = explode("/", self::SOURCE_FOLDER);
+        $remove_folder  = array_pop($folders);
+        array_push($folders, 'site-');
+
+        self::$_destinationFolder = implode("/", $folders);
 
         if ( isset($_GET['gameName']) ) {
             self::$_gameName = $_GET['gameName'];
@@ -58,9 +59,9 @@ class pushStageToLive {
     
     static public function checkDirectory($file) {
 
-            if ( (isset(self::$_gameName)) ) {
-                $directory = str_replace(self::SOURCE_FOLDER, self::$_destination, $file);
-            } 
+        if ( (isset(self::$_gameName)) ) {
+            $directory = str_replace(self::SOURCE_FOLDER, self::$_destination, $file);
+        } 
 
         if( !is_dir($directory)) {
             mkdir($directory, 0777, true);
@@ -74,14 +75,14 @@ class pushStageToLive {
     static public function checkExemptions($folderName) {
         $folders = explode('\\', $folderName);
 
-            if ( (isset(self::$_gameName)) ) {
-                if (self::$_gameName == 'rift') {
-                    array_push(self::$_exemptFolders, 'wildstar');
-                } else if (self::$_gameName == 'wildstar') {
-                    array_push(self::$_exemptFolders, 'rift');
-                }
-                
-            } 
+        if ( (isset(self::$_gameName)) ) {
+            if (self::$_gameName == 'rift') {
+                array_push(self::$_exemptFolders, 'wildstar');
+            } else if (self::$_gameName == 'wildstar') {
+                array_push(self::$_exemptFolders, 'rift');
+            }
+            
+        } 
 
         foreach (self::$_exemptFolders as $exemption) {
             if ( in_array($exemption, $folders) ) {
