@@ -10,7 +10,7 @@ class pushStageToLive {
     static protected $_currentFileLocation;
     static protected $_exemptFolders = array('docs', 'images', 'scripts', 'temp');
     
-    const SOURCE_FOLDER     = ABSOLUTE_PATH;
+    const SOURCE_FOLDER = ABSOLUTE_PATH;
 
     static public function init() {
         $folders = explode("/", self::SOURCE_FOLDER);
@@ -75,9 +75,14 @@ class pushStageToLive {
         $folders = explode('\\', $folderName);
 
             if ( (isset(self::$_gameName)) ) {
-                array_push(self::$_exemptFolders, self::$_gameName);
+                if (self::$_gameName == 'rift') {
+                    array_push(self::$_exemptFolders, 'wildstar');
+                } else if (self::$_gameName == 'wildstar') {
+                    array_push(self::$_exemptFolders, 'rift');
+                }
+                
             } 
-            
+
         foreach (self::$_exemptFolders as $exemption) {
             if ( in_array($exemption, $folders) ) {
                 return true;
