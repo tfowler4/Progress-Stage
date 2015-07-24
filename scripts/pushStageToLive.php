@@ -20,7 +20,7 @@ class pushStageToLive {
         self::$_destinationFolder = implode("/", $folders);
 
         if ( isset($_GET['gameName']) ) {
-            self::$_gameName = $_GET['gameName'];
+            self::$_gameName = strtolower($_GET['gameName']);
             self::$_destination = self::$_destinationFolder . self::$_gameName;
 
             if ( file_exists(self::$_destination) ) {
@@ -34,7 +34,7 @@ class pushStageToLive {
         $handle = opendir($currentFolder);
         
         while ( false !== ($file = readdir($handle)) ) {
-            self::$_currentFileLocation = $currentFolder . '\\' . $file;
+            self::$_currentFileLocation = $currentFolder . '/' . $file;
 
             if ( (isset(self::$_gameName)) ) {
                 self::$_newFileLocation = str_replace(self::SOURCE_FOLDER, self::$_destination, self::$_currentFileLocation);
@@ -73,7 +73,7 @@ class pushStageToLive {
     }
 
     static public function checkExemptions($folderName) {
-        $folders = explode('\\', $folderName);
+        $folders = explode('/', $folderName);
 
         if ( (isset(self::$_gameName)) ) {
             if (self::$_gameName == 'rift') {
