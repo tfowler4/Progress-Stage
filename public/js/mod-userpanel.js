@@ -59,10 +59,10 @@ $(document).ready(function(){
     function changeFactionLogo(input) {
         var faction = input.value.toLowerCase();
 
-        $('#faction-logo-preview').children().fadeTo('fast', .3); //addClass('faded');
+        $('#faction-logo-preview').children().fadeTo('fast', .3);
         
         if ( faction != '' ) {
-            $('.' + faction).fadeTo('fast', 1); //removeClass('faded');
+            $('.' + faction).fadeTo('fast', 1);
         }
     }
 
@@ -91,7 +91,6 @@ $(document).ready(function(){
             childPane.slideToggle();
             childPane.addClass('active');
         }
-
 
         activePane.slideToggle();
         activePane.removeClass('active');
