@@ -10,39 +10,71 @@
 
         <div class="vertical-separator"></div>
 
-        <div id="form-table-wrapper">
-            <form method="POST" action="<?php echo PAGE_RESET_PASSWORD; ?>" autocomplete="off">
-                <table class="form-table">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Password Recovery</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Username</th>
-                            <td><input id="reset-username" type="text" name="reset-username"></td>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <td>- OR - </td>
-                        </tr>
-                        <tr>
-                            <th>Email Address</th>
-                            <td><input id="reset-email" type="text" name="reset-email"></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="2">
-                                <input id="reset-active" type="hidden" name='active' value="Active">
-                                <input id="reset-submit" type="submit" value="Submit">
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </form>
-        </div>
-
+        <?php if ( $data->_action == 'complete'): ?>
+            <div id="form-table-wrapper">
+                <form method="POST" action="<?php echo PAGE_RESET_PASSWORD . ResetModel::SUB_COMPLETE; ?>" autocomplete="off">
+                    <table class="form-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Password Recovery</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>New Password</th>
+                                <td><input id="reset-password" type="text" name="reset-password"></td>
+                            </tr>
+                            <tr>
+                                <th>Confirm Password</th>
+                                <td><input id="reset-password-confirm" type="text" name="reset-password-confirm"></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2">
+                                    <input id="reset-confirm-code" type="hidden" name='reset-confirm-code' value="<?php echo $data->_confirmCode; ?>">
+                                    <input id="reset-active" type="hidden" name='active' value="Active">
+                                    <input id="reset-submit" type="submit" value="Submit">
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </form>
+            </div>
+        <?php else: ?>
+            <div id="form-table-wrapper">
+                <form method="POST" action="<?php echo PAGE_RESET_PASSWORD; ?>" autocomplete="off">
+                    <table class="form-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Password Recovery</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Username</th>
+                                <td><input id="reset-username" type="text" name="reset-username"></td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <td>- OR - </td>
+                            </tr>
+                            <tr>
+                                <th>Email Address</th>
+                                <td><input id="reset-email" type="text" name="reset-email"></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2">
+                                    <input id="reset-active" type="hidden" name='active' value="Active">
+                                    <input id="reset-submit" type="submit" value="Submit">
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </form>
+            </div>
+        <?php endif; ?>
     </div>
 </div>

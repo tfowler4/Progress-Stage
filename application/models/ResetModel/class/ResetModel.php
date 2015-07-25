@@ -7,6 +7,10 @@ class ResetModel extends Model {
     protected $_userDetails;
     protected $_confirmCode;
     protected $_dialogOptions;
+    protected $_action;
+    protected $_encryptedPassword;
+
+    const SUB_COMPLETE = 'complete';
 
     const PAGE_TITLE = 'Password Recovery';
 
@@ -15,40 +19,58 @@ class ResetModel extends Model {
 
         $this->title = self::PAGE_TITLE;
 
-        if ( isset($params) && count($params) > 0 ) {
-            $this->_userDetails = $this->findConfirmCode($params[0]);
-
-            if ( $this->_userDetails ) {
-                
-            }
-        }
-
         $this->loadFormFields();
 
-        $this->_formFields = new ResetFormFields();
-        /*
-        if ( Post::formActive() ) { // Form has required fields filled out
-            $this->_validSubmission = $this->validateForm();
-        } else {
-            return;
-        }
+        if ( !empty($params) && $params[0] == self::SUB_COMPLETE ) { // complete submodule, with confirm code and retype passwords in
+            $this->_formFields                    = new ConfirmFormFields();
+            $this->_formFields->newPassword       = Post::get('reset-password');
+            $this->_formFields->retypeNewPassword = Post::get('reset-password-confirm');
+            $this->_formFields->confirmCode       = Post::get('reset-confirm-code');
 
-        if ( $this->_validSubmission ) {
-            $this->_userDetails = $this->searchForUser();
-        } else {
-            $this->_dialogOptions = array('title' => 'Error', 'message' => 'There was an odd error with your form, please');
-            return;
-        }
+            $this->_userDetails = $this->findConfirmCode($this->_formFields->confirmCode);
 
-        if ( $this->_userDetails ) {
-            $this->setConfirmCode();
-            $this->_successfulEmail = $this->sendResetEmail();
-            return;
+            if ( $this->_userDetails ) {
+                if ( $this->validatePassword() ) {
+                    $this->_encryptedPassword = $this->encryptPasscode($this->_userDetails->_userName, $this->_formFields->newPassword);
+                    $this->updateUserPassword();
+
+                    $this->_dialogOptions = array('title' => 'Notice', 'message' => 'Your password has been reset! Please try logging in now!');
+                    return;
+                }
+            }
+        } elseif ( !empty($params) && count($params) == 1 ) { // Only confirmcode exists
+            $this->_confirmCode = $params[0];
+            $this->_userDetails = $this->findConfirmCode($this->_confirmCode);
+
+            if ( $this->_userDetails ) {
+                $this->_action ='complete';
+            }
         } else {
-            $this->_dialogOptions = array('title' => 'Error', 'message' => 'We are unable to locate your user');
-            return;
+            $this->_formFields = new ResetFormFields();
+            
+            if ( Post::formActive() ) { // Form has required fields filled out
+                $this->_validSubmission = $this->validateForm();
+            } else {
+                return;
+            }
+
+            if ( $this->_validSubmission ) {
+                $this->_userDetails = $this->searchForUser();
+            } else {
+                $this->_dialogOptions = array('title' => 'Error', 'message' => 'There was an odd error with your form, please');
+                return;
+            }
+
+            if ( $this->_userDetails ) {
+                $this->setConfirmCode();
+                $this->_successfulEmail = $this->sendResetEmail();
+                $this->_dialogOptions = array('title' => 'Notice', 'message' => 'An email has been sent to the user account\'s email address containing the reset link.');
+                return;
+            } else {
+                $this->_dialogOptions = array('title' => 'Error', 'message' => 'We are unable to locate your user');
+                return;
+            }
         }
-        */
     }
 
     public function findConfirmCode($confirmCode) {
@@ -63,11 +85,8 @@ class ResetModel extends Model {
              ));
         $query->execute();
 
-        if ( $dbh->lastInsertId('user_id') !== 0 ) {
-            $_SESSION['userId']      = $dbh->lastInsertId('user_id');
-            $_SESSION['logged']      = 'yes';
-            $_SESSION['userDetails'] = new User($query->fetch(PDO::FETCH_ASSOC));
-            $this->_sucessfulLogin   = true;
+        while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
+            return new User($row);
         }
     }
 
@@ -124,6 +143,42 @@ class ResetModel extends Model {
         return null;
     }
 
+    public function updateUserPassword() {
+        $dbh = DbFactory::getDbh();
+
+        $query = $dbh->prepare(sprintf(
+            "UPDATE %s
+                SET passcode = '%s',
+                    confirmCode = ''
+              WHERE user_id = '%s'",
+            DbFactory::TABLE_USERS,
+            $this->_encryptedPassword,
+            $this->_userDetails->_userId
+            ));
+        $query->execute();
+    }
+
+    public function encryptPasscode($username, $password) {
+        $encryptedPasscode = sha1($password);
+
+        for ( $i = 0; $i < 5; $i++ ) {
+            $encryptedPasscode = sha1($encryptedPasscode.$i);
+        }
+
+        crypt($encryptedPasscode, '');
+
+        return $encryptedPasscode;
+    }
+
+    public function validatePassword() {
+            if ( ($this->_formFields->newPassword == $this->_formFields->retypeNewPassword)
+                 && strlen($this->_formFields->newPassword) >= PASSWORD_MINIMUM) {
+                return true;
+            }
+
+        return false;
+    }
+
     public function validateForm() {
         $this->_formFields->username = Post::get('reset-username');
         $this->_formFields->email    = Post::get('reset-email');
@@ -141,6 +196,11 @@ class ResetModel extends Model {
 
     public function loadFormFields() {
         require 'ResetFormFields.php';
+    }
+
+    public function getHTML($data) {
+        $htmlFile = $this->subModule . '-' . $this->_action . '.html';
+        include ABSOLUTE_PATH . '/application/models/UserPanelModel/html/' . $htmlFile;
     }
 
     public function __destruct() {
