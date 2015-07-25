@@ -2,7 +2,7 @@ $(document).ready(function() {
 	var btnPressed;
 	var formName;
 
-	$('form').submit(function(event) {
+	$('.admin-form').submit(function(event) {
 		event.preventDefault();
 
 		var formData 	= $(this).serializeArray();
