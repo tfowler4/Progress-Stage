@@ -37,7 +37,7 @@ class Twitch extends Script {
                 //Move file to folder
                 echo "File Moving Begin<br>";
 
-                $imagePath = $directory . $twitchId);
+                $imagePath = $directory . $twitchId;
 
                 if ( file_exists($imagePath) ) {
                     unlink($imagePath);

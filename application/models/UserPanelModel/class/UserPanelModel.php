@@ -556,7 +556,7 @@ class UserPanelModel extends Model {
 
     public function getHTML($data) {
         $htmlFile = $this->subModule . '-' . $this->_action . '.html';
-        include '/../html/' . $htmlFile;
+        include ABSOLUTE_PATH . '/application/models/UserPanelModel/html/' . $htmlFile;
     }
 
     public function __destruct() {

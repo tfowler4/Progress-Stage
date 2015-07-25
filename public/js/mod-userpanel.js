@@ -1,17 +1,17 @@
 $(document).ready(function(){
-    $("#controlpanel-guild-logo").change(function(){
+    $("#userpanel-guild-logo").change(function(){
         changeGuildLogo(this);
     });
 
-    $("#controlpanel-screenshot").change(function(){
+    $("#userpanel-screenshot").change(function(){
         changeScreenshot(this);
     });
 
-    $("#controlpanel-faction").change(function(){
+    $("#userpanel-faction").change(function(){
         changeFactionLogo(this);
     });
 
-    $("#controlpanel-country").change(function(){
+    $("#userpanel-country").change(function(){
         changeCountryFlag(this);
     });
 
