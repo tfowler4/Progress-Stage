@@ -8,10 +8,10 @@ date_default_timezone_set('America/Los_Angeles');
 // http://localhost/stage
 
 // Supported Games
-define(GAME_RIFT,     'Rift');
-define(GAME_WILDSTAR, 'WildStar');
-define('GAME_NAME_1', GAME_RIFT);
-define('LIVE',        0);
+define('GAME_RIFT',     'Rift');
+define('GAME_WILDSTAR', 'WildStar');
+define('GAME_NAME_1',   GAME_RIFT);
+define('LIVE',          0);
 
 if ( strpos($_SERVER['DOCUMENT_ROOT'], '/xampp/htdocs') !== FALSE ) { // Local Machine
     if ( GAME_NAME_1 == GAME_RIFT && LIVE == 1 ) { define('HOST_NAME', 'http://localhost/site-rift'); define('DOMAIN', 'site-rift'); }
