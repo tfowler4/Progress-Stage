@@ -11,8 +11,8 @@ class pushStageToWebServer {
     static protected $_serverDirectory  = array();
     static protected $_exemptFolders    = array('data', 'images', 'docs', '.git');
 
+    // Local location is set to ABSOLUTE_PATH
     const REMOTE_LOCATION       = '/public_html/' . DOMAIN;
-    const LOCAL_LOCATION        = 'C:/xampp/htdocs/stage';
 
     static public function init() {
         self::$_connection     = ftp_connect(FTP_HOST);
@@ -25,13 +25,12 @@ class pushStageToWebServer {
 
         self::$_serverDirectory = self::getWebServerListings(self::$_connection, self::REMOTE_LOCATION);
 
-        if ( file_exists(self::LOCAL_LOCATION) ) {
-            self::searchDirectory(self::LOCAL_LOCATION);
+        if ( file_exists(ABSOLUTE_PATH) ) {
+            self::searchDirectory(ABSOLUTE_PATH);
         }
-
         ftp_close(self::$_connection);
     }
-    
+
     // To search thru each directory
     static public function searchDirectory($currentFolder) {
         $handle = opendir($currentFolder);
