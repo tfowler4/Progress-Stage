@@ -7,22 +7,23 @@ class pushStageToWebServer {
     static protected $_connection;
     static protected $_localFileLocation;
     static protected $_remoteFileLocation;
-    static protected $_serverFiles      = array();
-    static protected $_serverDirectory  = array();
-    static protected $_exemptFolders    = array('data', 'images', 'docs', '.git');
+    static protected $_serverFiles     = array();
+    static protected $_serverDirectory = array();
+    static protected $_exemptFolders   = array('data', 'images', 'docs', '.git');
 
     // Local location is set to ABSOLUTE_PATH
-    const REMOTE_LOCATION       = '/public_html/' . DOMAIN;
+    const REMOTE_LOCATION = '/public_html/' . DOMAIN;
 
     static public function init() {
-        self::$_connection     = ftp_connect(FTP_HOST);
-        self::$_login          = ftp_login(self::$_connection, FTP_USER, FTP_PASSWORD);
+        self::$_connection = ftp_connect(FTP_HOST);
+        self::$_login      = ftp_login(self::$_connection, FTP_USER, FTP_PASSWORD);
 
         // To check connection and login
         if ( (!self::$_connection) || (!self::$_login) ) {
             die;
         } 
 
+        // To set listing of server files
         self::$_serverDirectory = self::getWebServerListings(self::$_connection, self::REMOTE_LOCATION);
 
         if ( file_exists(ABSOLUTE_PATH) ) {
@@ -39,10 +40,7 @@ class pushStageToWebServer {
             self::$_localFileLocation   = $currentFolder . '/' . $file;
             self::$_remoteFileLocation  = str_replace(ABSOLUTE_PATH, self::REMOTE_LOCATION, self::$_localFileLocation);
 
-            self::checkExemptions(self::$_localFileLocation);
-
             if ( self::checkExemptions(self::$_localFileLocation) == FALSE) {
-
                 if ( ($file != '.') && ($file != '..') ) {
                     if ( is_dir(self::$_localFileLocation) ) {
                         self::checkDirectory(self::$_localFileLocation);
@@ -62,9 +60,7 @@ class pushStageToWebServer {
 
         if ( !is_dir($directory) ) {
             if ( !in_array($directory, self::$_serverDirectory) ) {
-                if (!ftp_mkdir(self::$_connection, $directory) ) {
-                    echo 'ERROR: ' . $directory;
-                }
+                ftp_mkdir(self::$_connection, $directory);
             }
         }
     }
@@ -102,10 +98,13 @@ class pushStageToWebServer {
         foreach ($listings as $currentFile) {
             if ( ($currentFile != '.') && ($currentFile != '..') ) {
                 self::$_remoteFileLocation = $path . '/' . $currentFile;
-                array_push(self::$_serverFiles, self::$_remoteFileLocation);
 
-                if ( strpos($currentFile, '.') === false) {
-                    self::getWebServerListings($connection, self::$_remoteFileLocation);
+                if ( self::checkExemptions($currentFile) == FALSE) {
+                    array_push(self::$_serverFiles, self::$_remoteFileLocation);
+
+                    if ( strpos($currentFile, '.') === false) {
+                        self::getWebServerListings($connection, self::$_remoteFileLocation);
+                    }
                 }
             }
         }
