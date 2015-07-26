@@ -37,6 +37,11 @@ define('RANK_SYSTEMS',   serialize(array('QP' => 'Quality Progression', 'AP' => 
 
 define('VALID_IMAGE_FORMATS', serialize(array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP)));
 
+// FTP
+define('FTP_HOST',      'biz163.inmotionhosting.com');
+define('FTP_USER',      'vgtrin5');
+define('FTP_PASSWORD',  'Vannary74108520');
+
 // Game specific settings
 include(strtolower(GAME_NAME_1) . '/settings.php');
 
