@@ -7,22 +7,23 @@ date_default_timezone_set('America/Los_Angeles');
 // http://stage.trinityguild.org
 // http://localhost/stage
 
-define('GAME_NAME_1', 'WildStar');
+// Supported Games
+define(GAME_RIFT,     'Rift');
+define(GAME_WILDSTAR, 'WildStar');
+define('GAME_NAME_1', GAME_RIFT);
 define('LIVE',        0);
 
 if ( strpos($_SERVER['DOCUMENT_ROOT'], '/xampp/htdocs') !== FALSE ) { // Local Machine
-    if ( GAME_NAME_1 == 'Rift' && LIVE == 1 ) { define('HOST_NAME', 'http://localhost/site-rift'); define('DOMAIN', 'site-rift'); }
-    if ( GAME_NAME_1 == 'WildStar' && LIVE == 1 ) { define('HOST_NAME', 'http://localhost/site-wildstar'); define('DOMAIN', 'site-wildstar'); }
+    if ( GAME_NAME_1 == GAME_RIFT && LIVE == 1 ) { define('HOST_NAME', 'http://localhost/site-rift'); define('DOMAIN', 'site-rift'); }
+    if ( GAME_NAME_1 == GAME_WILDSTAR && LIVE == 1 ) { define('HOST_NAME', 'http://localhost/site-wildstar'); define('DOMAIN', 'site-wildstar'); }
     if ( !empty(GAME_NAME_1) && LIVE == 0 ) { define('HOST_NAME', 'http://localhost/stage'); define('DOMAIN', 'stage'); }
 } elseif ( strpos($_SERVER['DOCUMENT_ROOT'], '/public_html/') !== FALSE ) { // Webserver
-    if ( GAME_NAME_1 == 'Rift' && LIVE == 1 ) { define('HOST_NAME', 'http://www.topofrift.com'); }
-    if ( GAME_NAME_1 == 'WildStar' && LIVE == 1 ) { define('HOST_NAME', 'http://www.wildstar-progress.com'); }
+    if ( GAME_NAME_1 == GAME_RIFT && LIVE == 1 ) { define('HOST_NAME', 'http://www.topofrift.com'); }
+    if ( GAME_NAME_1 == GAME_WILDSTAR && LIVE == 1 ) { define('HOST_NAME', 'http://www.wildstar-progress.com'); }
     if ( !empty(GAME_NAME_1) && LIVE == 0 ) { define('HOST_NAME', 'http://stage.trinityguild.org'); }
-    define('WEBSERVER', 1);
-}
 
-if ( empty(DOMAIN) ) {
-    define('DOMAIN', '');
+    define('WEBSERVER', 1);
+    define('DOMAIN',    '');
 }
 
 define('DEFAULT_TIME_ZONE', 'America/Los_Angeles');
