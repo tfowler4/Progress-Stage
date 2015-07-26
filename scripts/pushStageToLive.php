@@ -8,7 +8,7 @@ class pushStageToLive {
     static protected $_newFileLocation;
     static protected $_destinationFolder;
     static protected $_currentFileLocation;
-    static protected $_exemptFolders    = array('docs', 'images', 'temp');
+    static protected $_exemptFolders    = array('docs', 'images', 'temp', '.git');
     
     const SOURCE_FOLDER                 = ABSOLUTE_PATH;
 
