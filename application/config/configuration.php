@@ -7,7 +7,7 @@ date_default_timezone_set('America/Los_Angeles');
 // http://stage.trinityguild.org
 // http://localhost/stage
 
-define('GAME_NAME_1', 'Rift');
+define('GAME_NAME_1', 'WildStar');
 define('LIVE',        0);
 
 if ( strpos($_SERVER['DOCUMENT_ROOT'], '/xampp/htdocs') !== FALSE ) { // Local Machine
