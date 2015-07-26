@@ -13,7 +13,7 @@ define('GAME_WILDSTAR', 'WildStar');
 define('GAME_NAME_1',   GAME_RIFT);
 define('LIVE',          0);
 
-if ( strpos($_SERVER['DOCUMENT_ROOT'], '/xampp/htdocs') !== FALSE ) { // Local Machine
+if ( strpos($_SERVER['DOCUMENT_ROOT'], '/htdocs') !== FALSE ) { // Local Machine
     if ( GAME_NAME_1 == GAME_RIFT && LIVE == 1 ) { define('HOST_NAME', 'http://localhost/site-rift'); define('DOMAIN', 'site-rift'); }
     if ( GAME_NAME_1 == GAME_WILDSTAR && LIVE == 1 ) { define('HOST_NAME', 'http://localhost/site-wildstar'); define('DOMAIN', 'site-wildstar'); }
     if ( !empty(GAME_NAME_1) && LIVE == 0 ) { define('HOST_NAME', 'http://localhost/stage'); define('DOMAIN', 'stage'); }
