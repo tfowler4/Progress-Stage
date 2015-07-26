@@ -5,7 +5,6 @@ if ( empty(DOMAIN) ) {
     define('ABSOLUTE_PATH', $_SERVER['DOCUMENT_ROOT'] . '/' . DOMAIN);
 }
 
-
 define('FOLD_INDEX',  HOST_NAME . '/');
 define('FOLD_APP',    HOST_NAME . '/application');
 define('FOLD_PUBLIC', HOST_NAME . '/public');
