@@ -15,7 +15,7 @@ class NewsModel extends Model {
     const LIMIT_RECENT_RAIDS    = 56;
     const LIMIT_GUILD_RANKINGS  = 10;
     const LIMIT_GUILD_STANDINGS = 10;
-    const STANDINGS_DISPLAY     = 0;
+    const STANDINGS_DISPLAY     = 1;
 
     const HEADER_STANDINGS = array(
             'Rank'     => '_rank',
@@ -131,8 +131,8 @@ class NewsModel extends Model {
         $tierDetails  = CommonDataContainer::$tierArray[LATEST_TIER];
         $dungeonLimit = 2;
         $regionLimit  = 1;
-
         $dungeonCount = 0;
+
         foreach ( $tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
             if ( $dungeonCount > 1 ) { break; }
 
@@ -199,12 +199,12 @@ class NewsModel extends Model {
             $regionValue;
 
             foreach( $dungeonTable->data as $guildId => $guildDetails ) {
-                $regionValue = $guildDetails->_region;
+                $regionValue = $dungeonId . '-region-' .$guildDetails->_region;
 
                 if ( !isset($returnArray[$regionValue]) ) {
                     $returnArray[$regionValue] = new stdClass();
                     $returnArray[$regionValue]->data = array();
-                    $returnArray[$regionValue]->header = $dungeonDetails->_name . ' Top ' . $guildLimit . ' ' .$regionValue . ' Guilds';
+                    $returnArray[$regionValue]->header = $dungeonDetails->_name . ' Top ' . $guildLimit . ' ' .$guildDetails->_region . ' Guilds';
 
                     $regionRank[$regionValue] = 1;
                 }
