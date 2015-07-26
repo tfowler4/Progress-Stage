@@ -16,6 +16,8 @@ define('BASE_POINT_VALUE',     1000);
 define('UPDATE_FREQ',          30);
 define('POINT_SYSTEM_DEFAULT', 'QP');
 define('RELEASE_YEAR',         2014);
+define('AD_HEADER',            1);
+define('AD_SIDEBAR',           1);
 define('REQUIRE_SCREENSHOT',   1);
 define('REQUIRE_ENCOUNTERS',   1);
 define('EMAIL_ADMIN',          'administrator@wildstar-progress.com');

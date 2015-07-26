@@ -2,6 +2,8 @@
     <div id="body-content">
         <div class="vertical-separator"></div>
 
+        <?php echo Advertisement::getLeaderboardAd(); ?>
+
         <div id="main-block">
             <div id="title-wrapper">
                 <div id="title-flag"><?php echo Functions::getImageFlag($data->_guildDetails->_country, 'medium'); ?></div>
@@ -203,6 +205,8 @@
                     </tbody>
                 </table>
             </div>
+
+            <?php echo Advertisement::getSidebarLargeAd(); ?>
         </div>
     </div>
 </div>

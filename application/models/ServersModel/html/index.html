@@ -8,7 +8,13 @@
                 <div id="title-name"><?php echo $data->_detailsPane->_name; ?></div>
                 <div id="title-server">Progression Standings</div>
             </div>
+
+            <div style="float: right;">
+                <?php echo Advertisement::getLeaderboardAd(); ?>
+            </div>
         </div>
+
+        <div class="clear"></div>
 
         <?php if ( !empty($data->_topGuildsArray) ): ?>
             <div class="vertical-separator"></div>

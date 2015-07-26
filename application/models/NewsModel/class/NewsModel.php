@@ -240,53 +240,52 @@ class NewsModel extends Model {
             }
         }
 
-        foreach( CommonDataCOntainer::$tierArray as $tierId => $tierDetails ) {
-            foreach( $tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
-                if ( $dungeonDetails->_type != 0 ) { continue; }
+        $tierDetails = CommonDataContainer::$tierArray[LATEST_TIER];
+        foreach( $tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
+            if ( $dungeonDetails->_type != 0 ) { continue; }
 
-                $rankArray    = array();
-                $detailsArray = array();
+            $rankArray    = array();
+            $detailsArray = array();
 
-                $returnArray[$dungeonId]['name']         = $dungeonDetails->_name;
-                $returnArray[$dungeonId]['abbreviation'] = strtolower($dungeonDetails->_abbreviation);
-                                
-                if ( !isset($dungeonStatsArray[$dungeonId]) ) { continue; }
+            $returnArray[$dungeonId]['name']         = $dungeonDetails->_name;
+            $returnArray[$dungeonId]['abbreviation'] = strtolower($dungeonDetails->_abbreviation);
+                            
+            if ( !isset($dungeonStatsArray[$dungeonId]) ) { continue; }
 
-                foreach ( $dungeonStatsArray[$dungeonId] as $systemId => $pointsArray ) {
-                    foreach ( $pointsArray as $guildId => $points ) {
-                        $rankArray[$systemId][$guildId] = $points;
-                    }
+            foreach ( $dungeonStatsArray[$dungeonId] as $systemId => $pointsArray ) {
+                foreach ( $pointsArray as $guildId => $points ) {
+                    $rankArray[$systemId][$guildId] = $points;
                 }
-
-                foreach ( $rankArray as $systemId => $guildArray ) {
-                    arsort($guildArray);
-
-                    $rankArray[$systemId] = $guildArray;
-                }
-                foreach ( $rankArray as $systemId => $guildArray ) {
-                    $rank = 0;
-
-                    foreach ( $guildArray as $guildId => $points ) {
-                        if ( $rank == $limit ) { break; }
-
-                        $guildDetails = CommonDataContainer::$guildArray[$guildId];
-                        $rankDetails  = $guildDetails->_rankDetails->_rankDungeons->{$dungeonId . '_' . $systemId};
-                        $points       = Functions::formatPoints($points);
-                        $trend        = $rankDetails->_trend->_world;
-                        $image        = Functions::getTrendImage($trend);
-                        $guildDetails->nameLength(0);
-                        $rank++;
-
-                        $detailsArray[$systemId][$guildId]           = new stdClass();
-                        $detailsArray[$systemId][$guildId]->points   = $points;
-                        $detailsArray[$systemId][$guildId]->progress = $guildDetails->_dungeonDetails->$dungeonId->_standing;
-                        $detailsArray[$systemId][$guildId]->guild    = $guildDetails->_nameLink;
-                        $detailsArray[$systemId][$guildId]->rank     = $image . ' ' . $rank;
-                    }
-                }
-
-                $returnArray[$dungeonId]['data'] = $detailsArray;
             }
+
+            foreach ( $rankArray as $systemId => $guildArray ) {
+                arsort($guildArray);
+
+                $rankArray[$systemId] = $guildArray;
+            }
+            foreach ( $rankArray as $systemId => $guildArray ) {
+                $rank = 0;
+
+                foreach ( $guildArray as $guildId => $points ) {
+                    if ( $rank == $limit ) { break; }
+
+                    $guildDetails = CommonDataContainer::$guildArray[$guildId];
+                    $rankDetails  = $guildDetails->_rankDetails->_rankDungeons->{$dungeonId . '_' . $systemId};
+                    $points       = Functions::formatPoints($points);
+                    $trend        = $rankDetails->_trend->_world;
+                    $image        = Functions::getTrendImage($trend);
+                    $guildDetails->nameLength(0);
+                    $rank++;
+
+                    $detailsArray[$systemId][$guildId]           = new stdClass();
+                    $detailsArray[$systemId][$guildId]->points   = $points;
+                    $detailsArray[$systemId][$guildId]->progress = $guildDetails->_dungeonDetails->$dungeonId->_standing;
+                    $detailsArray[$systemId][$guildId]->guild    = $guildDetails->_nameLink;
+                    $detailsArray[$systemId][$guildId]->rank     = $image . ' ' . $rank;
+                }
+            }
+
+            $returnArray[$dungeonId]['data'] = $detailsArray;
         }
 
         return $returnArray;

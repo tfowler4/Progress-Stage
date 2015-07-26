@@ -22,7 +22,9 @@
             </div>
         <?php endif; ?>
 
-       <div class="vertical-separator"></div>
+        <div class="vertical-separator"></div>
+
+        <?php echo Advertisement::getLeaderboardAd(); ?>
 
         <div id="main-block">
             <?php if ( !empty($data->_videoLinks) ): ?>
@@ -151,6 +153,8 @@
                     Ranking data currently unavailable
                 <?php endif; ?>
             </div>
+
+            <?php echo Advertisement::getSidebarLargeAd(); ?>
         </div>
     </div>
 </div>

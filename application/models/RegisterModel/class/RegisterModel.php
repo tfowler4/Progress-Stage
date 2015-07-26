@@ -89,7 +89,7 @@ class RegisterModel extends Model {
                FROM %s
               WHERE progression != ''
            ORDER BY date_created DESC
-              LIMIT 20", 
+              LIMIT 10", 
             DbFactory::TABLE_GUILDS
             ));
         $query->execute();

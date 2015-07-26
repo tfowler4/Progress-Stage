@@ -8,6 +8,10 @@
             <div class="vertical-separator"></div>
         <?php endif; ?>
 
+        <?php echo Advertisement::getLeaderboardAd(); ?>
+
+        <div class="vertical-separator"></div>
+
         <div id="main-block">
             <div id="faction-logo-preview">
                 <?php foreach(CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
@@ -219,6 +223,8 @@
                     </tbody>
                 </table>
             </div>
+
+            <?php echo Advertisement::getSidebarLargeAd(); ?>
         </div>
 
         <div class="vertical-separator"></div>

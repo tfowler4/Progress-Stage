@@ -7,7 +7,7 @@ date_default_timezone_set('America/Los_Angeles');
 // http://stage.trinityguild.org
 // http://localhost/stage
 
-define('GAME_NAME_1', 'Rift');
+define('GAME_NAME_1', 'WildStar');
 define('LIVE',        0);
 
 if ( strpos($_SERVER['DOCUMENT_ROOT'], '/xampp/htdocs') !== FALSE ) { // Local Machine
@@ -18,16 +18,15 @@ if ( strpos($_SERVER['DOCUMENT_ROOT'], '/xampp/htdocs') !== FALSE ) { // Local M
     if ( GAME_NAME_1 == 'Rift' && LIVE == 1 ) { define('HOST_NAME', 'http://www.topofrift.com'); }
     if ( GAME_NAME_1 == 'WildStar' && LIVE == 1 ) { define('HOST_NAME', 'http://www.wildstar-progress.com'); }
     if ( !empty(GAME_NAME_1) && LIVE == 0 ) { define('HOST_NAME', 'http://stage.trinityguild.org'); }
-}
 
+}
+define('WEBSERVER', 1);
 if ( empty(DOMAIN) ) {
     define('DOMAIN', '');
 }
 
 define('DEFAULT_TIME_ZONE', 'America/Los_Angeles');
 define('SITE_ONLINE',       1);
-define('AD_HEADER',         0);
-define('AD_SIDE',           0);
 define('PASSWORD_MINIMUM',  3);
 define('MAX_IMAGE_SIZE',    400000000); // 400 MB
 define('POINT_BASE',       1000); // QP, AP

@@ -18,6 +18,8 @@ define('BASE_POINT_VALUE',     1000);
 define('UPDATE_FREQ',          30);
 define('POINT_SYSTEM_DEFAULT', 'QP');
 define('RELEASE_YEAR',         2011);
+define('AD_HEADER',            0);
+define('AD_SIDEBAR',           0);
 define('REQUIRE_SCREENSHOT',   1);
 define('REQUIRE_ENCOUNTERS',   1);
 define('EMAIL_ADMIN',          'administrator@topofrift.com');
