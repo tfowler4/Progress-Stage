@@ -18,9 +18,9 @@ if ( strpos($_SERVER['DOCUMENT_ROOT'], '/xampp/htdocs') !== FALSE ) { // Local M
     if ( GAME_NAME_1 == 'Rift' && LIVE == 1 ) { define('HOST_NAME', 'http://www.topofrift.com'); }
     if ( GAME_NAME_1 == 'WildStar' && LIVE == 1 ) { define('HOST_NAME', 'http://www.wildstar-progress.com'); }
     if ( !empty(GAME_NAME_1) && LIVE == 0 ) { define('HOST_NAME', 'http://stage.trinityguild.org'); }
-
+    define('WEBSERVER', 1);
 }
-define('WEBSERVER', 1);
+
 if ( empty(DOMAIN) ) {
     define('DOMAIN', '');
 }
