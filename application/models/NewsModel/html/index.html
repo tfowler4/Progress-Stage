@@ -30,12 +30,12 @@
             <?php if ( !empty($data->_videoLinks) ): ?>
                 <div id="videos-wrapper">
 
-                    <div class="scroll-button left" style="">&lt;</div>
+                    <div class="scroll-button left">&lt;</div>
                     <div id="media-pane">
                         <ul>
                             <?php foreach( $data->_videoLinks as $twitchId => $twitchDetails ): ?>
                                 <li>
-                                    <a href="<?php echo $twitchDetails->_hyperlink; ?>">
+                                    <a href="<?php echo $twitchDetails->_hyperlink; ?>" target="_blank">
                                         <div class="twitch-container">
                                             <div class="twitch-overlay">
                                                 <div class="twitch-title">Now Streaming</div>
@@ -50,7 +50,7 @@
                         </ul>
                     </div>
 
-                    <div class="scroll-button right" style="">&gt;</div>
+                    <div class="scroll-button right">&gt;</div>
                 </div>
 
                 <div class="vertical-separator"></div>
