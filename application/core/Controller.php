@@ -39,6 +39,10 @@ class Controller {
             $this->contentFile = 'public/templates/default/404.html';
         }
 
+        if ( file_exists('public/css/' . $this->model . '/' . $this->model . '.css') ) {
+            $cssFile = 'public/css/' . $this->model . '/' . $this->model . '.css';
+        }
+
         if ( file_exists('public/js/' . $this->model . '/index.js') ) {
             $jsFile = 'public/js/' . $this->model . '/index.js';
         }

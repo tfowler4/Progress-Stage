@@ -1,10 +1,13 @@
 <?php foreach(glob("public/css/*.css") as $filename): ?>
         <link rel='stylesheet' type='text/css' href='<?php echo FOLD_INDEX. $filename; ?>'>
 <?php endforeach; ?>
+<?php if ( isset($cssFile) && !empty($cssFile) ): ?>
+        <link rel='stylesheet' type='text/css' href='<?php echo $cssFile; ?>'>
+<?php endif; ?>
 <?php foreach(glob("public/js/*.js") as $filename): ?>
         <script type='text/javascript' src='<?php echo FOLD_INDEX . $filename; ?>'></script>
 <?php endforeach; ?>
-<?php if ( isset($jsFile) && strlen($jsFile) > 0 ): ?>
+<?php if ( isset($jsFile) && !empty($jsFile) ): ?>
         <script type='text/javascript' src='<?php echo $jsFile; ?>'></script>
 <?php endif; ?>
 <?php if ( LIVE == 1 ): ?>
