@@ -37,12 +37,12 @@
                         <div id="recent-activity-screenshot"><?php echo $data->_latestScreenshot; ?></div>
 
                         <div id="recent-activity-description">
-                            <div class="title"><?php echo $data->_recentActivity['encounterName']; ?></div>
-                            <div class="details"><?php echo $data->_recentActivity['dungeon']; ?></div>
-                            <div class="details"><?php echo $data->_recentActivity['datetime']; ?></div>
-                            <div class="details"><?php echo $data->_recentActivity['worldRank']; ?></div>
-                            <div class="details"><?php echo $data->_recentActivity['regionRank']; ?></div>
-                            <div class="details"><?php echo $data->_recentActivity['serverRank']; ?></div>
+                            <div class="title-encounter"><?php echo $data->_recentActivity['encounterName']; ?></div>
+                            <div class="details-encounter"><?php echo $data->_recentActivity['dungeon']; ?></div>
+                            <div class="details-encounter"><?php echo $data->_recentActivity['datetime']; ?></div>
+                            <div class="details-encounter"><?php echo $data->_recentActivity['worldRank']; ?></div>
+                            <div class="details-encounter"><?php echo $data->_recentActivity['regionRank']; ?></div>
+                            <div class="details-encounter"><?php echo $data->_recentActivity['serverRank']; ?></div>
                         </div>
                     </div>
                 </div>
@@ -56,8 +56,8 @@
 
                 <div class="vertical-separator"></div>
 
-                <div class="table-wrapper standings">
-                    <table class="standings guild">
+                <div class="table-wrapper">
+                    <table class="listing guild">
                         <thead>
                         </thead>
                         <tbody>
@@ -89,8 +89,8 @@
 
                 <div class="vertical-separator"></div>
 
-                <div class="table-wrapper standings">
-                    <table class="standings activity">
+                <div class="table-wrapper">
+                    <table class="listing activity">
                         <thead>
                         </thead>
                         <tbody>

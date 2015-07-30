@@ -1,195 +1,98 @@
 <div id="faction-logo-preview">
-
     <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
-
         <div id="faction-logo-<?php echo $factionId; ?>" 
-
              class="faction-logo <?php echo strtolower($factionDetails->_name); ?> <?php if( $factionDetails->_name != $data->_guildDetails->_faction): ?>faded <?php endif; ?>"><?php echo Functions::getImageFaction($factionDetails->_name); ?></div>
-
     <?php endforeach; ?>
-
 </div>
 
-
-
 <div class="horizontal-separator"></div>
-
-
 
 <div id="form-table-wrapper">
-
     <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModel::GUILD_EDIT . '/' . $data->_guildDetails->_guildId,'', false); ?>" autocomplete="off" enctype="multipart/form-data">
-
         <table class="form-table">
-
             <thead>
-
                 <tr>
-
                     <th colspan="2">Edit Guild Details</th>
-
                 </tr>
-
             </thead>
-
             <tbody>
-
                 <tr>
-
                     <th>Guild Name</th>
-
                     <td><input id="userpanel-guild-name" type="hidden" name="userpanel-guild-name" value="<?php echo $data->_guildDetails->_name; ?>"><?php echo $data->_guildDetails->_name; ?></td>
-
                 </tr>
-
                 <tr>
-
                     <th>Faction</th>
-
                     <td>
-
                         <select id="userpanel-faction" name="userpanel-faction">
-
                             <option value="">Select Faction</option>
-
                             <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
-
                                 <option value="<?php echo $factionId; ?>" <?php if ( $data->_guildDetails->_faction == $factionDetails->_name ): ?>selected<?php endif; ?>><?php echo $factionDetails->_name; ?></option>
-
                             <?php endforeach; ?>
-
                         </select>
-
                     </td>
-
                 </tr>
-
                 <tr>
-
                     <th>Server</th>
-
                     <td>
-
                         <select id="userpanel-server" name="userpanel-server">
-
                             <option value="">Select Server</option>
-
                             <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
-
                                 <option value="<?php echo $serverId; ?>" <?php if ( $data->_guildDetails->_server == $serverDetails->_name ): ?>selected<?php endif; ?>><?php echo $serverDetails->_region . '-' . $serverDetails->_name; ?></option>
-
                             <?php endforeach; ?>
-
                         </select>
-
                     </td>
-
                 </tr>
-
                 <tr>
-
                     <th>Country</th>
-
                     <td>
-
                         <select id="userpanel-country" name="userpanel-country">
-
                             <option value="">Select Country</option>
-
                             <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
-
                                 <option value="<?php echo $countryId; ?>" <?php if ( $data->_guildDetails->_country == $countryDetails->_name ): ?>selected<?php endif; ?>><?php echo $countryDetails->_name; ?></option>
-
                             <?php endforeach; ?>
-
                         </select>
-
                     </td>
-
                 </tr>
-
                 <tr>
-
                     <th>Guild Leader</th>
-
                     <td><input id="userpanel-guild-leader" type="text" name="userpanel-guild-leader" value="<?php echo $data->_guildDetails->_leader; ?>"></td>
-
                 </tr>
-
                 <tr>
-
                     <th>Website</th>
-
                     <td><input id="userpanel-website" type="text" name="userpanel-website" value="<?php echo $data->_guildDetails->_website; ?>"></td>
-
                 </tr>
-
                 <tr>
-
                     <th>Facebook</th>
-
                     <td><input id="userpanel-facebook" type="text" name="userpanel-facebook" value="<?php echo $data->_guildDetails->_facebook; ?>"></td>
-
                 </tr>
-
                 <tr>
-
                     <th>Twitter</th>
-
                     <td><input id="userpanel-twitter" type="text" name="userpanel-twitter" value="<?php echo $data->_guildDetails->_twitter; ?>"></td>
-
                 </tr>
-
                 <tr>
-
                     <th>Google+</th>
-
                     <td><input id="userpanel-google" type="text" name="userpanel-google" value="<?php echo $data->_guildDetails->_google; ?>"></td>
-
                 </tr>
-
                 <tr>
-
                     <th>Guild Logo</th>
-
                     <td><input id="userpanel-guild-logo" type="file" name="userpanel-guild-logo" value=""></td>
-
                 </tr>
-
             </tbody>
-
             <tfoot>
-
                 <tr>
-
                     <td colspan="2">
-
                         <input id="userpanel-active" type="hidden" name='active' value="Active">
-
                         <input id="userpanel-submit" type="submit" value="Submit">
-
                     </td>
-
                 </tr>
-
             </tfoot>
-
         </table>
-
     </form>
-
 </div>
-
-
 
 <div class="horizontal-separator"></div>
 
-
-
 <div id="preview-wrapper">
-
     <div id="guild-logo-preview"><?php echo $data->_guildDetails->_logo; ?></div>
-
     <div id="country-flag-preview"><?php echo Functions::getImageFlag($data->_guildDetails->_country, 'large'); ?></div>
-
 </div>

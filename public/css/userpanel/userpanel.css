@@ -7,7 +7,7 @@ div.option-container {
     cursor: default;
 }
 
-div.option-container.guild.new{
+div.option-container.guild.new {
     border-style: dashed;
 }
 
@@ -16,23 +16,28 @@ div.option-container:hover {
     border-radius: 5px;
 }
 
-div.option-container > div.option-title {
+div.option-container div.option-title {
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
     border: 1px solid transparent;
     border-radius: 5px 5px 0px 0px;
     background-color: #C0C0C0;
-    font-size: 20px;
 }
 
-div.option-container > div.option-content.new {
+div.option-container div.option-content.new {
     display: inline-block;
     vertical-align: middle;
 }
 
 div.option-container div.option-footer {
+    height: 22px;
+    line-height: 22px;
+    font-size: 14px;
     border-top: 1px solid #C0C0C0;
     border-top-right-radius: 2px;
     border-top-left-radius: 2px;
-    font-size: 16px;
+    
     font-weight: bold;
 }
 
@@ -40,36 +45,38 @@ div.option-container div.option-footer:hover {
     background-color: #C0C0C0;
 }
 
-div.option-container div.option-content > table {
+div.option-container div.option-content table {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
     width: 100%;
     padding: 5px;
 }
 
 div.option-container div.option-content table thead tr th {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
+    height: 24px;
+    line-height: 24px;
     font-size: 18px;
-    padding-top: 2px;
 }
 
-div.option-container div.option-content > table tbody tr th {
-    font-family: Arial, Helvetica, sans-serif;
+div.option-container div.option-content table tbody tr th {
+    height: 24px;
+    line-height: 24px;
     font-weight: bold;
     font-size: 14px;
-    padding-top: 5px;
 }
 
-div.option-container > div.option-content > table tbody tr td {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
+div.option-container div.option-content table tbody tr td {
+    height: 18px;
+    line-height: 18px;
     font-size: 12px;
-    padding-bottom: 5px;
 }
 
-div.option-container > div.option-content > table tfoot tr th {
+div.option-container div.option-content table tfoot tr th {
     text-align: center;
 }
 
 .option-footer.guild {
+    height: 32px !important;
+    line-height: 32px !important;
     font-size: 14px !important;
 }

@@ -207,14 +207,13 @@
             <div id="rankings-wrapper">
                 <div class="block-title">Newest Guilds</div>
 
-                <table id="newest-guilds-table" class="side-standings">
+                <table id="newest-guilds-table" class="side-block-listing">
                     <thead>
                     </thead>
                     <tbody>
                         <?php foreach( $data->_newestGuilds as $guildId => $guildDetails ): ?>
                             <tr>
                                 <th><?php echo $guildDetails->_nameLink; ?></th>
-                                <!--<td rowspan="2" style="vertical-align:middle; text-align:right;"><?php echo Functions::formatDate($guildDetails->_dateCreated, 'm/d/Y'); ?></td>-->
                             </tr>
                             <tr>
                                 <td><?php echo $guildDetails->_region . '-' . $guildDetails->_server; ?></td>

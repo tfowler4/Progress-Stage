@@ -1,13 +1,13 @@
 .scroll-button-recent {
     display: inline-block;
     opacity: 0.25;
-    height: 70px;
+    height: 60px;
     width: 46px;
     color: #000;
     font-size: 38px;
     font-family: Verdana, Geneva, sans-serif;
     vertical-align: middle;
-    line-height: 70px;
+    line-height: 60px;
     cursor: default;
     text-align: center;
     -webkit-user-select: none;
@@ -125,7 +125,7 @@
 #recent-raids-wrapper {
     display: inline-block;
     width: 1336px;
-    height: 70px;
+    height: 60px;
     text-align: left;
     vertical-align: top;
 }
@@ -133,28 +133,28 @@
 #latest-kills {
     display: inline-block;
     width: 1198px;
-    height: 70px;
+    height: 60px;
     overflow: hidden;
     position: relative;
     vertical-align: top;
 }
 
-#latest-kills > ul {
+#latest-kills ul {
     display: inline-block;
     left: 0px;
     list-style: none;
-    height: 70px;
+    height: 60px;
     width: 1000%;
     overflow: hidden;
     position: relative;
     vertical-align: top;
 }
 
-#latest-kills > ul > li {
+#latest-kills ul li {
     float: left;
     position: relative;
     width: 150px;
-    height: 70px;
+    height: 60px;
     display: inline-block;
     text-align: left;
     border-right: 1px solid #999999;
@@ -164,7 +164,7 @@
     cursor: default;
 }
 
-#latest-kills > ul > li:hover {
+#latest-kills ul li:hover {
     background-color: #D5D5D5;
 }
 
@@ -174,22 +174,26 @@
 }
 
 .latest-guild {
+    height: 30px;
+    line-height: 30px;
     font-size: 14px;
-    margin-top: 10px;
-    margin-bottom: 3px;
     margin-left: 5px;
 }
 
 .latest-kill {
+    height: 15px;
+    line-height: 15px;
     font-size: 12px;
-    color: #000000;
-    margin-bottom: 0px;
     margin-left: 5px;
+    color: #000000;
 }
 
 .latest-time {
-    color: #777777;
+    height: 15px;
+    line-height: 15px;
+    font-size: 13px;
     margin-left: 5px;
+    color: #777777;
 }
 
 .last-block {
@@ -199,4 +203,16 @@
 #standings-wrapper {
     text-align: center;
     margin-bottom: -8px;
+}
+
+.side-ranking-systems-buttons {
+    height: 28px;
+    line-height: 28px;
+}
+
+.side-ranking-header {
+    height: 28px;
+    line-height: 28px;
+    text-align: left;
+    font-family: Impact;
 }

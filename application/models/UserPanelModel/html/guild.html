@@ -1,147 +1,73 @@
 <div id="body-wrapper">
-
     <div id="body-content">
-
         <div class="vertical-separator"></div>
-
-
 
         <?php if ( !empty($data->_dialogOptions) ): ?>
-
             <?php echo Functions::showDialogWindow($data->_dialogOptions); ?>
 
-
-
             <div class="vertical-separator"></div>
-
         <?php endif; ?>
 
-
-
         <div id="main-block">
-
             <?php $data->getHTML($data); ?>
-
         </div>
-
-
 
         <div id="side-block">
-
             <div class="vertical-separator"></div>
 
-
-
             <?php if ( isset($data->_guildDetails) ): ?>
-
                 <div id="profile-wrapper">
-
                     <table class="profile-table">
-
                         <thead>
-
                             <tr>
-
                                 <th colspan="2"><div id="profile-logo"><?php echo $data->_guildDetails->_logo; ?></div></th>
-
                             </tr>
-
-                        <tr>
-
-                            <th colspan="2"><div id="profile-name"><?php echo $data->_guildDetails->_name; ?></div></th>
-
-                        </tr>
-
+                            <tr>
+                                <th colspan="2"><div id="profile-name"><?php echo $data->_guildDetails->_name; ?></div></th>
+                            </tr>
                         </thead>
-
                         <tbody>
-
                             <?php foreach( UserPanelModel::GUILD_PROFILE as $header => $key ): ?>
-
                                 <tr>
-
                                     <th><?php echo $header; ?></th>
-
                                     <td><?php echo $data->_guildDetails->$key; ?></td>
-
                                 </tr>
-
                             <?php endforeach; ?>
-
-                            <tr>
-
-                                <td colspan="2"><div id="profile-faction-logo"><?php echo Functions::getImageFaction($data->_guildDetails->_faction); ?></div></td>
-
-                            </tr>
-
                         </tbody>
-
-                    </table>
-
-                </div>
-
-            <?php else: ?>
-
-                <div id="profile-wrapper">
-
-                    <table class="profile-table">
-
-                        <thead>
-
-                            <tr>
-
-                                <th colspan="2">
-
-                                    <?php echo $data->_userDetails->_userName; ?>
-
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            <tr>
-
-                                <th>Email Address</th>
-
-                                <td><?php echo $data->_userDetails->_emailAddress; ?></td>
-
-                            </tr>
-
-                            <tr>
-
-                                
-
-                            </tr>
-
-                            <tr>
-
-                                <th>Date Created</th>
-
-                                <td><?php echo Functions::formatDate($data->_userDetails->_dateCreated, 'm-d-Y'); ?></td>
-
-                            </tr>
-
-                        </tbody>
-
                         <tfoot>
-
+                            <tr>
+                                <th colspan="2">
+                                    <div id="profile-faction-logo"><?php echo Functions::getImageFaction($data->_guildDetails->_faction); ?></div>
+                                </th>
+                            </tr>
                         </tfoot>
-
                     </table>
-
                 </div>
-
+            <?php else: ?>
+                <div id="profile-wrapper">
+                    <table class="profile-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2">
+                                    <?php echo $data->_userDetails->_userName; ?>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Email Address</th>
+                                <td><?php echo $data->_userDetails->_emailAddress; ?></td>
+                            </tr>
+                            <tr>
+                                <th>Date Created</th>
+                                <td><?php echo Functions::formatDate($data->_userDetails->_dateCreated, 'm-d-Y'); ?></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
             <?php endif; ?>
-
         </div>
-
-
-
-        <div class="vertical-separator"></div>
-
     </div>
-
 </div>

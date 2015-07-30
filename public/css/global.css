@@ -1,4 +1,10 @@
-/** * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/) * http://cssreset.com */html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,time, mark, audio, video {    margin: 0;  padding: 0; border: 0;  font-size: 100%;    font: inherit;  vertical-align: baseline;}/* HTML5 display-role reset for older browsers */article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {    display: block;}body {  line-height: 1;}ol, ul {    list-style: none;}blockquote, q {   quotes: none;}blockquote:before, blockquote:after,q:before, q:after {   content: '';    content: none;}table {  border-collapse: collapse;  border-spacing: 0;}
+/** * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/) * http://cssreset.com */html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,time, mark, audio, video {    margin: 0;  padding: 0; border: 0;  font-size: 100%;    font: inherit;  vertical-align: baseline;}/* HTML5 display-role reset for older browsers */article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {    display: block;}body {  line-height: 1;}ol, ul {    list-style: none;}blockquote, q {   quotes: none;}blockquote:before, blockquote:after,q:before, q:after {   content: '';    content: none;}table {border-collapse: collapse;  border-spacing: 0;}
+
+html {
+    background-color :#FFFFFF;
+    color: #444444;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
 body {
     width: 100%;
@@ -11,15 +17,16 @@ body {
 
 a {
     color: inherit !important;
-}
-
-span {
-    vertical-align: middle;
+    text-decoration: none;
 }
 
 a:hover {
     color: #777777 !important;
     text-decoration: none !important;
+}
+
+span {
+    vertical-align: middle;
 }
 
 .clear {
@@ -112,9 +119,10 @@ div#glossary-wrapper {
 }
 
 img.flag-icon {
+    width: 29px !important;
     height: 16px !important;
     vertical-align: middle;
-    margin-right: 2px;
+    margin-right: 4px;
 }
 
 img.guild-logo-large {
@@ -150,13 +158,13 @@ ul#social li {
 ul.submenu {
     margin: 0;
     border: 1px solid #C0C0C0;
-    border-radius: 5px;
+    height: 40px;
+    border-radius: 3px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: normal;
     font-size: 12px;
     -webkit-user-select: none;
     cursor: default;
-    height: 40px;
 }
 
 ul.submenu a:last-child li {
@@ -170,8 +178,11 @@ ul.submenu li:hover {
 
 ul.submenu li {
     display: inline-block;
-    padding: 10px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0px 10px 0px 10px;
     border-right: 1px solid #C0C0C0 !important;
+
 }
 
 ul.submenu li input[type=text] {
@@ -183,18 +194,12 @@ ul.submenu li input:focus{
 }
 
 .block-title {
+    height: 26px;
+    line-height: 26px;
     font-family: Impact, Helvetica, sans-serif;
     font-size: 18px; 
     font-weight: normal;
     color: rgba(85,85,85,1.0);
-}
-
-div#info-content-wrapper {
-    background-color: #D9D9D9;
-    border: 1px solid #D9D9D9;
-    border-radius: 3px;
-    padding: 0px 3px 0px 3px;
-    float: right;
 }
 
 div#top-content-wrapper {
@@ -253,11 +258,6 @@ div.top-guild-place {
     color: rgba(85,85,85,1.0);
 }
 
-.side-rankings-header {
-    text-align: left;
-    font-family: Impact;
-}
-
 span.highlight {
     color: #FFFFFF;
     background-color: #222222;
@@ -295,7 +295,9 @@ span.highlight {
     padding: 5px;
 }
 
-#dialog-wrapper > #dialog-title {
+#dialog-wrapper #dialog-title {
+    height: 32px;
+    line-height: 32px;
     font-size: 24px;
     background-color: #C0C0C0;
     border: 1px solid #C0C0C0;
@@ -303,7 +305,8 @@ span.highlight {
     color: #000;
 }
 
-#dialog-wrapper > #dialog-body {
+#dialog-wrapper #dialog-body {
+    line-height: 1.5;
     font-size: 14px;
 }
 
@@ -335,28 +338,6 @@ span.highlight {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 100;
-}
-
-table.form-table.popup tbody tr th {
-    text-align: left !important;
-    height: 14px !important;
-    line-height: 14px !important;
-}
-
-table.form-table textarea {
-    background-color: #CCCCCC;
-    height: 200px;
-    width: 100%;
-    padding: 0px 5px 0px 5px;
-    border: 0px solid transparent;
-}
-
-table.form-table.popup select {
-    min-width: 100px !important;
-}
-
-table.form-table.standard select {
-    min-width: 50px !important;
 }
 
 .popup-window {
@@ -528,13 +509,15 @@ div.article {
 
 div.article-header {
     width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
 }
 
 div.article-header div {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
+    height: 44px;
+    line-height: 44px;
     font-size: 26px;
-    padding: 5px 5px 5px 20px;
+    padding-left: 20px;
     border-bottom: 1px solid #777777;
     background-color: #222222;
     color:#fff;
@@ -542,19 +525,16 @@ div.article-header div {
 
 div.article-header span {
     display: block;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
+    height: 22px;
+    line-height: 22px;
     font-size: 14px;
-    padding: 5px 5px 5px 20px;
+    padding-left: 20px;
     border-bottom: 1px solid #777777;
 }
 
 div.article-content {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
     font-size: 14px;
-    line-height: 20px;
-    margin: 0;
+    line-height: 1.5;
     padding: 5px;
     color: #555555;
 }
@@ -565,6 +545,9 @@ div.article-content p {
 }
 
 div.article-content h3 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #000000;
     padding: 0;
     margin: 5px 5px 5px 5px;
 }
@@ -642,5 +625,108 @@ div.article-content ol > li {
     vertical-align: middle;
     width: 1366px;
     text-align: center;
+}
 
+/*
+    TITLE
+ */
+div#title-wrapper {
+    height: 50px;
+    text-align: left;
+    vertical-align: top;
+}
+
+div#title-flag {
+    display: inline-block;
+    vertical-align: top;
+}
+
+div#title-text-wrapper {
+    display: table-cell;
+    height: 50px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+div#title-name {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    height: 36px;
+    line-height: 36px;
+    font-size: 36px;
+    color: black;
+}
+
+div#title-server {
+    height: 14px;
+    line-height: 16px;
+    font-size: 12px;
+    color: black;
+}
+
+/*
+    PAGE NAVIGATION
+ */
+div#page-navigation {
+    text-align: left;
+}
+
+div#page-navigation ul {
+    list-style: none;
+}
+
+div#page-navigation ul li {
+    display: inline;
+    height: 30px;
+    line-height: 30px;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 18px;
+    padding-right: 20px;
+}
+
+#page-navigation ul li a:hover {
+    color: blue !important;
+}
+
+/*
+    IMAGE PREVIEW
+ */
+ div#faction-logo-preview {
+    display: inline-block;
+    vertical-align: middle;
+    width: 250px;
+ }
+
+div#faction-logo-preview div {
+    display: inline-block;
+    vertical-align: middle;
+    width: 250px;
+    height: 250px;
+    line-height: 250px;
+}
+
+div#faction-logo-preview div img {
+    vertical-align: middle;
+}
+
+div#preview-wrapper {
+    display: inline-block;
+    vertical-align: middle;
+    width: 250px;
+}
+
+div#preview-wrapper div {
+    display: inline-block;
+    vertical-align: middle;
+    width: 250px;
+    height: 250px;
+    line-height: 250px;
+}
+
+div#preview-wrapper img {
+    width: 200px;
+    vertical-align: middle;
+}
+
+div#preview-preview div img {
+    vertical-align: middle;
 }

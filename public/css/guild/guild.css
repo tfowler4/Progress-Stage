@@ -1,88 +1,11 @@
-div#title-wrapper {
-    height: 50px;
-    text-align: left;
-    vertical-align: top;
-}
-
-div#title-flag {
-    display: inline-block;
-    vertical-align: top;
-}
-
-div#title-text-wrapper {
-    display: table-cell;
-    height: 50px;
-    display: inline-block;
-    vertical-align: top;
-}
-
-div#title-name {
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
-    height: 40px;
-    font-size: 36px;
-    line-height: 36px;
-    color: black;
-}
-
-div#title-server {
-    height: 10px;
-    line-height: 10px;
-    font-size: 12px;
-    color: black;
-}
-
-div#page-navigation {
-    text-align: left;
-}
-
-div#page-navigation ul {
-    list-style: none;
-}
-
-div#page-navigation ul li {
-    font-family: Verdana, Geneva, sans-serif;
-    font-size: 18px;
-    padding: 0px 20px 0px 0px;
-    display: inline;
-}
-
 div.title {
+    height: 34px;
+    line-height: 30px;
     font-family: Verdana, Geneva, sans-serif;
     font-size: 24px;
     text-align:left;
     border-bottom: 1px solid #000000;
-}
-
-div#profile-wrapper {
-    text-align: left;
-    background-color: #D9D9D9;
-    border: 1px solid #D9D9D9;
-    border-radius: 3px;
-    padding: 0px 3px 0px 3px;
-}
-
-table.profile-table {
-    width: 100%;
-    vertical-align: middle;
-    border-collapse: collapse;
-    color: #777777;
-}
-
-table.profile-table thead tr th {
-    text-align: center;
-}
-
-table.profile-table tbody tr th {
-    font-size: 14px;
-    font-weight: bold;
-    padding: 5px 5px 5px 5px;
-    text-align: right;
-}
-
-table.profile-table tbody tr td {
-    font-size: 14px;
-    padding: 5px 5px 5px 5px;
-    text-align: left;
+    margin-top: 10px;
 }
 
 div#recent-activity-wrapper {
@@ -107,15 +30,15 @@ div#recent-activity-description {
     text-align: center;
 }
 
-div#recent-activity-description .title {
-    text-align: center;
-    font-family: Arial;
-    font-size: 24px;
-    font-weight: normal;
-    border-bottom: 0;
+div#recent-activity-description .title-encounter {
+    height: 40px;
+    line-height: 40px;
+    font-size: 22px;
 }
 
-div#recent-activity-description .details {
+div#recent-activity-description .details-encounter {
+    height: 24px;
+    line-height: 24px;
     font-size: 16px;
 }
 
@@ -136,8 +59,4 @@ span.anchor {
     position: relative; 
     top: -70px; 
     visibility: hidden;
-}
-
-#page-navigation ul li a:hover {
-    color: blue !important;
 }

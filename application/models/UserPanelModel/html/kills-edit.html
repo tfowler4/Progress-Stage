@@ -1,203 +1,102 @@
 <div id="form-table-wrapper">
-
     <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModel::KILLS_EDIT . '/' . $data->_guildDetails->_guildId,'', false); ?>" autocomplete="off" enctype="multipart/form-data">
-
         <table class="form-table standard">
-
             <thead>
-
                 <tr>
-
                     <th colspan="2">Edit Kill Details</th>
-
                 </tr>
-
             </thead>
-
             <tbody>
-
                 <tr>
-
                     <th>Guild Name</th>
-
                     <td>
-
                         <input id="userpanel-guild" name="userpanel-guild" type="hidden" value="<?php echo $data->_guildDetails->_guildId; ?>">
-
                         <?php echo $data->_guildDetails->_name; ?>
-
                     </td>
-
                  </tr>
-
                 <tr>
-
                     <th>Encounter</th>
-
                     <td>
-
                         <input id="userpanel-encounter" name="userpanel-encounter" type="hidden" value="<?php echo $data->_encounterDetails->_encounterId; ?>">
-
                         <?php echo CommonDataContainer::$encounterArray[$data->_encounterDetails->_encounterId]->_encounterName; ?>
-
                     </td>
-
                  </tr>
-
                 <tr>
-
                     <th>Date (M-D-Y)</th>
-
                     <td>
-
                        <select id="userpanel-month" name="userpanel-month">
-
                             <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
-
                                 <?php if ( $month == $data->_encounterDetails->_month ): ?> 
-
                                     <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
-
                                 <?php else: ?>
-
                                     <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
-
                                 <?php endif; ?>
-
                             <?php endforeach; ?>
-
                         </select>  
-
                        <select id="userpanel-day" name="userpanel-day">
-
                             <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
-
                                 <?php if ( $day == $data->_encounterDetails->_day ): ?> 
-
                                     <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
-
                                 <?php else: ?>
-
                                     <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
-
                                 <?php endif; ?>
-
                             <?php endforeach; ?>
-
                         </select>  
-
                        <select id="userpanel-year" name="userpanel-year">
-
                             <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
-
                                 <?php if ( $year == $data->_encounterDetails->_year ): ?> 
-
                                     <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
-
                                 <?php else: ?>
-
                                     <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
-
                                 <?php endif; ?>
-
                             <?php endforeach; ?>
-
                         </select>
-
                     </td>
-
                 </tr>
-
                 <tr>
-
                     <th>Time (H:M UTC)</th>
-
                     <td>
-
                        <select id="userpanel-hour" name="userpanel-hour">
-
                             <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
-
                                 <?php if ( $hour == $data->_encounterDetails->_hour ): ?> 
-
                                     <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
-
                                 <?php else: ?>
-
                                     <option value="<?php echo $hour; ?>"><?php echo $hourValue; ?></option>
-
                                 <?php endif; ?>
-
                             <?php endforeach; ?>
-
                         </select>  
-
                        <select id="userpanel-minute" name="userpanel-minute">
-
                             <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
-
                                 <?php if ( $minute == $data->_encounterDetails->_minute ): ?> 
-
                                     <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
-
                                 <?php else: ?>
-
                                     <option value="<?php echo $minute; ?>"><?php echo $minuteValue; ?></option>
-
                                 <?php endif; ?>
-
                             <?php endforeach; ?>
-
                         </select>
-
                     </td>
-
                 </tr>
-
                 <tr>
-
                     <th>Screenshot</th>
-
                     <td><input id="userpanel-screenshot" type="file" name="userpanel-screenshot"></td>
-
                 </tr>
-
                 <tr>
-
                     <th>Video Links (Use ";" to separate links)</th>
-
                     <td><input id="userpanel-video" type="text" name="userpanel-video" value="<?php if (!empty($data->_encounterDetails->_video) ): ?><?php echo $data->_encounterDetails->_video; ?><?php endif; ?>"></td>
-
                  </tr>
-
             </tbody>
-
             <tfoot>
-
                 <tr>
-
                     <td colspan="2">
-
                         <input id="userpanel-active" type="hidden" name='active' value="Active">
-
                         <input id="userpanel-submit" type="submit" value="Submit">
-
                     </td>
-
                 </tr>
-
             </tfoot>
-
         </table>
-
     </form>
 
-
-
     <div id="screenshot-preview">
-
         <?php echo Template::getScreenshot($this->_guildDetails, $this->_encounterDetails); ?>
-
     </div>
-
 </div>

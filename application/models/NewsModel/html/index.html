@@ -29,8 +29,8 @@
         <div id="main-block">
             <?php if ( !empty($data->_videoLinks) ): ?>
                 <div id="videos-wrapper">
-
                     <div class="scroll-button left">&lt;</div>
+                    
                     <div id="media-pane">
                         <ul>
                             <?php foreach( $data->_videoLinks as $twitchId => $twitchDetails ): ?>
@@ -59,7 +59,7 @@
             <div id="standings-wrapper">
                 <?php $count = 0; foreach( $data->_guildStandings as $dungeonId => $dungeonTable ): ?>
                     <div class="table-wrapper standings medium">
-                        <table class="standings news">
+                        <table class="listing news">
                             <thead>
                             </thead>
                             <tbody>
@@ -111,28 +111,28 @@
 
                 <?php if ( !empty(CommonDataContainer::$rankSystemArray) ): ?>
                     <?php $count = 0; foreach( CommonDataContainer::$rankSystemArray as $systemId => $rankSystemDetails ): ?>
-                        <span id="system-selector-<?php echo $rankSystemDetails->_abbreviation; ?>" class="clickable <?php if ( $count == 0 ): ?> highlight<?php endif; ?> noselect"><?php echo $rankSystemDetails->_abbreviation; ?></span>
+                        <span id="system-selector-<?php echo $rankSystemDetails->_abbreviation; ?>" class="clickable <?php if ( $count == 0 ): ?> highlight<?php endif; ?> noselect side-ranking-systems-buttons"><?php echo $rankSystemDetails->_abbreviation; ?></span>
 
                         <?php $count++; ?>
                     <?php endforeach; ?>
 
                     <div id="dungeon-slider">
                         <?php $count = 0; foreach( $data->_guildRankings as $dungeonId => $dungeonDetails ): ?>
-                            <div id ="dungeon-rankings-clicker-<?php echo $dungeonId; ?>" class="side-rankings-header clickable noselect"><?php echo $dungeonDetails['name']; ?></div>
-                            <div id="dungeon-rankings-wrapper-<?php echo $dungeonId; ?>" class="block-subtitle-content <?php if ( $count > 0 ): ?>hidden <?php else: ?>active<?php endif; ?>">
+                            <div id ="dungeon-rankings-clicker-<?php echo $dungeonId; ?>" class="side-ranking-header clickable noselect"><?php echo $dungeonDetails['name']; ?></div>
+                            <div id="dungeon-rankings-wrapper-<?php echo $dungeonId; ?>" class="<?php if ( $count > 0 ): ?>hidden <?php else: ?>active<?php endif; ?>">
                                 <?php if ( !empty($dungeonDetails['data']) ): ?>
                                     <?php $system = 0; foreach( $dungeonDetails['data'] as $systemId => $guildArray ): ?>
-                                        <table id="dungeon-table-<?php echo $dungeonId; ?>-<?php echo $systemId; ?>" class="side-standings <?php if ( $system > 0 ): ?> hidden <?php endif; ?> <?php echo $systemId; ?>">
+                                        <table id="dungeon-table-<?php echo $dungeonId; ?>-<?php echo $systemId; ?>" class="side-block-listing <?php if ( $system > 0 ): ?> hidden <?php endif; ?> <?php echo $systemId; ?>">
                                             <thead>
                                             </thead>
                                             <tbody>
                                                 <?php foreach( $guildArray as $guildId => $guildDetails ): ?>
                                                     <tr>
                                                         <th><?php echo $guildDetails->guild; ?></th>
-                                                        <td rowspan="2" style="vertical-align:middle; text-align:right;"><b><?php echo $guildDetails->rank; ?></b></td>
+                                                        <td rowspan="2"><b><?php echo $guildDetails->rank; ?></b></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><span class="bold"><?php echo $guildDetails->points; ?></span> <?php echo $guildDetails->progress; ?></td>
+                                                        <td><span class="bold"><?php echo $guildDetails->points; ?></span> <span><?php echo $guildDetails->progress; ?></span></td>
                                                     </tr>
                                                 <?php endforeach; ?>
                                             </tbody>

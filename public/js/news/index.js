@@ -4,7 +4,7 @@ $(function() {
     var stopClick = false;
     var slideDelay = 500;
 
-    $('.side-rankings-header.clickable').click(function() {
+    $('.side-ranking-header.clickable').click(function() {
         if( stopClick ) { return; }
 
         var paneTitleId = $(this).prop('id').replace('dungeon-rankings-clicker-', '');
