@@ -7,8 +7,11 @@
 <?php foreach(glob("public/js/*.js") as $filename): ?>
         <script type='text/javascript' src='<?php echo FOLD_INDEX . $filename; ?>'></script>
 <?php endforeach; ?>
+<?php foreach(glob("public/js/global/*.js") as $filename): ?>
+        <script type='text/javascript' src='<?php echo FOLD_INDEX . $filename; ?>'></script>
+<?php endforeach; ?>
 <?php if ( isset($jsFile) && !empty($jsFile) ): ?>
-        <script type='text/javascript' src='<?php echo $jsFile; ?>'></script>
+        <script type='text/javascript' src='<?php echo FOLD_INDEX . $jsFile; ?>'></script>
 <?php endif; ?>
 <?php if ( LIVE == 1 ): ?>
         <script><?php echo GOOGLE_ANALYTICS; ?></script>

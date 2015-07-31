@@ -43,8 +43,8 @@ class Controller {
             $cssFile = 'public/css/' . $this->model . '/' . $this->model . '.css';
         }
 
-        if ( file_exists('public/js/' . $this->model . '/index.js') ) {
-            $jsFile = 'public/js/' . $this->model . '/index.js';
+        if ( file_exists('public/js/' . $this->model . '/' . $this->model . '.js') ) {
+            $jsFile = 'public/js/' . $this->model . '/' . $this->model . '.js';
         }
         
         define('TEMPLATE', "public/templates/default/");
