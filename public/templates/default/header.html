@@ -1,99 +1,20 @@
 <div id="menu-wrapper">
     <div id="menu-content">
-        <ul class="nav" style="float:left; margin-left:100px;">
-            <?php if ( MODULE_NEWS_SET == 1): ?>
-                <?php echo Functions::generateInternalHyperlink('news', '', '', '<li>News</li>', ''); ?>
-            <?php endif; ?>
-            <?php if ( MODULE_STANDINGS_SET == 1): ?>
-                <li>
-                    Progression Standings <?php echo $GLOBALS['images']['icon-dropdown']; ?>
-                    <div class="menu-sub">
-                        <?php foreach( CommonDataContainer::$tierArray as $tierId => $tierDetails): ?>
-                            <div class="menu-sub-header">
-                                <?php echo '(T' . $tierDetails->_tier . '/' . $tierDetails->_altTier . ') ' . $tierDetails->_name; ?>
-                                <div class="level-1">
-                                    <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails): ?>
-                                        <?php if ( $dungeonDetails->_tier != $tierDetails->_tier ): ?> <?php continue; endif; ?>
-                                        <div class="menu-sub-header"><?php echo Functions::generateInternalHyperlink('standings', $dungeonDetails, 'world', $dungeonDetails->_name, ''); ?>
-                                            <div class="level-1">
-                                                <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails): ?>
-                                                    <?php if ( $encounterDetails->_dungeonId != $dungeonId ): ?> <?php continue; endif; ?>
-                                                    <?php echo Functions::generateInternalHyperlink('standings', $encounterDetails, 'world', '<div class="menu-sub-header">' . $encounterDetails->_name . '</div>', ''); ?>
-                                                <?php endforeach; ?>
-                                            </div>
-                                            <?php if ( $dungeonDetails->_numOfEncounters > 0 ): ?><?php echo $GLOBALS['images']['icon-expand']; ?><?php endif; ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                                <?php if ( $tierDetails->_numOfDungeons > 0 ): ?><?php echo $GLOBALS['images']['icon-expand']; ?><?php endif; ?>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </li>
-            <?php endif; ?>
-            <?php if ( MODULE_RANKINGS_SET == 1): ?>
-                <li>
-                    Point Rankings <?php echo $GLOBALS['images']['icon-dropdown']; ?>
-                    <div class="menu-sub">
-                        <?php foreach( CommonDataContainer::$tierArray as $tierId => $tierDetails): ?>
-                            <div class="menu-sub-header">
-                                <?php echo Functions::generateInternalHyperlink('rankings', $tierDetails, 'world/' . POINT_SYSTEM_DEFAULT, '(T' . $tierDetails->_tier . '/' . $tierDetails->_altTier . ') ' . $tierDetails->_name, ''); ?>
-                                <div class="level-1">
-                                    <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails): ?>
-                                        <?php if ( $dungeonDetails->_tier != $tierDetails->_tier ): ?> <?php continue; endif; ?>
-                                            <?php echo Functions::generateInternalHyperlink('rankings', $dungeonDetails, 'world/' . POINT_SYSTEM_DEFAULT, '<div class="menu-sub-header">' . $dungeonDetails->_name . '</div>', ''); ?>
-                                    <?php endforeach; ?>
-                                </div>
-                                <?php if ( $tierDetails->_numOfDungeons > 0 ): ?><?php echo $GLOBALS['images']['icon-expand']; ?><?php endif; ?>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </li>
-            <?php endif; ?>
-            <?php if ( MODULE_SERVERS_SET == 1): ?>
-                <li>
-                    Servers <?php echo $GLOBALS['images']['icon-dropdown']; ?>
-                    <div class="menu-sub">
-                        <?php foreach( CommonDataContainer::$regionArray as $regionId => $regionDetails): ?>
-                            <div class="menu-sub-header">
-                                <?php echo $regionDetails->_regionImage . '<span style="vertical-align:middle;">' . $regionDetails->_name . '</span>'; ?>
-                                <div class="level-1 image">
-                                    <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
-                                        <?php if ( $serverDetails->_region != $regionDetails->_abbreviation ): ?> <?php continue; endif; ?>
-                                        <div class="menu-sub-header"><?php echo $serverDetails->_nameLink; ?></div>
-                                    <?php endforeach; ?>
-                                </div>
-                                <?php if ( $regionDetails->_numOfServers > 0 ): ?><?php echo $GLOBALS['images']['icon-expand']; ?><?php endif; ?>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </li>
-            <?php endif; ?>
-            <?php if ( MODULE_HOWTO_SET == 1): ?>
-                <?php echo Functions::generateInternalHyperlink('howto', '', '', '<li>How-To</li>', ''); ?>
-            <?php endif; ?>
-            <?php if ( MODULE_QUICKSUB_SET == 1): ?>
-                <li id="quick-activator" class="activatePopUp">Quick Kill Submission</li>
-            <?php endif; ?>
+        <ul class="nav" style="float:left;">
+            <?php echo Template::drawHeaderMenuItem('news', true); ?>
+            <?php echo Template::drawHeaderMenuDropdownItem('standings', false, 3, CommonDataContainer::$tierArray); ?>
+            <?php echo Template::drawHeaderMenuDropdownItem('rankings', false, 2, CommonDataContainer::$tierArray); ?>
+            <?php echo Template::drawHeaderMenuDropdownItem('servers', false, 0, CommonDataContainer::$regionArray); ?>
+            <?php echo Template::drawHeaderMenuItem('howto', true); ?>
+            <?php echo Template::drawHeaderMenuItem('quickSubmit', false); ?>
         </ul>
 
-        <ul class="nav" style="float:right; margin-right:100px;">
-            <?php if ( MODULE_LOGIN_SET == 1): ?>
-                <?php if ( isset($_SESSION['logged']) && $_SESSION['logged'] == 'yes'): ?>
-                    <?php echo Functions::generateInternalHyperlink('userpanel', '', '', '<li>Control Panel</li>', ''); ?>
-                    <li id="logout-activator" class="activatePopUp">Logout</li>
-                <?php else: ?>
-                    <li id="login-activator" class="activatePopUp">Login</li>
-                <?php endif; ?>
-            <?php endif; ?>
-            <?php if ( MODULE_REGISTER_SET == 1): ?>
-                <?php if ( !isset($_SESSION['logged']) ): ?>
-                    <?php echo Functions::generateInternalHyperlink('register', '', '', '<li>Register</li>', ''); ?>
-                <?php endif; ?>
-            <?php endif; ?>
-            <?php if ( MODULE_CONTACT_SET == 1): ?>
-                <li id="contact-activator" class="activatePopUp">Contact Us</li>
-            <?php endif; ?>
+        <ul class="nav" style="float:right;">
+            <?php echo Template::drawHeaderMenuItem('userpanel', true); ?>
+            <?php echo Template::drawHeaderMenuItem('login', false); ?>
+            <?php echo Template::drawHeaderMenuItem('logout', false); ?>
+            <?php echo Template::drawHeaderMenuItem('register', true); ?>
+            <?php echo Template::drawHeaderMenuItem('contactus', false); ?>
         </ul>
     </div>
 </div>

@@ -2,7 +2,7 @@
 
 html {
     background-color :#FFFFFF;
-    color: #444444;
+    color: #777777;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -421,7 +421,7 @@ div.menu-sub-header:hover > div.level-1 {
     color: #707070;
     min-width: 215px;
     text-align: left;
-    margin-left: 207px;
+    margin-left: 223px;
     margin-top: -35px;
 }
 

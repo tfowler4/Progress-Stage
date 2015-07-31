@@ -329,6 +329,137 @@ class Template {
         return $html;
     }
 
+    public static function drawHeaderMenuItem($modelName, $isHyperlink) {
+        $html = '';
+
+        switch ($modelName) {
+            case 'news':
+                if ( MODULE_NEWS_SET == 1 ) {
+                    $html = '<li>News</li>';
+
+                    if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('news', '', '', $html, ''); }
+                }
+                break;
+            case 'quickSubmit':
+                if ( MODULE_QUICKSUB_SET == 1 ) {
+                    $html = '<li id="quick-activator" class="activatePopUp">Quick Submission</li>';
+
+                    if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('quickSubmit', '', '', $html, ''); }
+                }
+                break;
+            case 'howto':
+                if ( MODULE_HOWTO_SET == 1 ) {
+                    $html = '<li>How-To</li>';
+
+                    if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('howto', '', '', $html, ''); }
+                }
+                break;
+            case 'register':
+                if ( MODULE_REGISTER_SET == 1 ) {
+                    if ( !isset($_SESSION['logged']) ) {
+                        $html = '<li>Register</li>';
+
+                        if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('register', '', '', $html, ''); }
+                    }
+                }
+                break;
+            case 'contactus':
+                if ( MODULE_CONTACT_SET == 1 ) {
+                    $html = '<li id="contact-activator" class="activatePopUp">Contact Us</li>';
+
+                    if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('contactus', '', '', $html, ''); }
+                }
+                break;
+            case 'userpanel':
+                if ( MODULE_USERPANEL_SET == 1 ) {
+                    if ( isset($_SESSION['logged']) && $_SESSION['logged'] == 'yes' ) {
+                        $html = '<li>Control Panel</li>';
+
+                        if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('userpanel', '', '', $html, ''); }
+                    }
+                }
+                break;
+            case 'login':
+                if ( MODULE_LOGIN_SET == 1 ) {
+                    if ( !isset($_SESSION['logged']) ) {
+                        $html = '<li id="login-activator" class="activatePopUp">Login</li>';
+
+                        if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('login', '', '', $html, ''); }
+                    }
+                }
+                break;
+            case 'logout':
+                if ( MODULE_LOGOUT_SET == 1 ) {
+                    if ( isset($_SESSION['logged']) && $_SESSION['logged'] == 'yes' ) {
+                        $html = '<li id="logout-activator" class="activatePopUp">Logout</li>';
+
+                        if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('logout', '', '', $html, ''); }
+                    }
+                }
+                break;
+        }
+
+        return $html;
+    }
+
+    public static function drawHeaderMenuDropdownItem($modelName, $isHyperlink, $numOfLevels, $topLevelArray) {
+        $html  = '';
+
+        switch ($modelName) {
+            case 'standings':
+            case 'rankings':
+                $html .= '<li>';
+                    if ( $modelName == 'standings') { $html .= 'Progression Standings ' . $GLOBALS['images']['icon-dropdown']; }
+                    if ( $modelName == 'rankings') { $html .= 'Point Rankings ' . $GLOBALS['images']['icon-dropdown']; }
+                    $html .= '<div class="menu-sub">';
+                        foreach( $topLevelArray as $tierId => $tierDetails) {
+                            $html .= '<div class="menu-sub-header">';
+                                $html .= '(T' . $tierDetails->_tier . '/' . $tierDetails->_altTier . ') ' . $tierDetails->_name;
+                                $html .= '<div class="level-1">';
+                                    foreach( $tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
+                                        if ( $modelName == 'standings') { $html .= '<div class="menu-sub-header">' . Functions::generateInternalHyperlink('standings', $dungeonDetails, 'world', $dungeonDetails->_name, ''); }
+                                        if ( $modelName == 'rankings' ) { $html .= '<div class="menu-sub-header">' . Functions::generateInternalHyperlink('rankings', $dungeonDetails, 'world/' . POINT_SYSTEM_DEFAULT, '<div class="menu-sub-header">' . $dungeonDetails->_name . '</div>', ''); }
+                                            if ( $numOfLevels > 2 ) {
+                                                $html .= '<div class="level-1">';
+                                                    foreach( $dungeonDetails->_encounters as $encounterId => $encounterDetails ) {
+                                                        if ( $modelName == 'standings') { $html .= Functions::generateInternalHyperlink('standings', $encounterDetails, 'world', '<div class="menu-sub-header">' . $encounterDetails->_name . '</div>', ''); }
+                                                    }
+                                                $html .= '</div>';
+                                                if ( $dungeonDetails->_numOfEncounters > 0 ) { $html .= $GLOBALS['images']['icon-expand']; }
+                                            }
+                                        $html .= '</div>';
+                                    }
+                                $html .= '</div>';
+                                if ( $tierDetails->_numOfDungeons > 0 ) { $html .= $GLOBALS['images']['icon-expand']; }
+                            $html .= '</div>';
+                        }
+                    $html .= '</div>';
+                $html .= '</li>';
+                break;
+            case 'servers':
+                $html .= '<li>';
+                    $html .= 'Servers ' . $GLOBALS['images']['icon-dropdown'];
+                    $html .= '<div class="menu-sub">';
+                        foreach( $topLevelArray as $regionId => $regionDetails ) {
+                            $html .= '<div class="menu-sub-header">';
+                                $html .= $regionDetails->_regionImage . '<span style="vertical-align:middle;">' . $regionDetails->_name . '</span>';
+                                $html .= '<div class="level-1 image">';
+                                    foreach( $regionDetails->_servers as $serverId => $serverDetails ) {
+                                        if ( $serverDetails->_region != $regionDetails->_abbreviation ) { continue; }
+                                        $html .= '<div class="menu-sub-header">' . $serverDetails->_nameLink . '</div>';
+                                    }
+                                $html .= '</div>';
+                                if ( $regionDetails->_numOfServers > 0 ) { $html .= $GLOBALS['images']['icon-expand']; }
+                            $html .= '</div>';
+                        }
+                    $html .= '</div>';
+                $html .= '</li>';
+                break;
+        }
+
+        return $html;
+    }
+
     public static function getPopupForm($formId) {
         include_once ABSOLUTE_PATH . '/public/templates/default/forms.html';
     }

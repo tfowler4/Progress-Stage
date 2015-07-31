@@ -11,7 +11,9 @@ define('MODULE_TOS_SET',       1);
 define('MODULE_PRIVACY_SET',   1);
 define('MODULE_QUICKSUB_SET',  1);
 define('MODULE_CONTACT_SET',   1);
+define('MODULE_USERPANEL_SET', 1);
 define('MODULE_LOGIN_SET',     1);
+define('MODULE_LOGOUT_SET',    1);
 
 $GLOBALS['server_rankings']['header_stats']["Server"]           = "name";
 $GLOBALS['server_rankings']['header_stats']["Guilds"]           = "guilds";
