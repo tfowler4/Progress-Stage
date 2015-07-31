@@ -168,6 +168,7 @@ table.side-block-listing tbody tr th {
     height: 32px;
     line-height: 30px;
     font-size: 14px;
+    text-align: left;
     padding: 0px 4px 0px 4px;
 }
 
