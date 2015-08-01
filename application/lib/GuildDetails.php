@@ -178,30 +178,25 @@ class GuildDetails {
             // Generate Encounter Ranking
             $rankEncounters = new stdClass();
             $encounterArray = explode("~~", $this->_rankEncounter);
-            //$systemArr          = explode("$$", $this->_rankEncounter);
-            
-            //for ( $system = 0; $system < count($systemArr); $system++ ) {
-                //$encounters     = $systemArr[$system];
-                //$encounterArr   = explode('~~', $encounters);
-                
-                foreach ( $encounterArray as $encounter ) {
-                     if ( empty($encounter) ) { continue; }
 
-                    $encounterDetails = explode('<>', $encounter);
-                    $encounterId      = $encounterDetails[0];
+            foreach ( $encounterArray as $encounter ) {
+                 if ( empty($encounter) ) { continue; }
 
-                    $encounterRankArray = explode('++', $encounterDetails[1]);
+                $encounterDetails = explode('<>', $encounter);
+                $encounterId      = $encounterDetails[0];
 
-                    foreach( $encounterRankArray as $rankDetails ) {
-                        $rankSystemArray = explode('||', $rankDetails);
+                $encounterRankArray = explode('++', $encounterDetails[1]);
 
-                        $rankSystem = $rankSystemArray[0];
-                        $identifier = $encounterId . '_' . $rankSystem;
+                foreach( $encounterRankArray as $rankDetails ) {
+                    $rankSystemArray = explode('||', $rankDetails);
 
-                        $rankEncounters->$identifier    = new RankDetails($rankSystemArray, $encounterId);
-                    }
+                    $rankSystem = $rankSystemArray[0];
+                    $identifier = $encounterId . '_' . $rankSystem;
+
+                    $rankEncounters->$identifier    = new RankDetails($rankSystemArray, $encounterId);
                 }
-            //}
+            }
+
             $property->_rankEncounters = $rankEncounters;
         } elseif ( $dataType == 'dungeons' ) {
             // Generate Dungeon Ranking
@@ -489,11 +484,9 @@ class GuildDetails {
         }
     }
 
-    public function __destruct() {
-
-    }
-
     public function __unset($name) {
         unset($this->$name);
     }
+
+    public function __destruct() {}
 }

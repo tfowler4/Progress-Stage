@@ -35,11 +35,11 @@ class NewsModel extends Model {
         $this->_article = strtolower(str_replace("_"," ", $this->_article)); 
         $this->_article = strtolower(str_replace("poundsign","#", $this->_article));
 
-        $this->_videoLinks     = $this->getLiveVideos(); //Not Ready for Launch
-        $this->_guildRankings  = $this->getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
-        $this->_guildStandings = $this->getStandings(self::STANDINGS_DISPLAY, self::LIMIT_GUILD_STANDINGS);
-        $this->_recentRaids    = $this->getRecentRaids(self::LIMIT_RECENT_RAIDS);
+        $this->_videoLinks     = $this->getLiveVideos();
         $this->_newsArticles   = $this->getArticles($this->article, self::LIMIT_NEWS);
+        $this->_guildStandings = $this->getStandings(self::STANDINGS_DISPLAY, self::LIMIT_GUILD_STANDINGS);
+        $this->_guildRankings  = $this->getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
+        $this->_recentRaids    = $this->getRecentRaids(self::LIMIT_RECENT_RAIDS);
 
         $this->_standingsTableHeader = self::HEADER_STANDINGS;
     }
@@ -84,7 +84,7 @@ class NewsModel extends Model {
         foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
             $this->_dungeonGuildArray[$guildId] = clone($guildDetails);
 
-            //$guildDetails->generateEncounterDetails('dungeon', $dungeonId);
+            $guildDetails->generateEncounterDetails('dungeon', $dungeonId);
 
             if ( empty($guildDetails->_dungeonDetails->$dungeonId->_complete) ) { continue; }
 
@@ -134,7 +134,7 @@ class NewsModel extends Model {
         $dungeonCount = 0;
 
         foreach ( $tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
-            if ( $dungeonCount > 1 ) { break; }
+            //if ( $dungeonCount > 1 ) { break; }
 
             $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
             $temporarySortArray  = array();
@@ -227,7 +227,6 @@ class NewsModel extends Model {
 
         foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
             $guildDetails->generateRankDetails('dungeons');
-            $guildDetails->generateEncounterDetails('');
 
             if ( !isset($guildDetails->_rankDetails->_rankDungeons) ) { continue; }
 
@@ -313,7 +312,7 @@ class NewsModel extends Model {
             if ( !isset(CommonDataContainer::$guildArray[$guildId]) ) { continue; }
 
             $guildDetails = CommonDataContainer::$guildArray[$guildId];
-            //$guildDetails->generateEncounterDetails('');
+            $guildDetails->generateEncounterDetails('encounter', $encounterId);
 
             if ( !isset($guildDetails->_encounterDetails->$encounterId) ) { continue; }
 
