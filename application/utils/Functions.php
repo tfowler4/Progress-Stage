@@ -493,28 +493,7 @@ class Functions {
     }
 
     public static function sendMail($emailAddress, $emailSubject, $emailMessage, $emailHeaders) {
-        $mail = new PHPMailer();
-
-        $mail->SMTPDebug = 0;                               // Enable verbose debug output
-        $mail->Debugoutput = 'html';
-
-        $mail->isSMTP();                                      // Set mailer to use SMTP
-        $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
-        $mail->SMTPAuth = true;                               // Enable SMTP authentication
-        $mail->Username = 'terrijonfowler@gmail.com';                 // SMTP username
-        $mail->Password = 'Trinity74108520!';                           // SMTP password
-        $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-        $mail->Port = 587;                                    // TCP port to connect to
-
-        $mail->From = EMAIL_ADMIN;
-        $mail->FromName = SITE_TITLE_SHORT . ' Administrator';
-        $mail->addAddress('terrijonfowler@gmail.com');     // Add a recipient
-
-        $mail->isHTML(true);                                  // Set email format to HTML
-        $mail->Subject = $emailSubject;
-        $mail->Body    = $emailMessage;
-
-        return $mail->send();
+        return mail($emailAddress, $emailSubject, $emailMessage, $emailHeaders);
     }
 
     public static function showDialogWindow($dialogOptions) {
