@@ -6,7 +6,7 @@
             <div id="title-flag"><?php echo Functions::getImageFlag($data->_detailsPane->_country, 'medium'); ?></div>
             <div id="title-text-wrapper">
                 <div id="title-name"><?php echo $data->_detailsPane->_name; ?></div>
-                <div id="title-server">Progression Standings</div>
+                <div id="title-server"><?php echo '(T' . $data->_tierDetails->_tier . '/' . $data->_tierDetails->_altTier . ') ' . $data->_tierDetails->_name; ?> Progression Standings</div>
             </div>
 
             <div style="float: right;">

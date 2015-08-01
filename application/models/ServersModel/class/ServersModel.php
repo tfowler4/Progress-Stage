@@ -66,20 +66,15 @@ class ServersModel extends Model {
 
         $this->_tierDetails   = Functions::getTierByName($this->_tier);
         $this->_serverDetails = Functions::getServerByName($this->_server);
+        $this->_serverDetails->getGuilds();
 
         if ( empty($this->_serverDetails) || empty($this->_tierDetails) ) { Functions::sendTo404(); }
-
-        // Elminate Guilds not on server
-        foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
-            if ( $guildDetails->_server != $this->_serverDetails->_name ) { 
-                unset(CommonDataContainer::$guildArray[$guildId]);
-            }
-        }
 
         $this->_standingsArray = $this->getStandings($this->_tierDetails);
         $this->_detailsPane    = $this->_serverDetails;
         $this->_tableHeader    = self::TABLE_HEADER_DEFAULT;
-
+        $this->_serverDetails->getFirstEncounterKills();
+        
         $this->title = $this->_serverDetails->_name . ' Raid Progression';
     }
 
@@ -88,7 +83,7 @@ class ServersModel extends Model {
         $this->_dungeonGuildArray = array();
         $dungeonId                = $dungeonDetails->_dungeonId;
 
-        foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
+        foreach ( $this->_serverDetails->_guilds as $guildId => $guildDetails ) {
             $this->_dungeonGuildArray[$guildId] = clone($guildDetails);
 
             $guildDetails->generateEncounterDetails('dungeon', $dungeonId);

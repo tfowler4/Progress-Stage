@@ -11,6 +11,7 @@ class Server {
     protected $_numOfGuilds = 0;
     protected $_numOfRegionFirsts = 0;
     protected $_numOfWorldFirsts = 0;
+    protected $_guilds;
 
     public function Server($params) {
         $this->_serverId        = $params['server_id'];
@@ -35,7 +36,25 @@ class Server {
         return isset($this->$name);
     }
 
-    public function __destruct() {
-        
+    public function getGuilds() {
+        $guilds = new stdClass();
+
+        foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
+            if ( $guildDetails->_server == $this->_name ) {
+                $guilds->$guildId = $guildDetails;
+                $this->_numOfGuilds++; 
+            }
+        }
+
+        $this->_guilds = $guilds;
     }
+
+    public function getFirstEncounterKills() {
+        foreach( $this->_guilds as $guildId => $guildDetails ) {
+            $this->_numOfRegionFirsts += $guildDetails->_regionFirst;
+            $this->_numOfWorldFirsts  += $guildDetails->_worldFirst;
+        }
+    }
+
+    public function __destruct() {}
 }
