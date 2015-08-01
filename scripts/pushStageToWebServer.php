@@ -2,7 +2,7 @@
 
 include 'script.php';
 
-class pushStageToWebServer {
+class PushStageToWebServer {
     static protected $_login;
     static protected $_connection;
     static protected $_localFileLocation;
@@ -21,8 +21,7 @@ class pushStageToWebServer {
         // To check connection and login
         if ( (!self::$_connection) || (!self::$_login) ) {
             die;
-        } 
-
+        }
         // To set listing of server files
         self::$_serverDirectory = self::getWebServerListings(self::$_connection, self::REMOTE_LOCATION);
 
@@ -112,4 +111,4 @@ class pushStageToWebServer {
     }
 }
 
-pushStageToWebServer::init();
+PushStageToWebServer::init();

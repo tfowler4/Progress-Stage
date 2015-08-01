@@ -1,7 +1,7 @@
 <?php
 include 'script.php';
 
-class importCurrentBackupFileToDB {
+class ImportCurrentBackupFileToDB {
 	static protected $_login;
 	static protected $_connection;
     static protected $_serverBackupPath;
@@ -22,7 +22,6 @@ class importCurrentBackupFileToDB {
         if ( (!self::$_connection) || (!self::$_login) ) {
             die;
         }
-
         // To set the backup file
         $lastestBackupFile = self::getCurrentBackupFile(self::$_connection, self::$_serverBackupPath);
 
@@ -82,5 +81,5 @@ class importCurrentBackupFileToDB {
 	}
 }
 
-importCurrentBackupFileToDB::init();
+ImportCurrentBackupFileToDB::init();
 
