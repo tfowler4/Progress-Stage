@@ -251,11 +251,12 @@ class UpdateAllPointRankings extends Script {
             if ( $newRegionRank == $currentRegionRank && $currentRegionTrend == '--' ) { $trendDetails['trend']['region'][$region] = '--'; }
             if ( $newCountryRank == $currentCountryRank && $currentCountryTrend == '--' ) { $trendDetails['trend']['country'][$country] = '--'; }
 
+            // TODO: Update to ensure trending is not getting overwritten
             // Rank did not change and you have a trend value keep it
-            if ( $newWorldRank == $currentWorldRank && $currentWorldTrend != '--' ) { $trendDetails['trend']['world'] = $currentWorldTrend; }
-            if ( $newServerRank == $currentServerRank && $currentServerTrend != '--' ) { $trendDetails['trend']['server'][$server] = $currentServerTrend; }
-            if ( $newRegionRank == $currentRegionRank && $currentRegionTrend != '--' ) { $trendDetails['trend']['region'][$region] = $currentRegionTrend; }
-            if ( $newCountryRank == $currentCountryRank && $currentCountryTrend != '--' ) { $trendDetails['trend']['country'][$country] = $currentCountryTrend; }
+            //if ( $newWorldRank == $currentWorldRank && $currentWorldTrend != '--' ) { $trendDetails['trend']['world'] = $currentWorldTrend; }
+            //if ( $newServerRank == $currentServerRank && $currentServerTrend != '--' ) { $trendDetails['trend']['server'][$server] = $currentServerTrend; }
+            //if ( $newRegionRank == $currentRegionRank && $currentRegionTrend != '--' ) { $trendDetails['trend']['region'][$region] = $currentRegionTrend; }
+            //if ( $newCountryRank == $currentCountryRank && $currentCountryTrend != '--' ) { $trendDetails['trend']['country'][$country] = $currentCountryTrend; }
 
             // Prev Rank
             $trendDetails['prev-rank']['world']             = $currentWorldRank;
