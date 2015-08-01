@@ -56,7 +56,7 @@ var News = function() {
     $(document).on('click', '.scroll-button-recent', function() {
         var numOfRecentItems  = Math.ceil($("#latest-kills  ul li").length / 8);
         var recentSlideDelay  = 500;
-        var recentSlideWidth  = 1198;
+        var recentSlideWidth  = 1206;
         var maxRecentPaneSize = numOfRecentItems * recentSlideWidth;
 
         if( stopClick ) { return; }

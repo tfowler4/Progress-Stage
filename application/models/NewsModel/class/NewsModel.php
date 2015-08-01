@@ -12,7 +12,7 @@ class NewsModel extends Model {
     const PAGE_TITLE            = GAME_NAME_1 . '\'s Raid Progression Tracker';
     const PAGE_DESCRIPTION      = GAME_NAME_1 . '\s #1 Resource for raid progression tracking.';
     const LIMIT_NEWS            = 3;
-    const LIMIT_RECENT_RAIDS    = 56;
+    const LIMIT_RECENT_RAIDS    = 100;
     const LIMIT_GUILD_RANKINGS  = 10;
     const LIMIT_GUILD_STANDINGS = 10;
     const STANDINGS_DISPLAY     = 1;
