@@ -37,7 +37,7 @@ class ImportCurrentBackupFileToDB {
     static public function executeImportCommand($file) {
 
         // To import file into target database; DB must already exist
-        $command ='C:\xampp\mysql\bin\mysql -h' . DB_HOST .' -u' . DB_USER .' -p' . DB_PASS .' ' .  DB_NAME .' < ' . $file; //. ' > stdout_output.txt 2>stderr_output.txt';
+        $command ='mysql -h' . DB_HOST .' -u' . DB_USER .' -p' . DB_PASS .' ' .  DB_NAME .' < ' . $file; //. ' > stdout_output.txt 2>stderr_output.txt';
 
         exec($command, $output=array(), $msg);
 
