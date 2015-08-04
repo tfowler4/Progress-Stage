@@ -6,6 +6,7 @@ define('MODULE_RANKINGS_SET',  1);
 define('MODULE_SERVERS_SET',   1);
 define('MODULE_HOWTO_SET',     1);
 define('MODULE_GUILD_SET',     1);
+define('MODULE_SEARCH_SET',    1);
 define('MODULE_REGISTER_SET',  1);
 define('MODULE_TOS_SET',       1);
 define('MODULE_PRIVACY_SET',   1);

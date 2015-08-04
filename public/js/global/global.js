@@ -76,6 +76,42 @@ $(document).ready(function(){
         $(".overlay").fadeToggle('fast');
     });
 
+    var searchGuilds = function(event) {
+        event.preventDefault();
+
+        var currentPageUrl = document.URL;
+        var searchTerm     = $('#search-input').val();
+
+        $(".overlay").fadeToggle('fast');
+
+        // Ajax call to retrieve spreadsheet html
+        $.ajax({
+            url: currentPageUrl,
+            type: 'POST',
+            data: { request: 'search', queryTerm: searchTerm, formId: 'search'},
+            success: function(data) {
+                var searchResultsDiv = $('#popup-wrapper');
+
+                searchResultsDiv.toggleClass('centered');
+                searchResultsDiv.fadeToggle('fast');
+                searchResultsDiv.html(data);
+
+                // To help resizing with vertical scrollbar
+                var currentWidth = parseInt(searchResultsDiv.find('div').css('width').replace('px', ''));
+                var newWidth     = currentWidth + 50;
+
+                searchResultsDiv.find('div').css('width', newWidth);
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            }
+        });
+    };
+
+    $('#search-form').bind('submit', searchGuilds);
+    $('#search-activator').bind('click', searchGuilds);
+
     $('.spreadsheet').click(function(event){
         event.preventDefault();
 

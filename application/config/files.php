@@ -96,6 +96,7 @@ $GLOBALS['images']['medal_gold']       = "<img style='height:16px; width:16px;' 
 $GLOBALS['images']['medal_silver']     = "<img style='height:16px; width:16px;'   src='" . FOLD_GRAPHICS . "icon_medal_silver.png'          alt='2nd'>";
 $GLOBALS['images']['medal_bronze']     = "<img style='height:16px; width:16px;'   src='" . FOLD_GRAPHICS . "icon_medal_bronze.png'          alt='3rd'>";
 $GLOBALS['images']['loading']          = "<img style='height:100px; width:100px;' src='" . FOLD_GRAPHICS . "load_spinner.gif'               alt='Loading'>";
+$GLOBALS['images']['search']           = "<img style='height:15ppx; width:15px; margin-left:-10px; vertical-align:middle;' src='" . FOLD_GRAPHICS . "icon_search.png'               alt='Search'>";
 
 $GLOBALS['images']['icon-dropdown']    = "<img style='height:10px; width:10px; vertical-align:middle;'   src='" . FOLD_GRAPHICS . "icon-dropdown.png' alt='Dropdown'>";
 $GLOBALS['images']['icon-expand']      = "<div style='display:inline-block; position:absolute; right:5px;''><img style='height:8px; width:8px;' src='" . FOLD_GRAPHICS . "icon-expand.png' alt='Expand'></div>";

@@ -238,4 +238,40 @@
             </table>
         </form>
     </div>
+<?php elseif ($formId == 'search'): ?>
+    <?php $searchResults = GuildSearch::getSearchResults(); ?>
+
+    <div class="vertical-separator"></div>
+    <div class="table-wrapper">
+        <table class="listing">
+            <thead>
+            </thead>
+            <tbody>
+                <tr>
+                    <th class="subTitle" colspan="4">Guild Search Results</th>
+                </tr>
+                <?php if ( !empty($searchResults) ): ?>
+                    <tr>
+                        <th class="subHeader">&nbsp;</th>
+                        <th class="subHeader">Guild</th>
+                        <th class="subHeader">Server</th>
+                        <th class="subHeader">Region</th>
+                    </tr>
+                    <?php foreach ( $searchResults as $guildId => $guildDetails ): ?>
+                        <tr>
+                            <td></td>
+                            <td><?php echo $guildDetails->_nameLink; ?></td>
+                            <td><?php echo $guildDetails->_serverLink; ?></td>
+                            <td><?php echo $guildDetails->_region; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td>Your search returned 0 results</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+            </tfoot>
+        </table>
+    </div>
 <?php endif; ?>

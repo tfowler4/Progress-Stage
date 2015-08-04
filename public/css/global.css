@@ -346,7 +346,7 @@ span.highlight {
     background-color: #FFFFFF;
     max-height: 800px;
     max-width: 95%;
-    overflow: auto;
+    overflow-y: auto;
 }
 
 .popup-window .table-wrapper {
@@ -448,7 +448,6 @@ ul.nav li {
     margin-right: 0px;
     padding-left: 10px;
     padding-right: 10px;
-
    transition: color .15s ease-in-out;
    -moz-transition: color .15s ease-in-out;
    -webkit-transition: color .15s ease-in-out;
@@ -457,7 +456,6 @@ ul.nav li {
 ul.nav li:hover {
     color: #FFFFFF;
     cursor: default;
-
 }
 
 ul.nav li a:hover {
@@ -487,6 +485,17 @@ div.menu-sub a:hover {
     position: fixed;
     top: 0;
 }
+
+input#search-input {
+    height: 20px;
+    width: 300px;
+    background-color: #CCCCCC;
+    border: 1px solid #CCCCCC;
+    border-radius: 10px;
+    padding: 0px 5px 0px 5px;
+}
+
+input#search-input:focus { outline: 0; }
 
 /*
     ARTICLE
