@@ -130,12 +130,6 @@ class WeeklyRaidingReport extends Script {
     }
 
     public static function createSocialMediaPosts() {
-        //Logger::log('INFO', 'Posting to Google+...');
-        //create_post_google($news_details['title'], 1);
-        
-        //Logger::log('INFO', 'Posting to Facebook...');
-        //Functions::postFacebook(self::$reportArticle->title, 1);
-
         Logger::log('INFO', 'Posting to Twitter...');
         Functions::postTwitter(self::$reportArticle->title, 1);
     }

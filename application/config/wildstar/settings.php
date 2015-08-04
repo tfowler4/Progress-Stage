@@ -26,9 +26,7 @@ define('COMPANY_2',            'NCSoft');
 define('LINK_COMPANY_1',       'http://www.carbinestudios.com');
 define('LINK_COMPANY_2',       'http://www.ncsoft.com');
 define('LINK_GAME_1',          'http://www.wildstar-online.com');
-define('LINK_FACEBOOK',        'http://www.facebook.com/WildstarProgress');
 define('LINK_TWITTER',         'http://twitter.com/WildstarProgres');
-define('LINK_GOGGLE',          'http://plus.google.com/+Wildstar-progress/');
 define('COPYRIGHT',            '&copy; ' . RELEASE_YEAR . ' ' . SITE_TITLE . ' - All Rights Reserved.');
 
 define('FACTIONS',   serialize(array('Exiles', 'Dominion')));
@@ -38,22 +36,8 @@ define('GOOGLE_ANALYTICS', "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=
                             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
                             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
                             ga('create', 'UA-39972522-3', 'wildstar-progress.com');
                             ga('send', 'pageview');");
-
-// Go to Graph API Explorer
-// Select Application (WildStar Progress)
-// Click Get Access Token
-// Place Access Token in this url
-// https://graph.facebook.com/oauth/access_token?client_id=816307315051965&client_secret=97e6d3e3e7f6decc497428ec53b08cdd&grant_type=fb_exchange_token&fb_exchange_token=***ACCESS TOKEN HERE***
-
-// Facebook
-//define('FACEBOOK_APP_ID',     '252155658285137');
-//define('FACEBOOK_PAGE_ID',    '356564944469227');
-//define('FACEBOOK_SECRET',     '9b0e30f265697ff9d55bfb4ccd8f260b');
-//define('FACEBOOK_TOKEN_USER', 'CAADlVZABwsFEBAAS2czItS7exDWsudNhPoQHbd6OP40W8mBE7OQM1zSiC9APeYzbDyR2M7uFHjSV2c9AfnZACPrMyxaVIsYZAY3UN2lyZAJCCokF9sCLtOMou6z8AByhDqcelHZBS2dZABhQtRvYzRbIxMqEXks7ZBrwOZAaqRrv84SD1lRwhLToZB53RSEHgd3wZD');
-//define('FACEBOOK_TOKEN_APP', '252155658285137|54xneiLOuxQkyAaTQ9Z6udmo3Xk');
 
 // Twitter
 define('TWITTER_KEY',          'RXbt89WmtcSMxxoBQvXxw');

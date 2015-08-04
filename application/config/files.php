@@ -11,7 +11,6 @@ define('FOLD_PUBLIC', HOST_NAME . '/public');
 
 define('FOLD_CONFIG',   FOLD_APP . '/config/');
 define('FOLD_MODELS',   FOLD_APP . '/models/');
-define('FOLD_FACEBOOK', FOLD_APP . '/facebook/');
 
 define('FOLD_CSS',        FOLD_PUBLIC . '/css/');
 define('FOLD_ERRORS',     FOLD_PUBLIC . '/errors/');
@@ -79,11 +78,7 @@ define('PAGE_DIRECTORY',       FOLD_INDEX . 'guilddirectory/');
 define('PAGE_ADMIN',           FOLD_INDEX . '/administrator');
 
 $GLOBALS['images']['twitter']          = "<img style='height:35px; width:35px; vertical-align:middle;'   src='" . FOLD_GRAPHICS . "icon_social_twitter.png'        alt='Follow us on Twitter!'>";
-$GLOBALS['images']['facebook']         = "<img style='height:35px; width:35px; vertical-align:middle;'   src='" . FOLD_GRAPHICS . "icon_social_facebook.png'       alt='Follow us on Facebook!'>";
-$GLOBALS['images']['google']           = "<img style='height:16px; width:16px;'   src='" . FOLD_GRAPHICS . "icon_social_google.png'         alt='Follow us on Google+!'>";
 $GLOBALS['images']['twitter_small']    = "<img style='height:20px; width:20px;'   src='" . FOLD_GRAPHICS . "icon_social_twitter_small.png'  alt='Follow us on Twitter!'>";
-$GLOBALS['images']['facebook_small']   = "<img style='height:20px; width:20px;'   src='" . FOLD_GRAPHICS . "icon_social_facebook_small.png' alt='Follow us on Facebook!'>";
-$GLOBALS['images']['google_small']     = "<img style='height:20px; width:20px;'   src='" . FOLD_GRAPHICS . "icon_social_google_small.png'   alt='Follow us on Google+!'>";
 $GLOBALS['images']['arrow']            = "<img style='height:6px; width:9px;'     src='" . FOLD_GRAPHICS . "arrow_down.png'                 alt='Arrow'>";
 $GLOBALS['images']['icon_game_1']      = "<img style='height:40px; width:93px;'   src='" . FOLD_GRAPHICS . "icon_game_1.png'                alt='" . GAME_NAME_1 . " Homepage'>";
 $GLOBALS['images']['trend_up']         = "<img style='height:20px; width:20px;'   src='" . FOLD_GRAPHICS . "icon_trend_up.png'              class='trend-icon' alt='T-Up'>";

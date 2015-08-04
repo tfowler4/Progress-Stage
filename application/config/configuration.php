@@ -50,9 +50,6 @@ foreach ( glob($_SERVER['DOCUMENT_ROOT'] . '/' . DOMAIN . '/application/config/*
     if ( $fileName != $_SERVER['DOCUMENT_ROOT'] . '/' . DOMAIN . '/application/config/configuration.php' ) { include $fileName; }
 }
 
-// Facebook
-include ABSOLUTE_PATH . '/library/facebook/src/facebook.php';
-
 // Twitter
 include ABSOLUTE_PATH . '/library/twitter/codebird-php-master/src/codebird.php';
 
