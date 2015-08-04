@@ -364,6 +364,7 @@ span.highlight {
 */
 #menu-wrapper {
     max-width: 1920px;
+    min-width: 1336px;
     width: 100%;
     height: 35px;
     margin-left: auto;
