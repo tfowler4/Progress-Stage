@@ -228,10 +228,10 @@ class UpdateAllPointRankings extends Script {
             $currentRegionRank  = $rankValues->_rank->_region;
             $currentCountryRank = $rankValues->_rank->_country;
 
-            $currentWorldTrend   = $rankValues->_trend->_world;
-            $currentServerTrend  = $rankValues->_trend->_server;
-            $currentRegionTrend  = $rankValues->_trend->_region;
-            $currentCountryTrend = $rankValues->_trend->_country;
+            $currentWorldTrend   = ( !empty($rankValues->_trend->_world) ? $rankValues->_trend->_world : '--' );
+            $currentServerTrend  = ( !empty($rankValues->_trend->_server) ? $rankValues->_trend->_server : '--' );
+            $currentRegionTrend  = ( !empty($rankValues->_trend->_region) ? $rankValues->_trend->_region : '--' );
+            $currentCountryTrend = ( !empty($rankValues->_trend->_country) ? $rankValues->_trend->_country : '--' );
 
             // Rank went down Current Rank 1 New Rank 5, Trend = -4
             if ( $newWorldRank < $currentWorldRank ) { $trendDetails['trend']['world'] = $newWorldRank - $currentWorldRank; }
@@ -240,7 +240,7 @@ class UpdateAllPointRankings extends Script {
             if ( $newCountryRank < $currentCountryRank ) { $trendDetails['trend']['country'][$country] = $newCountryRank - $currentCountryRank; }
 
             // Rank went up Current Rank 5 New Rank 1, Trend = +4
-            if ( $newWorldRank > $currentWorldRank ) { $trendDetails['trend']['world'] = $currentWorldRank- $newWorldRank; }
+            if ( $newWorldRank > $currentWorldRank ) { $trendDetails['trend']['world'] = $currentWorldRank - $newWorldRank; }
             if ( $newServerRank > $currentServerRank ) { $trendDetails['trend']['server'][$server] = $currentServerRank - $newServerRank; }
             if ( $newRegionRank > $currentRegionRank ) { $trendDetails['trend']['region'][$region] = $currentRegionRank - $newRegionRank; }
             if ( $newCountryRank > $currentCountryRank ) { $trendDetails['trend']['country'][$country] = $currentCountryRank - $newCountryRank; }
