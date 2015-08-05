@@ -251,6 +251,12 @@ class UpdateAllPointRankings extends Script {
             if ( $newRegionRank == $currentRegionRank && $currentRegionTrend == '--' ) { $trendDetails['trend']['region'][$region] = '--'; }
             if ( $newCountryRank == $currentCountryRank && $currentCountryTrend == '--' ) { $trendDetails['trend']['country'][$country] = '--'; }
 
+            // Rank did not change and you have no current trend value (empty)
+            if ( $newWorldRank == $currentWorldRank && empty($currentWorldTrend) ) { $trendDetails['trend']['world'] = '--'; }
+            if ( $newServerRank == $currentServerRank && empty($currentServerTrend) ) { $trendDetails['trend']['server'][$server] = '--'; }
+            if ( $newRegionRank == $currentRegionRank && empty($currentRegionTrend) ) { $trendDetails['trend']['region'][$region] = '--'; }
+            if ( $newCountryRank == $currentCountryRank && empty($currentCountryTrend) ) { $trendDetails['trend']['country'][$country] = '--'; }
+
             // TODO: Update to ensure trending is not getting overwritten
             // Rank did not change and you have a trend value keep it
             //if ( $newWorldRank == $currentWorldRank && $currentWorldTrend != '--' ) { $trendDetails['trend']['world'] = $currentWorldTrend; }
