@@ -384,29 +384,7 @@ class Functions {
         return number_format($points, 2, '.', ',');
     }
 
-    /*****DATA LOGGING*****/
-    public static function logEntry($severity, $message) {
-        if ( $severity == 0 ) { $severity = "INFO"; }
-        if ( $severity == 1 ) { $severity = "DEBUG"; }
-        if ( $severity == 2 ) { $severity = "WARN"; }
-        if ( $severity == 3 ) { $severity = "ERROR"; }
-
-        $year           = date('Y');
-        $month          = date('n')."-".date('M');
-        $current_date   = date('Y-m-d');
-        $log_date       = date('Y-m-d H:i');
-        $log_path       = strtolower("{$_SERVER['DOCUMENT_ROOT']}{$GLOBALS['fold_logs']}{$year}/{$month}");
-        $log_file       = strtolower("{$log_path}/{$GLOBALS['site_title']}-{$current_date}.txt");
-
-        if ( !file_exists($log_path) ) { mkdir($log_path, 0777, true); }
-
-        $handle = fopen($log_file, 'a+');
-
-        fwrite($handle, "$severity | $log_date | ".session_id()." | $message"."\n");
-
-        fclose($handle);
-    }
-
+    /*****GET DATA*****/
     public static function getServerByName($serverName) {
         $serverName = str_replace("_", " ", $serverName);
 

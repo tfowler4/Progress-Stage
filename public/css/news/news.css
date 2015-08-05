@@ -1,13 +1,13 @@
 .scroll-button-recent {
     display: inline-block;
     opacity: 0.25;
-    height: 60px;
+    height: 90px;
     width: 46px;
     color: #000;
     font-size: 38px;
     font-family: Verdana, Geneva, sans-serif;
     vertical-align: middle;
-    line-height: 60px;
+    line-height: 90px;
     cursor: default;
     text-align: center;
     -webkit-user-select: none;
@@ -125,7 +125,7 @@
 #recent-raids-wrapper {
     display: inline-block;
     width: 1336px;
-    height: 60px;
+    height: 90px;
     text-align: left;
     vertical-align: top;
 }
@@ -133,7 +133,7 @@
 #latest-kills {
     display: inline-block;
     width: 1198px;
-    height: 60px;
+    height: 90px;
     overflow: hidden;
     position: relative;
     vertical-align: top;
@@ -143,7 +143,7 @@
     display: inline-block;
     left: 0px;
     list-style: none;
-    height: 60px;
+    height: 90px;
     width: 1000%;
     overflow: hidden;
     position: relative;
@@ -154,7 +154,7 @@
     float: left;
     position: relative;
     width: 150px;
-    height: 60px;
+    height: 90px;
     display: inline-block;
     text-align: left;
     border-right: 1px solid #999999;
@@ -181,19 +181,31 @@
 }
 
 .latest-kill {
-    height: 15px;
-    line-height: 15px;
+    height: 20px;
+    line-height: 20px;
     font-size: 12px;
     margin-left: 5px;
     color: #000000;
 }
 
 .latest-time {
-    height: 15px;
-    line-height: 15px;
-    font-size: 13px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
     margin-left: 5px;
-    color: #777777;
+    color: #000000;
+}
+
+.latest-media {
+    height: 20px;
+    line-height: 20px;
+    font-size: 12px;
+    margin-left: 5px;
+    color: #333333;
+}
+
+.latest-media a:hover {
+    color: blue !important;
 }
 
 .last-block {

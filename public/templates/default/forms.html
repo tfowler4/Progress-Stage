@@ -259,7 +259,7 @@
                     </tr>
                     <?php foreach ( $searchResults as $guildId => $guildDetails ): ?>
                         <tr>
-                            <td></td>
+                            <td>&nbsp;</td>
                             <td><?php echo $guildDetails->_nameLink; ?></td>
                             <td><?php echo $guildDetails->_serverLink; ?></td>
                             <td><?php echo $guildDetails->_region; ?></td>
@@ -271,6 +271,7 @@
                     </tr>
                 <?php endif; ?>
             </tbody>
+            <tfoot>
             </tfoot>
         </table>
     </div>

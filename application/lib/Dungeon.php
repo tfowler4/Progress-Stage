@@ -57,7 +57,7 @@ class Dungeon {
         $property = new stdClass();
 
         foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ) {
-            if ( $encounterDetails->_dungeonId == $dungeonId && $encounterDetails->_type == 0 ) { $property->$encounterId = $encounterDetails; }
+            if ( $encounterDetails->_dungeonId == $dungeonId ) { $property->$encounterId = $encounterDetails; }
         }
 
         return $property;
