@@ -263,6 +263,7 @@ class Template {
             );
 
         $html = '';
+        $html .= '<div class="vertical-separator"></div>';
         $html .= self::drawGlossary($glossaryArray, 1);
         $html .= '<div class="vertical-separator"></div>';
         $html .= '<div class="table-wrapper">';

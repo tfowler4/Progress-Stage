@@ -131,6 +131,12 @@ $(document).ready(function(){
                 spreadsheetDiv.toggleClass('centered');
                 spreadsheetDiv.fadeToggle('fast');
                 spreadsheetDiv.html(data);
+
+                // To help resizing with vertical scrollbar
+                var currentWidth = parseInt(spreadsheetDiv.find('div').css('width').replace('px', ''));
+                var newWidth     = currentWidth + 50;
+
+                spreadsheetDiv.find('div').css('width', newWidth);
             },
             error: function(xhr, desc, err) {
                 console.log(xhr);

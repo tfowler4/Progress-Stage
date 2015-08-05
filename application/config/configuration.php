@@ -65,7 +65,7 @@ foreach ( glob($_SERVER['DOCUMENT_ROOT'] . '/' . DOMAIN . '/application/utils/*.
 foreach ( glob($_SERVER['DOCUMENT_ROOT'] . '/' . DOMAIN . '/application/services/*.php') as $fileName ) { include $fileName; }
 
 // Begin Compression
-//ob_start('ob_gzhandler');
+ob_start('ob_gzhandler');
 
 // Begin Session
 if ( session_id() == '' || !isset($_SESSION) ) {
