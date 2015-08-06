@@ -456,7 +456,7 @@ class GuildDetails {
                 $this->$key = $value->{'_'.$view};
 
                 if ( $key == '_trend' && intval($this->$key) > 0 ) {
-                    $this->$key = $GLOBALS['images']['trend_up'] . '<span>' . $this->$key . '</span>';
+                    $this->$key = $GLOBALS['images']['trend_up'] . '<span>+' . $this->$key . '</span>';
                 } elseif ( $key == '_trend' && intval($this->_trend) < 0 ) {
                     $this->$key = $GLOBALS['images']['trend_down'] . '<span>' . $this->$key . '</span>';
                 }
