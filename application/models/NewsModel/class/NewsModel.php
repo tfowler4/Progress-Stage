@@ -72,6 +72,7 @@ class NewsModel extends Model {
 
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
             $dataArray[$row['twitch_id']] = new TwitchDetails($row);
+            if ( !file_exists(ABSOLUTE_PATH . '/public/images/' . strtolower(GAME_NAME_1) . '/twitch/' . $row['twitch_id']) ) { unset($dataArray[$row['twitch_id']]); }
         }
 
         return $dataArray;
