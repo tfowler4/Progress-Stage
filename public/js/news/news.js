@@ -2,7 +2,7 @@ var News = function() {
     var stopClick = false;
 
     // Side Rankings Title Click to disdplay different dungeons
-    $(document).on('click', '.side-ranking-header.clickable', function() {
+    $(document).on('click touchstart', '.side-ranking-header.clickable', function() {
         var slideDelay        = 500;
         var blockRankHeight   = '';
 
@@ -36,7 +36,7 @@ var News = function() {
     });
 
     // Rank System Change Buttons
-    $(document).on('click', 'span.clickable', function() {
+    $(document).on('click touchstart', 'span.clickable', function() {
         if( stopClick ) { return; }
 
         var systemId = $(this).prop('id').replace('system-selector-', '');
@@ -53,7 +53,7 @@ var News = function() {
     });
 
     // Recent Raid Scroll Buttons
-    $(document).on('click', '.scroll-button-recent', function() {
+    $(document).on('click touchstart', '.scroll-button-recent', function() {
         var numOfRecentItems  = Math.ceil($("#latest-kills  ul li").length / 8);
         var recentSlideDelay  = 500;
         var recentSlideWidth  = 1206;
@@ -82,7 +82,7 @@ var News = function() {
     });
 
     // Media Viewer Scroll Buttons
-    $(document).on('click', '.scroll-button', function() {
+    $(document).on('click touchstart', '.scroll-button', function() {
         var numOfMediaItems   = $("#media-pane ul li").length;
         var mediaSlideDelay   = 400;
         var mediaSlideWidth   = 900;

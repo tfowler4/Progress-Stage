@@ -166,7 +166,7 @@ class Functions {
                 $href = PAGE_RANKINGS . $subHref . self::cleanLink($moduleDetails->_name);
                 break;
             case 'guild':
-                $class = strtolower($moduleDetails);
+                $class = 'class="' . strtolower($moduleDetails) . '"';
                 $href = PAGE_GUILD . self::cleanLink($text) . '-_-' . self::cleanLink($subMod);
                 break;
             case 'howto':
@@ -193,7 +193,7 @@ class Functions {
         }
         
         if ( $link ) {
-            $hyperlink = '<a class="' . $class . '" href="' . $href . '" target="_self">' . self::shortName($text, $textLimit) . '</a>';
+            $hyperlink = '<a ' . $class . ' href="' . $href . '" target="_self">' . self::shortName($text, $textLimit) . '</a>';
         } else {
             $hyperlink = $href;
         }

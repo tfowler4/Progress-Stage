@@ -164,6 +164,15 @@
     cursor: default;
 }
 
+#latest-kills ul li > a {
+    position: absolute;
+    width: 100%;
+    height: 70px;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
 #latest-kills ul li:hover {
     background-color: #D5D5D5;
 }
@@ -226,5 +235,5 @@
     height: 28px;
     line-height: 28px;
     text-align: left;
-    font-family: Impact;
+    font-family: Impact, sans-serif;
 }

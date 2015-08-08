@@ -10,18 +10,17 @@
                 <div id="latest-kills">
                     <ul>
                         <?php foreach( $data->_recentRaids as $key => $timestamp ): ?>
-                            <a href="<?php echo $data->_recentRaids[$key]->link; ?>">
-                                <li>
-                                    <div class="latest-guild"><?php echo $data->_recentRaids[$key]->guild; ?></div>
-                                    <div class="latest-kill"><?php echo $data->_recentRaids[$key]->encounter; ?></div>
-                                    <div class="latest-time"><?php echo $data->_recentRaids[$key]->time; ?></div>
-                                    <div class="latest-media">
-                                        SS: <?php echo $data->_recentRaids[$key]->screenshot; ?>
-                                          |  
-                                        Vid: <?php echo $data->_recentRaids[$key]->video; ?>
-                                    </div>
-                                </li>
-                            </a>
+                            <li>
+                                <a href="<?php echo Functions::generateInternalHyperLink('guild', '', $data->_recentRaids[$key]->server, $data->_recentRaids[$key]->name, 0, false);?>"></a>
+                                <div class="latest-guild"><?php echo $data->_recentRaids[$key]->guild; ?></div>
+                                <div class="latest-kill"><?php echo $data->_recentRaids[$key]->encounter; ?></div>
+                                <div class="latest-time"><?php echo $data->_recentRaids[$key]->time; ?></div>
+                                <div class="latest-media">
+                                    SS: <?php echo $data->_recentRaids[$key]->screenshot; ?>
+                                      |  
+                                    Vid: <?php echo $data->_recentRaids[$key]->video; ?>
+                                </div>
+                            </li>
                         <?php endforeach; ?>
                     </ul>
                 </div>

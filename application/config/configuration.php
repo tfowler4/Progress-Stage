@@ -14,9 +14,9 @@ define('GAME_NAME_1',   GAME_WILDSTAR);
 define('LIVE',          0);
 
 if ( strpos($_SERVER['DOCUMENT_ROOT'], '/htdocs') !== FALSE ) { // Local Machine
-    if ( GAME_NAME_1 == GAME_RIFT && LIVE == 1 ) { define('HOST_NAME', 'http://localhost/site-rift'); define('DOMAIN', 'site-rift'); }
-    if ( GAME_NAME_1 == GAME_WILDSTAR && LIVE == 1 ) { define('HOST_NAME', 'http://localhost/site-wildstar'); define('DOMAIN', 'site-wildstar'); }
-    if ( !empty(GAME_NAME_1) && LIVE == 0 ) { define('HOST_NAME', 'http://localhost/stage'); define('DOMAIN', 'stage'); }
+    if ( GAME_NAME_1 == GAME_RIFT && LIVE == 1 ) { define('HOST_NAME', 'http://' . getHostByName(getHostName()) . '/site-rift'); define('DOMAIN', 'site-rift'); }
+    if ( GAME_NAME_1 == GAME_WILDSTAR && LIVE == 1 ) { define('HOST_NAME', 'http://' . getHostByName(getHostName()) . '/site-wildstar'); define('DOMAIN', 'site-wildstar'); }
+    if ( !empty(GAME_NAME_1) && LIVE == 0 ) { define('HOST_NAME', 'http://' . getHostByName(getHostName()) . '/stage'); define('DOMAIN', 'stage'); }
 } elseif ( strpos($_SERVER['DOCUMENT_ROOT'], '/public_html/') !== FALSE ) { // Webserver
     if ( GAME_NAME_1 == GAME_RIFT && LIVE == 1 ) { define('HOST_NAME', 'http://www.topofrift.com'); }
     if ( GAME_NAME_1 == GAME_WILDSTAR && LIVE == 1 ) { define('HOST_NAME', 'http://www.wildstar-progress.com'); }

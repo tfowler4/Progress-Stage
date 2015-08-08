@@ -13,14 +13,6 @@ $(document).ready(function(){
         changeCountryFlag(this);
     });
 
-    $(window).bind('scroll', function() {
-        if ($(window).scrollTop() > 0) { //150
-            $('#menu-wrapper').addClass('fixed');
-        } else {
-            $('#menu-wrapper').removeClass('fixed');
-        }
-    });
-
     $(document).on('click', '.closePopup', function() {
         activePopup.fadeToggle('fast');
         activePopup.removeClass('centered');
@@ -74,6 +66,15 @@ $(document).ready(function(){
         activePopup.html('');
         activePopup = '';
         $(".overlay").fadeToggle('fast');
+    });
+
+    $(window).resize(function(){
+        $('.centered').css({
+            position:'absolute',
+            left: ($(window).width() - $('.centered').outerWidth())/2,
+            top: ($(window).height() - $('.centered').outerHeight())/2
+        });
+
     });
 
     var searchGuilds = function(event) {

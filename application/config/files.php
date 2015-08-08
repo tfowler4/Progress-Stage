@@ -97,7 +97,7 @@ $GLOBALS['images']['loading']          = "<img style='height:100px; width:100px;
 $GLOBALS['images']['search']           = "<img style='height:15ppx; width:15px; margin-left:-10px; vertical-align:middle;' src='" . FOLD_GRAPHICS . "icon_search.png'               alt='Search'>";
 
 $GLOBALS['images']['icon-dropdown']    = "<img style='height:10px; width:10px; vertical-align:middle;'   src='" . FOLD_GRAPHICS . "icon-dropdown.png' alt='Dropdown'>";
-$GLOBALS['images']['icon-expand']      = "<div style='display:inline-block; position:absolute; right:5px;''><img style='height:8px; width:8px;' src='" . FOLD_GRAPHICS . "icon-expand.png' alt='Expand'></div>";
+$GLOBALS['images']['icon-expand']      = "<div style='display:inline-block; position:absolute; right:5px;'><img style='height:8px; width:8px;' src='" . FOLD_GRAPHICS . "icon-expand.png' alt='Expand'></div>";
 
 $GLOBALS['images']['logo_game_1'] = "<img style='width:225px;'  src='" . FOLD_GAME_LOGOS . "game_logo_1.png'    alt='" . GAME_NAME_1 . " Logo'>";
 if ( defined('GAME_NAME_2') ) { $GLOBALS['images']['logo_game_2'] = "<img style='width:225px;'  src='" . FOLD_GAME_LOGOS . "game_logo_2.png'    alt='" . GAME_NAME_2 . " Logo'>"; }
