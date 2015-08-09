@@ -1,40 +1,42 @@
+/* recent raid wrapper button to scroll */
 .scroll-button-recent {
     display: inline-block;
-    opacity: 0.25;
-    height: 90px;
     width: 46px;
-    color: #000;
-    font-size: 38px;
-    font-family: Verdana, Geneva, sans-serif;
-    vertical-align: middle;
+    height: 90px;
     line-height: 90px;
-    cursor: default;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 38px;
     text-align: center;
+    color: #000000;
+    vertical-align: middle;
+    cursor: pointer;
+    opacity: 0.25;
     -webkit-user-select: none;
 }
 
+/* recent raid wrapper button to scroll hover state */
 .scroll-button-recent:hover {
-    background-color: #444;
+    background-color: #444444;
 }
 
+/* */
 .scroll-button {
     display: inline-block;
-    opacity: .25;
-    height: 100%;
     width: 50px;
-    color: #000;
-    padding: 0;
-    font-size: 38px;
-    font-family: Verdana, Geneva, sans-serif;
-    vertical-align: middle;
+    height: 100%;
     line-height: 500px;
-    cursor: default;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 38px;
     text-align: center;
+    color: #000000;
+    vertical-align: middle;
+    cursor: pointer;
+    opacity: .25;
     -webkit-user-select: none;
 }
 
 .scroll-button:hover {
-    background-color: #444;
+    background-color: #444444;
 }
 
 #videos-wrapper {

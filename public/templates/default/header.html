@@ -1,6 +1,6 @@
 <div id="menu-wrapper">
     <div id="menu-content">
-        <ul class="nav" style="float:left;">
+        <ul class="move-left">
             <?php echo Template::drawHeaderMenuItem('news', true); ?>
             <?php echo Template::drawHeaderMenuDropdownItem('standings', false, 3, CommonDataContainer::$tierArray); ?>
             <?php echo Template::drawHeaderMenuDropdownItem('rankings', false, 2, CommonDataContainer::$tierArray); ?>
@@ -10,7 +10,7 @@
             <?php echo Template::drawHeaderMenuItem('search', false); ?>
         </ul>
 
-        <ul class="nav" style="float:right;">
+        <ul class="move-right">
             <?php echo Template::drawHeaderMenuItem('userpanel', true); ?>
             <?php echo Template::drawHeaderMenuItem('login', false); ?>
             <?php echo Template::drawHeaderMenuItem('logout', false); ?>

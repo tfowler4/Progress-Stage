@@ -256,7 +256,7 @@ class Functions {
             $folder .= 'medium/';
         } elseif ( $size == 'small' ) {
             $folder .= 'medium/';
-            $style  = 'style="height:26px; vertical-align:middle; margin-right: 2px;"';
+            $style  = 'style="height:26px; vertical-align:middle; margin-right: 4px;"';
         } else {
             $class  = 'class="flag-icon"';
         }

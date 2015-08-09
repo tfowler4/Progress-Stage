@@ -1,4 +1,5 @@
-div.title {
+/* title for sub-panes throughout the page */
+.pane-title {
     height: 34px;
     line-height: 30px;
     font-family: Verdana, Geneva, sans-serif;
@@ -8,55 +9,89 @@ div.title {
     margin-top: 10px;
 }
 
-div#recent-activity-wrapper {
+/* recent activity pane content wrapper */
+#recent-activity-wrapper {
     vertical-align: middle;
 }
 
-div#recent-activity-content {
+/* inner recent activity content pane */
+#recent-activity-content {
     min-height: 350px;
     display: table;
 }
 
-div#recent-activity-screenshot {
-    width: 600px;
+/* recent activity screenshot image container */
+#recent-activity-screenshot {
     display: table-cell;
+    width: 600px;
     vertical-align: middle;
 }
 
-div#recent-activity-description {
+/* recent activity content details container */
+#recent-activity-description {
     width: 395px;
     display: table-cell;
     vertical-align: middle;
-    text-align: center;
 }
 
-div#recent-activity-description .title-encounter {
-    height: 40px;
-    line-height: 40px;
+/* recent activity encounter name text */
+#recent-activity-encounter-name {
+    height: 26px;
+    line-height: 26px;
     font-size: 22px;
 }
 
-div#recent-activity-description .details-encounter {
-    height: 24px;
-    line-height: 24px;
+/* recent activity encounter details text */
+.encounter-details {
+    height: 22px;
+    line-height: 22px;
     font-size: 16px;
 }
 
-img.screenshot-medium {
+/* screenshot size - medium if image too small */
+.screenshot-medium {
     width: 400px;
 }
 
-img.screenshot-large {
+/* screenshot size - large if image too large and is resized down */
+.screenshot-large {
     width: 600px;
 }
 
-div#profile-faction-logo {
+/* faction logo in side profile pane */
+#profile-faction-logo {
     text-align: center;
 }
 
-span.anchor {
+/* page anchor to be used by page navigation to link */
+.anchor {
     display: block; 
     position: relative; 
-    top: -70px; 
+    top: -40px; 
     visibility: hidden;
+}
+
+/*
+    PAGE NAVIGATION
+*/
+
+/* inner page navigation */
+#page-navigation {
+    margin-top: 6px;
+    text-align: left;
+}
+
+/* page navigation line item */
+#page-navigation ul li {
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 18px;
+    padding: 0px 20px 0px 0px;
+}
+
+/* page navigation line item hover state */
+#page-navigation ul li:hover {
+    color: blue;
 }

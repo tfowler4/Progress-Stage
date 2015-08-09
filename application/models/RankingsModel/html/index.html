@@ -4,8 +4,8 @@
 
         <div id="title-wrapper">
             <div id="title-text-wrapper">
-                <div id="title-name"><?php echo $data->_detailsPane->_name; ?></div>
-                <div id="title-server">Point Rankings (<?php echo unserialize(RANK_SYSTEMS)[$data->_rankType]; ?>)</div>
+                <div id="title-main-text"><?php echo $data->_detailsPane->_name; ?></div>
+                <div id="title-sub-text">Point Rankings (<?php echo unserialize(RANK_SYSTEMS)[$data->_rankType]; ?>)</div>
             </div>
 
             <div style="float: right;">
@@ -56,12 +56,12 @@
             <?php endif; ?>
         </div>
 
-        <div class="vertical-separator"></div>
-
         <div class="clear"></div>
 
-        <div id="submenu-1">
-            <ul class="submenu">
+        <div class="vertical-separator"></div>
+
+        <div id="submenu-1" class="move-left">
+            <ul class="submenu noselect">
                 <?php echo $data->generateInternalHyperLink('world', $data->_rankType, '<li>World</li>'); ?>
                 <?php echo $data->generateInternalHyperLink('region', $data->_rankType, '<li>Regional</li>'); ?>
                 <?php echo $data->generateInternalHyperLink('server', $data->_rankType, '<li>Server</li>'); ?>
@@ -69,7 +69,7 @@
             </ul>
         </div>
 
-        <div id="submenu-2">
+        <div id="submenu-2" class="move-right">
             <ul class="submenu">
                 <?php foreach(unserialize(RANK_SYSTEMS) as $systemAbbrev => $systemName): ?>
                     <?php echo $data->generateInternalHyperLink($data->_view, $systemAbbrev, '<li>' . $systemName . '</li>'); ?>
@@ -78,6 +78,8 @@
         </div>
 
         <div class="clear"></div>
+
+        <div class="vertical-separator"></div>
 
         <div class="table-wrapper">
             <table class="listing">

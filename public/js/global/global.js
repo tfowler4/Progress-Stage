@@ -176,7 +176,7 @@ $(document).ready(function(){
     var changeFactionLogo = function(input) {
         var faction = input.value.toLowerCase();
 
-        $('#faction-logo-preview').children().fadeTo('fast', .3); //addClass('faded');
+        $('#faction-logo-preview-wrapper').children().fadeTo('fast', .3); //addClass('faded');
         
         if ( faction != '' ) {
             $('.' + faction).fadeTo('fast', 1); //removeClass('faded');

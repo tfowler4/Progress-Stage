@@ -13,7 +13,7 @@
         <div class="vertical-separator"></div>
 
         <div id="main-block">
-            <div id="faction-logo-preview">
+            <div id="faction-logo-preview-wrapper">
                 <?php foreach(CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
                     <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> faded"><?php echo Functions::getImageFaction($factionDetails->_name); ?></div>
                 <?php endforeach; ?>
@@ -126,7 +126,7 @@
 
             <div class="horizontal-separator"></div>
 
-            <div id="preview-wrapper">
+            <div id="guild-country-logo-preview-wrapper">
                 <div id="guild-logo-preview"></div>
                 <div id="country-flag-preview"></div>
             </div>
@@ -204,7 +204,7 @@
         </div>
 
         <div id="side-block">
-            <div id="rankings-wrapper">
+            <div id="side-block-rankings-wrapper">
                 <div class="block-title">Newest Guilds</div>
 
                 <table id="newest-guilds-table" class="side-block-listing">
