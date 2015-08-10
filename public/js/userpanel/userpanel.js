@@ -15,7 +15,7 @@ var UserPanel = function() {
         changeCountryFlag(this);
     });
 
-    $('.option-footer.guild').click(function() {
+    $(document).on('click', '.option-header.guild, .option-footer.guild', function() {
         var guildId    = $(this).prop('id').replace('guild-pane-', '');
         var activePane = $(this).parent().find(".option-content.guild.active");
         var childPane  = $('#guild-content-'+guildId);

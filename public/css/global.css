@@ -110,12 +110,12 @@ img {
 
 /* red faction text color */
 .defiant, .dominion {
-    color: red;
+    color: #FF0000;
 }
 
 /* blue faction text color */
 .guardian, .exiles {
-    color: blue;
+    color: #0000FF;
 }
 
 /*
@@ -135,15 +135,6 @@ img {
     display: inline-block;
     width: 1366px;
     min-height: 768px;
-}
-
-/* wrapper for glossary table */
-#glossary-wrapper {
-    display: inline-block;
-    float: left;
-    background-color: #D9D9D9;
-    border: 1px solid #C0C0C0;
-    border-radius: 3px;
 }
 
 /* default flag image size for guild name links */
@@ -263,12 +254,6 @@ img {
     border: 1px solid #222222;
     border-radius: 5px;
     padding: 2px;
-}
-
-/* side block rankings wrapper on news model*/
-#side-block-rankings-wrapper {
-    background-color: #D9D9D9;
-    padding: 0px 3px 0px 3px;
 }
 
 /* main content pane in 2 column layout */
