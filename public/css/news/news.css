@@ -19,8 +19,8 @@
     background-color: #444444;
 }
 
-/* */
-.scroll-button {
+/* media viewer wrapper button to scroll */
+.scroll-button-media {
     display: inline-block;
     width: 50px;
     height: 100%;
@@ -35,61 +35,61 @@
     -webkit-user-select: none;
 }
 
-.scroll-button:hover {
+/* media viewer wrapper button to scroll hover state */
+.scroll-button-media:hover {
     background-color: #444444;
 }
 
-#videos-wrapper {
-    display:inline-block;
-    width: 1000px; /*890*/
+/*  media viewer content wrapper  */
+#media-wrapper {
+    display: inline-block;
+    width: 1000px;
     height: 500px;
     text-align: left;
     vertical-align: top;
 
 }
 
+/* inner media viewer content */
 #media-pane {
-    display:inline-block;
-    width: 900px; /*788*/
-    height: 100%;
-    overflow: hidden;
     position: relative;
-    margin: 0;
+    display:inline-block;
+    width: 900px;
+    height: 100%;
     margin-left: -4px;
     margin-right: -6px;
-    padding: 0;
-    border: 0;
     vertical-align: top;
+    overflow: hidden;
 }
 
+/*  media viewer content list */
 #media-pane ul {
+    position: relative;
     display: inline-block;
-    left: 0px;
-    list-style: none;
+    left: 0;
     height: 100%;
     width: 1000%;
-    margin: 0;
-    padding: 0;
-    border: 0;
     overflow: hidden;
-    position: relative;
     vertical-align: top;
 }
 
+/* media viewer content item */
 #media-pane ul li {
+    position: relative;
     height: 500px;
     float: left;
-    position: relative;
 }
 
+/* media viewer content item image */
 #media-pane ul li img {
     display: inline-block;
-    margin: auto;
     height: 500px;
     width:  900px;
+    margin: auto;
 }
 
-.twitch-overlay {
+/* media viewer overlay for displaying information for the video */
+.media-overlay {
     position: absolute;
     bottom: 0;
     height: 75px;
@@ -97,33 +97,35 @@
     background-color: rgba(0, 0, 0, .9);
 }
 
-.twitch-title {
-    padding-left: 4px;
+/* media overlay title */
+.media-title {
     height: 25px;
     line-height: 25px;
     font-size: 15px;
     vertical-align: middle;
 }
 
-.twitch-id {
-    padding-left: 4px;
+/* media id of user/creator from source */
+.media-id {
     height: 25px;
     line-height: 25px;
-    vertical-align: middle;
     color: #FFFFFF;
+    vertical-align: middle;
+    padding: 0px 0px 0px 4px;
 }
 
-.twitch-guild {
-    padding-left: 4px;
+/* media content guild */
+.media-guild {
     height: 25px;
     line-height: 25px;
-    font-size:20px;
-    font-weight: normal;
-    letter-spacing: 2px;
     font-family: Impact, sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
     vertical-align: middle;
+    padding: 0px 0px 0px 4px;
 }
 
+/* recent raid listing content wrapper */
 #recent-raids-wrapper {
     display: inline-block;
     width: 1336px;
@@ -132,41 +134,42 @@
     vertical-align: top;
 }
 
+/* recent raid listing inner content */
 #latest-kills {
+    position: relative;
     display: inline-block;
     width: 1198px;
     height: 90px;
-    overflow: hidden;
-    position: relative;
     vertical-align: top;
+    overflow: hidden;
 }
 
+/* recent raid list */
 #latest-kills ul {
+    position: relative;
     display: inline-block;
-    left: 0px;
-    list-style: none;
     height: 90px;
     width: 1000%;
-    overflow: hidden;
-    position: relative;
+    left: 0;
     vertical-align: top;
+    overflow: hidden;
 }
 
+/* recent raid listing item */
 #latest-kills ul li {
-    float: left;
     position: relative;
+    display: inline-block;
+    float: left;
     width: 150px;
     height: 90px;
-    display: inline-block;
+    font-size: 12px;
     text-align: left;
     border-right: 1px solid #999999;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
-    font-size: 12px;
     cursor: default;
 }
 
-#latest-kills ul li > a {
+/* recent raid listing item link to make the item clickable */
+#latest-kills ul li a {
     position: absolute;
     width: 100%;
     height: 70px;
@@ -175,48 +178,48 @@
     z-index: 10;
 }
 
+/* recent raid listing item hover state */
 #latest-kills ul li:hover {
     background-color: #D5D5D5;
 }
 
-#latest-block {
-    width: 100%;
-    text-align: left;
-}
-
+/* recent raid listing item guild text */
 .latest-guild {
     height: 30px;
     line-height: 30px;
     font-size: 14px;
-    margin-left: 5px;
+    margin: 0px 0px 0px 5px;
 }
 
+/* recent raid listing item encounter text */
 .latest-kill {
     height: 20px;
     line-height: 20px;
     font-size: 12px;
-    margin-left: 5px;
+    margin: 0px 0px 0px 5px;
     color: #000000;
 }
 
+/* recent raid listing item kill time text */
 .latest-time {
     height: 20px;
     line-height: 20px;
     font-size: 12px;
-    margin-left: 5px;
+    margin: 0px 0px 0px 5px;
     color: #000000;
 }
 
+/* recent raid listing item screenshot and video text */
 .latest-media {
     height: 20px;
     line-height: 20px;
     font-size: 12px;
-    margin-left: 5px;
+    margin: 0px 0px 0px 5px;
     color: #333333;
 }
 
 .latest-media a:hover {
-    color: blue !important;
+    color: blue;
 }
 
 .last-block {

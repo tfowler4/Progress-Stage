@@ -82,7 +82,7 @@ var News = function() {
     });
 
     // Media Viewer Scroll Buttons
-    $(document).on('click touchstart', '.scroll-button', function() {
+    $(document).on('click touchstart', '.scroll-button-media', function() {
         var numOfMediaItems   = $("#media-pane ul li").length;
         var mediaSlideDelay   = 400;
         var mediaSlideWidth   = 900;
@@ -105,8 +105,8 @@ var News = function() {
              || (direction == 'right' && pos > (-1*maxMediaPaneSize) ) ) {
             stopClick = true;
 
-            // Twitch Overlay - Title Bar
-            $('.twitch-overlay').slideToggle(mediaSlideDelay).delay(mediaSlideDelay).slideToggle(mediaSlideDelay);
+            // Media Overlay - Title Bar
+            $('.media-overlay').slideToggle(mediaSlideDelay).delay(mediaSlideDelay).slideToggle(mediaSlideDelay);
 
             // Image Slider
             $('#media-pane ul').delay(mediaSlideDelay).animate({ left: pos }, mediaSlideDelay, function() {
