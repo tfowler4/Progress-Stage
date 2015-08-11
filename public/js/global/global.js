@@ -63,6 +63,35 @@ var GlobalEventBinder = function() {
         }
     }
 
+    // on user selecting a guild, send ajax call to fetch avaialble encounters to submit
+    $(document).on('change', '#user-form-guild, #user-form-popup-guild', function() { updateGuildEncounters(this); });
+    var updateGuildEncounters = function(input) {
+        var currentPageUrl = document.URL;
+        var guildId        = input.value;
+        var elementId      = input.id;
+
+        // ajax call to retrieve new encounter dropdown select html
+         $.ajax({
+            url: currentPageUrl,
+            type: 'POST',
+            data: { request: 'encounterList', guild: guildId},
+            success: function(data) {
+                var selectElement;
+
+                if ( elementId == 'user-form-popup-guild' ) { selectElement = $('#user-form-popup-encounter') }
+                if ( elementId == 'user-form-guild' ) { selectElement = $('#user-form-encounter') }
+
+                $("#" + elementId + " option[value='']").remove();
+
+                selectElement.html(data);
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            }
+        });
+    }
+
     // bind searchGuilds event to textbox submit and image click to display guild search results
     var searchGuilds = function(event) {
         event.preventDefault();

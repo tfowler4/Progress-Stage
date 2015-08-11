@@ -332,6 +332,21 @@ class Template {
         return $html;
     }
 
+    public static function getEncounterDropdownListHtml($guildId) {
+        $guildDetails = CommonDataContainer::$guildArray[$guildId];
+        $guildDetails->generateEncounterDetails('');
+
+        $html = '';
+
+        foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails) {
+            if( !isset($guildDetails->_encounterDetails->$encounterId) ) {
+                $html .= '<option value="' . $encounterId . '">' . $encounterDetails->_dungeon . ' - ' . $encounterDetails->_encounterName . '</option>';
+            }
+        }
+
+        return $html;
+    }
+
     public static function drawHeaderMenuItem($modelName, $isHyperlink) {
         $html = '';
 
