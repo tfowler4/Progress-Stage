@@ -64,7 +64,7 @@ class DbFactory extends Db {
         $query = self::$_dbh->query(sprintf(
             "SELECT *
                FROM %s
-           ORDER BY name ASC",
+           ORDER BY region ASC, name ASC",
             self::TABLE_SERVERS
             ));
         return $query;

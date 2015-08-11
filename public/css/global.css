@@ -360,8 +360,10 @@ img {
     text-align: center;
     vertical-align: middle;
     background-color: #191919;
+    border-bottom: 2px solid #C0C0C0;
     z-index: 98;
     cursor: default;
+    opacity: 0.95;
 }
 
 /* menu navigation inner content */
@@ -389,7 +391,14 @@ img {
 
 /* menu navigation top level item hover state */
 #menu-content li:hover {
-    color: #FFFFFF;
+    color: #000000;
+    background-color: #C0C0C0;
+    cursor: default;
+}
+
+/* menu navigation top level item hover state */
+#menu-content li.no-highlight:hover {
+    background-color: transparent;
     cursor: default;
 }
 
@@ -400,7 +409,7 @@ img {
 
 /* dropdown navigation item */
 .dropdown-menu-item {
-    min-width: 215px;
+    min-width: 235px;
     background-color: #191919;
     text-align: left;
     font-size: 14px;
@@ -431,7 +440,6 @@ img {
     display: none;
     background-color: #191919;
     margin: 0px 0px 0px -10px;
-    opacity: 0.95;
 }
 
 /* dropdown menu second level */
@@ -439,7 +447,7 @@ img {
     position: absolute;
     visibility: hidden;
     background-color: #191919;
-    margin-left: 223px;
+    margin-left: 243px;
     margin-top: -45px;
 }
 
@@ -535,6 +543,7 @@ img {
     margin-right: auto;
     text-align: center;
     vertical-align: middle;
+    border-top: 2px solid #C0C0C0;
     background-color: #191919;
 }
 

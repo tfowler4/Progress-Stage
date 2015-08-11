@@ -18,7 +18,7 @@ class Functions {
     public static function getMinutes() {
         $arr = array();
 
-        array_push($arr, '00');
+        $arr['00'] = '00';
 
         for ( $minute = 1; $minute < 60; $minute++ ) {
             if ( strlen($minute) == 1 ) $minute = '0' . $minute;

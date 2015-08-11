@@ -417,8 +417,8 @@ class Template {
                 break;
             case 'search':
                 if ( MODULE_SEARCH_SET == 1 ) {
-                    $html = '<li><form id="search-form"><input id="search-input" placeholder="Enter guild name" type="text" /></form></li>';
-                    $html .= '<li id="search-activator" class="guild-search">' . $GLOBALS['images']['search'] . '</li>';
+                    $html = '<li class="no-highlight"><form id="search-form"><input id="search-input" placeholder="Enter guild name" type="text" /></form></li>';
+                    $html .= '<li id="search-activator" class="no-highlight">' . $GLOBALS['images']['search'] . '</li>';
                 }
                 break;
         }

@@ -10,7 +10,7 @@ date_default_timezone_set('America/Los_Angeles');
 // Supported Games
 define('GAME_RIFT',     'Rift');
 define('GAME_WILDSTAR', 'WildStar');
-define('GAME_NAME_1',   GAME_RIFT);
+define('GAME_NAME_1',   GAME_WILDSTAR);
 define('LIVE',          0);
 
 if ( strpos($_SERVER['DOCUMENT_ROOT'], '/htdocs') !== FALSE ) { // Local Machine
