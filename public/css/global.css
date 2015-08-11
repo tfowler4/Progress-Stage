@@ -635,7 +635,7 @@ img {
 
 /* screenshot size - medium if image too small */
 .screenshot-medium {
-    width: 400px;
+    max-width: 400px;
 }
 
 /* screenshot size - large if image too large and is resized down */

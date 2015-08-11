@@ -19,15 +19,17 @@ var GlobalEventBinder = function() {
     }
 
     // on user selecting a kill screenshot image, display a preview of the image
-    $(document).on('change', '#user-form-screenshot', function() { changeScreenshot(this); });
+    $(document).on('change', '#user-form-screenshot, #user-form-popup-screenshot', function() { changeScreenshot(this); });
     var changeScreenshot = function(input) {
         if ( input.files && input.files[0] ) {
             var reader = new FileReader();
+            var id     = input.id;
 
             reader.onload = function (e) {
                 var imgSrc = e.target.result;
 
-                $('#screenshot-preview').html('<img class="screenshot-large" src="' + imgSrc + '">');
+                if ( id == 'user-form-popup-screenshot' ) { $('#popup-screenshot-preview').html('<img class="screenshot-medium" src="' + imgSrc + '">'); }
+                if ( id == 'user-form-screenshot' ) { $('#screenshot-preview').html('<img class="screenshot-large" src="' + imgSrc + '">'); }
             }
 
             reader.readAsDataURL(input.files[0]);

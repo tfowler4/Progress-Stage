@@ -103,7 +103,7 @@ class Functions {
         $current_year = date("Y");
 
         for ( $year = RELEASE_YEAR; $year <= $current_year; $year++ ) {
-            array_push($arr, $year);
+            //array_push($arr, $year);
             $arr[$year] = $year;
         }
 
