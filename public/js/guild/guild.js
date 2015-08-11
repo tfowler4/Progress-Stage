@@ -1,10 +1,11 @@
-var Guild = function() {
-    // Change events to make ajax call to update guild sigs
+// guild model event binder
+var GuildEventBinder = function() {
+    // change events to make ajax call to update guild sigs
     $(document).on('change', '.guild-sig-rank, .guild-sig-dungeon, .guild-sig-output-type, .guild-sig-view', function() {
         callAjaxToGuildDetails();
     });
 
-    // Ajax call to update guild sig
+    // ajax call to update guild sig
     var callAjaxToGuildDetails = function() {
         var txtAreaOutput = document.getElementById('textarea_output');
         var form          = $('#guild-sig-form');
@@ -28,7 +29,7 @@ var Guild = function() {
         }
     };
 
-    // Update guild sig on page load
+    // update guild sig on page load
     $(document).ready(function(){
         $('.guild-sig-view').change();
     });

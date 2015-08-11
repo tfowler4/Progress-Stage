@@ -48,16 +48,6 @@
     font-size: 16px;
 }
 
-/* screenshot size - medium if image too small */
-.screenshot-medium {
-    width: 400px;
-}
-
-/* screenshot size - large if image too large and is resized down */
-.screenshot-large {
-    width: 600px;
-}
-
 /* faction logo in side profile pane */
 #profile-faction-logo {
     text-align: center;

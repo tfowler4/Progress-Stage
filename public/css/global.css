@@ -632,3 +632,13 @@ img {
 #guild-country-logo-preview-wrapper img {
     width: 250px;
 }
+
+/* screenshot size - medium if image too small */
+.screenshot-medium {
+    width: 400px;
+}
+
+/* screenshot size - large if image too large and is resized down */
+.screenshot-large {
+    max-width: 600px;
+}

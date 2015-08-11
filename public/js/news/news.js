@@ -1,19 +1,22 @@
-var News = function() {
+// news model event binder
+var NewsEventBinder = function() {
     var stopClick = false;
 
-    // Side Rankings Title Click to disdplay different dungeons
+    // side rankings system click to display different dungeons
     $(document).on('click touchstart', '.side-ranking-header.clickable', function() {
-        var slideDelay        = 500;
-        var blockRankHeight   = '';
+        var slideDelay      = 500;
+        var blockRankHeight = '';
 
         if( stopClick ) { return; }
 
         var paneTitleId = $(this).prop('id').replace('dungeon-rankings-clicker-', '');
         var currentPane = $('#dungeon-rankings-wrapper-' + paneTitleId);
+
         if ( currentPane.hasClass('hidden') ) {
             stopClick = true;
 
             var activePane = $(this).parent().children('.active');
+
             activePane.slideToggle(slideDelay, 'linear', function() {
                 activePane.addClass('hidden');
                 activePane.removeClass('active');
@@ -35,7 +38,7 @@ var News = function() {
         }
     });
 
-    // Rank System Change Buttons
+    // side rankings system click to display different ranking systems data
     $(document).on('click touchstart', 'span.clickable', function() {
         if( stopClick ) { return; }
 
@@ -52,9 +55,10 @@ var News = function() {
         }
     });
 
-    // Recent Raid Scroll Buttons
+    // recent raid buttons click to scroll through different list panes
     $(document).on('click touchstart', '.scroll-button-recent', function() {
-        var numOfRecentItems  = Math.ceil($("#latest-kills  ul li").length / 8);
+        var numOfDisplayItems = 8;
+        var numOfRecentItems  = Math.ceil($("#latest-kills  ul li").length / numOfDisplayItems);
         var recentSlideDelay  = 500;
         var recentSlideWidth  = 1206;
         var maxRecentPaneSize = numOfRecentItems * recentSlideWidth;
@@ -81,7 +85,7 @@ var News = function() {
         }
     });
 
-    // Media Viewer Scroll Buttons
+    // media viewer buttons click to scroll through different video/streams
     $(document).on('click touchstart', '.scroll-button-media', function() {
         var numOfMediaItems   = $("#media-pane ul li").length;
         var mediaSlideDelay   = 400;
@@ -105,10 +109,10 @@ var News = function() {
              || (direction == 'right' && pos > (-1*maxMediaPaneSize) ) ) {
             stopClick = true;
 
-            // Media Overlay - Title Bar
+            // media overlay bar
             $('.media-overlay').slideToggle(mediaSlideDelay).delay(mediaSlideDelay).slideToggle(mediaSlideDelay);
 
-            // Image Slider
+            // image slider
             $('#media-pane ul').delay(mediaSlideDelay).animate({ left: pos }, mediaSlideDelay, function() {
                 stopClick = false;
             });

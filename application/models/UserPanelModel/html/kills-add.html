@@ -10,14 +10,14 @@
                 <tr>
                     <th>Guild Name</th>
                     <td>
-                        <input id="userpanel-guild" name="userpanel-guild" type="hidden" value="<?php echo $data->_guildDetails->_guildId; ?>">
+                        <input id="user-form-guild" name="userpanel-guild" type="hidden" value="<?php echo $data->_guildDetails->_guildId; ?>">
                         <?php echo $data->_guildDetails->_name; ?>
                     </td>
                  </tr>
                 <tr>
                     <th>Encounter</th>
                     <td>
-                        <select id="userpanel-encounter" name="userpanel-encounter">
+                        <select id="user-form-encounter" name="userpanel-encounter">
                             <option value="">Select Encounter</option>
                             <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails): ?>
                                 <?php if( !isset($data->_guildDetails->_encounterDetails->$encounterId) ): ?>
@@ -30,7 +30,7 @@
                 <tr>
                     <th>Date (M-D-Y)</th>
                     <td>
-                       <select id="userpanel-month" name="userpanel-month">
+                       <select id="user-form-month" name="userpanel-month">
                             <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
                                 <?php if ( $month == date('m') ): ?> 
                                     <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
@@ -39,7 +39,7 @@
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </select>
-                       <select id="userpanel-day" name="userpanel-day">
+                       <select id="user-form-day" name="userpanel-day">
                             <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
                                 <?php if ( $day == date('d') ): ?> 
                                     <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
@@ -48,7 +48,7 @@
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </select>  
-                       <select id="userpanel-year" name="userpanel-year">
+                       <select id="user-form-year" name="userpanel-year">
                             <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
                                 <?php if ( $year == date('Y') ): ?> 
                                     <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
@@ -62,7 +62,7 @@
                 <tr>
                     <th>Time (H:M UTC)</th>
                     <td>
-                       <select id="userpanel-hour" name="userpanel-hour">
+                       <select id="user-form-hour" name="userpanel-hour">
                             <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
                                 <?php if ( $hour == date('H') ): ?> 
                                     <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
@@ -71,7 +71,7 @@
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </select>  
-                       <select id="userpanel-minute" name="userpanel-minute">
+                       <select id="user-form-minute" name="userpanel-minute">
                             <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
                                 <?php if ( $minute == date('i') ): ?> 
                                     <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
@@ -84,18 +84,18 @@
                 </tr>
                 <tr>
                     <th>Screenshot</th>
-                    <td><input id="userpanel-screenshot" type="file" name="userpanel-screenshot"></td>
+                    <td><input id="user-form-screenshot" type="file" name="userpanel-screenshot"></td>
                 </tr>
                 <tr>
                     <th>Video Links (Use ";" to separate links)</th>
-                    <td><input id="userpanel-video" type="text" name="userpanel-video" class="required"></td>
+                    <td><input id="user-form-video" type="text" name="userpanel-video" class="required"></td>
                  </tr>
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="2">
-                        <input id="userpanel-active" type="hidden" name='active' value="Active">
-                        <input id="userpanel-submit" type="submit" value="Submit">
+                        <input id="user-form-active" type="hidden" name='active' value="Active">
+                        <input id="user-form-submit" type="submit" value="Submit">
                     </td>
                 </tr>
             </tfoot>

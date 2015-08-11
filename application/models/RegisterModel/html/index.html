@@ -14,8 +14,10 @@
 
         <div id="main-block">
             <div id="faction-logo-preview-wrapper">
-                <?php foreach(CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
-                    <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> faded"><?php echo Functions::getImageFaction($factionDetails->_name); ?></div>
+                <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
+                    <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
+                        <?php echo Functions::getImageFaction($factionDetails->_name); ?>
+                    </div>
                 <?php endforeach; ?>
             </div>
 
@@ -32,28 +34,28 @@
                         <tbody>
                             <tr>
                                 <th>Username</th>
-                                <td><input id="register-username" type="text" name="register-username" class="required" value="<?php echo $data->_formFields->username; ?>"></td>
+                                <td><input id="user-form-username" type="text" name="register-username" class="required" value="<?php echo $data->_formFields->username; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Email</th>
-                                <td><input id="register-email" type="text" name="register-email" class="required"  value="<?php echo $data->_formFields->email; ?>"></td>
+                                <td><input id="user-form-email" type="text" name="register-email" class="required"  value="<?php echo $data->_formFields->email; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Password</th>
-                                <td><input id="register-password" type="password" name="register-password" class="required"></td>
+                                <td><input id="user-form-password" type="password" name="register-password" class="required"></td>
                             </tr>
                             <tr>
                                 <th>Retype Password</th>
-                                <td><input id="register-retype-password" type="password" name="register-retype-password" class="required"></td>
+                                <td><input id="user-form-retype-password" type="password" name="register-retype-password" class="required"></td>
                             </tr>
                             <tr>
                                 <th>Guild Name</th>
-                                <td><input id="register-guild-name" type="text" name="register-guild-name" value="<?php echo $data->_formFields->guildName; ?>"></td>
+                                <td><input id="user-form-guild-name" type="text" name="register-guild-name" value="<?php echo $data->_formFields->guildName; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Faction</th>
                                 <td>
-                                    <select id="register-faction" name="register-faction">
+                                    <select id="user-form-faction" name="register-faction">
                                         <option value="">Select Faction</option>
                                         <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
                                             <option value="<?php echo $factionId; ?>" <?php if (!empty($data->_formFields->faction) && $data->_formFields->faction == $factionId): ?>selected<?php endif; ?>><?php echo $factionDetails->_name; ?></option>
@@ -64,7 +66,7 @@
                             <tr>
                                 <th>Server</th>
                                 <td>
-                                    <select id="register-server" name="register-server">
+                                    <select id="user-form-server" name="register-server">
                                         <option value="">Select Server</option>
                                         <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
                                             <option value="<?php echo $serverId; ?>" <?php if (!empty($data->_formFields->server) && $data->_formFields->server == $serverId): ?>selected<?php endif; ?>><?php echo $serverDetails->_region . '-' . $serverDetails->_name; ?></option>
@@ -75,7 +77,7 @@
                             <tr>
                                 <th>Country</th>
                                 <td>
-                                    <select id="register-country" name="register-country">
+                                    <select id="user-form-country" name="register-country">
                                         <option value="">Select Country</option>
                                         <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
                                             <option value="<?php echo $countryId; ?>" <?php if (!empty($data->_formFields->country) && $data->_formFields->country == $countryId): ?>selected<?php endif; ?>><?php echo $countryDetails->_name; ?></option>
@@ -85,38 +87,38 @@
                             </tr>
                             <tr>
                                 <th>Guild Leader</th>
-                                <td><input id="register-guild-leader" type="text" name="register-guild-leader" value="<?php echo $data->_formFields->guildLeader; ?>"></td>
+                                <td><input id="user-form-guild-leader" type="text" name="register-guild-leader" value="<?php echo $data->_formFields->guildLeader; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Website</th>
-                                <td><input id="register-website" type="text" name="register-website" value="<?php echo $data->_formFields->website; ?>"></td>
+                                <td><input id="user-form-website" type="text" name="register-website" value="<?php echo $data->_formFields->website; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Facebook</th>
-                                <td><input id="register-facebook" type="text" name="register-facebook" value="<?php echo $data->_formFields->facebook; ?>"></td>
+                                <td><input id="user-form-facebook" type="text" name="register-facebook" value="<?php echo $data->_formFields->facebook; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Twitter</th>
-                                <td><input id="register-twitter" type="text" name="register-twitter" value="<?php echo $data->_formFields->twitter; ?>"></td>
+                                <td><input id="user-form-twitter" type="text" name="register-twitter" value="<?php echo $data->_formFields->twitter; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Google+</th>
-                                <td><input id="register-google" type="text" name="register-google" value="<?php echo $data->_formFields->google; ?>"></td>
+                                <td><input id="user-form-google" type="text" name="register-google" value="<?php echo $data->_formFields->google; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Guild Logo</th>
-                                <td><input id="register-guild-logo" type="file" name="register-guild-logo" value="<?php echo $data->_formFields->guildLogo; ?>"></td>
+                                <td><input id="user-form-guild-logo" type="file" name="register-guild-logo" value="<?php echo $data->_formFields->guildLogo; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Important Stuff</th>
-                                <td><input id="register-required-tos" type="checkbox" name="register-required-tos" <?php if( $data->_formFields->isImportant == 'on' ): ?>checked<?php endif; ?> /> I agree to the Terms of Service</td>
+                                <td><input id="user-form-required-tos" type="checkbox" name="register-required-tos" <?php if( $data->_formFields->isImportant == 'on' ): ?>checked<?php endif; ?> /> I agree to the Terms of Service</td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
                                 <td colspan="2">
-                                    <input id="register-active" type="hidden" name='active' value="Active">
-                                    <input id="register-submit" type="submit" value="Submit">
+                                    <input id="user-form-active" type="hidden" name='active' value="Active">
+                                    <input id="user-form-submit" type="submit" value="Submit">
                                 </td>
                             </tr>
                         </tfoot>
