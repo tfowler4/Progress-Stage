@@ -83,7 +83,6 @@
 
         <div class="option-container tier">
             <div class="option-title">Edit Tier Details</div>
-            <form class="admin-form tier"id="form-tier-add" method="POST" action="<?php echo PAGE_ADMIN; ?>">
                 <div class="option-content">
                     <table>
                         <thead>
@@ -106,8 +105,8 @@
                         <tfoot>
                         </tfoot>
                     </table>
+                    <div id="admin-tier-listing"></div>
                 </div>
-            </form>
         </div>
 
         <div class="option-container">
@@ -394,7 +393,6 @@
 
         <div class="option-container">
             <div class="option-title">Edit Guild Details</div>
-            <form class="admin-form guild edit" id="form-guild-edit" method="POST" action="<?php echo PAGE_ADMIN; ?>">
                 <div class="option-content">
                     <table>
                         <thead>
@@ -416,9 +414,8 @@
                         <tfoot>
                         </tfoot>
                     </table>
+                    <div id="admin-guild-listing"></div>
                 </div>
-            </form>
-            <div id="admin-guild-listing"></div>
         </div>
 
 

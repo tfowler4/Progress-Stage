@@ -1,15 +1,13 @@
 var Administrator = function() {
-    var id;
-    var activeDiv;
     // Submit admin forms
     $(document).on('submit', '.admin-form', function() {
         event.preventDefault();
 
-        var formData = $(this).serializeArray();
-        id           = $(this).prop('id').replace('form-', '');
+        var formData       = $(this).serializeArray();
+        var id             = $(this).prop('id').replace('form-', '');
+        var currentPageUrl = document.URL;
         //var formName    = id.replace('-', ' ').ucFirst();
 
-        console.log(id);
         $.ajax({
             type:    'POST',
             url:     'http://localhost/stage/administrator',
@@ -17,36 +15,53 @@ var Administrator = function() {
             encode:  true,
             success: function(data) {
                 console.log(data);
-                    activeDiv = $('#admin-guild-listing');
-                    activeDiv.html(data);
-            }, 
+            },
             error:  function(data) {
                 console.log(data);
             }
         });
     });
 
+    // Display guild details from drop down selection
     $(document).on('change', '.admin-select.guild.edit', function() {
         var guildId        = $(this).val();
         var currentPageUrl = document.URL;
 
-        // ajax call to retrieve new encounter dropdown select html
-         $.ajax({
-            url: currentPageUrl,
-            type: 'POST',
-            data: { request: 'guild-edit', guild: guildId},
+        $.ajax({
+            type:    'POST',
+            url:     currentPageUrl,
+            data:    {request: 'guild-edit', guild:guildId},
+            encode:  true,
             success: function(data) {
-                var guildDiv = $('#admin-guild-listing');
-
-                guildDiv.html(data);
+                console.log(data);
+                    var activeDiv = $('#admin-guild-listing');
+                    activeDiv.html(data);
             },
-            error: function(xhr, desc, err) {
-                console.log(xhr);
-                console.log("Details: " + desc + "\nError:" + err);
+            error:  function(data) {
+                console.log(data);
             }
         });
+    });
 
-        console.log('Guild ID: '+guildId);
+    // Display tier details from drop down selection
+    $(document).on('change', '.admin-select.tier.edit', function() {
+        var tierId         = $(this).val();
+        var currentPageUrl = document.URL;
+
+        $.ajax({
+            type:    'POST',
+            url:     currentPageUrl,
+            data:    {request: 'tier-edit', tier:tierId},
+            encode:  true,
+            success: function(data) {
+                console.log(data);
+                    var activeDiv = $('#admin-tier-listing');
+                    activeDiv.html(data);
+            },
+            error:  function(data) {
+                console.log(data);
+            }
+        });
     });
 
     // function to capitalize first letter of the form name
