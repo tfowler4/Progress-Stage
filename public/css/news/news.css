@@ -47,7 +47,7 @@
     height: 500px;
     text-align: left;
     vertical-align: top;
-
+    overflow: hidden;
 }
 
 /* inner media viewer content */
@@ -80,14 +80,6 @@
     float: left;
 }
 
-/* media viewer content item image */
-#media-pane ul li img {
-    display: inline-block;
-    height: 500px;
-    width:  900px;
-    margin: auto;
-}
-
 /* media viewer overlay for displaying information for the video */
 .media-overlay {
     position: absolute;
@@ -95,6 +87,7 @@
     height: 75px;
     width: 900px;
     background-color: rgba(0, 0, 0, .9);
+    overflow: hidden;
 }
 
 /* media overlay title */
@@ -103,6 +96,7 @@
     line-height: 25px;
     font-size: 15px;
     vertical-align: middle;
+    padding: 0px 0px 0px 4px;
 }
 
 /* media id of user/creator from source */
@@ -119,10 +113,25 @@
     height: 25px;
     line-height: 25px;
     font-family: Impact, sans-serif;
-    font-size: 20px;
+    font-size: 22px;
     letter-spacing: 2px;
     vertical-align: middle;
     padding: 0px 0px 0px 4px;
+}
+
+/* media content guild logo */
+.media-guild-logo {
+    float: right;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* media content preview image */
+.media-preview-image {
+    display: inline-block;
+    height: 500px;
+    width:  900px;
+    margin: auto;
 }
 
 /* recent raid listing content wrapper */

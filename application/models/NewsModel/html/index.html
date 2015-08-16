@@ -45,11 +45,12 @@
                                     <a href="<?php echo $twitchDetails->_hyperlink; ?>" target="_blank">
                                         <div class="media-container">
                                             <div class="media-overlay">
+                                                <div class="media-guild-logo"><?php echo $twitchDetails->_guildDetails->_logo; ?></div>
                                                 <div class="media-title">Now Streaming</div>
                                                 <div class="media-id"><?php echo $twitchDetails->_twitchId; ?></div>
                                                 <div class="media-guild"><?php echo $twitchDetails->_guildDetails->_name; ?></div>
                                             </div>
-                                            <?php echo $twitchDetails->_image; ?>
+                                            <div class="media-preview-image"><?php echo $twitchDetails->_image; ?></div>
                                         </div>
                                     </a>
                                 </li>
@@ -126,28 +127,37 @@
                     <div id="dungeon-slider">
                         <?php $count = 0; foreach( $data->_guildRankings as $dungeonId => $dungeonDetails ): ?>
                             <div id ="dungeon-rankings-clicker-<?php echo $dungeonId; ?>" class="side-ranking-header clickable noselect"><?php echo $dungeonDetails['name']; ?></div>
-                            <div id="dungeon-rankings-wrapper-<?php echo $dungeonId; ?>" class="<?php if ( $count > 0 ): ?>hidden <?php else: ?>active<?php endif; ?>">
+                            <div id="dungeon-rankings-wrapper-<?php echo $dungeonId; ?>" class="<?php if ( $count > 0 ): ?>hidden<?php else: ?>active<?php endif; ?>">
                                 <?php if ( !empty($dungeonDetails['data']) ): ?>
-                                    <?php $system = 0; foreach( $dungeonDetails['data'] as $systemId => $guildArray ): ?>
-                                        <table id="dungeon-table-<?php echo $dungeonId; ?>-<?php echo $systemId; ?>" class="side-block-listing <?php if ( $system > 0 ): ?> hidden <?php endif; ?> <?php echo $systemId; ?>">
-                                            <thead>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach( $guildArray as $guildId => $guildDetails ): ?>
-                                                    <tr>
-                                                        <th><?php echo $guildDetails->guild; ?></th>
-                                                        <td rowspan="2"><b><?php echo $guildDetails->rank; ?></b></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="bold"><?php echo $guildDetails->points; ?></span> <span><?php echo $guildDetails->progress; ?></span></td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            </tbody>
-                                        </table>
-
-                                        <?php $system++; ?>
-                                    <?php endforeach; ?>
-
+                                    <table id="dungeon-table-<?php echo $dungeonId; ?>" class="side-block-listing">
+                                        <thead>
+                                        </thead>
+                                        <tbody>
+                                            <?php $rankCount = 1; foreach( $dungeonDetails['data'] as $guildId => $systemArray ): ?>
+                                                <tr>
+                                                    <th>
+                                                        <?php $system = 0; foreach( $systemArray as $systemId => $guildDetails ): ?>
+                                                            <div class="side-rankings-details <?php if ( $system > 0 ): ?>hidden <?php else: ?>active <?php endif; ?><?php echo $systemId; ?>">
+                                                                <?php echo $guildDetails->guild; $system++; ?>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    </th>
+                                                    <td rowspan="2">
+                                                        <b><?php echo $rankCount; $rankCount++;?></b>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <?php $system = 0; foreach( $systemArray as $systemId => $guildDetails ): ?>
+                                                            <div class="side-rankings-details-small <?php if ( $system > 0 ): ?>hidden <?php else: ?>active <?php endif; ?><?php echo $systemId; ?>">
+                                                                <span class="bold"><?php echo $guildDetails->points; ?></span> <span><?php echo $guildDetails->progress; $system++; ?></span>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
                                 <?php else: ?>
                                     Ranking data currently unavailable
                                 <?php endif; ?>

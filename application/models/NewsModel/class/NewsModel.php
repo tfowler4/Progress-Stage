@@ -275,16 +275,19 @@ class NewsModel extends Model {
                     $points       = Functions::formatPoints($points);
                     $trend        = $rankDetails->_trend->_world;
                     $image        = Functions::getTrendImage($trend);
+                    $identifier   = $guildId . ' | ' . $systemId;
                     $guildDetails->nameLength(0);
                     $rank++;
 
-                    $detailsArray[$systemId][$guildId]           = new stdClass();
-                    $detailsArray[$systemId][$guildId]->points   = $points;
-                    $detailsArray[$systemId][$guildId]->progress = $guildDetails->_dungeonDetails->$dungeonId->_standing;
-                    $detailsArray[$systemId][$guildId]->guild    = $guildDetails->_nameLink;
-                    $detailsArray[$systemId][$guildId]->rank     = $image . ' ' . $rank;
+                    $detailsArray[$rank][$identifier]           = new stdClass();
+                    $detailsArray[$rank][$identifier]->points   = $points;
+                    $detailsArray[$rank][$identifier]->progress = $guildDetails->_dungeonDetails->$dungeonId->_standing;
+                    $detailsArray[$rank][$identifier]->guild    = $guildDetails->_nameLink;
+                    $detailsArray[$rank][$identifier]->rank     = $image . ' ' . $rank;
                 }
             }
+
+
 
             $returnArray[$dungeonId]['data'] = $detailsArray;
         }
