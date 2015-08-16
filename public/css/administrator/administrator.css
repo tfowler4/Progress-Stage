@@ -1,136 +1,122 @@
-div.admin-container {
-    display: inline-block;
-    width: 350px;
-    border: 1px solid #C0C0C0;
-    border-radius: 5px;
-    vertical-align: top;
-    cursor: default;
-}
-
-div.admin-container:hover {
-    border: 1px solid blue;
-    border-radius: 5px;
-}
-
-div.admin-container > div.admin-title {
-    border: 1px solid transparent;
-    border-radius: 5px 5px 0px 0px;
-    background-color: #C0C0C0;
-    font-size: 20px;
-}
-
-div.admin-content {
-    padding: 10px 50px;
-}
-
-div.admin-content.tier, div.admin-content.dungeon, div.admin-content.encounter, 
-div.admin-content.guild.new, div.admin-content.guild.edit, div.admin-content.guild.remove, 
-div.admin-content.kill.new, div.admin-content.kill.edit, div.admin-content.kill.remove {
-    height: auto;
-}
-
-div.admin-container div.admin-footer, .admin-submit {
-    border-top: 1px solid #C0C0C0;
-    border-top-right-radius: 2px;
-    border-top-left-radius: 2px;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-}
-
-div.admin-container div.admin-footer:hover {
-    background-color: #C0C0C0;
-}
-
-div.admin-container div.admin-content > table {
-    width: 100%;
-    padding: 5px;
-}
-
-div.admin-container div.admin-content table thead tr th {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
-    font-size: 18px;
-    padding-top: 2px;
-}
-
-div.admin-container div.admin-content > table tbody tr th {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
+.admin-submit {
+    height: 22px;
+    line-height: 22px;
     font-size: 14px;
-    padding-top: 5px;
-    text-align: left;
-}
-
-div.admin-container > div.admin-content > table tbody tr td {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
-    font-size: 12px;
-    padding-bottom: 5px;
-}
-
-div.admin-container > div.admin-content > table tfoot tr th {
-    text-align: center;
-}
-
-.admin-footer.guild {
-    font-size: 14px !important;
+    font-weight: bold;
+    border-top: 1px solid #C0C0C0;
+    color: #777777;
+    background: none;
+    border: none;
+    outline: none;
 }
 
 .admin-textbox, .admin-select {
-    width: 250px;
+    width: 200px;
 }
 
 .admin-select.month, .admin-select.day, .admin-select.year {
     width: 80px !important;
 }
 
-.admin-submit {
-    background: none;
-    border: none;
-    outline: none;
-}
-
-table.admin-guild-listing > tbody tr th {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    font-size: 14px;
-    padding-top: 5px;
-    text-align: left;
-}
-
-table.admin-guild-listing > tbody tr td {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
-    font-size: 14px;
-    text-align: left;
-}
-
-table.admin-guild-listing > tbody tr td input[type="text"] {
-    background-color: #CCCCCC;
+/* main option pane container */
+.option-container {
+    display: inline-block;
     width: 250px;
-    border: 0px solid transparent;
+    min-height: 200px;
+    border: 1px solid #C0C0C0;
+    border-radius: 3px;
+    vertical-align: top;
 }
 
-table.admin-guild-listing > tbody tr td input[type="submit"] {
-    text-align: 
+/* main option pane container hover state */
+.option-container:hover {
+    border: 1px solid #0000FF;
 }
 
-.overlay {
-    position: fixed;
-    display: none;
-    background-color: rgba(0, 0, 0, 0.9); /* 0.7 = 70% opacity */
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 99;
+/* main option pane for adding a new guild */
+.option-container.guild.new {
+    border-style: dashed;
 }
 
-.centered {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 100;
+/* main option pane for new guild*/
+.option-content.new {
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+/* main option pane title text */
+.option-title {
+    height: 24px;
+    line-height: 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid #C0C0C0;
+    border-radius: 2px 2px 0px 0px;
+    background-color: #C0C0C0;
+}
+
+/* main option pane header (optional) */
+.option-header {
+    height: 22px;
+    line-height: 22px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* main option pane footer (optional) */
+.option-footer {
+    height: 22px;
+    line-height: 22px;
+    font-size: 14px;
+    font-weight: bold;
+    border-top: 1px solid #C0C0C0;
+    vertical-align: bottom;
+}
+
+/* option content pane header/footer guild name (needs to be distinguished) */
+.option-header.guild, .option-footer.guild {
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px ;
+}
+
+/* main option pane header/footer hover state */
+.option-header:hover, .option-footer:hover {
+    background-color: #C0C0C0;
+}
+
+/* option content pane inner table */
+.option-content table {
+    width: 100%;
+    padding: 5px;
+}
+
+/* option content pane inner table header */
+.option-content table thead tr th {
+    height: 24px;
+    line-height: 24px;
+    font-size: 18px;
+}
+
+/* option content pane inner table body header */
+.option-content table tbody tr th {
+    height: 24px;
+    line-height: 24px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* option content pane inner table body content */
+.option-content table tbody tr td {
+    height: 18px;
+    line-height: 18px;
+    font-size: 12px;
+}
+
+/* option content pane inner table footer header */
+.option-content table tfoot tr th {
+    text-align: center;
 }

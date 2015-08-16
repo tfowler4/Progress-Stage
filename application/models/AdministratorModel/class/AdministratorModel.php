@@ -3,8 +3,12 @@
 class AdministratorModel extends Model {
     protected $_userDetails;
 
+    const PAGE_TITLE = 'Administrator Control Panel';
+
     public function __construct($module, $params) {
         parent::__construct($module);
+
+        $this->title = self::PAGE_TITLE;
 
         if (isset($_SESSION['userDetails']) ) {
             $this->_userDetails = $_SESSION['userDetails'];
@@ -34,9 +38,11 @@ class AdministratorModel extends Model {
                 case "guild-remove":
                     $this->removeGuild();
                     break;
-                case "guild-edit":
-                    $this->editGuild();
-                    break;
+                case 'guild-edit':
+                    $this->getEditGuild($_POST['guild']);
+                //case "guild-edit":
+                    //$this->editGuild();
+                    //break;
                 //case "guild-edit-details":
                     //$this->editGuildDetails();
                     //break;
@@ -129,7 +135,7 @@ class AdministratorModel extends Model {
         die;
     }
 
-    public function editGuildHtml($guildDetails) {
+    public function getEditGuildHtml($guildDetails) {
         $html = '';
         $html .= '<form class="admin-form guild edit details" id="form-guild-edit-details" method="POST" action="http://localhost/stage/administrator">';
         $html .= '<table class="admin-guild-listing">';
@@ -162,15 +168,12 @@ class AdministratorModel extends Model {
         return $html;
     }
 
-    public function editGuild() {
+    public function getEditGuild($guildId) {
         $html         = '';
-        $guildId      = $_POST['form'][0]['value'];
         $guildDetails = CommonDataContainer::$guildArray[$guildId];
 
-        //print_r($guildDetails);
-        //echo '<table class="listing"><thead><tr><th>test</th></thead></table>';
-        $html = $this->editGuildHtml($guildDetails);
-        
+        $html = $this->getEditGuildHtml($guildDetails);
+
         echo $html;
         die;
     }

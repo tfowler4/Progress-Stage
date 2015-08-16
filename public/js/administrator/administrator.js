@@ -27,7 +27,26 @@ var Administrator = function() {
     });
 
     $(document).on('change', '.admin-select.guild.edit', function() {
-        var guildId = this.value;
+        var guildId        = $(this).val();
+        var currentPageUrl = document.URL;
+
+        // ajax call to retrieve new encounter dropdown select html
+         $.ajax({
+            url: currentPageUrl,
+            type: 'POST',
+            data: { request: 'guild-edit', guild: guildId},
+            success: function(data) {
+                var guildDiv = $('#admin-guild-listing');
+
+                guildDiv.html(data);
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            }
+        });
+
+        console.log('Guild ID: '+guildId);
     });
 
     // function to capitalize first letter of the form name
