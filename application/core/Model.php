@@ -23,6 +23,14 @@ abstract class Model {
             $html = Template::getPopupForm(Post::get('formId'));
             echo $html;
             die;
+        } elseif ( Post::get('request') == 'search' ) {
+            $html = Template::getPopupForm(Post::get('formId'));
+            echo $html;
+            die;
+        } elseif ( Post::get('request') == 'encounterList' ) {
+            $html = Template::getEncounterDropdownListHtml(Post::get('guild'));
+            echo $html;
+            die;
         }
     }
     

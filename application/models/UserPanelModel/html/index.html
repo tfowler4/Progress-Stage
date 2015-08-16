@@ -1,4 +1,4 @@
-<script>var userPanel = new UserPanel();</script>
+<script>var eventBinder = new UserPanelEventBinder();</script>
 <div id="body-wrapper">
     <div id="body-content">
         <div class="vertical-separator"></div>
@@ -40,7 +40,7 @@
         <?php foreach ( $data->_userGuilds as $guildId => $guildDetails ): ?>
             <div class="option-container guild">
                 <div class="option-title">Guild Management</div>
-                <div id="guild-pane-<?php echo $guildDetails->_guildId; ?>" class="option-footer guild"><?php echo $guildDetails->_name; ?></div>
+                <div id="guild-pane-<?php echo $guildDetails->_guildId; ?>" class="option-header guild"><?php echo $guildDetails->_name; ?></div>
                 <div id="guild-content-<?php echo $guildDetails->_guildId; ?>" class="option-content guild active">
                     <table>
                         <thead>

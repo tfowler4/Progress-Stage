@@ -133,7 +133,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <select id="quick-popup-guild" name="quick-guild">
+                            <select id="user-form-popup-guild" name="quick-guild">
                                 <option value="">Select Guild</option>
                                 <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails): ?>
                                     <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name; ?></option>
@@ -146,11 +146,11 @@
                     </tr>
                     <tr>
                         <td>
-                            <select id="quick-popup-encounter" name="quick-encounter">
+                            <select id="user-form-popup-encounter" name="quick-encounter">
                                 <option value="">Select Encounter</option>
-                                <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails): ?>
-                                    <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . '-' . $encounterDetails->_encounterName; ?></option>
-                                <?php endforeach; ?>
+                                <!--<?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails): ?>
+                                    <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . ' - ' . $encounterDetails->_encounterName; ?></option>
+                                <?php endforeach; ?>-->
                             </select>
                         </td>
                      </tr>
@@ -158,7 +158,7 @@
                         <th>Date (M-D-Y)</th>
                      </tr>
                         <td>
-                           <select id="quick-popup-month" name="quick-month">
+                           <select id="user-form-popup-month" name="quick-month">
                                 <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
                                     <?php if ( $month == date('m') ): ?> 
                                         <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
@@ -167,7 +167,7 @@
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                             </select>  
-                           <select id="quick-popup-day" name="quick-day">
+                           <select id="user-form-popup-day" name="quick-day">
                                 <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
                                     <?php if ( $day == date('d') ): ?> 
                                         <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
@@ -176,7 +176,7 @@
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                             </select>  
-                           <select id="quick-popup-year" name="quick-year">
+                           <select id="user-form-popup-year" name="quick-year">
                                 <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
                                     <?php if ( $year == date('Y') ): ?> 
                                         <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
@@ -191,7 +191,7 @@
                         <th>Time (H:M UTC)</th>
                      </tr>
                         <td>
-                           <select id="quick-popup-hour" name="quick-hour">
+                           <select id="user-form-popup-hour" name="quick-hour">
                                 <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
                                     <?php if ( $hour == date('H') ): ?> 
                                         <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
@@ -200,7 +200,7 @@
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                             </select>  
-                           <select id="quick-popup-minute" name="quick-minute">
+                           <select id="user-form-popup-minute" name="quick-minute">
                                 <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
                                     <?php if ( $minute == date('i') ): ?> 
                                         <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
@@ -215,20 +215,21 @@
                         <th>Screenshot</th>
                     </tr>
                     <tr>
-                        <td><input id="quick-popup-screenshot" type="file" name="quick-screenshot"></td>
+                        <td><input id="user-form-popup-screenshot" type="file" name="quick-screenshot"></td>
                     </tr>
                     <tr>
                         <th>Video Links (Use ";" to separate links)</th>
                     </tr>
                     <tr>
-                        <td><input id="quick-popup-video" type="text" name="quick-video" class="required"></td>
+                        <td><input id="user-form-popup-video" type="text" name="quick-video" class="required"></td>
                      </tr>
                 </tbody>
                 <tfoot>
                     <tr>
                         <td>
-                            <input id="quick-popup-active" type="hidden" name='active' value="Active">
-                            <input id="quick-popup-submit" type="submit" value="Submit">
+                            <input id="user-form-popup-active" type="hidden" name='active' value="Active">
+                            <input id="user-form-popup-submit" type="submit" value="Submit">
+                            <div id="popup-screenshot-preview"></div>
                         </td>
                     </tr>
                     <tr>
@@ -237,5 +238,42 @@
                 </tfoot>
             </table>
         </form>
+    </div>
+<?php elseif ($formId == 'search'): ?>
+    <?php $searchResults = GuildSearch::getSearchResults(); ?>
+
+    <div class="vertical-separator"></div>
+    <div class="table-wrapper">
+        <table class="listing">
+            <thead>
+            </thead>
+            <tbody>
+                <tr>
+                    <th class="subTitle" colspan="4">Guild Search Results</th>
+                </tr>
+                <?php if ( !empty($searchResults) ): ?>
+                    <tr>
+                        <th class="subHeader">&nbsp;</th>
+                        <th class="subHeader">Guild</th>
+                        <th class="subHeader">Server</th>
+                        <th class="subHeader">Region</th>
+                    </tr>
+                    <?php foreach ( $searchResults as $guildId => $guildDetails ): ?>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td><?php echo $guildDetails->_nameLink; ?></td>
+                            <td><?php echo $guildDetails->_serverLink; ?></td>
+                            <td><?php echo $guildDetails->_region; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td>Your search returned 0 results</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
     </div>
 <?php endif; ?>

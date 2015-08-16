@@ -18,41 +18,43 @@ class UpdateAllPointRankings extends Script {
         Logger::log('INFO', 'Encounters Needing Updates');
         self::getEncountersNeedingUpdate();
 
-        Logger::log('INFO', 'Generating Guild Details');
-        self::generateGuildEncounterDetails();
+        if ( !empty(self::$_encountersNeedUpdateArray) ) {
+            Logger::log('INFO', 'Generating Guild Details');
+            self::generateGuildEncounterDetails();
 
-        Logger::log('INFO', 'Generate Encounter Kill Details');
-        self::generateEncounterKillDetails();
+            Logger::log('INFO', 'Generate Encounter Kill Details');
+            self::generateEncounterKillDetails();
 
-        Logger::log('INFO', 'Generate Dungeon Kill Details');
-        self::generateDungeonKillDetails();
+            Logger::log('INFO', 'Generate Dungeon Kill Details');
+            self::generateDungeonKillDetails();
 
-        Logger::log('INFO', 'Put Guild Kills Into Array');
-        self::putGuildKillsInArray();
+            Logger::log('INFO', 'Put Guild Kills Into Array');
+            self::putGuildKillsInArray();
 
-        Logger::log('INFO', 'Get Active Guilds in Dungeon');
-        self::getActiveGuildsInDungeon();
+            Logger::log('INFO', 'Get Active Guilds in Dungeon');
+            self::getActiveGuildsInDungeon();
 
-        Logger::log('INFO', 'Sort Kills By Time Per Encounter');
-        self::sortKills();
+            Logger::log('INFO', 'Sort Kills By Time Per Encounter');
+            self::sortKills();
 
-        Logger::log('INFO', 'Assign Points To Encounters');
-        self::assignPoints();
+            Logger::log('INFO', 'Assign Points To Encounters');
+            self::assignPoints();
 
-        Logger::log('INFO', 'Create Encounter Ranks For Guilds');
-        self::createEncounterRanksForGuilds();
+            Logger::log('INFO', 'Create Encounter Ranks For Guilds');
+            self::createEncounterRanksForGuilds();
 
-        Logger::log('INFO', 'Create Dungeon Ranks And Trends For Guilds');
-        self::createDungeonRanksForGuilds();
+            Logger::log('INFO', 'Create Dungeon Ranks And Trends For Guilds');
+            self::createDungeonRanksForGuilds();
 
-        Logger::log('INFO', 'Create Encounter Database Insert Strings');
-        self::createEncounterInsertStrings();
+            Logger::log('INFO', 'Create Encounter Database Insert Strings');
+            self::createEncounterInsertStrings();
 
-        Logger::log('INFO', 'Create Dungeon Database Insert Strings');
-        self::createDungeonInsertStrings();
+            Logger::log('INFO', 'Create Dungeon Database Insert Strings');
+            self::createDungeonInsertStrings();
 
-        Logger::log('INFO', 'Updating Recent Raid Table');
-        self::updateRecentRaidTable();
+            Logger::log('INFO', 'Updating Recent Raid Table');
+            self::updateRecentRaidTable();
+        }
 
         Logger::log('INFO', 'Update All Point Rankings Completed!');
     }
@@ -209,11 +211,12 @@ class UpdateAllPointRankings extends Script {
 
     public static function getTrends($guildDetails, $rankDetails, $rankSystem, $dungeonId) {
         $guildDetails->generateRankDetails('dungeons', $dungeonId);
-        $server       = $guildDetails->_server;
-        $region       = $guildDetails->_region;
-        $country      = $guildDetails->_country;
-        $identifier   = $dungeonId . '_' . $rankSystem;
-        $trendDetails = array();
+        $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
+        $server         = $guildDetails->_server;
+        $region         = $guildDetails->_region;
+        $country        = $guildDetails->_country;
+        $identifier     = $dungeonId . '_' . $rankSystem;
+        $trendDetails   = array();
 
         $newWorldRank   = $rankDetails['world'];
         $newServerRank  = $rankDetails['server'][$server];
@@ -228,35 +231,28 @@ class UpdateAllPointRankings extends Script {
             $currentRegionRank  = $rankValues->_rank->_region;
             $currentCountryRank = $rankValues->_rank->_country;
 
-            $currentWorldTrend   = $rankValues->_trend->_world;
-            $currentServerTrend  = $rankValues->_trend->_server;
-            $currentRegionTrend  = $rankValues->_trend->_region;
-            $currentCountryTrend = $rankValues->_trend->_country;
+            $currentWorldTrend   = ( !empty($rankValues->_trend->_world) ? $rankValues->_trend->_world : '--' );
+            $currentServerTrend  = ( !empty($rankValues->_trend->_server) ? $rankValues->_trend->_server : '--' );
+            $currentRegionTrend  = ( !empty($rankValues->_trend->_region) ? $rankValues->_trend->_region : '--' );
+            $currentCountryTrend = ( !empty($rankValues->_trend->_country) ? $rankValues->_trend->_country : '--' );
 
             // Rank went down Current Rank 1 New Rank 5, Trend = -4
-            if ( $newWorldRank < $currentWorldRank ) { $trendDetails['trend']['world'] = $newWorldRank - $currentWorldRank; }
-            if ( $newServerRank < $currentServerRank ) { $trendDetails['trend']['server'][$server] = $newServerRank - $currentServerRank; }
-            if ( $newRegionRank < $currentRegionRank ) { $trendDetails['trend']['region'][$region] = $newRegionRank - $currentRegionRank; }
-            if ( $newCountryRank < $currentCountryRank ) { $trendDetails['trend']['country'][$country] = $newCountryRank - $currentCountryRank; }
+            if ( $newWorldRank > $currentWorldRank ) { $trendDetails['trend']['world'] = -1 * ($newWorldRank - $currentWorldRank); }
+            if ( $newServerRank > $currentServerRank ) { $trendDetails['trend']['server'][$server] = -1 * ($newServerRank - $currentServerRank); }
+            if ( $newRegionRank > $currentRegionRank ) { $trendDetails['trend']['region'][$region] = -1 * ($newRegionRank - $currentRegionRank); }
+            if ( $newCountryRank > $currentCountryRank ) { $trendDetails['trend']['country'][$country] = -1 * ($newCountryRank - $currentCountryRank); }
 
             // Rank went up Current Rank 5 New Rank 1, Trend = +4
-            if ( $newWorldRank > $currentWorldRank ) { $trendDetails['trend']['world'] = $currentWorldRank- $newWorldRank; }
-            if ( $newServerRank > $currentServerRank ) { $trendDetails['trend']['server'][$server] = $currentServerRank - $newServerRank; }
-            if ( $newRegionRank > $currentRegionRank ) { $trendDetails['trend']['region'][$region] = $currentRegionRank - $newRegionRank; }
-            if ( $newCountryRank > $currentCountryRank ) { $trendDetails['trend']['country'][$country] = $currentCountryRank - $newCountryRank; }
+            if ( $newWorldRank < $currentWorldRank ) { $trendDetails['trend']['world'] = $currentWorldRank - $newWorldRank; }
+            if ( $newServerRank < $currentServerRank ) { $trendDetails['trend']['server'][$server] = $currentServerRank - $newServerRank; }
+            if ( $newRegionRank < $currentRegionRank ) { $trendDetails['trend']['region'][$region] = $currentRegionRank - $newRegionRank; }
+            if ( $newCountryRank < $currentCountryRank ) { $trendDetails['trend']['country'][$country] = $currentCountryRank - $newCountryRank; }
 
-            // Rank did not change and you have no current trend
-            if ( $newWorldRank == $currentWorldRank && $currentWorldTrend == '--' ) { $trendDetails['trend']['world'] = '--'; }
-            if ( $newServerRank == $currentServerRank && $currentServerTrend == '--' ) { $trendDetails['trend']['server'][$server] = '--'; }
-            if ( $newRegionRank == $currentRegionRank && $currentRegionTrend == '--' ) { $trendDetails['trend']['region'][$region] = '--'; }
-            if ( $newCountryRank == $currentCountryRank && $currentCountryTrend == '--' ) { $trendDetails['trend']['country'][$country] = '--'; }
-
-            // TODO: Update to ensure trending is not getting overwritten
-            // Rank did not change and you have a trend value keep it
-            //if ( $newWorldRank == $currentWorldRank && $currentWorldTrend != '--' ) { $trendDetails['trend']['world'] = $currentWorldTrend; }
-            //if ( $newServerRank == $currentServerRank && $currentServerTrend != '--' ) { $trendDetails['trend']['server'][$server] = $currentServerTrend; }
-            //if ( $newRegionRank == $currentRegionRank && $currentRegionTrend != '--' ) { $trendDetails['trend']['region'][$region] = $currentRegionTrend; }
-            //if ( $newCountryRank == $currentCountryRank && $currentCountryTrend != '--' ) { $trendDetails['trend']['country'][$country] = $currentCountryTrend; }
+            // Rank did not change
+            if ( $newWorldRank == $currentWorldRank ) { $trendDetails['trend']['world'] = '--'; }
+            if ( $newServerRank == $currentServerRank ) { $trendDetails['trend']['server'][$server] = '--'; }
+            if ( $newRegionRank == $currentRegionRank ) { $trendDetails['trend']['region'][$region] = '--'; }
+            if ( $newCountryRank == $currentCountryRank ) { $trendDetails['trend']['country'][$country] = '--'; }
 
             // Prev Rank
             $trendDetails['prev-rank']['world']             = $currentWorldRank;
@@ -264,6 +260,9 @@ class UpdateAllPointRankings extends Script {
             $trendDetails['prev-rank']['region'][$region]   = $currentRegionRank;
             $trendDetails['prev-rank']['country'][$country] = $newCountryRank;
         } else {
+            if ( $guildDetails->_name == 'Drow' && $dungeonDetails->_name == 'The Datascape 20' ) {
+                echo "Ranking Details DO NOT Exist<br>";
+            }
             // Rank is New
             $trendDetails['trend']['world']             = 'NEW';
             $trendDetails['trend']['server'][$server]   = 'NEW';
@@ -490,7 +489,10 @@ class UpdateAllPointRankings extends Script {
 
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { 
             $encounterId = $row['encounter_id'];
-            $encounter   = clone(CommonDataContainer::$encounterArray[$encounterId]);
+
+            if ( !isset(CommonDataContainer::$encounterArray[$encounterId]) ) { continue; }
+
+            $encounter = clone(CommonDataContainer::$encounterArray[$encounterId]);
 
             // If Encounter is not normal (0), dont update points
             if ( $encounter->_type == 0 ) {

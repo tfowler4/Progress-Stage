@@ -1,6 +1,8 @@
-<div id="faction-logo-preview">
-    <?php foreach(CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
-        <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> faded"><?php echo Functions::getImageFaction($factionDetails->_name); ?></div>
+<div id="faction-logo-preview-wrapper">
+    <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
+        <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
+            <?php echo Functions::getImageFaction($factionDetails->_name); ?>
+        </div>
     <?php endforeach; ?>
 </div>
 
@@ -17,12 +19,12 @@
             <tbody>
                 <tr>
                     <th>Team Name</th>
-                    <td><input id="userpanel-guild-name" type="text" name="userpanel-guild-name" value="<?php echo $data->_formFields->guildName; ?>"></td>
+                    <td><input id="user-form-guild-name" type="text" name="userpanel-guild-name" value="<?php echo $data->_formFields->guildName; ?>"></td>
                 </tr>
                 <tr>
                     <th>Faction</th>
                     <td>
-                        <select id="userpanel-faction" name="userpanel-faction">
+                        <select id="user-form-faction" name="userpanel-faction">
                             <option value="">Select Faction</option>
                             <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
                                 <option value="<?php echo $factionId; ?>" <?php if (!empty($data->_formFields->faction) && $data->_formFields->faction == $factionId): ?>selected<?php endif; ?>><?php echo $factionDetails->_name; ?></option>
@@ -33,7 +35,7 @@
                 <tr>
                     <th>Server</th>
                     <td>
-                        <select id="userpanel-server" name="userpanel-server">
+                        <select id="user-form-server" name="userpanel-server">
                             <option value="">Select Server</option>
                             <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
                                 <option value="<?php echo $serverId; ?>" <?php if (!empty($data->_formFields->server) && $data->_formFields->server == $serverId): ?>selected<?php endif; ?>><?php echo $serverDetails->_region . '-' . $serverDetails->_name; ?></option>
@@ -44,7 +46,7 @@
                 <tr>
                     <th>Country</th>
                     <td>
-                        <select id="userpanel-country" name="userpanel-country">
+                        <select id="user-form-country" name="userpanel-country">
                             <option value="">Select Country</option>
                             <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
                                 <option value="<?php echo $countryId; ?>" <?php if (!empty($data->_formFields->country) && $data->_formFields->country == $countryId): ?>selected<?php endif; ?>><?php echo $countryDetails->_name; ?></option>
@@ -54,14 +56,14 @@
                 </tr>
                 <tr>
                     <th>Raid Leader</th>
-                    <td><input id="userpanel-guild-leader" type="text" name="userpanel-guild-leader" value="<?php echo $data->_formFields->guildLeader; ?>"></td>
+                    <td><input id="user-form-guild-leader" type="text" name="userpanel-guild-leader" value="<?php echo $data->_formFields->guildLeader; ?>"></td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="2">
-                        <input id="userpanel-active" type="hidden" name='active' value="Active">
-                        <input id="userpanel-submit" type="submit" value="Submit">
+                        <input id="user-form-active" type="hidden" name='active' value="Active">
+                        <input id="user-form-submit" type="submit" value="Submit">
                     </td>
                 </tr>
             </tfoot>
@@ -71,6 +73,6 @@
 
 <div class="horizontal-separator"></div>
 
-<div id="preview-wrapper">
+<div id="guild-country-logo-preview-wrapper">
     <div id="country-flag-preview"></div>
 </div>

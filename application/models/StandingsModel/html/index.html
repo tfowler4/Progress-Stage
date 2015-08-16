@@ -4,8 +4,8 @@
 
         <div id="title-wrapper">
             <div id="title-text-wrapper">
-                <div id="title-name"><?php echo $data->_detailsPane->_name; ?></div>
-                <div id="title-server">Progression Standings</div>
+                <div id="title-main-text"><?php echo $data->_detailsPane->_name; ?></div>
+                <div id="title-sub-text">Progression Standings</div>
             </div>
 
             <div style="float: right;">
@@ -24,9 +24,9 @@
             <?php endif; ?>
         <?php endif; ?>
 
-        <div id="info-content-wrapper">
+        <div id="page-details-wrapper">
             <?php if ( isset($data->_encounter) ): ?>
-                <table class="info-content">
+                <table class="page-details">
                     <thead>
                         <tr>
                             <th colspan="2">Encounter Details</th>
@@ -42,7 +42,7 @@
                     </tbody>
                 </table>
             <?php else : ?>
-                <table class="info-content">
+                <table class="page-details">
                     <thead>
                         <tr>
                             <th colspan="2">Dungeon Details</th>
@@ -60,12 +60,12 @@
             <?php endif; ?>
         </div>
 
-        <div class="vertical-separator"></div>
-
         <div class="clear"></div>
 
-        <div id="submenu-1">
-            <ul class="submenu">
+        <div class="vertical-separator"></div>
+
+        <div id="submenu-1" class="move-left">
+            <ul class="submenu noselect">
                 <?php echo $data->generateInternalHyperLink('world', '<li>World</li>', false); ?>
                 <?php echo $data->generateInternalHyperLink('region', '<li>Regional</li>', false); ?>
                 <?php echo $data->generateInternalHyperLink('server', '<li>Server</li>', false); ?>
@@ -74,16 +74,16 @@
         </div>
 
         <?php if ( isset($data->_dungeon) && !isset($data->_encounter) ): ?>
-            <div id="submenu-2">
+            <div id="submenu-2" class="move-right">
                 <ul class="submenu">
                     <a id="<?php echo $data->_identifier . '-' . $data->_view; ?>" href="#" class="spreadsheet"><li>View as Spreadsheet</li></a>
                 </ul>
             </div>
         <?php endif; ?>
 
-        <div class="vertical-separator"></div>
-
         <div class="clear"></div>
+
+        <div class="vertical-separator"></div>
 
         <div class="table-wrapper">
             <table class="listing">

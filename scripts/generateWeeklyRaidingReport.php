@@ -119,7 +119,7 @@ class WeeklyRaidingReport extends Script {
             values('%s','%s','%s','%s','%s','%s')",
              DbFactory::TABLE_NEWS,
              self::$reportArticle->title,
-             mysql_real_escape_string(self::$reportArticle->content),
+             self::$reportArticle->content,
              self::$reportArticle->date,
              self::$reportArticle->postedBy,
              1,
@@ -130,12 +130,6 @@ class WeeklyRaidingReport extends Script {
     }
 
     public static function createSocialMediaPosts() {
-        //Logger::log('INFO', 'Posting to Google+...');
-        //create_post_google($news_details['title'], 1);
-        
-        //Logger::log('INFO', 'Posting to Facebook...');
-        //Functions::postFacebook(self::$reportArticle->title, 1);
-
         Logger::log('INFO', 'Posting to Twitter...');
         Functions::postTwitter(self::$reportArticle->title, 1);
     }

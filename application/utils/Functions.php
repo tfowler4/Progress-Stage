@@ -18,7 +18,7 @@ class Functions {
     public static function getMinutes() {
         $arr = array();
 
-        array_push($arr, '00');
+        $arr['00'] = '00';
 
         for ( $minute = 1; $minute < 60; $minute++ ) {
             if ( strlen($minute) == 1 ) $minute = '0' . $minute;
@@ -103,7 +103,7 @@ class Functions {
         $current_year = date("Y");
 
         for ( $year = RELEASE_YEAR; $year <= $current_year; $year++ ) {
-            array_push($arr, $year);
+            //array_push($arr, $year);
             $arr[$year] = $year;
         }
 
@@ -166,7 +166,7 @@ class Functions {
                 $href = PAGE_RANKINGS . $subHref . self::cleanLink($moduleDetails->_name);
                 break;
             case 'guild':
-                $class = strtolower($moduleDetails);
+                $class = 'class="' . strtolower($moduleDetails) . '"';
                 $href = PAGE_GUILD . self::cleanLink($text) . '-_-' . self::cleanLink($subMod);
                 break;
             case 'howto':
@@ -193,7 +193,7 @@ class Functions {
         }
         
         if ( $link ) {
-            $hyperlink = '<a class="' . $class . '" href="' . $href . '" target="_self">' . self::shortName($text, $textLimit) . '</a>';
+            $hyperlink = '<a ' . $class . ' href="' . $href . '" target="_self">' . self::shortName($text, $textLimit) . '</a>';
         } else {
             $hyperlink = $href;
         }
@@ -256,7 +256,7 @@ class Functions {
             $folder .= 'medium/';
         } elseif ( $size == 'small' ) {
             $folder .= 'medium/';
-            $style  = 'style="height:26px; vertical-align:middle; margin-right: 2px;"';
+            $style  = 'style="height:26px; vertical-align:middle; margin-right: 4px;"';
         } else {
             $class  = 'class="flag-icon"';
         }
@@ -384,29 +384,7 @@ class Functions {
         return number_format($points, 2, '.', ',');
     }
 
-    /*****DATA LOGGING*****/
-    public static function logEntry($severity, $message) {
-        if ( $severity == 0 ) { $severity = "INFO"; }
-        if ( $severity == 1 ) { $severity = "DEBUG"; }
-        if ( $severity == 2 ) { $severity = "WARN"; }
-        if ( $severity == 3 ) { $severity = "ERROR"; }
-
-        $year           = date('Y');
-        $month          = date('n')."-".date('M');
-        $current_date   = date('Y-m-d');
-        $log_date       = date('Y-m-d H:i');
-        $log_path       = strtolower("{$_SERVER['DOCUMENT_ROOT']}{$GLOBALS['fold_logs']}{$year}/{$month}");
-        $log_file       = strtolower("{$log_path}/{$GLOBALS['site_title']}-{$current_date}.txt");
-
-        if ( !file_exists($log_path) ) { mkdir($log_path, 0777, true); }
-
-        $handle = fopen($log_file, 'a+');
-
-        fwrite($handle, "$severity | $log_date | ".session_id()." | $message"."\n");
-
-        fclose($handle);
-    }
-
+    /*****GET DATA*****/
     public static function getServerByName($serverName) {
         $serverName = str_replace("_", " ", $serverName);
 
@@ -577,35 +555,6 @@ class Functions {
         return $retVal;
     }
 
-    public static function postFacebook($articleTitle, $type) {
-        // 0 - Standard News Article
-        // 1 - Weekly Report
-
-        $statusUpdate   = '';
-        $hyperlinkTitle = strtolower(str_replace(' ', '_', $articleTitle));
-        $hyperlinkTitle = strtolower(str_replace('#', 'poundsign', $hyperlinkTitle)); //%23
-        $hyperlink      = HOST_NAME . '/news/' . $hyperlinkTitle;
-        $pageId         = FACEBOOK_PAGE_ID;
-
-        $facebook = new Facebook(array(
-          'appId'  => FACEBOOK_APP_ID,
-          'secret' => FACEBOOK_SECRET
-
-        ));
-
-        $facebook->setAccessToken(FACEBOOK_TOKEN_APP);
-
-        $response = $facebook->api(
-            '/' . $pageId . '/links',
-            "POST",
-            array(
-                'link' => $hyperlink
-            )
-        );
-
-        var_dump($response);
-    }
-
     public static function postTwitter($articleTitle, $type) {
         // 0 - Standard News Article
         // 1 - Weekly Report
@@ -636,7 +585,7 @@ class Functions {
     public static function generateBitlyUrl($url) {
         $params                 = array();
         $params['access_token'] = BITLY_TOKEN;
-        $params['longUrl']      = 'http://www.google.com';
+        $params['longUrl']      = $url;
         $results                = bitly_get('shorten', $params);
 
         return $results['data']['url'];

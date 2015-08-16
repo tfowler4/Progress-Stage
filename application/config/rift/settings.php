@@ -26,9 +26,7 @@ define('EMAIL_ADMIN',          'administrator@topofrift.com');
 define('COMPANY_1',            'Trion Worlds');
 define('LINK_COMPANY_1',       'http://www.trionworlds.com');
 define('LINK_GAME_1',          'http://www.riftgame.com');
-define('LINK_FACEBOOK',        'http://www.facebook.com/RiftProgress');
 define('LINK_TWITTER',         'http://twitter.com/RiftProgress');
-define('LINK_GOGGLE',          'http://plus.google.com/+Rift-progress/');
 define('COPYRIGHT',            '&copy; ' . RELEASE_YEAR . ' ' . SITE_TITLE . ' - All Rights Reserved.');
 
 define('FACTIONS',   serialize(array('Defiant', 'Guardian')));
@@ -38,22 +36,8 @@ define('GOOGLE_ANALYTICS', "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=
                             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
                             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
                             ga('create', 'UA-39972522-1', 'topofrift.com');
                             ga('send', 'pageview');");
-
-// Go to Graph API Explorer
-// Select Application (Rift Progress)
-// Click Get Access Token
-// Place Access Token in this url
-// https://graph.facebook.com/oauth/access_token?client_id=816307315051965&client_secret=97e6d3e3e7f6decc497428ec53b08cdd&grant_type=fb_exchange_token&fb_exchange_token=***ACCESS TOKEN HERE***
-
-// Facebook
-//define('FACEBOOK_APP_ID',     '816307315051965');
-//define('FACEBOOK_PAGE_ID',    '1404349913116107');
-//define('FACEBOOK_SECRET',     '97e6d3e3e7f6decc497428ec53b08cdd');
-//define('FACEBOOK_TOKEN_USER', 'CAALmbVuKjb0BAHJiOeYyQ5ZCJ2YeMBg0XXXTdQjSdubnP2XKGtZC93JOozcEl6HEScWJDDOCIyxhzSQklwZAQW6KtY3ywOWS1EQRZCBaTooUKz2VyPbIXB7WSYbsvzBS2aMGUNZBJ5Cn8foVbSw76ZA8IlRAdbUFMS8EUjYsgEHgKzENgYYXcB');
-//define('FACEBOOK_TOKEN_APP',  '816307315051965|U3PwC5ZAXEE84-FSKONeUQx8o4Q');
 
 // Twitter
 define('TWITTER_KEY',          'LbFIFyK8qx0GY72rlu52Q');

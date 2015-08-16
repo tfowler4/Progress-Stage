@@ -48,7 +48,7 @@ class Template {
         $html .= $headerText;
 
         if ( !empty($optionText) ) {
-            $html .= '<a style="float:right;" id="' . $optionId . '" class="button-link ' . $optionClass . '" href="#">' . $optionText . '</a>';
+            $html .= '<a id="' . $optionId . '" class="table-header-link move-right' . $optionClass . '" href="#">' . $optionText . '</a>';
         }
 
         $html .= '</th>';
@@ -173,6 +173,8 @@ class Template {
         $html .= '</tbody>';
         $html .= '</table>';
         $html .= '</div>';
+        $html .= '<div class="clear"></div>';
+        $html .= '<div class="vertical-separator"></div>';
 
         return $html;
     }
@@ -181,7 +183,7 @@ class Template {
         $html       = '';
         $guildCount = 1;
 
-        $html = '<div id="top-content-wrapper" class="noselect">';
+        $html = '<div id="top-guild-wrapper" class="noselect">';
 
         foreach ( $topGuildArray as $guildId => $guildDetails ) {
             $placeStr = '';
@@ -263,6 +265,7 @@ class Template {
             );
 
         $html = '';
+        $html .= '<div class="vertical-separator"></div>';
         $html .= self::drawGlossary($glossaryArray, 1);
         $html .= '<div class="vertical-separator"></div>';
         $html .= '<div class="table-wrapper">';
@@ -325,6 +328,21 @@ class Template {
         $spreadsheet = new Listings('standings', $params);
 
         $html .= self::getSpreadsheetHtml($tableHeader, $spreadsheet, $dungeonDetails);
+
+        return $html;
+    }
+
+    public static function getEncounterDropdownListHtml($guildId) {
+        $guildDetails = CommonDataContainer::$guildArray[$guildId];
+        $guildDetails->generateEncounterDetails('');
+
+        $html = '';
+
+        foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails) {
+            if( !isset($guildDetails->_encounterDetails->$encounterId) ) {
+                $html .= '<option value="' . $encounterId . '">' . $encounterDetails->_dungeon . ' - ' . $encounterDetails->_encounterName . '</option>';
+            }
+        }
 
         return $html;
     }
@@ -397,6 +415,12 @@ class Template {
                     }
                 }
                 break;
+            case 'search':
+                if ( MODULE_SEARCH_SET == 1 ) {
+                    $html = '<li class="no-highlight"><form id="search-form"><input id="search-input" placeholder="Enter guild name" type="text" /></form></li>';
+                    $html .= '<li id="search-activator" class="no-highlight">' . $GLOBALS['images']['search'] . '</li>';
+                }
+                break;
         }
 
         return $html;
@@ -411,18 +435,18 @@ class Template {
                 $html .= '<li>';
                     if ( $modelName == 'standings') { $html .= 'Progression Standings ' . $GLOBALS['images']['icon-dropdown']; }
                     if ( $modelName == 'rankings') { $html .= 'Point Rankings ' . $GLOBALS['images']['icon-dropdown']; }
-                    $html .= '<div class="menu-sub">';
+                    $html .= '<div class="dropdown-menu-first-level">';
                         foreach( $topLevelArray as $tierId => $tierDetails) {
-                            $html .= '<div class="menu-sub-header">';
+                            $html .= '<div class="dropdown-menu-item">';
                                 $html .= '(T' . $tierDetails->_tier . '/' . $tierDetails->_altTier . ') ' . $tierDetails->_name;
-                                $html .= '<div class="level-1">';
+                                $html .= '<div class="dropdown-menu-second-level">';
                                     foreach( $tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
-                                        if ( $modelName == 'standings') { $html .= '<div class="menu-sub-header">' . Functions::generateInternalHyperlink('standings', $dungeonDetails, 'world', $dungeonDetails->_name, ''); }
-                                        if ( $modelName == 'rankings' ) { $html .= '<div class="menu-sub-header">' . Functions::generateInternalHyperlink('rankings', $dungeonDetails, 'world/' . POINT_SYSTEM_DEFAULT, '<div class="menu-sub-header">' . $dungeonDetails->_name . '</div>', ''); }
+                                        if ( $modelName == 'standings') { $html .= '<div class="dropdown-menu-item">' . Functions::generateInternalHyperlink('standings', $dungeonDetails, 'world', $dungeonDetails->_name, ''); }
+                                        if ( $modelName == 'rankings' ) { $html .= '<div class="dropdown-menu-item">' . Functions::generateInternalHyperlink('rankings', $dungeonDetails, 'world/' . POINT_SYSTEM_DEFAULT, '<div class="dropdown-menu-item">' . $dungeonDetails->_name . '</div>', ''); }
                                             if ( $numOfLevels > 2 ) {
-                                                $html .= '<div class="level-1">';
+                                                $html .= '<div class="dropdown-menu-second-level">';
                                                     foreach( $dungeonDetails->_encounters as $encounterId => $encounterDetails ) {
-                                                        if ( $modelName == 'standings') { $html .= Functions::generateInternalHyperlink('standings', $encounterDetails, 'world', '<div class="menu-sub-header">' . $encounterDetails->_name . '</div>', ''); }
+                                                        if ( $modelName == 'standings') { $html .= Functions::generateInternalHyperlink('standings', $encounterDetails, 'world', '<div class="dropdown-menu-item">' . $encounterDetails->_name . '</div>', ''); }
                                                     }
                                                 $html .= '</div>';
                                                 if ( $dungeonDetails->_numOfEncounters > 0 ) { $html .= $GLOBALS['images']['icon-expand']; }
@@ -439,14 +463,14 @@ class Template {
             case 'servers':
                 $html .= '<li>';
                     $html .= 'Servers ' . $GLOBALS['images']['icon-dropdown'];
-                    $html .= '<div class="menu-sub">';
+                    $html .= '<div class="dropdown-menu-first-level">';
                         foreach( $topLevelArray as $regionId => $regionDetails ) {
-                            $html .= '<div class="menu-sub-header">';
+                            $html .= '<div class="dropdown-menu-item">';
                                 $html .= $regionDetails->_regionImage . '<span style="vertical-align:middle;">' . $regionDetails->_name . '</span>';
-                                $html .= '<div class="level-1 image">';
+                                $html .= '<div class="dropdown-menu-second-level image">';
                                     foreach( $regionDetails->_servers as $serverId => $serverDetails ) {
                                         if ( $serverDetails->_region != $regionDetails->_abbreviation ) { continue; }
-                                        $html .= '<div class="menu-sub-header">' . $serverDetails->_nameLink . '</div>';
+                                        $html .= '<div class="dropdown-menu-item">' . $serverDetails->_nameLink . '</div>';
                                     }
                                 $html .= '</div>';
                                 if ( $regionDetails->_numOfServers > 0 ) { $html .= $GLOBALS['images']['icon-expand']; }

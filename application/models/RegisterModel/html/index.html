@@ -13,9 +13,11 @@
         <div class="vertical-separator"></div>
 
         <div id="main-block">
-            <div id="faction-logo-preview">
-                <?php foreach(CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
-                    <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> faded"><?php echo Functions::getImageFaction($factionDetails->_name); ?></div>
+            <div id="faction-logo-preview-wrapper">
+                <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
+                    <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
+                        <?php echo Functions::getImageFaction($factionDetails->_name); ?>
+                    </div>
                 <?php endforeach; ?>
             </div>
 
@@ -32,28 +34,28 @@
                         <tbody>
                             <tr>
                                 <th>Username</th>
-                                <td><input id="register-username" type="text" name="register-username" class="required" value="<?php echo $data->_formFields->username; ?>"></td>
+                                <td><input id="user-form-username" type="text" name="register-username" class="required" value="<?php echo $data->_formFields->username; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Email</th>
-                                <td><input id="register-email" type="text" name="register-email" class="required"  value="<?php echo $data->_formFields->email; ?>"></td>
+                                <td><input id="user-form-email" type="text" name="register-email" class="required"  value="<?php echo $data->_formFields->email; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Password</th>
-                                <td><input id="register-password" type="password" name="register-password" class="required"></td>
+                                <td><input id="user-form-password" type="password" name="register-password" class="required"></td>
                             </tr>
                             <tr>
                                 <th>Retype Password</th>
-                                <td><input id="register-retype-password" type="password" name="register-retype-password" class="required"></td>
+                                <td><input id="user-form-retype-password" type="password" name="register-retype-password" class="required"></td>
                             </tr>
                             <tr>
                                 <th>Guild Name</th>
-                                <td><input id="register-guild-name" type="text" name="register-guild-name" value="<?php echo $data->_formFields->guildName; ?>"></td>
+                                <td><input id="user-form-guild-name" type="text" name="register-guild-name" value="<?php echo $data->_formFields->guildName; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Faction</th>
                                 <td>
-                                    <select id="register-faction" name="register-faction">
+                                    <select id="user-form-faction" name="register-faction">
                                         <option value="">Select Faction</option>
                                         <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
                                             <option value="<?php echo $factionId; ?>" <?php if (!empty($data->_formFields->faction) && $data->_formFields->faction == $factionId): ?>selected<?php endif; ?>><?php echo $factionDetails->_name; ?></option>
@@ -64,10 +66,10 @@
                             <tr>
                                 <th>Server</th>
                                 <td>
-                                    <select id="register-server" name="register-server">
+                                    <select id="user-form-server" name="register-server">
                                         <option value="">Select Server</option>
                                         <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
-                                            <option value="<?php echo $serverId; ?>" <?php if (!empty($data->_formFields->server) && $data->_formFields->server == $serverId): ?>selected<?php endif; ?>><?php echo $serverDetails->_region . '-' . $serverDetails->_name; ?></option>
+                                            <option value="<?php echo $serverId; ?>" <?php if (!empty($data->_formFields->server) && $data->_formFields->server == $serverId): ?>selected<?php endif; ?>><?php echo $serverDetails->_region . ' - ' . $serverDetails->_name; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </td>
@@ -75,7 +77,7 @@
                             <tr>
                                 <th>Country</th>
                                 <td>
-                                    <select id="register-country" name="register-country">
+                                    <select id="user-form-country" name="register-country">
                                         <option value="">Select Country</option>
                                         <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
                                             <option value="<?php echo $countryId; ?>" <?php if (!empty($data->_formFields->country) && $data->_formFields->country == $countryId): ?>selected<?php endif; ?>><?php echo $countryDetails->_name; ?></option>
@@ -85,38 +87,38 @@
                             </tr>
                             <tr>
                                 <th>Guild Leader</th>
-                                <td><input id="register-guild-leader" type="text" name="register-guild-leader" value="<?php echo $data->_formFields->guildLeader; ?>"></td>
+                                <td><input id="user-form-guild-leader" type="text" name="register-guild-leader" value="<?php echo $data->_formFields->guildLeader; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Website</th>
-                                <td><input id="register-website" type="text" name="register-website" value="<?php echo $data->_formFields->website; ?>"></td>
+                                <td><input id="user-form-website" type="text" name="register-website" value="<?php echo $data->_formFields->website; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Facebook</th>
-                                <td><input id="register-facebook" type="text" name="register-facebook" value="<?php echo $data->_formFields->facebook; ?>"></td>
+                                <td><input id="user-form-facebook" type="text" name="register-facebook" value="<?php echo $data->_formFields->facebook; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Twitter</th>
-                                <td><input id="register-twitter" type="text" name="register-twitter" value="<?php echo $data->_formFields->twitter; ?>"></td>
+                                <td><input id="user-form-twitter" type="text" name="register-twitter" value="<?php echo $data->_formFields->twitter; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Google+</th>
-                                <td><input id="register-google" type="text" name="register-google" value="<?php echo $data->_formFields->google; ?>"></td>
+                                <td><input id="user-form-google" type="text" name="register-google" value="<?php echo $data->_formFields->google; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Guild Logo</th>
-                                <td><input id="register-guild-logo" type="file" name="register-guild-logo" value="<?php echo $data->_formFields->guildLogo; ?>"></td>
+                                <td><input id="user-form-guild-logo" type="file" name="register-guild-logo" value="<?php echo $data->_formFields->guildLogo; ?>"></td>
                             </tr>
                             <tr>
                                 <th>Important Stuff</th>
-                                <td><input id="register-required-tos" type="checkbox" name="register-required-tos" <?php if( $data->_formFields->isImportant == 'on' ): ?>checked<?php endif; ?> /> I agree to the Terms of Service</td>
+                                <td><input id="user-form-required-tos" type="checkbox" name="register-required-tos" <?php if( $data->_formFields->isImportant == 'on' ): ?>checked<?php endif; ?> /> I agree to the Terms of Service</td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
                                 <td colspan="2">
-                                    <input id="register-active" type="hidden" name='active' value="Active">
-                                    <input id="register-submit" type="submit" value="Submit">
+                                    <input id="user-form-active" type="hidden" name='active' value="Active">
+                                    <input id="user-form-submit" type="submit" value="Submit">
                                 </td>
                             </tr>
                         </tfoot>
@@ -126,7 +128,7 @@
 
             <div class="horizontal-separator"></div>
 
-            <div id="preview-wrapper">
+            <div id="guild-country-logo-preview-wrapper">
                 <div id="guild-logo-preview"></div>
                 <div id="country-flag-preview"></div>
             </div>
@@ -152,7 +154,7 @@
                              <h3>2. Use License</h3>
                              <p>
                                  Permission is granted to temporarily download one copy of the materials 
-                                (information or software) on Rift Progress's web site for personal, 
+                                (information or software) on <?php echo SITE_TITLE; ?> web site for personal, 
                                 non-commercial transitory viewing only. This is the grant of a license, 
                                 not a transfer of title, and under this license you may not:
                             
@@ -161,41 +163,41 @@
                                  <ol type="i">
                                      <li>modify or copy the materials</li>
                                      <li>use the materials for any commercial purpose, or for any public display (commercial or non-commercial)</li>
-                                     <li>attempt to decompile or reverse engineer any software contained on Rift Progress's web site</li>
+                                     <li>attempt to decompile or reverse engineer any software contained on <?php echo SITE_TITLE; ?> web site</li>
                                      <li>remove any copyright or other proprietary notations from the materials or</li>
                                      <li>transfer the materials to another person or mirror the materials on any other server.</li>
                                  </ol>
                                  <p>
-                                    This license shall automatically terminate if you violate any of these restrictions and may be terminated by Rift Progress at any time. Upon terminating your viewing of these materials or upon the termination of this license, you must destroy any downloaded materials in your possession whether in electronic or printed format.
+                                    This license shall automatically terminate if you violate any of these restrictions and may be terminated by <?php echo SITE_TITLE; ?> at any time. Upon terminating your viewing of these materials or upon the termination of this license, you must destroy any downloaded materials in your possession whether in electronic or printed format.
                                 
                              <h3>3. Disclaimer</h3>
                                 <p>
-                                    The materials on Rift Progress's web site are provided as is. Rift Progress makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties, including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights. Further, Rift Progress does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its Internet web site or otherwise relating to such materials or on any sites linked to this site.
+                                    The materials on <?php echo SITE_TITLE; ?>'s web site are provided as is. <?php echo SITE_TITLE; ?> makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties, including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights. Further, <?php echo SITE_TITLE; ?> does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its Internet web site or otherwise relating to such materials or on any sites linked to this site.
 
                              <h3>4. Limitations</h3>
 
                              <p>
-                                 In no event shall Rift Progress or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption,) arising out of the use or inability to use the materials on Rift Progress's Internet site, even if Rift Progress or a Rift Progress authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.
+                                 In no event shall <?php echo SITE_TITLE; ?> or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption,) arising out of the use or inability to use the materials on <?php echo SITE_TITLE; ?>'s Internet site, even if <?php echo SITE_TITLE; ?> or a <?php echo SITE_TITLE; ?> authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.
 
                              <h3>5. Revisions and Errata</h3>
 
                              <p>
-                                 The materials appearing on Rift Progress's web site could include technical, typographical, or photographic errors. Rift Progress does not warrant that any of the materials on its web site are accurate, complete, or current. Rift Progress may make changes to the materials contained on its web site at any time without notice. Rift Progress does not, however, make any commitment to update the materials.
+                                 The materials appearing on <?php echo SITE_TITLE; ?>'s web site could include technical, typographical, or photographic errors. <?php echo SITE_TITLE; ?> does not warrant that any of the materials on its web site are accurate, complete, or current. <?php echo SITE_TITLE; ?> may make changes to the materials contained on its web site at any time without notice. <?php echo SITE_TITLE; ?> does not, however, make any commitment to update the materials.
 
                              <h3>6. Links</h3>
 
                              <p>
-                                 Rift Progress has not reviewed all of the sites linked to its Internet web site and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by Rift Progress of the site. Use of any such linked web site is at the user's own risk.
+                                 <?php echo SITE_TITLE; ?> has not reviewed all of the sites linked to its Internet web site and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by <?php echo SITE_TITLE; ?> of the site. Use of any such linked web site is at the user's own risk.
 
                              <h3>7. Site Terms of Use Modifications</h3>
 
                              <p>
-                                 Rift Progress may revise these terms of use for its web site at any time without notice. By using this web site you are agreeing to be bound by the then current version of these Terms and Conditions of Use.
+                                 <?php echo SITE_TITLE; ?> may revise these terms of use for its web site at any time without notice. By using this web site you are agreeing to be bound by the then current version of these Terms and Conditions of Use.
 
                              <h3>8. Governing Law</h3>
 
                              <p>
-                                 Any claim relating to Rift Progress's web site shall be governed by the laws of the State of Georgia without regard to its conflict of law provisions.
+                                 Any claim relating to <?php echo SITE_TITLE; ?>'s web site shall be governed by the laws of the State of Georgia without regard to its conflict of law provisions.
 
                              <p>General Terms and Conditions applicable to Use of a Web Site.
                     </div>
@@ -204,9 +206,8 @@
         </div>
 
         <div id="side-block">
-            <div id="rankings-wrapper">
+            <div id="side-block-rankings-wrapper">
                 <div class="block-title">Newest Guilds</div>
-
                 <table id="newest-guilds-table" class="side-block-listing">
                     <thead>
                     </thead>

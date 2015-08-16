@@ -10,12 +10,13 @@ class NewsModel extends Model {
     protected $_standingsTableHeader;
     
     const PAGE_TITLE            = GAME_NAME_1 . '\'s Raid Progression Tracker';
-    const PAGE_DESCRIPTION      = GAME_NAME_1 . '\s #1 Resource for raid progression tracking.';
+    const PAGE_DESCRIPTION      = GAME_NAME_1 . '\'s #1 Resource for raid progression tracking.';
     const LIMIT_NEWS            = 3;
     const LIMIT_RECENT_RAIDS    = 100;
     const LIMIT_GUILD_RANKINGS  = 10;
     const LIMIT_GUILD_STANDINGS = 10;
     const STANDINGS_DISPLAY     = 1;
+    const STREAM_CHANNELS       = 20;
 
     const HEADER_STANDINGS = array(
             'Rank'     => '_rank',
@@ -35,7 +36,7 @@ class NewsModel extends Model {
         $this->_article = strtolower(str_replace("_"," ", $this->_article)); 
         $this->_article = strtolower(str_replace("poundsign","#", $this->_article));
 
-        $this->_videoLinks     = $this->getLiveVideos();
+        $this->_videoLinks     = $this->getLiveVideos(self::STREAM_CHANNELS);
         $this->_newsArticles   = $this->getArticles($this->article, self::LIMIT_NEWS);
         $this->_guildStandings = $this->getStandings(self::STANDINGS_DISPLAY, self::LIMIT_GUILD_STANDINGS);
         $this->_guildRankings  = $this->getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
@@ -63,14 +64,15 @@ class NewsModel extends Model {
         return $dataArray;
     }
 
-    public function getLiveVideos() {
+    public function getLiveVideos($limit) {
         $dataArray = array();
         $query;
 
-        $query  = $this->getTwitchChannels(); 
+        $query  = $this->getTwitchChannels($limit); 
 
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
             $dataArray[$row['twitch_id']] = new TwitchDetails($row);
+            if ( !file_exists(ABSOLUTE_PATH . '/public/images/' . strtolower(GAME_NAME_1) . '/twitch/' . $row['twitch_id']) ) { unset($dataArray[$row['twitch_id']]); }
         }
 
         return $dataArray;
@@ -273,16 +275,19 @@ class NewsModel extends Model {
                     $points       = Functions::formatPoints($points);
                     $trend        = $rankDetails->_trend->_world;
                     $image        = Functions::getTrendImage($trend);
+                    $identifier   = $guildId . ' | ' . $systemId;
                     $guildDetails->nameLength(0);
                     $rank++;
 
-                    $detailsArray[$systemId][$guildId]           = new stdClass();
-                    $detailsArray[$systemId][$guildId]->points   = $points;
-                    $detailsArray[$systemId][$guildId]->progress = $guildDetails->_dungeonDetails->$dungeonId->_standing;
-                    $detailsArray[$systemId][$guildId]->guild    = $guildDetails->_nameLink;
-                    $detailsArray[$systemId][$guildId]->rank     = $image . ' ' . $rank;
+                    $detailsArray[$rank][$identifier]           = new stdClass();
+                    $detailsArray[$rank][$identifier]->points   = $points;
+                    $detailsArray[$rank][$identifier]->progress = $guildDetails->_dungeonDetails->$dungeonId->_standing;
+                    $detailsArray[$rank][$identifier]->guild    = $guildDetails->_nameLink;
+                    $detailsArray[$rank][$identifier]->rank     = $image . ' ' . $rank;
                 }
             }
+
+
 
             $returnArray[$dungeonId]['data'] = $detailsArray;
         }
@@ -320,12 +325,15 @@ class NewsModel extends Model {
             $encounterSpecifics = CommonDataContainer::$encounterArray[$encounterId];
             $guildDetails->nameLength(12);
 
-            $dataArray[$identifier]            = new stdClass();
-            $dataArray[$identifier]->name      = $guildDetails->_name;
-            $dataArray[$identifier]->guild     = $guildDetails->_nameLink;
-            $dataArray[$identifier]->encounter = Functions::shortName($encounterSpecifics->_name, 22);
-            $dataArray[$identifier]->time      = $encounterDetails->_shorttime;
-            $dataArray[$identifier]->server    = $guildDetails->_server;
+            $dataArray[$identifier]             = new stdClass();
+            $dataArray[$identifier]->name       = $guildDetails->_name;
+            $dataArray[$identifier]->guild      = $guildDetails->_nameLink;
+            $dataArray[$identifier]->encounter  = Functions::shortName($encounterSpecifics->_name, 22);
+            $dataArray[$identifier]->time       = $encounterDetails->_shorttime;
+            $dataArray[$identifier]->server     = $guildDetails->_server;
+            $dataArray[$identifier]->link       = Functions::generateInternalHyperLink('guild', $guildDetails->_faction, $guildDetails->_server, $guildDetails->_name, 0, false);
+            $dataArray[$identifier]->screenshot = $encounterDetails->_screenshotLink;
+            $dataArray[$identifier]->video      = $encounterDetails->_videoLink;
         }
 
         return $dataArray;
@@ -362,15 +370,16 @@ class NewsModel extends Model {
         return $query;
     }
 
-    public function getTwitchChannels() {
+    public function getTwitchChannels($limit) {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
             "SELECT *
                FROM %s
               WHERE active = 1
-              LIMIT 10", 
-                    DbFactory::TABLE_TWITCH
+              LIMIT %s", 
+                    DbFactory::TABLE_TWITCH,
+                    $limit
                 ));
         $query->execute();
 

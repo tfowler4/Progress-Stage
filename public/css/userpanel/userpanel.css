@@ -1,82 +1,100 @@
-div.option-container {
+/* main option pane container */
+.option-container {
     display: inline-block;
     width: 250px;
     border: 1px solid #C0C0C0;
-    border-radius: 5px;
+    border-radius: 3px;
     vertical-align: top;
-    cursor: default;
 }
 
-div.option-container.guild.new {
+/* main option pane container hover state */
+.option-container:hover {
+    border: 1px solid #0000FF;
+}
+
+/* main option pane for adding a new guild */
+.option-container.guild.new {
     border-style: dashed;
 }
 
-div.option-container:hover {
-    border: 1px solid blue;
-    border-radius: 5px;
-}
-
-div.option-container div.option-title {
-    height: 30px;
-    line-height: 30px;
-    font-size: 20px;
-    border: 1px solid transparent;
-    border-radius: 5px 5px 0px 0px;
-    background-color: #C0C0C0;
-}
-
-div.option-container div.option-content.new {
+/* main option pane for new guild*/
+.option-content.new {
     display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
     vertical-align: middle;
 }
 
-div.option-container div.option-footer {
-    height: 22px;
-    line-height: 22px;
-    font-size: 14px;
-    border-top: 1px solid #C0C0C0;
-    border-top-right-radius: 2px;
-    border-top-left-radius: 2px;
-    
+/* main option pane title text */
+.option-title {
+    height: 24px;
+    line-height: 24px;
+    font-size: 16px;
     font-weight: bold;
-}
-
-div.option-container div.option-footer:hover {
+    border: 1px solid #C0C0C0;
+    border-radius: 2px 2px 0px 0px;
     background-color: #C0C0C0;
 }
 
-div.option-container div.option-content table {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
+/* main option pane header (optional) */
+.option-header {
+    height: 22px;
+    line-height: 22px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* main option pane footer (optional) */
+.option-footer {
+    height: 22px;
+    line-height: 22px;
+    font-size: 14px;
+    font-weight: bold;
+    border-top: 1px solid #C0C0C0;
+}
+
+/* option content pane header/footer guild name (needs to be distinguished) */
+.option-header.guild, .option-footer.guild {
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px ;
+}
+
+/* main option pane header/footer hover state */
+.option-header:hover, .option-footer:hover {
+    background-color: #C0C0C0;
+}
+
+/* option content pane inner table */
+.option-content table {
     width: 100%;
     padding: 5px;
 }
 
-div.option-container div.option-content table thead tr th {
+/* option content pane inner table header */
+.option-content table thead tr th {
     height: 24px;
     line-height: 24px;
     font-size: 18px;
 }
 
-div.option-container div.option-content table tbody tr th {
+/* option content pane inner table body header */
+.option-content table tbody tr th {
     height: 24px;
     line-height: 24px;
-    font-weight: bold;
     font-size: 14px;
+    font-weight: bold;
 }
 
-div.option-container div.option-content table tbody tr td {
+/* option content pane inner table body content */
+.option-content table tbody tr td {
     height: 18px;
     line-height: 18px;
     font-size: 12px;
 }
 
-div.option-container div.option-content table tfoot tr th {
+/* option content pane inner table footer header */
+.option-content table tfoot tr th {
     text-align: center;
-}
-
-.option-footer.guild {
-    height: 32px !important;
-    line-height: 32px !important;
-    font-size: 14px !important;
 }

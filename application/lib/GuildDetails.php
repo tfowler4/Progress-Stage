@@ -110,7 +110,6 @@ class GuildDetails {
         $this->_standing         = '0/0';
         $this->_hardModeStanding = '0/0';
         $this->_conqeuror        = 'No';
-        //$this->_logo             = '<img class="guild-logo-medium" src="' . FOLD_GUILD_LOGOS . 'logo-'. $this->_guildId . '">';
         $this->_logo             = Template::getLogo($this);
         $this->_guildType        = (isset($params['guild_type']) && !empty($params['guild_type']) ? $params['guild_type'] : 'N/A');
 
@@ -456,7 +455,7 @@ class GuildDetails {
                 $this->$key = $value->{'_'.$view};
 
                 if ( $key == '_trend' && intval($this->$key) > 0 ) {
-                    $this->$key = $GLOBALS['images']['trend_up'] . '<span>' . $this->$key . '</span>';
+                    $this->$key = $GLOBALS['images']['trend_up'] . '<span>+' . $this->$key . '</span>';
                 } elseif ( $key == '_trend' && intval($this->_trend) < 0 ) {
                     $this->$key = $GLOBALS['images']['trend_down'] . '<span>' . $this->$key . '</span>';
                 }
