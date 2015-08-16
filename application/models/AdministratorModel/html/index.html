@@ -20,6 +20,7 @@
                              <tr>
                                 <td>
                                 <select class="admin-select tier number" name="select-tier-num">
+                                    <option value="">Select Tier</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                     <option value="6">6</option>
@@ -31,7 +32,7 @@
                             <tr>
                                 <th>Alt Name</th>
                             </tr>
-                                <td><input class="admin-textbox" type="text" name="alt-name" /></td>
+                                <td><input class="admin-textbox" type="text" name="text-alt-name" /></td>
                             <tr>
                             </tr>
                             <tr>
@@ -40,6 +41,7 @@
                             <tr>
                                 <td>
                                 <select class="admin-select tier name" name="select-tier">
+                                    <option value="">Select Tier Name</option>
                                     <option value="Storm Legion">Storm Legion</option>
                                     <option value="Empyrean Assault">Empyrean Assault</option>
                                     <option value="Bindings of Blood">Blindings of Blood</option>
@@ -54,6 +56,7 @@
                             <tr>
                                 <td>
                                 <select class="admin-select month" name="select-month">
+                                    <option value="">Month</option>
                                     <option value="01">Jan</option>
                                     <option value="02">Feb</option>
                                     <option value="03">Mar</option>
@@ -61,6 +64,7 @@
                                     <option value="05">May</option>
                                 </select>
                                 <select class="admin-select day" name="select-day">
+                                    <option value="">Day</option>
                                     <option value="01">1</option>
                                     <option value="12">12</option>
                                     <option value="20">20</option>
@@ -68,6 +72,7 @@
                                     <option value="30">30</option>
                                 </select>
                                 <select class="admin-select year" name="select-year">
+                                    <option value="">Year</option>
                                     <option value="2015">2015</option>
                                     <option value="2016">2016</option>
                                     <option value="2017">2017</option>
@@ -86,7 +91,7 @@
         </div>
         <div class="horizontal-separator"></div>
 
-       <div class="admin-container dungeon">
+        <div class="admin-container dungeon">
             <div class="admin-title">Create Dungeon</div>
             <form class="admin-form dungeon" id="form-dungeon-add" method="POST" action="http://localhost/stage/administrator">
                 <div class="admin-content dungeon">
@@ -98,7 +103,7 @@
                                 <th>Name</th>
                             </tr>
                             <tr>
-                                <td><input class="admin-textbox" type="text" name="dungeon-name" /></td>
+                                <td><input class="admin-textbox" type="text" name="text-dungeon-name" /></td>
                             </tr>
                             <tr>
                                 <th>Tier Name</th>
@@ -106,6 +111,7 @@
                              <tr>
                                 <td>
                                 <select class="admin-select tier number" name="select-tier-num">
+                                    <option value="">Select Tier Name</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                     <option value="6">6</option>
@@ -120,6 +126,7 @@
                              <tr>
                                 <td>
                                 <select class="admin-select mobs number" name="select-mobs-num">
+                                    <option value="0">0</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                     <option value="6">6</option>
@@ -150,7 +157,7 @@
                                 <th>Name</th>
                             </tr>
                             <tr>
-                                <td><input class="admin-textbox" type="text" name="encounter-name" /></td>
+                                <td><input class="admin-textbox" type="text" name="text-encounter-name" /></td>
                             </tr>
                             <tr>
                                 <th>Dungeon</th>
@@ -158,6 +165,7 @@
                             <tr>
                                 <td>
                                 <select class="admin-select dungeon" name="select-dungeon">
+                                    <option value="">Select Dungeon</option>
                                     <option value="Endless Eclipse">Endless Eclipse</option>
                                     <option value="Frozen Tempest">Frozen Tempest</option>
                                     <option value="Grim Awakening">Grim Awakening</option>
@@ -172,6 +180,7 @@
                              <tr>
                                 <td>
                                 <select class="admin-select tier number" name="select-tier-num">
+                                    <option value="">Select Tier</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                     <option value="6">6</option>
@@ -186,6 +195,7 @@
                             <tr>
                                 <td>
                                 <select class="admin-select raid size" name="select-raid-size">
+                                    <option value="">Select Raid Size</option>
                                     <option value="10">10</option>
                                     <option value="20">20</option>
                                 </select>
@@ -202,7 +212,7 @@
         <div class="vertical-separator" style="height:15px;"></div>
         <div class="horizontal-separator"></div>
 
-       <div class="admin-container guild new">
+        <div class="admin-container guild new">
             <div class="admin-title">Add Guild</div>
             <form class="admin-form guild" id="form-guild-add" method="POST" action="http://localhost/stage/administrator">
                 <div class="admin-content guild new">
@@ -221,6 +231,7 @@
                             <tr>
                                 <td>
                                 <select class="admin-select server" name="select-server">
+                                    <option value="">Select Server</option>
                                     <option value="Deepwood">Deepwood</option>
                                     <option value="Faeblight">Faeblight</option>
                                     <option value="Greybriar">Greybriar</option>
@@ -235,6 +246,7 @@
                             <tr>
                                 <td>
                                 <select class="admin-select country" name="select-country">
+                                    <option value="">Select Country</option>
                                     <option value="Canada">Canada</option>
                                     <option value="UK">UK</option>
                                     <option value="US">US</option>
@@ -251,7 +263,7 @@
         </div>
         <div class="horizontal-separator"></div>
 
-       <div class="admin-container guild edit">
+        <div class="admin-container guild edit">
             <div class="admin-title">Edit Guild</div>
             <form class="admin-form guild edit" id="form-guild-edit" method="POST" action="http://localhost/stage/administrator">
                 <div class="admin-content guild edit">
@@ -264,12 +276,13 @@
                             </tr>
                             <tr>
                                 <td>
-                                <select class="admin-select guild" name="select-guild">
-                                    <option value="Trinity">Trinity</option>
-                                    <option value="Crayons">Crayons</option>
-                                    <option value="Bloodlust">Bloodlust</option>
-                                    <option value="The Chosen">The Chosen</option>
-                                    <option value="Babytown">Babytown</option>
+                                <select class="admin-select guild edit" name="select-guild">
+                                    <option value="">Select Guild</option>
+                                    <option value="1">Trinity</option>
+                                    <option value="27">Transience</option>
+                                    <option value="361">Bloodlust</option>
+                                    <option value="29">The Chosen</option>
+                                    <option value="26">Babytown</option>
                                 </select>
                                 </td>
                             </tr>
@@ -280,10 +293,11 @@
                 </div>
             <div class="admin-footer"><input class="admin-submit guild edit"id="admin-submit-guild-edit" type="submit" value="Edit Guild" /></div>
             </form>
+            <div id="admin-guild-listing"></div>
         </div>
         <div class="horizontal-separator"></div>
 
-       <div class="admin-container guild remove">
+        <div class="admin-container guild remove">
             <div class="admin-title">Remove Guild</div>
             <form class="admin-form guild remove" id="form-guild-remove" method="POST" action="http://localhost/stage/administrator">
                 <div class="admin-content guild remove">
@@ -297,11 +311,12 @@
                             <tr>
                                 <td>
                                 <select class="admin-select guild" name="select-guild">
-                                    <option value="Trinity">Trinity</option>
-                                    <option value="Crayons">Crayons</option>
-                                    <option value="Bloodlust">Bloodlust</option>
-                                    <option value="The Chosen">The Chosen</option>
-                                    <option value="Babytown">Babytown</option>
+                                    <option value="">Select Guild</option>
+                                    <option value="1">Trinity</option>
+                                    <option value="24">Crayons</option>
+                                    <option value="361">Bloodlust</option>
+                                    <option value="29">The Chosen</option>
+                                    <option value="26">Babytown</option>
                                 </select>
                                 </td>
                             </tr>
@@ -330,6 +345,7 @@
                             <tr>
                                 <td>
                                 <select class="admin-select encounter" name="select-encounter">
+                                    <option value="">Select Enounter</option>
                                     <option value="Cyril">Cyril</option>
                                     <option value="Crucia">Crucia</option>
                                     <option value="Grand Falconer Zoles">Grand Falconer Zoles</option>
@@ -344,6 +360,7 @@
                             <tr>
                                 <td>
                                 <select class="admin-select month" name="select-month">
+                                    <option value="">Month</option>
                                     <option value="Jan">Jan</option>
                                     <option value="Feb">Feb</option>
                                     <option value="Mar">Mar</option>
@@ -351,6 +368,7 @@
                                     <option value="May">May</option>
                                 </select>
                                 <select class="admin-select day" name="select-day">
+                                    <option value="">Day</option>
                                     <option value="1">1</option>
                                     <option value="12">12</option>
                                     <option value="20">20</option>
@@ -358,6 +376,7 @@
                                     <option value="30">30</option>
                                 </select>
                                 <select class="admin-select year" name="select-year">
+                                    <option value="">Year</option>
                                     <option value="2015">2015</option>
                                     <option value="2016">2016</option>
                                     <option value="2017">2017</option>
@@ -389,7 +408,8 @@
                             </tr>
                             <tr>
                                 <td>
-                                <select class="admin-select guild" name="select-guild">
+                                <select class="admin-select guild edit" name="select-guild">
+                                    <option value="">Select Guild</option>
                                     <option value="Trinity">Trinity</option>
                                     <option value="Crayons">Crayons</option>
                                     <option value="Bloodlust">Bloodlust</option>
@@ -421,7 +441,8 @@
                             </tr>
                             <tr>
                                 <td>
-                                <select id="admin-guild" name="select-guild">
+                                <select class="admin-select guild" name="select-guild">
+                                    <option value="">Select Guild</option>
                                     <option value="Trinity">Trinity</option>
                                     <option value="Crayons">Crayons</option>
                                     <option value="Bloodlust">Bloodlust</option>
