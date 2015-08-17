@@ -12,8 +12,6 @@ class GuildDetails {
     protected $_facebookLink;
     protected $_twitter;
     protected $_twitterLink;
-    protected $_google;
-    protected $_googleLink;
     protected $_faction;
     protected $_region;
     protected $_country;
@@ -86,7 +84,6 @@ class GuildDetails {
         $this->_website          = $params['website'];
         $this->_facebook         = $params['facebook'];
         $this->_twitter          = $params['twitter'];
-        $this->_google           = $params['google'];
         $this->_faction          = $params['faction'];
         $this->_region           = $params['region'];
         $this->_country          = $params['country'];
@@ -136,33 +133,32 @@ class GuildDetails {
     
     public function nameLength($textLimit) {
         if ( $this->_active == 'Inactive' ) {
-            $this->_nameLink    = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('guild', '', $this->_server, $this->_name, $textLimit) . '</span>';
+            $this->_nameLink = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('guild', '', $this->_server, $this->_name, $textLimit) . '</span>';
         } else {
-            $this->_nameLink    = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('guild', $this->_faction, $this->_server, $this->_name, $textLimit) . '</span>';
+            $this->_nameLink = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('guild', $this->_faction, $this->_server, $this->_name, $textLimit) . '</span>';
         }
     }
 
     public function generateTableFields() {
-        $serverDetails      = CommonDataContainer::$serverArray[$this->_server];
-        $countryDetails     = CommonDataContainer::$countryArray[$this->_country];
+        $serverDetails  = CommonDataContainer::$serverArray[$this->_server];
+        $countryDetails = CommonDataContainer::$countryArray[$this->_country];
 
         if ( $this->_active == 'Inactive' || $this->_active == '0' ) {
-            $this->_nameLink    = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('guild', '', $this->_server, $this->_name, '') . '</span>';
+            $this->_nameLink = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('guild', '', $this->_server, $this->_name, '') . '</span>';
         } else {
-            $this->_nameLink    = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('guild', $this->_faction, $this->_server, $this->_name, '') . '</span>';
+            $this->_nameLink = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('guild', $this->_faction, $this->_server, $this->_name, '') . '</span>';
         }
 
         $this->_serverLink  = $serverDetails->_nameLink;
         $this->_countryLink = $this->_countryImage . '<span style="vertical-align:middle;">' . $countryDetails->_name . '</span>';
 
-        if ( empty($this->_leader) )  { $this->_leader = "N/A"; }
-        if ( empty($this->_website) )  { $this->_websiteLink = "N/A"; } else { $this->_websiteLink = Functions::generateExternalHyperLink($this->_website, 'View', ''); }
-        if ( !empty($this->_facebook) )  { '<span>' . $this->_facebookLink = $GLOBALS['images']['facebook_small'] . '</span>'; }
-        if ( !empty($this->_twitter) )   { '<span>' . $this->_twitterLink = $GLOBALS['images']['twitter_small'] . '</span>'; }
-        if ( !empty($this->_google) )    { '<span>' . $this->_googleLink = $GLOBALS['images']['google_small'] . '</span>'; }
-        if ( empty($this->_schedule) == 0 )    { $this->_schedule = " N/A"; } else { $this->_schedule = $this->_schedule; }
+        if ( empty($this->_leader) )    { $this->_leader = "N/A"; }
+        if ( empty($this->_website) )   { $this->_websiteLink = "N/A"; } else { $this->_websiteLink = Functions::generateExternalHyperLink($this->_website, 'View', ''); }
+        if ( !empty($this->_facebook) ) { $this->_facebookLink = Functions::generateExternalHyperLink($this->_facebook, $GLOBALS['images']['facebook_small'], ''); }
+        if ( !empty($this->_twitter) )  { $this->_twitterLink = Functions::generateExternalHyperLink($this->_twitter, $GLOBALS['images']['twitter_small'], ''); }
+        if ( empty($this->_schedule) )  { $this->_schedule = " N/A"; } else { $this->_schedule = $this->_schedule; }
         
-        $this->_socialNetworks = $this->_facebookLink . ' ' . $this->_twitterLink . ' ' . $this->_googleLink;
+        $this->_socialNetworks = $this->_facebookLink . ' ' . $this->_twitterLink;
 
         if ( empty(trim($this->_socialNetworks)) ) { $this->_socialNetworks = 'N/A'; }
 
@@ -192,7 +188,7 @@ class GuildDetails {
                     $rankSystem = $rankSystemArray[0];
                     $identifier = $encounterId . '_' . $rankSystem;
 
-                    $rankEncounters->$identifier    = new RankDetails($rankSystemArray, $encounterId);
+                    $rankEncounters->$identifier = new RankDetails($rankSystemArray, $encounterId);
                 }
             }
 
@@ -284,16 +280,16 @@ class GuildDetails {
 
             $numOfProgression = count($progressionArr);
             for ( $count = 0; $count < $numOfProgression; $count++ ) {
-                $progressionDetails      = explode("||", $progressionArr[$count]);
-                $encounterId             = $progressionDetails[0];
-                $encounterDetails        = CommonDataContainer::$encounterArray[$encounterId];
-                $dungeonId               = $encounterDetails->_dungeonId;
-                $dungeonDetails          = CommonDataContainer::$dungeonArray[$dungeonId];
-                $tierId                  = $dungeonDetails->_tier;
-                $tierDetails             = CommonDataContainer::$tierArray[$tierId];
-                $raidSize                = $dungeonDetails->_raidSize;
-                $tierSize                = $tierDetails->_tier . "_" . $raidSize;
-                $tierSizeDetails         = CommonDataContainer::$tierSizeArray[$tierSize];
+                $progressionDetails = explode('||', $progressionArr[$count]);
+                $encounterId        = $progressionDetails[0];
+                $encounterDetails   = CommonDataContainer::$encounterArray[$encounterId];
+                $dungeonId          = $encounterDetails->_dungeonId;
+                $dungeonDetails     = CommonDataContainer::$dungeonArray[$dungeonId];
+                $tierId             = $dungeonDetails->_tier;
+                $tierDetails        = CommonDataContainer::$tierArray[$tierId];
+                $raidSize           = $dungeonDetails->_raidSize;
+                $tierSize           = $tierDetails->_tier . '_' . $raidSize;
+                $tierSizeDetails   = CommonDataContainer::$tierSizeArray[$tierSize];
 
                 $totalNumOfEncounters    = count(CommonDataContainer::$encounterArray);
                 $totalNumOfSpcEncounters = count(CommonDataContainer::$encounterArray);
@@ -420,24 +416,24 @@ class GuildDetails {
         if ( !isset($recentTime) || $recentTime == "" || ( $recentTime < $encounter->_strtotime ) ) {
             switch ( $obj ) {
                 case 'self':
-                    $this->_recentTime              = $encounter->_strtotime;
-                    $this->_recentActivity          = $encounterDetails->_encounterName . " @ " . $encounter->_datetime;
-                    $this->_recentEncounterDetails  = $encounter;
+                    $this->_recentTime             = $encounter->_strtotime;
+                    $this->_recentActivity         = $encounterDetails->_encounterName . " @ " . $encounter->_datetime;
+                    $this->_recentEncounterDetails = $encounter;
                     break;
                 case 'dungeon':
-                    $this->_dungeonDetails->$id->_recentTime               = $encounter->_strtotime;
+                    $this->_dungeonDetails->$id->_recentTime             = $encounter->_strtotime;
                     $this->_dungeonDetails->$id->_recentActivity         = $encounterDetails->_encounterName . " @ " . $encounter->_datetime;
-                    $this->_dungeonDetails->$id->_recentEncounterDetails  = $encounter;
+                    $this->_dungeonDetails->$id->_recentEncounterDetails = $encounter;
                     break;
                 case 'tier':
-                    $this->_tierDetails->$id->_recentTime               = $encounter->_strtotime;
+                    $this->_tierDetails->$id->_recentTime             = $encounter->_strtotime;
                     $this->_tierDetails->$id->_recentActivity         = $encounterDetails->_encounterName . " @ " . $encounter->_datetime;
-                    $this->_tierDetails->$id->_recentEncounterDetails  = $encounter;
+                    $this->_tierDetails->$id->_recentEncounterDetails = $encounter;
                     break;
                 case 'tierSize':
-                    $this->_tierSizeDetails->$id->_recentTime               = $encounter->_strtotime;
+                    $this->_tierSizeDetails->$id->_recentTime             = $encounter->_strtotime;
                     $this->_tierSizeDetails->$id->_recentActivity         = $encounterDetails->_encounterName . " @ " . $encounter->_datetime;
-                    $this->_tierSizeDetails->$id->_recentEncounterDetails  = $encounter;
+                    $this->_tierSizeDetails->$id->_recentEncounterDetails = $encounter;
                     break;
             }
         }

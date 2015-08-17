@@ -22,7 +22,7 @@ class Template {
 
             if ( $cellCount % 3 == 0 ) {
                 $html .= ' border-right';
-            } 
+            }
 
             $html .= '">' . $key . '</th>';
 
@@ -395,6 +395,13 @@ class Template {
 
                         if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('userpanel', '', '', $html, ''); }
                     }
+                }
+                break;
+            case 'directory':
+                if ( MODULE_CONTACT_SET == 1 ) {
+                    $html = '<li>Guild Directory</li>';
+
+                    if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('directory', '', '', $html, ''); }
                 }
                 break;
             case 'login':
