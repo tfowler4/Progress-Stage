@@ -151,14 +151,12 @@ var NewsEventBinder = function() {
 
     // when page loads, re-adjust guild logos on media overlay to be centered based on image height
     $(document).ready(function(){
-        $('.media-guild-logo img').each(function() {
+        $('.media-guild-logo img, .media-guild-flag img').each(function() {
             var parentHeight = parseInt($(this).parent().parent().css('height').replace('px', ''));
             var height       = parseInt($(this).css('height').replace('px', ''));
-
-            var marginTop = -1 *(height - parentHeight) / 2;
+            var marginTop    = -1 *(height - parentHeight) / 2;
 
             $(this).css('margin-top', marginTop);
-            $(this).css('opacity', '.75');
         });
     });
 };
