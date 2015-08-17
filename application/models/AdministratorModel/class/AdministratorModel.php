@@ -3,8 +3,12 @@
 class AdministratorModel extends Model {
     protected $_userDetails;
 
+    const PAGE_TITLE = 'Administrator Control Panel';
+
     public function __construct($module, $params) {
         parent::__construct($module);
+
+        $this->title = self::PAGE_TITLE;
 
         if (isset($_SESSION['userDetails']) ) {
             $this->_userDetails = $_SESSION['userDetails'];
@@ -28,9 +32,17 @@ class AdministratorModel extends Model {
                 case "tier-edit-details":
                     $this->editTierDetails();
                     break;
+                case "tier-remove":
+                    $this->removeTier();
+                    break;
                 case "dungeon-add":
                     $this->addNewDungeon();
                     break;
+                case "dungeon-edit":
+                    $this->editDungeon($_POST['dungeon']);
+                    break;
+                case "dungeon-edit-details":
+                    $this->editDungeonDetails();
                 case "encounter-add":
                     $this->addNewEncounter();
                     break;
@@ -69,12 +81,12 @@ class AdministratorModel extends Model {
         die;
     }
 
-    public function editTierHthml($tierDetails) {
+    public function editTierHtml($tierDetails) {
         $startDate = explode(' ', $tierDetails->_dateStart);
         $endDate   = explode(' ', $tierDetails->_dateEnd);
 
         $html = '';
-        $html .= '<form class="admin-form tier edit details" id="form-tier-edit-details" method="POST" action="http://localhost/stage/administrator">';
+        $html .= '<form class="admin-form tier edit details" id="form-tier-edit-details" method="POST" action="' . PAGE_ADMIN . '">';
         $html .= '<table class="admin-tier-listing">';
         $html .= '<thead>';
         $html .= '</thead>';
@@ -156,7 +168,7 @@ class AdministratorModel extends Model {
         $html         = '';
         $tierDetails = CommonDataContainer::$tierArray[$tierId];
 
-        $html = $this->editTierHthml($tierDetails);
+        $html = $this->editTierHtml($tierDetails);
 
         echo $html;
         die;
@@ -184,9 +196,22 @@ class AdministratorModel extends Model {
             $altTitle,
             $tierId
             );
-        print_r($sqlString);
         die;
     }
+
+    public function removeTier() {
+        $tierId = $_POST['form'][0]['value'];
+        
+        $sqlString = sprintf(
+            "DELETE 
+               FROM %s
+              WHERE tier_id = '%s'",
+            DbFactory::TABLE_TIERS,
+            $tierId
+            );
+        die;
+    }
+
     public function addNewDungeon() {
         $dungeon   = $_POST['form'][0]['value'];
         $tier      = $_POST['form'][1]['value'];
@@ -200,6 +225,110 @@ class AdministratorModel extends Model {
             $dungeon,
             $tier,
             $numOfMobs
+            );
+        die;
+    }
+
+    public function editDungeonHtml($dungeonDetails) {
+        $launchDate = explode(' ', $dungeonDetails->_dateLaunch);
+
+        $html = '';
+        $html .= '<form class="admin-form dungeon edit details" id="form-dungeon-edit-details" method="POST" action="' . PAGE_ADMIN . '">';
+        $html .= '<table class="admin-dungeon-listing">';
+        $html .= '<thead>';
+        $html .= '</thead>';
+        $html .= '<tbody>';
+        $html .= '<tr><td><input hidden type="text" name="text-dungeon-id" value="' . $dungeonDetails->_dungeonId . '"/></td></tr>';
+        $html .= '<tr><th>Dungeon</th></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-dungeon" value="' . $dungeonDetails->_name . '"/></td></tr>';
+        $html .= '<tr><th>Abbreviation</th></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-abbreviation" value="' . $dungeonDetails->_abbreviation . '"/></td></tr>';
+        $html .= '<tr><th>Tier</th></tr>';
+        $html .= '<tr><td><select class="admin-select tier" name="select-tier">';
+        $html .= '<option value="">Select Tier</option>';
+            foreach( CommonDataContainer::$tierArray as $tierId => $tierDetails ):
+                if ( $tierId == $dungeonDetails->_tier ):
+                    $html .= '<option value="' . $tierId . '" selected>' . $tierId . '</option>';
+                else:
+                    $html .= '<option value="' . $tierId . '">' . $tierId . '</option>';
+                endif;
+            endforeach;
+        $html .= '</select></td></tr>';
+        $html .= '<tr><th>Players</th></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-raid-size" value="' . $dungeonDetails->_raidSize . '"/></td></tr>';
+        $html .= '<tr><th>Launch Date</th></tr>';
+        $html .= '<tr><td><select class="admin-select month" name="select-month">';
+            foreach( CommonDataContainer::$monthsArray as $month => $monthValue):
+                if ( $month == date('m', strtotime($dungeonDetails->_dateLaunch)) ):
+                    $html .= '<option value="' . $month . '" selected>' . $monthValue . '</option>';
+                else:
+                    $html .='<option value="' . $month . '">' . $monthValue . '</option>';
+                endif;
+            endforeach;
+        $html .= '</select>';
+        $html .= '<select class="admin-select day" name="select-day">';
+            foreach( CommonDataContainer::$daysArray as $day => $dayValue):
+                if ( $day == $launchDate[1] ):
+                    $html .= '<option value="' . $day . '" selected>' . $dayValue . '</option>';
+                else:
+                    $html .='<option value="' . $day . '">' . $dayValue . '</option>';
+                endif;
+            endforeach;
+        $html .= '</select>';
+        $html .= '<select class="admin-select year" name="select-year">';
+            foreach( CommonDataContainer::$yearsArray as $year => $yearValue):
+                if ( $year == $launchDate[2] ):
+                    $html .= '<option value="' . $year . '" selected>' . $yearValue . '</option>';
+                else:
+                    $html .= '<option value="' . $year . '">' . $yearValue . '</option>';
+                endif;
+            endforeach;
+        $html .= '</select></td></tr>';
+        $html .= '<tr><th>Dungeon Type</th></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-dungeon-type" value="' . $dungeonDetails->_type . '"/></td></tr>';
+        $html .= '<tr><th>EU Time Difference</th></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-eu-diff" value="' . $dungeonDetails->_euTimeDiff . '"/></td></tr>';
+        $html .= '</tbody>';
+        $html .= '</table>';
+        $html .= '<input id="admin-submit-dungeon-edit" type="submit" value="Submit" />';
+        $html .= '</form>';
+
+        return $html;
+    }
+
+    public function editDungeon($dungeonId) {
+        $html         = '';
+        $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
+
+        $html = $this->editDungeonHtml($dungeonDetails);
+
+        echo $html;
+        die;
+    }
+
+    public function editDungeonDetails() {
+        $dungeonId    = $_POST['form'][0]['value'];
+        $dungeon      = $_POST['form'][1]['value'];
+        $abbreviation = $_POST['form'][2]['value'];
+        $tier         = $_POST['form'][3]['value'];
+        $raidSize     = $_POST['form'][4]['value'];
+        $launchDate   = $_POST['form'][7]['value'] . '-' . $_POST['form'][5]['value'] . '-' .$_POST['form'][6]['value'];
+        $dungeonType  = $_POST['form'][8]['value'];
+        $euTimeDiff   = $_POST['form'][9]['value'];
+
+        $sqlString = sprintf(
+            "UPDATE %s
+            SET name = '%s', abbreviation = '%s', tier = '%s', players = '%s', date_launch = '%s', dungeon_type = '%s', eu_diff = '%s'
+            WHERE dungeon_id = '%s'",
+            DbFactory::TABLE_DUNGEONS,
+            $dungeon,
+            $abbreviation,
+            $tier,
+            $raidSize,
+            $launchDate,
+            $dungeonType,
+            $euTimeDiff,
+            $dungeonId
             );
         die;
     }
@@ -255,7 +384,7 @@ class AdministratorModel extends Model {
 
     public function editGuildHtml($guildDetails) {
         $html = '';
-        $html .= '<form class="admin-form guild edit details" id="form-guild-edit-details" method="POST" action="http://localhost/stage/administrator">';
+        $html .= '<form class="admin-form guild edit details" id="form-guild-edit-details" method="POST" action="' . PAGE_ADMIN . '">';
         $html .= '<table class="admin-guild-listing">';
         $html .= '<thead>';
         $html .= '</thead>';
