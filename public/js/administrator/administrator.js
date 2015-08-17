@@ -1,13 +1,15 @@
 var Administrator = function() {
+    var activeDiv;
+    var currentPageUrl
     // Submit admin forms
     $(document).on('submit', '.admin-form', function() {
         event.preventDefault();
 
-        var formData       = $(this).serializeArray();
-        var id             = $(this).prop('id').replace('form-', '');
-        var currentPageUrl = document.URL;
+        var formData   = $(this).serializeArray();
+        var id         = $(this).prop('id').replace('form-', '');
+        currentPageUrl = document.URL;
         //var formName    = id.replace('-', ' ').ucFirst();
-        console.log(id);
+
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
@@ -24,18 +26,17 @@ var Administrator = function() {
 
     // Display guild details from drop down selection
     $(document).on('change', '.admin-select.guild.edit', function() {
-        var guildId        = $(this).val();
-        var currentPageUrl = document.URL;
+        var guildId    = $(this).val();
+        currentPageUrl = document.URL;
 
-        console.log('GUILD ID' + guildId);
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
             data:    {request: 'guild-edit', guild:guildId},
             encode:  true,
             success: function(data) {
-                    var activeDiv = $('#admin-guild-listing');
-                    activeDiv.html(data);
+                activeDiv = $('#admin-guild-listing');
+                activeDiv.html(data);
             },
             error:  function(data) {
                 console.log(data);
@@ -45,8 +46,8 @@ var Administrator = function() {
 
     // Display tier details from drop down selection
     $(document).on('change', '.admin-select.tier.edit', function() {
-        var tierId         = $(this).val();
-        var currentPageUrl = document.URL;
+        var tierId     = $(this).val();
+        currentPageUrl = document.URL;
 
         $.ajax({
             type:    'POST',
@@ -54,8 +55,8 @@ var Administrator = function() {
             data:    {request: 'tier-edit', tier:tierId},
             encode:  true,
             success: function(data) {
-                    var activeDiv = $('#admin-tier-listing');
-                    activeDiv.html(data);
+                activeDiv = $('#admin-tier-listing');
+                activeDiv.html(data);
             },
             error: function(data) {
                 console.log(data);
@@ -65,8 +66,8 @@ var Administrator = function() {
 
     // Display dungeon details from drop down selection
     $(document).on('change', '.admin-select.dungeon.edit', function() {
-        var dungeonId         = $(this).val();
-        var currentPageUrl = document.URL;
+        var dungeonId  = $(this).val();
+        currentPageUrl = document.URL;
 
         $.ajax({
             type:    'POST',
@@ -74,8 +75,8 @@ var Administrator = function() {
             data:    {request: 'dungeon-edit', dungeon:dungeonId},
             encode:  true,
             success: function(data) {
-                    var activeDiv = $('#admin-dungeon-listing');
-                    activeDiv.html(data);
+                activeDiv = $('#admin-dungeon-listing');
+                activeDiv.html(data);
             },
             error: function(data) {
                 console.log(data);
