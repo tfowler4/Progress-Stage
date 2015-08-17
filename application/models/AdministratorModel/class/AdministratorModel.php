@@ -181,6 +181,28 @@ class AdministratorModel extends Model {
     public function editGuildDetails() {
 
     }
+
+    public function getNewsArticle() {
+        $dbh         = DbFactory::getDbh();
+        $returnArray = array();
+
+        $query = $dbh->prepare(sprintf(
+            "SELECT *
+               FROM %s
+               ORDER BY date_added DESC", 
+                    DbFactory::TABLE_NEWS
+                ));
+        $query->execute();
+
+        while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
+            $newsId               = $row['news_id'];
+            $row['date_added']    = Functions::formatDate($row['date_added'], 'm-d-Y H:i');
+            $article              = new Article($row);
+            $returnArray[$newsId] = $article;
+        }
+
+        return $returnArray;
+    }
 }
 
 ?>

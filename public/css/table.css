@@ -170,6 +170,8 @@
 
 /* side block listing wrapper */
 #side-block-rankings-wrapper {
+    border: 1px solid #C0C0C0;
+    border-radius: 3px;
     background-color: #D9D9D9;
     padding: 0px 3px 0px 3px;
 }
@@ -257,6 +259,8 @@
 
 /* side block guild profile content wrapper */
 #side-profile-wrapper {
+    border: 1px solid #C0C0C0;
+    border-radius: 3px;
     background-color: #D9D9D9;
     padding: 0px 3px 0px 3px;
 }

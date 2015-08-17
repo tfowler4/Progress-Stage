@@ -15,14 +15,32 @@
 }
 
 .admin-select.month, .admin-select.day, .admin-select.year {
-    width: 80px !important;
+    max-width: 100px;
+}
+
+/* page anchor to be used by page navigation to link */
+.anchor {
+    display: block; 
+    position: relative; 
+    top: -40px; 
+    visibility: hidden;
+}
+
+/* title for sub-panes throughout the page */
+.pane-title {
+    height: 34px;
+    line-height: 30px;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 24px;
+    text-align:left;
+    border-bottom: 1px solid #000000;
+    margin-top: 10px;
 }
 
 /* main option pane container */
 .option-container {
     display: inline-block;
-    width: 250px;
-    min-height: 200px;
+    width: 325px;
     border: 1px solid #C0C0C0;
     border-radius: 3px;
     vertical-align: top;
@@ -33,17 +51,8 @@
     border: 1px solid #0000FF;
 }
 
-/* main option pane for adding a new guild */
-.option-container.guild.new {
-    border-style: dashed;
-}
-
-/* main option pane for new guild*/
-.option-content.new {
-    display: inline-block;
-    height: 20px;
-    line-height: 20px;
-    font-size: 14px;
+.option-content {
+    min-height: 200px;
     vertical-align: middle;
 }
 
@@ -92,6 +101,7 @@
 .option-content table {
     width: 100%;
     padding: 5px;
+    text-align: left;
 }
 
 /* option content pane inner table header */
@@ -107,6 +117,7 @@
     line-height: 24px;
     font-size: 14px;
     font-weight: bold;
+    padding: 0px 5px 0px 5px;
 }
 
 /* option content pane inner table body content */
@@ -114,9 +125,67 @@
     height: 18px;
     line-height: 18px;
     font-size: 12px;
+    padding: 0px 5px 0px 5px;
+}
+
+.option-content table tbody tr td select {
+    width: 100%;
+    height: 20px;
+}
+
+.option-content table tbody tr td input {
+    width: 98.5%;
+    height: 14px;
+}
+
+.option-content table tbody tr td textarea {
+    width: 98.5%;
+    resize: none;
 }
 
 /* option content pane inner table footer header */
 .option-content table tfoot tr th {
     text-align: center;
+}
+
+/* side block admin wrapper */
+#side-block-admin-wrapper {
+    position: fixed;
+    width: 360px;
+    border: 1px solid #C0C0C0;
+    border-radius: 3px;
+    background-color: #D9D9D9;
+    padding: 0px 3px 0px 3px;
+}
+
+ /* side block admin table */
+.side-admin-table {
+    width: 100%;
+}
+
+/* side block admin header */
+.side-admin-table thead tr th {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    padding-top: 8px;
+}
+
+/* side block admin body header */
+.side-admin-table tbody tr th {
+    height: 32px;
+    line-height: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 0px 4px 0px 4px;
+}
+
+/* side block admin body cell content */
+.side-admin-table tbody tr td {
+    height: 32px;
+    line-height: 30px;
+    font-size: 14px;
+    text-align: left;
+    padding: 0px 4px 0px 4px;
 }
