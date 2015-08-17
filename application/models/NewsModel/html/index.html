@@ -46,9 +46,11 @@
                                         <div class="media-container">
                                             <div class="media-overlay">
                                                 <div class="media-guild-logo"><?php echo $twitchDetails->_guildDetails->_logo; ?></div>
-                                                <div class="media-title">Now Streaming</div>
+                                                <div class="media-guild-flag"><?php echo Functions::getImageFlag($twitchDetails->_guildDetails->_country, 'large'); ?></div>
+                                                <div class="media-title">Now Streaming via Twitch</div>
                                                 <div class="media-id"><?php echo $twitchDetails->_twitchId; ?></div>
                                                 <div class="media-guild"><?php echo $twitchDetails->_guildDetails->_name; ?></div>
+                                                <div class="media-location">(<?php echo $twitchDetails->_guildDetails->_region . '-' . $twitchDetails->_guildDetails->_server; ?>)</div>
                                             </div>
                                             <div class="media-preview-image"><?php echo $twitchDetails->_image; ?></div>
                                         </div>
