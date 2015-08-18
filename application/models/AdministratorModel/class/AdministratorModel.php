@@ -43,20 +43,24 @@ class AdministratorModel extends Model {
                     break;
                 case "dungeon-edit-details":
                     $this->editDungeonDetails();
+                    break;
+                case "dungeon-remove":
+                    $this->removeDungeon();
+                    break;
                 case "encounter-add":
                     $this->addNewEncounter();
                     break;
                 case "guild-add":
                     $this->addNewGuild();
                     break;
-                case "guild-remove":
-                    $this->removeGuild();
-                    break;
                 case "guild-edit":
                     $this->editGuild($_POST['guild']);
                     break;
                 case "guild-edit-details":
                     $this->editGuildDetails();
+                    break;
+                case "guild-remove":
+                    $this->removeGuild();
                     break;
             }
         }
@@ -348,6 +352,19 @@ class AdministratorModel extends Model {
             $launchDate,
             $dungeonType,
             $euTimeDiff,
+            $dungeonId
+            );
+        die;
+    }
+
+    public function removeDungeon() {
+        $dungeonId = $_POST['form'][0]['value'];
+
+        $sqlString = sprintf(
+            "DELETE 
+               FROM %s
+              WHERE dungeon_id = '%s'",
+            DbFactory::TABLE_DUNGEONS,
             $dungeonId
             );
         die;
