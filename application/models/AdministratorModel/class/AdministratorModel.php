@@ -127,7 +127,7 @@ class AdministratorModel extends Model {
         $html .= '<tr><th>End Date</th></tr>';
         $html .= '<tr><td><select class="admin-select month" name="select-month">';
             foreach( CommonDataContainer::$monthsArray as $month => $monthValue):
-                if ( $month == date('m', strtotime($tierDetails->_dateEnd)) ):
+                if ( ($tierDetails->_dateEnd != 'Currently Active') && ($month == date('m', strtotime($tierDetails->_dateEnd))) ):
                     $html .= '<option value="' . $month . '" selected>' . $monthValue . '</option>';
                 else:
                     $html .='<option value="' . $month . '">' . $monthValue . '</option>';
@@ -136,7 +136,7 @@ class AdministratorModel extends Model {
         $html .= '</select>';
         $html .= '<select class="admin-select day" name="select-day">';
             foreach( CommonDataContainer::$daysArray as $day => $dayValue):
-                if ( $day == $endDate[1] ):
+                if ( ($tierDetails->_dateEnd != 'Currently Active') && ($day == $endDate[1]) ):
                     $html .= '<option value="' . $day . '" selected>' . $dayValue . '</option>';
                 else:
                     $html .='<option value="' . $day . '">' . $dayValue . '</option>';
@@ -145,7 +145,7 @@ class AdministratorModel extends Model {
         $html .= '</select>';
         $html .= '<select class="admin-select year" name="select-year">';
             foreach( CommonDataContainer::$yearsArray as $year => $yearValue):
-                if ( $year == $endDate[2] ):
+                if ( ($tierDetails->_dateEnd != 'Currently Active') && ($year == $endDate[2]) ):
                     $html .= '<option value="' . $year . '" selected>' . $yearValue . '</option>';
                 else:
                     $html .= '<option value="' . $year . '">' . $yearValue . '</option>';
@@ -158,6 +158,7 @@ class AdministratorModel extends Model {
         $html .= '<tr><td><input class="admin-textbox" type="text" name="text-alt-title" value="' . $tierDetails->_altTitle . '"/></td></tr>';
         $html .= '</tbody>';
         $html .= '</table>';
+        $html .= '<div class="vertical-separator"></div>';
         $html .= '<input id="admin-submit-tier-edit" type="submit" value="Submit" />';
         $html .= '</form>';
 
@@ -165,7 +166,7 @@ class AdministratorModel extends Model {
     }
 
     public function editTier($tierId) {
-        $html         = '';
+        $html        = '';
         $tierDetails = CommonDataContainer::$tierArray[$tierId];
 
         $html = $this->editTierHtml($tierDetails);
@@ -230,7 +231,9 @@ class AdministratorModel extends Model {
     }
 
     public function editDungeonHtml($dungeonDetails) {
-        $launchDate = explode(' ', $dungeonDetails->_dateLaunch);
+        $raidSize    = array(10, 20);
+        $dungeonType = array(0 => 'Standard Dungeon', 1 => 'Special Dungeon (Unranked)');
+        $launchDate  = explode(' ', $dungeonDetails->_dateLaunch);
 
         $html = '';
         $html .= '<form class="admin-form dungeon edit details" id="form-dungeon-edit-details" method="POST" action="' . PAGE_ADMIN . '">';
@@ -248,14 +251,22 @@ class AdministratorModel extends Model {
         $html .= '<option value="">Select Tier</option>';
             foreach( CommonDataContainer::$tierArray as $tierId => $tierDetails ):
                 if ( $tierId == $dungeonDetails->_tier ):
-                    $html .= '<option value="' . $tierId . '" selected>' . $tierId . '</option>';
+                    $html .= '<option value="' . $tierId . '" selected>' . $tierId . ' - ' . $tierDetails->_name . '</option>';
                 else:
-                    $html .= '<option value="' . $tierId . '">' . $tierId . '</option>';
+                    $html .= '<option value="' . $tierId . '">' . $tierId . ' - ' . $tierDetails->_name . '</option>';
                 endif;
             endforeach;
         $html .= '</select></td></tr>';
-        $html .= '<tr><th>Players</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-raid-size" value="' . $dungeonDetails->_raidSize . '"/></td></tr>';
+        $html .= '<tr><th>Raid Size</th></tr>';
+        $html .= '<tr><td><select class="admin-select players" name="select-players">';
+            foreach ($raidSize as $players):
+                if ( $players == $dungeonDetails->_raidSize ):
+                    $html .= '<option value="' . $players . '" selected>' . $players . '-Man</option>';
+                else:
+                    $html .= '<option value="' . $players . '">' . $players . '-Man</option>';
+                endif;
+            endforeach;
+        $html .= '</select></td></tr>';
         $html .= '<tr><th>Launch Date</th></tr>';
         $html .= '<tr><td><select class="admin-select month" name="select-month">';
             foreach( CommonDataContainer::$monthsArray as $month => $monthValue):
@@ -285,11 +296,20 @@ class AdministratorModel extends Model {
             endforeach;
         $html .= '</select></td></tr>';
         $html .= '<tr><th>Dungeon Type</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-dungeon-type" value="' . $dungeonDetails->_type . '"/></td></tr>';
+        $html .= '<tr><td><select class="admin-select dungeon" name="select-dungeon">';
+            foreach ($dungeonType as $type => $typeValue):
+                if ( $type == $dungeonDetails->_type ):
+                    $html .= '<option value="' . $type . '" selected>' . $type . ' - ' . $typeValue . '</option>';
+                else:
+                    $html .= '<option value="' . $type . '">' . $type . ' - ' . $typeValue . '</option>';
+                endif;
+            endforeach;
+        $html .= '</select></td></tr>';
         $html .= '<tr><th>EU Time Difference</th></tr>';
         $html .= '<tr><td><input class="admin-textbox" type="text" name="text-eu-diff" value="' . $dungeonDetails->_euTimeDiff . '"/></td></tr>';
         $html .= '</tbody>';
         $html .= '</table>';
+        $html .= '<div class="vertical-separator"></div>';
         $html .= '<input id="admin-submit-dungeon-edit" type="submit" value="Submit" />';
         $html .= '</form>';
 
@@ -297,7 +317,7 @@ class AdministratorModel extends Model {
     }
 
     public function editDungeon($dungeonId) {
-        $html         = '';
+        $html           = '';
         $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
 
         $html = $this->editDungeonHtml($dungeonDetails);
@@ -410,6 +430,7 @@ class AdministratorModel extends Model {
         $html .= '<tr><td><input class="admin-textbox" type="text" name="text-guild-active" value="' . $guildDetails->_active . '"/></td></tr>';
         $html .= '</tbody>';
         $html .= '</table>';
+        $html .= '<div class="vertical-separator"></div>';
         $html .= '<input id="admin-submit-guild-edit" type="submit" value="Submit" />';
         $html .= '</form>';
 
