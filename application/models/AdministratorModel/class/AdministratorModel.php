@@ -50,6 +50,12 @@ class AdministratorModel extends Model {
                 case "encounter-add":
                     $this->addNewEncounter();
                     break;
+                case "encounter-edit":
+                    $this->editEncounter($_POST['encounter']);
+                    break;
+                case "encounter-edit-details":
+                    $this->editEncounterDetails();
+                    break;
                 case "guild-add":
                     $this->addNewGuild();
                     break;
@@ -385,6 +391,98 @@ class AdministratorModel extends Model {
             $dungeon,
             $tier,
             $raidSize
+            );
+        die;
+    }
+
+    public function editEncounterHtml($encounterDetails) {
+        $launchDate = explode('-', $encounterDetails->_dateLaunch);
+
+        $html = '';
+        $html .= '<form class="admin-form encounter edit details" id="form-encounter-edit-details" method="POST" action="' . PAGE_ADMIN . '">';
+        $html .= '<table class="admin-encounter-listing">';
+        $html .= '<thead>';
+        $html .= '</thead>';
+        $html .= '<tbody>';
+        $html .= '<tr><td><input hidden type="text" name="text-encounter-id" value="' . $encounterDetails->_encounterId . '"/></td></tr>';
+        $html .= '<tr><th>Name</th></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-encounter" value="' . $encounterDetails->_name . '"/></td></tr>';
+        $html .= '<tr><th>Dungeon</th></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-dungeon" value="' . $encounterDetails->_dungeon . '"/></td></tr>';
+        $html .= '<tr><th>Encounter Name</th></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-encounter" value="' . $encounterDetails->_encounterName . '"/></td></tr>';
+        $html .= '<tr><th>Encounter Short Name</th></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-encouter-short" value="' . $encounterDetails->_encounterShortName . '"/></td></tr>';
+        $html .= '<tr><th>Launcg Date</th></tr>';
+        $html .= '<tr><td><select class="admin-select month" name="select-month">';
+            foreach( CommonDataContainer::$monthsArray as $month => $monthValue):
+                if ( $month == $launchDate[1] ):
+                    $html .= '<option value="' . $month . '" selected>' . $monthValue . '</option>';
+                else:
+                    $html .='<option value="' . $month . '">' . $monthValue . '</option>';
+                endif;
+            endforeach;
+        $html .= '</select>';
+        $html .= '<select class="admin-select day" name="select-day">';
+            foreach( CommonDataContainer::$daysArray as $day => $dayValue):
+                if ( $day == $launchDate[2] ):
+                    $html .= '<option value="' . $day . '" selected>' . $dayValue . '</option>';
+                else:
+                    $html .='<option value="' . $day . '">' . $dayValue . '</option>';
+                endif;
+            endforeach;
+        $html .= '</select>';
+        $html .= '<select class="admin-select year" name="select-year">';
+            foreach( CommonDataContainer::$yearsArray as $year => $yearValue):
+                if ( $year == $launchDate[0] ):
+                    $html .= '<option value="' . $year . '" selected>' . $yearValue . '</option>';
+                else:
+                    $html .= '<option value="' . $year . '">' . $yearValue . '</option>';
+                endif;
+            endforeach;
+        $html .= '</select></td></tr>';
+        $html .= '<tr><th>Mob Order</th></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-mob-order" value="' . $encounterDetails->_encounterOrder . '"/></td></tr>';
+        $html .= '</tbody>';
+        $html .= '</table>';
+        $html .= '<div class="vertical-separator"></div>';
+        $html .= '<input id="admin-submit-encounter-edit" type="submit" value="Submit" />';
+        $html .= '</form>';
+
+        return $html;
+    }
+
+    public function editEncounter($encounterId) {
+        $html             = '';
+        $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
+
+        $html = $this->editEncounterHtml($encounterDetails);
+
+        echo $html;
+        die;
+    }
+
+    public function editEncounterDetails() {
+        $encounterId        = $_POST['form'][0]['value'];
+        $encounter          = $_POST['form'][1]['value'];
+        $dungeon            = $_POST['form'][2]['value'];
+        $encounterName      = $_POST['form'][3]['value'];
+        $encounterShortName = $_POST['form'][4]['value'];
+        $launchDate         = $_POST['form'][7]['value'] . '-' . $_POST['form'][5]['value'] . '-' .$_POST['form'][6]['value'];
+        $encounterOrder     = $_POST['form'][8]['value'];
+
+        $sqlString = sprintf(
+            "UPDATE %s
+            SET name = '%s', dungeon = '%s', encounter_name = '%s', encounter_short_name = '%s', date_launch = '%s', mob_order = '%s'
+            WHERE encounter_id = '%s'",
+            DbFactory::TABLE_ENCOUNTERS,
+            $encounter,
+            $dungeon,
+            $encounterName,
+            $encounterShortName,
+            $launchDate,
+            $encounterOrder,
+            $encounterId
             );
         die;
     }

@@ -1,6 +1,6 @@
 var Administrator = function() {
     var activeDiv;
-    var currentPageUrl
+    var currentPageUrl;
     // Submit admin forms
     $(document).on('submit', '.admin-form', function() {
         event.preventDefault();
@@ -76,6 +76,26 @@ var Administrator = function() {
             encode:  true,
             success: function(data) {
                 activeDiv = $('#admin-dungeon-listing');
+                activeDiv.html(data);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    });
+
+    // Display encounter details from drop down selection
+    $(document).on('change', '.admin-select.encounter.edit', function() {
+        var encounterId = $(this).val();
+        currentPageUrl  = document.URL;
+
+        $.ajax({
+            type:    'POST',
+            url:     currentPageUrl,
+            data:    {request: 'encounter-edit', encounter:encounterId},
+            encode:  true,
+            success: function(data) {
+                activeDiv = $('#admin-encounter-listing');
                 activeDiv.html(data);
             },
             error: function(data) {

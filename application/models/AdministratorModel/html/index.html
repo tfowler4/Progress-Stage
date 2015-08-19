@@ -310,7 +310,6 @@
 
                 <div class="option-container">
                     <div class="option-title">Edit Encounter Details</div>
-                    <form class="admin-form tier"id="form-tier-add" method="POST" action="<?php echo PAGE_ADMIN; ?>">
                         <div class="option-content">
                             <table>
                                 <thead>
@@ -322,7 +321,7 @@
                                     <tr>
                                         <td>
                                             <select class="admin-select encounter edit" name="select-encounter">
-                                                <option value="">Select Dungeon</option>
+                                                <option value="">Select Encounter</option>
                                                 <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ): ?>
                                                     <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . ' - ' . $encounterDetails->_name; ?></option>
                                                 <?php endforeach; ?>
@@ -333,10 +332,10 @@
                                 <tfoot>
                                 </tfoot>
                             </table>
+                            <div id="admin-encounter-listing"></div>
                         </div>
                         <div class="vertical-separator"></div>
                         <div class="option-footer"></div>
-                    </form>
                 </div>
 
                 <div class="option-container">
