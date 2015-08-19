@@ -1,5 +1,9 @@
 <?php
-class TierSize {
+
+/**
+ * tier raid size data object
+ */
+class TierSize extends DataObject {
     protected $_tier;
     protected $_raidSize;
     protected $_tierSize;
@@ -10,7 +14,7 @@ class TierSize {
     protected $_encounters;
     protected $_abbreviation;
 
-    public function TierSize($tierDetails, $raidSize, $tierSize) {
+    public function __construct($tierDetails, $raidSize, $tierSize) {
         $this->_tier                    = $tierDetails->_tier;
         $this->_raidSize                = $raidSize;
         $this->_tierSize                = $tierSize;
@@ -20,14 +24,6 @@ class TierSize {
         $this->_dungeons                = $this->getDungeons();
         $this->_encounters              = $this->getEncounters();
         $this->_abbreviation            = 'T' . $tierDetails->_tier . ' ' . $raidSize . 'M';
-    }
-
-    public function __get($name) {
-        return $this->$name;
-    }
-
-    public function __isset($name) {
-        return isset($this->$name);
     }
 
     public function getDungeons() {

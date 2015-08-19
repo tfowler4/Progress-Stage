@@ -5,7 +5,7 @@ class RankView {
     protected $_server;
     protected $_country;
 
-    public function RankView($params) {
+    public function __construct($params) {
         $this->_world   = $params[0];
         $this->_server  = $params[1];
         $this->_region  = $params[2];

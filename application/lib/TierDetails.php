@@ -1,5 +1,5 @@
 <?php
-class TierDetails {
+class TierDetails extends DetailObject {
     protected $_complete = 0;
     protected $_standing;
     protected $_hardModeComplete = 0;
@@ -14,31 +14,5 @@ class TierDetails {
     public function __construct(&$tierDetails) {
         $this->_standing         = 0 . '/' . $tierDetails->_numOfEncounters;
         $this->_hardModeStanding = 0 . '/' . $tierDetails->_numOfSpecialEncounters;
-    }
-
-    public function __get($name) {
-        if ( isset($this->$name) ) {
-            return $this->$name;
-        }
-    }
-    
-    public function __set($name, $value) {
-        $this->$name = $value;
-    }
-
-    public function __isset($name) {
-        return isset($this->$name);
-    }
-
-    public function getProperties() {
-        return get_object_vars($this);
-    }
-
-    public function __destruct() {
-
-    }
-
-    public function __unset($name) {
-        unset($this->$name);
     }
 }

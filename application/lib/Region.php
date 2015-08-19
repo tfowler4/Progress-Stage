@@ -1,5 +1,9 @@
 <?php
-class Region {
+
+/**
+ * region data object
+ */
+class Region extends DataObject {
     protected $_regionId;
     protected $_abbreviation;
     protected $_full;
@@ -8,7 +12,7 @@ class Region {
     protected $_regionImage;
     protected $_servers;
 
-    public function Region($params) {
+    public function __construct($params) {
         $this->_regionId        = $params['region_id'];
         $this->_abbreviation    = $params['abbreviation'];
         $this->_name            = $params['full'];
@@ -16,14 +20,6 @@ class Region {
         $this->_numOfServers    = $params['num_of_servers'];
         $this->_regionImage     = Functions::getImageFlag($this->_abbreviation, '');
         $this->_servers         = $this->getServers($this->_abbreviation);
-    }
-
-    public function __get($name) {
-        return $this->$name;
-    }
-
-    public function __isset($name) {
-        return isset($this->$name);
     }
 
     public function getServers($region) {
@@ -34,9 +30,5 @@ class Region {
         }
 
         return $property;
-    }
-
-    public function __destruct() {
-        
     }
 }

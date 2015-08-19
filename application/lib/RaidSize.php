@@ -1,5 +1,9 @@
 <?php
-class RaidSize {
+
+/**
+ * raid size data object
+ */
+class RaidSize extends DataObject {
     protected $_raidSize;
     protected $_numOfDungeons;
     protected $_numOfEncounters;
@@ -7,25 +11,13 @@ class RaidSize {
     protected $_encounters;
     protected $_abbreviation;
 
-    public function RaidSize($raidSize) {
+    public function __construct($raidSize) {
         $this->_raidSize        = $raidSize;
         $this->_numOfDungeons   = 0;
         $this->_numOfEncounters = 0;
         $this->_dungeons        = $this->getDungeons();
         $this->_encounters      = $this->getEncounters();
         $this->_abbreviation    = $raidSize . 'M';
-    }
-
-    public function __get($name) {
-        return $this->$name;
-    }
-
-    public function __set($name, $value) {
-        $this->$name = $name;
-    }
-    
-    public function __isset($name) {
-        return isset($this->$name);
     }
 
     public function getDungeons() {
@@ -46,9 +38,5 @@ class RaidSize {
         }
 
         return $property;
-    }
-
-    public function __destruct() {
-        
     }
 }

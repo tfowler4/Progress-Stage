@@ -1,5 +1,9 @@
 <?php
-class TwitchDetails {
+
+/**
+ * twitch stream data object
+ */
+class TwitchDetails extends DataObject {
     protected $_url;
     protected $_image;
     protected $_active;
@@ -16,19 +20,5 @@ class TwitchDetails {
         $path = ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/twitch/' . $params['twitch_id'];
         $this->_image = '<img src="' . FOLD_TWITCH . $params['twitch_id'] . '">';
         $this->_hyperlink = Functions::generateExternalHyperLink($this->_url, $this->_image, '', false);
-    }
-
-    public function __get($name) {
-        if ( isset($this->$name) ) {
-            return $this->$name;
-        }
-    }
-    
-    public function __isset($name) {
-        return isset($this->$name);
-    }
-
-    public function __destruct() {
-        
     }
 }

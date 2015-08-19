@@ -1,5 +1,12 @@
 <?php
+
+/**
+ * advertisement class to display specific ad content blocks
+ */
 class Advertisement {
+    /**
+     * @return string [ html string containing leaderboard advertisement code ]
+     */
     public static function getLeaderboardAd() {
         $html = '';
 
@@ -21,6 +28,9 @@ class Advertisement {
         return $html;
     }
 
+    /**
+     * @return string [ html string containing sidebar medium advertisement code ]
+     */
     public static function getSidebarMediumAd() {
         $html = '';
 
@@ -42,6 +52,9 @@ class Advertisement {
         return $html;
     }
 
+    /**
+     * @return string [ html string containing sidebar large advertisement code ]
+     */
     public static function getSidebarLargeAd() {
         $html = '';
 

@@ -1,5 +1,9 @@
 <?php
-class Tier {
+
+/**
+ * tier data object
+ */
+class Tier extends DataObject {
     protected $_tierId;
     protected $_tier;
     protected $_altTier;
@@ -47,20 +51,6 @@ class Tier {
         } else {
             $this->_dateEnd = Functions::formatDate($params['date_end'], 'F d Y');
         }
-    }
-
-    public function __get($name) {
-        if ( isset($this->$name) ) {
-            return $this->$name;
-        }
-    }
-
-    public function __set($name, $value) {
-        $this->$name = $name;
-    }
-    
-    public function __isset($name) {
-        return isset($this->$name);
     }
 
     public function getDungeons($tier) {
@@ -138,9 +128,5 @@ class Tier {
 
         if ( isset($firstGuild) ) { $this->_firstTierClear = $firstGuild; }
         if ( isset($recentGuild) ) { $this->_recentTierClear = $recentGuild; }
-    }
-
-    public function __destruct() {
-        
     }
 }

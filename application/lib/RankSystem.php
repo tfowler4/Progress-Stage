@@ -7,7 +7,7 @@ class RankSystem {
     protected $_baseValue;
     protected $_finalValue;
 
-    public function RankSystem($params) {
+    public function __construct($params) {
         $this->_systemId        = $params['system_id'];
         $this->_identifier      = $params['identifier'];
         $this->_name            = $params['name'];

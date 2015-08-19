@@ -1,5 +1,9 @@
 <?php
-class EncounterDetails {
+
+/**
+ * encounter details data object for guild
+ */
+class EncounterDetails extends DetailObject {
     protected $_encounterName;
     protected $_encounterId;
     protected $_dungeon;
@@ -32,6 +36,9 @@ class EncounterDetails {
     protected $_countryRankImage = '--';
     public    $_span;
 
+    /**
+     * constructor
+     */
     public function __construct(&$params, &$guildDetails, &$dungeonDetails) {
         $this->_encounterId = $params[0];
         $this->_server      = (!empty($params[9]) ? $params[9] : $guildDetails->_server);
@@ -56,11 +63,11 @@ class EncounterDetails {
         $this->_tier          = CommonDataContainer::$encounterArray[$this->_encounterId]->_tier;
 
         if ( file_exists(strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/screenshots/killshots/' . $guildDetails->_guildId . '-' . $this->_encounterId)) ) {
-            $this->_screenshotLink  = '<a href="' . FOLD_KILLSHOTS . $guildDetails->_guildId . '-' . $this->_encounterId  . '" rel="lightbox[\'kill_shots\']">View</a>';
+            $this->_screenshotLink = '<a href="' . FOLD_KILLSHOTS . $guildDetails->_guildId . '-' . $this->_encounterId  . '" rel="lightbox[\'kill_shots\']">View</a>';
         } else {
-            $this->_screenshotLink  = '--';
+            $this->_screenshotLink = '--';
         }
-        
+
         if ( !empty($params[4]) ) { $this->_videoLink        = '<a target="_blank" href="' . $params[4] . '">View</a>'; }
         if ( !empty($params[6]) ) { $this->_serverRank       = $params[5]; }
         if ( !empty($params[7]) ) { $this->_regionRank       = $params[6]; }
@@ -76,29 +83,5 @@ class EncounterDetails {
             $this->_strtotime = strtotime("-".($dungeonDetails->_euTimeDiff + (7*60)) . ' minutes', $this->_strtotime);
             $this->_datetime  = date('m/d/Y H:i', $this->_strtotime);
         }
-    }
-
-    public function __get($name) {
-        return $this->$name;
-    }
-
-    public function __set($name, $value) {
-        $this->$name = $value;
-    }
-
-    public function __isset($name) {
-        return isset($this->$name);
-    }
-
-    public function getProperties() {
-        return get_object_vars($this);
-    }
-
-    public function __destruct() {
-        
-    }
-
-    public function __unset($name) {
-        unset($this->$name);
     }
 }

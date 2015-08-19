@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * static class containing commonly used data arrays
+ */
 class CommonDataContainer {
     public static $guildArray;
     public static $regionArray;
@@ -10,10 +14,8 @@ class CommonDataContainer {
     public static $factionArray;
     public static $rankSystemArray;
     public static $twitchArray;
-
     public static $raidSizeArray;
     public static $tierSizeArray;
-
     public static $daysArray;
     public static $monthsArray;
     public static $yearsArray;
@@ -21,6 +23,11 @@ class CommonDataContainer {
     public static $minutesArray;
     public static $timezonesArray;
 
+    /**
+     * initialize
+     * 
+     * @return void
+     */
     public static function init() {
         self::$guildArray      = array();
         self::$regionArray     = array();
@@ -34,7 +41,6 @@ class CommonDataContainer {
         self::$twitchArray     = array();
         self::$raidSizeArray   = array();
         self::$tierSizeArray   = array();
-
         self::$daysArray       = array();
         self::$monthsArray     = array();
         self::$yearsArray      = array();

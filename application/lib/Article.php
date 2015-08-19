@@ -1,20 +1,36 @@
 <?php
+
+/**
+ * article class to display content in a news article format
+ */
 class Article {
     public $title;
     public $date;
     public $postedBy;
     public $content;
     public $type;
-    
-    public function Article($params) {
-        $this->title        = $params['title'];
-        $this->date         = $params['date_added'];
-        $this->postedBy     = $params['added_by'];
-        $this->content      = $this->parseImagesInContent($params['content']);
-        $this->type         = $params['type'];
+
+    /**
+     * constructor
+     * 
+     * @param array $params [ PDO query object ]
+     */
+    public function __construct($params) {
+        $this->title    = $params['title'];
+        $this->date     = $params['date_added'];
+        $this->postedBy = $params['added_by'];
+        $this->content  = $this->_parseImagesInContent($params['content']);
+        $this->type     = $params['type'];
     }
 
-    public function parseImagesInContent($content) {
+    /**
+     * parse image strings in article content to  correct images missing from local/webseter
+     * 
+     * @param  string $content [ article content text ]
+     * 
+     * @return string [ article content text ]
+     */
+    private function _parseImagesInContent($content) {
         $imgStrStart  = '<img';
         $imgStrEnd    = '>';
         $imgPosStart = 0;

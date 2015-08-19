@@ -1,5 +1,9 @@
 <?php
-class User {
+
+/**
+ * user data object
+ */
+class User extends DataObject {
     protected $_userId;
     protected $_userName;
     protected $_emailAddress;
@@ -7,6 +11,9 @@ class User {
     protected $_dateCreated;
     protected $_admin;
 
+    /**
+     * constructor
+     */
     public function __construct($params) {
         $this->_userId           = $params['user_id'];
         $this->_userName         = $params['username'];
@@ -14,19 +21,5 @@ class User {
         $this->_encrypedPassword = $params['passcode'];
         $this->_dateCreated      = $params['date_joined'];
         $this->_admin            = $params['admin'];
-    }
-
-    public function __get($name) {
-        if ( isset($this->$name) ) {
-            return $this->$name;
-        }
-    }
-    
-    public function __isset($name) {
-        return isset($this->$name);
-    }
-
-    public function __destruct() {
-        
     }
 }

@@ -1,5 +1,5 @@
 <?php
-class GuildDetails {
+class GuildDetails extends DetailObject {
     // Standard Properties
     protected $_guildId;
     protected $_name;
@@ -116,21 +116,7 @@ class GuildDetails {
         $this->_tierDetails      = $this->generateTierDetails();
         $this->_dungeonDetails   = $this->generateDungeonDetails();
     }
-    
-    public function __get($name) {
-        if ( isset($this->$name) ) {
-            return $this->$name;
-        }
-    }
-    
-    public function __set($name, $value) {
-        $this->$name = $value;
-    }
 
-    public function __isset($name) {
-        return isset($this->$name);
-    }
-    
     public function nameLength($textLimit) {
         if ( $this->_active == 'Inactive' ) {
             $this->_nameLink = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('guild', '', $this->_server, $this->_name, $textLimit) . '</span>';
@@ -241,7 +227,7 @@ class GuildDetails {
 
         $this->_rankDetails = $property;
     }
-    
+
     public function generateTierSizeDetails() {
         $property = new stdClass();
 
@@ -260,8 +246,8 @@ class GuildDetails {
         }
 
         return $property;
-    }       
-    
+    }
+
     public function generateDungeonDetails() {
         $property = new stdClass();
         
@@ -352,7 +338,7 @@ class GuildDetails {
 
         $this->_encounterDetails = $property;
     }
-    
+
     public function updateFirstCount($dataType, $encounterType, $object) {
         if ( $encounterType == 0 ) {
             switch ( $dataType ) {
@@ -478,10 +464,4 @@ class GuildDetails {
             $this->_pointDiff = '--'; 
         }
     }
-
-    public function __unset($name) {
-        unset($this->$name);
-    }
-
-    public function __destruct() {}
 }

@@ -68,6 +68,7 @@ include ABSOLUTE_PATH . '/library/BitlyPHP/bitly.php';
 // PHPMailer
 include ABSOLUTE_PATH . '/library/PHPMailer/PHPMailerAutoload.php';
 
+foreach ( glob($_SERVER['DOCUMENT_ROOT'] . '/' . DOMAIN . '/application/lib/objectTypes/*.php') as $fileName ) { include $fileName; }
 foreach ( glob($_SERVER['DOCUMENT_ROOT'] . '/' . DOMAIN . '/application/lib/*.php') as $fileName ) { include $fileName; }
 foreach ( glob($_SERVER['DOCUMENT_ROOT'] . '/' . DOMAIN . '/application/utils/*.php') as $fileName ) { include $fileName; }
 foreach ( glob($_SERVER['DOCUMENT_ROOT'] . '/' . DOMAIN . '/application/services/*.php') as $fileName ) { include $fileName; }

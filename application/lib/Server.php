@@ -1,5 +1,9 @@
 <?php
-class Server {
+
+/**
+ * server data object
+ */
+class Server extends DataObject {
     protected $_serverId;
     protected $_name;
     protected $_nameLink;
@@ -13,7 +17,7 @@ class Server {
     protected $_numOfWorldFirsts = 0;
     protected $_guilds;
 
-    public function Server($params) {
+    public function __construct($params) {
         $this->_serverId        = $params['server_id'];
         $this->_name            = $params['name'];
         $this->_country         = $params['country'];
@@ -22,18 +26,6 @@ class Server {
         $this->_type2           = $params['type2'];
         $this->_countryImage    = Functions::getImageFlag($this->_country, '');
         $this->_nameLink        = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('servers', '', '', $this->_name, '') . '</span>';
-    }
-
-    public function __get($name) {
-        return $this->$name;
-    }
-
-    public function __set($name, $value) {
-        $this->$name = $value;
-    }
-    
-    public function __isset($name) {
-        return isset($this->$name);
     }
 
     public function getGuilds() {
@@ -55,6 +47,4 @@ class Server {
             $this->_numOfWorldFirsts  += $guildDetails->_worldFirst;
         }
     }
-
-    public function __destruct() {}
 }
