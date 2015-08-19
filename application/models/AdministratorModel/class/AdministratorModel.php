@@ -6,7 +6,7 @@ class AdministratorModel extends Model {
     const PAGE_TITLE = 'Administrator Control Panel';
 
     public function __construct($module, $params) {
-        parent::__construct();
+        parent::__construct($module);
 
         $this->title = self::PAGE_TITLE;
 
@@ -55,6 +55,9 @@ class AdministratorModel extends Model {
                     break;
                 case "encounter-edit-details":
                     $this->editEncounterDetails();
+                    break;
+                case "encounter-remove":
+                    $this->removeEncounter();
                     break;
                 case "guild-add":
                     $this->addNewGuild();
@@ -482,6 +485,19 @@ class AdministratorModel extends Model {
             $encounterShortName,
             $launchDate,
             $encounterOrder,
+            $encounterId
+            );
+        die;
+    }
+
+    public function removeEncounter() {
+        $encounterId = $_POST['form'][0]['value'];
+
+        $sqlString = sprintf(
+            "DELETE 
+               FROM %s
+              WHERE encounter_id = '%s'",
+            DbFactory::TABLE_ENCOUNTERS,
             $encounterId
             );
         die;
