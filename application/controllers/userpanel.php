@@ -1,6 +1,6 @@
 <?php
 class UserPanel extends Controller {
     public function index($params) {
-        $this->view('', $this->model('UserPanel', $params));
+        $this->_view('', $this->_model('UserPanel', $params));
     }
 }

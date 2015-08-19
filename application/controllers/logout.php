@@ -1,6 +1,6 @@
 <?php
 class Logout extends Controller {
     public function index($params) {
-        $this->view('', $this->model('Logout', $params));
+        $this->_view('', $this->_model('Logout', $params));
     }
 }

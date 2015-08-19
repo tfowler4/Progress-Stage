@@ -63,7 +63,7 @@ class GuildModel extends Model {
     const PAGE_NAME  = 'Guild Profile';
 
     public function __construct($module, $params) {
-        parent::__construct($module);
+        parent::__construct();
 
         if ( isset($params[1]) && $params[1] == 'sig' ) {
             $paramsArray = array_slice($params, 2);

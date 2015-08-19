@@ -154,8 +154,8 @@ class GuildDetails {
 
         if ( empty($this->_leader) )    { $this->_leader = "N/A"; }
         if ( empty($this->_website) )   { $this->_websiteLink = "N/A"; } else { $this->_websiteLink = Functions::generateExternalHyperLink($this->_website, 'View', ''); }
-        if ( !empty($this->_facebook) ) { $this->_facebookLink = Functions::generateExternalHyperLink($this->_facebook, $GLOBALS['images']['facebook_small'], ''); }
-        if ( !empty($this->_twitter) )  { $this->_twitterLink = Functions::generateExternalHyperLink($this->_twitter, $GLOBALS['images']['twitter_small'], ''); }
+        if ( !empty($this->_facebook) ) { $this->_facebookLink = Functions::generateExternalHyperLink($this->_facebook, IMG_FACEBOOK_SMALL_LOGO, ''); }
+        if ( !empty($this->_twitter) )  { $this->_twitterLink = Functions::generateExternalHyperLink($this->_twitter, IMG_TWITTER_SMALL_LOGO, ''); }
         if ( empty($this->_schedule) )  { $this->_schedule = " N/A"; } else { $this->_schedule = $this->_schedule; }
         
         $this->_socialNetworks = $this->_facebookLink . ' ' . $this->_twitterLink;

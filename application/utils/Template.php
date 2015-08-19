@@ -425,7 +425,7 @@ class Template {
             case 'search':
                 if ( MODULE_SEARCH_SET == 1 ) {
                     $html = '<li class="no-highlight"><form id="search-form"><input id="search-input" placeholder="Enter guild name" type="text" /></form></li>';
-                    $html .= '<li id="search-activator" class="no-highlight">' . $GLOBALS['images']['search'] . '</li>';
+                    $html .= '<li id="search-activator" class="no-highlight">' . IMG_ICON_SEARCH . '</li>';
                 }
                 break;
         }
@@ -440,8 +440,8 @@ class Template {
             case 'standings':
             case 'rankings':
                 $html .= '<li>';
-                    if ( $modelName == 'standings') { $html .= 'Progression Standings ' . $GLOBALS['images']['icon-dropdown']; }
-                    if ( $modelName == 'rankings') { $html .= 'Point Rankings ' . $GLOBALS['images']['icon-dropdown']; }
+                    if ( $modelName == 'standings') { $html .= 'Progression Standings ' . IMG_ARROW_DROPDOWN; }
+                    if ( $modelName == 'rankings') { $html .= 'Point Rankings ' . IMG_ARROW_DROPDOWN; }
                     $html .= '<div class="dropdown-menu-first-level">';
                         foreach( $topLevelArray as $tierId => $tierDetails) {
                             $html .= '<div class="dropdown-menu-item">';
@@ -456,12 +456,12 @@ class Template {
                                                         if ( $modelName == 'standings') { $html .= Functions::generateInternalHyperlink('standings', $encounterDetails, 'world', '<div class="dropdown-menu-item">' . $encounterDetails->_name . '</div>', ''); }
                                                     }
                                                 $html .= '</div>';
-                                                if ( $dungeonDetails->_numOfEncounters > 0 ) { $html .= $GLOBALS['images']['icon-expand']; }
+                                                if ( $dungeonDetails->_numOfEncounters > 0 ) { $html .= IMG_ARROW_EXPAND; }
                                             }
                                         $html .= '</div>';
                                     }
                                 $html .= '</div>';
-                                if ( $tierDetails->_numOfDungeons > 0 ) { $html .= $GLOBALS['images']['icon-expand']; }
+                                if ( $tierDetails->_numOfDungeons > 0 ) { $html .= IMG_ARROW_EXPAND; }
                             $html .= '</div>';
                         }
                     $html .= '</div>';
@@ -469,7 +469,7 @@ class Template {
                 break;
             case 'servers':
                 $html .= '<li>';
-                    $html .= 'Servers ' . $GLOBALS['images']['icon-dropdown'];
+                    $html .= 'Servers ' . IMG_ARROW_DROPDOWN;
                     $html .= '<div class="dropdown-menu-first-level">';
                         foreach( $topLevelArray as $regionId => $regionDetails ) {
                             $html .= '<div class="dropdown-menu-item">';
@@ -480,7 +480,7 @@ class Template {
                                         $html .= '<div class="dropdown-menu-item">' . $serverDetails->_nameLink . '</div>';
                                     }
                                 $html .= '</div>';
-                                if ( $regionDetails->_numOfServers > 0 ) { $html .= $GLOBALS['images']['icon-expand']; }
+                                if ( $regionDetails->_numOfServers > 0 ) { $html .= IMG_ARROW_EXPAND; }
                             $html .= '</div>';
                         }
                     $html .= '</div>';

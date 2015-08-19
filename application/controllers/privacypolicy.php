@@ -1,6 +1,6 @@
 <?php
 class PrivacyPolicy extends Controller {
     public function index($params) {
-        $this->view('', $this->model('PrivacyPolicy', $params));
+        $this->_view('', $this->_model('PrivacyPolicy', $params));
     }
 }

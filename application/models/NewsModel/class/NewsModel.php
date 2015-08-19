@@ -26,7 +26,7 @@ class NewsModel extends Model {
         );
 
     public function __construct($module, $article) {
-        parent::__construct($module);
+        parent::__construct();
 
         $this->title       = self::PAGE_TITLE;
         $this->description = self::PAGE_DESCRIPTION;

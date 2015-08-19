@@ -63,7 +63,7 @@ class UserPanelModel extends Model {
     const PAGE_TITLE = 'User Panel';
 
     public function __construct($module, $params) {
-        parent::__construct($module);
+        parent::__construct();
 
         $this->title = self::PAGE_TITLE;
 

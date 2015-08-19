@@ -1,11 +1,18 @@
 <?php
+
+/**
+ * main application class
+ */
 class App {
     protected $_controller = 'news';
     protected $_method     = 'index';
     protected $_params     = array();
 
+    /**
+     * constructor
+     */
     public function __construct() {
-        $url  = $this->parseUrl();
+        $url  = $this->_parseURL();
         $file = 'application/controllers/' . $url[0] . '.php';
 
         if ( file_exists($file) ) {
@@ -13,6 +20,7 @@ class App {
             unset($url[0]);
         }
 
+        // specified controller file
         include 'application/controllers/' . $this->_controller . '.php';
 
         $this->_controller = new $this->_controller;
@@ -29,9 +37,14 @@ class App {
         call_user_func_array( array($this->_controller, $this->_method), array($this->_params));
     }
 
-    public function parseURL() {
+    /**
+     * parses the url string into an array
+     * 
+     * @return array [ array of url parameters split by '/' ]
+     */
+    private function _parseURL() {
         if ( isset($_GET['url']) ) {
-            return $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL) );
+            return explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL) );
         }
     }
 }

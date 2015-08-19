@@ -297,19 +297,19 @@ class Functions {
     public static function getTrendImage($trend) {
         $image = "";
 
-        if ( ($trend != "--" || $trend != "NEW") && $trend  > 0 ) $image = $GLOBALS['images']['trend_up'];
-        if ( ($trend != "--" || $trend != "NEW") && $trend  < 0 ) $image = $GLOBALS['images']['trend_down'];
+        if ( ($trend != "--" || $trend != "NEW") && $trend  > 0 ) $image = IMG_ARROW_TREND_UP_SML;
+        if ( ($trend != "--" || $trend != "NEW") && $trend  < 0 ) $image = IMG_ARROW_TREND_DOWN_SML;
 
         return $image;
     }
 
     public static function getRankMedal($rank) {
         if ( $rank == 1 ) {
-            $rank = $GLOBALS['images']['medal_gold'];
+            $rank = IMG_MEDAL_GOLD;
         } elseif ( $rank == 2 ) {
-            $rank = $GLOBALS['images']['medal_silver'];
+            $rank = IMG_MEDAL_SILVER;
         } elseif ( $rank == 3 ) {
-            $rank = $GLOBALS['images']['medal_bronze'];
+            $rank = IMG_MEDAL_BRONZE;
         }
 
         return $rank;
