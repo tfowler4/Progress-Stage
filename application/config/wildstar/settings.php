@@ -1,5 +1,5 @@
 <?php
-// WildStar
+// WildStar settings
 define('SITE_TITLE',           'WildStar Progress');
 define('SITE_TITLE_SHORT',     'WildStar Progress');
 define('GAME_URL',             'http://www.wildstar-online.com');

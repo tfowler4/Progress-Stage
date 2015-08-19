@@ -1,5 +1,5 @@
 <?php
-// RIFT
+// RIFT settings
 define('SITE_TITLE',           'RIFT Progress');
 define('SITE_TITLE_SHORT',     'RIFT Progress');
 define('GAME_NAME_2',          'Storm Legion');
