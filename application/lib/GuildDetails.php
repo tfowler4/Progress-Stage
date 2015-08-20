@@ -24,6 +24,7 @@ class GuildDetails extends DetailObject {
     protected $_server;
     protected $_serverLink;
     protected $_active;
+    protected $_activeStatus;
     protected $_type;
     protected $_creatorId;
     protected $_parent;
@@ -109,56 +110,72 @@ class GuildDetails extends DetailObject {
         $this->_rankEncounter    = $params['rank_encounter'];
         $this->_rankTierRaidSize = $params['rank_tier_size'];
         $this->_rankOverall      = $params['rank_overall'];
+        $this->_guildType        = (isset($params['guild_type']) && !empty($params['guild_type']) ? $params['guild_type'] : 'N/A');
         $this->_recentActivity   = 'N/A';
         $this->_complete         = 0;
         $this->_standing         = '0/0';
         $this->_hardModeStanding = '0/0';
         $this->_conqeuror        = 'No';
         $this->_logo             = Template::getLogo($this);
-        $this->_guildType        = (isset($params['guild_type']) && !empty($params['guild_type']) ? $params['guild_type'] : 'N/A');
 
-        $this->generateTableFields();
+        // set guild active status
+        if ( $this->_active == '1' ) { $this->_activeStatus = 'Active'; }
+        if ( $this->_active == '0' ) { $this->_activeStatus = 'Inactive'; }
 
-        $this->_tierRaidSizeDetails = $this->generateTierRaidSizeDetails();
-        $this->_tierDetails         = $this->generateTierDetails();
-        $this->_dungeonDetails      = $this->generateDungeonDetails();
-    }
-
-    public function nameLength($textLimit) {
-        if ( $this->_active == 'Inactive' ) {
-            $this->_nameLink = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('guild', '', $this->_server, $this->_name, $textLimit) . '</span>';
+        if ( $this->_activeStatus == 'Active' ) {
+            $this->_nameLink = $this->_countryImage . '<span>' . Functions::generateInternalHyperLink('guild', '', $this->_server, $this->_name, '') . '</span>';
         } else {
-            $this->_nameLink = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('guild', $this->_faction, $this->_server, $this->_name, $textLimit) . '</span>';
+            $this->_nameLink = $this->_countryImage . '<span>' . Functions::generateInternalHyperLink('guild', $this->_faction, $this->_server, $this->_name, '') . '</span>';
         }
-    }
 
-    public function generateTableFields() {
+        // set server image and text
         $serverDetails  = CommonDataContainer::$serverArray[$this->_server];
-        $countryDetails = CommonDataContainer::$countryArray[$this->_country];
-
-        if ( $this->_active == 'Inactive' || $this->_active == '0' ) {
-            $this->_nameLink = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('guild', '', $this->_server, $this->_name, '') . '</span>';
-        } else {
-            $this->_nameLink = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('guild', $this->_faction, $this->_server, $this->_name, '') . '</span>';
-        }
-
         $this->_serverLink  = $serverDetails->_nameLink;
-        $this->_countryLink = $this->_countryImage . '<span style="vertical-align:middle;">' . $countryDetails->_name . '</span>';
 
-        if ( empty($this->_leader) )    { $this->_leader = "N/A"; }
-        if ( empty($this->_website) )   { $this->_websiteLink = "N/A"; } else { $this->_websiteLink = Functions::generateExternalHyperLink($this->_website, 'View', ''); }
+        // set country image and text
+        $countryDetails = CommonDataContainer::$countryArray[$this->_country];
+        $this->_countryLink = $this->_countryImage . '<span>' . $countryDetails->_name . '</span>';
+
+        // set other guild options to either N/A or actual links
+        if ( empty($this->_leader) )    { $this->_leader       = 'N/A'; }
+        if ( empty($this->_website) )   { $this->_websiteLink  = 'N/A'; } else { $this->_websiteLink = Functions::generateExternalHyperLink($this->_website, 'View', ''); }
+        if ( empty($this->_schedule) )  { $this->_schedule     = 'N/A'; } else { $this->_schedule = $this->_schedule; }
         if ( !empty($this->_facebook) ) { $this->_facebookLink = Functions::generateExternalHyperLink($this->_facebook, IMG_FACEBOOK_SMALL_LOGO, ''); }
-        if ( !empty($this->_twitter) )  { $this->_twitterLink = Functions::generateExternalHyperLink($this->_twitter, IMG_TWITTER_SMALL_LOGO, ''); }
-        if ( empty($this->_schedule) )  { $this->_schedule = " N/A"; } else { $this->_schedule = $this->_schedule; }
-        
-        $this->_socialNetworks = $this->_facebookLink . ' ' . $this->_twitterLink;
+        if ( !empty($this->_twitter) )  { $this->_twitterLink  = Functions::generateExternalHyperLink($this->_twitter, IMG_TWITTER_SMALL_LOGO, ''); }
 
+        // combine social network links
+        $this->_socialNetworks = $this->_facebookLink . ' ' . $this->_twitterLink;
         if ( empty(trim($this->_socialNetworks)) ) { $this->_socialNetworks = 'N/A'; }
 
-        if ( $this->_active == '1' ) { $this->_active = 'Active'; }
-        if ( $this->_active == '0' ) { $this->_active = 'Inactive'; }
+        // set default standings detail info
+        $this->_dungeonDetails = $this->generateDungeonDetails();
+
+        // TODO: Add Tier/Raid Size/Tier Raid Size content
+        //$this->_tierDetails         = $this->generateTierDetails();
+        //$this->_tierRaidSizeDetails = $this->generateTierRaidSizeDetails();
     }
-    
+
+    /**
+     * specify a specific character limit for guild name when displaying
+     * 
+     * @param  integer $textLimit [ number of characters ]
+     * @return void
+     */
+    public function nameLength($textLimit) {
+        if ( $this->_active == 'Inactive' ) {
+            $this->_nameLink = $this->_countryImage . '<span>' . Functions::generateInternalHyperLink('guild', '', $this->_server, $this->_name, $textLimit) . '</span>';
+        } else {
+            $this->_nameLink = $this->_countryImage . '<span>' . Functions::generateInternalHyperLink('guild', $this->_faction, $this->_server, $this->_name, $textLimit) . '</span>';
+        }
+    }
+
+    /**
+     * populate rankDetails property with all details from database
+     * 
+     * @param  string $dataType [ specify which ranking details to generate ex. encounters ]
+     * @param  string $dataId   [ specify the id for a specific dungeon/encounter ]
+     * @return void
+     */
     public function generateRankDetails($dataType, $dataId = null) {
         $property = new stdClass();
         
@@ -210,31 +227,16 @@ class GuildDetails extends DetailObject {
             }
 
             $property->_rankDungeons = $rankDungeons;
-        } elseif ( $dataType == 'tiers' ) {
-            // Generate Tier Ranking
-            $rankTiers = new stdClass();
-            $systemArr = explode("$$", $this->_rankTier);
-
-            for ( $system = 0; $system < count($systemArr); $system++ ) {
-                $tiers      = $systemArr[$system];
-                $tierArr    = explode('~~', $tiers);
-            
-                for ( $tier = 0; $tier < count($tierArr); $tier++ ) {
-                    $tierDetails    = explode('||', $tierArr[$tier]);
-                    $systemAbbrev   = $GLOBALS['point_system_abbrev'][$system];
-                        
-                    $tierId     = $tierDetails[0];
-                    $identifier = $tierId . '_' . $systemAbbrev;
-
-                    $rankTiers->$identifier = new RankDetails($tierDetails, $system);
-                }
-            }
-            $property->_rankTiers = $rankTiers;
         }
 
         $this->_rankDetails = $property;
     }
 
+    /**
+     * create empty tier raid size details to store in tierRaidSizeDetails property
+     * 
+     * @return object [ property containing empty tierRaidSize detail objects ]
+     */
     public function generateTierRaidSizeDetails() {
         $property = new stdClass();
 
@@ -245,6 +247,11 @@ class GuildDetails extends DetailObject {
         return $property;
     }
 
+    /**
+     * create empty tier details to store in tierDetails property
+     * 
+     * @return object [ property containing empty tier detail objects ]
+     */
     public function generateTierDetails() {
         $property = new stdClass();
             
@@ -255,6 +262,11 @@ class GuildDetails extends DetailObject {
         return $property;
     }
 
+    /**
+     * create empty dungeon details to store in dungeonDetails property
+     * 
+     * @return object [ property containing empty dungeon detail objects ]
+     */
     public function generateDungeonDetails() {
         $property = new stdClass();
         
@@ -278,11 +290,11 @@ class GuildDetails extends DetailObject {
                 $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
                 $dungeonId           = $encounterDetails->_dungeonId;
                 $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
-                $tierId              = $dungeonDetails->_tier;
-                $tierDetails         = CommonDataContainer::$tierArray[$tierId];
-                $raidSize            = $dungeonDetails->_raidSize;
-                $tierRaidSize        = $tierDetails->_tier . '_' . $raidSize;
-                $tierRaidSizeDetails = CommonDataContainer::$tierRaidSizeArray[$tierRaidSize];
+                //$tierId              = $dungeonDetails->_tier;
+                //$tierDetails         = CommonDataContainer::$tierArray[$tierId];
+                //$raidSize            = $dungeonDetails->_raidSize;
+                //$tierRaidSize        = $tierDetails->_tier . '_' . $raidSize;
+                //$tierRaidSizeDetails = CommonDataContainer::$tierRaidSizeArray[$tierRaidSize];
 
                 $totalNumOfEncounters    = count(CommonDataContainer::$encounterArray);
                 $totalNumOfSpcEncounters = count(CommonDataContainer::$encounterArray);
@@ -292,7 +304,7 @@ class GuildDetails extends DetailObject {
                 
                 if ( $dataType == 'dungeon' && $dungeonId != $dataId ) { continue; }
 
-                if ( $dataType == 'tier' && $tierId != $dataId ) { continue; }
+                //if ( $dataType == 'tier' && $tierId != $dataId ) { continue; }
 
                 if ( $dataType == 'tierRaidSize' && $tierRaidSize != $dataId ) { continue; }
 
@@ -306,34 +318,34 @@ class GuildDetails extends DetailObject {
 
                 $this->updateCompletedCount($dungeonDetails, $encounterDetails->_type, $this); // Increase Complete / Standing
                 $this->updateCompletedCount($dungeonDetails, $encounterDetails->_type, $this->_dungeonDetails->$dungeonId); // Increase Dungeon Complete / Standing
-                $this->updateCompletedCount($tierDetails, $encounterDetails->_type, $this->_tierDetails->$tierId); // Increase Tier Complete / Standing
-                $this->updateCompletedCount($tierRaidSizeDetails, $encounterDetails->_type, $this->_tierRaidSizeDetails->$tierRaidSize); // Increase Tier Size Complete / Standing
+                //$this->updateCompletedCount($tierDetails, $encounterDetails->_type, $this->_tierDetails->$tierId); // Increase Tier Complete / Standing
+                //$this->updateCompletedCount($tierRaidSizeDetails, $encounterDetails->_type, $this->_tierRaidSizeDetails->$tierRaidSize); // Increase Tier Size Complete / Standing
                 
                 $this->updateRecentActivity($encounter, $encounterDetails, 'self', ''); // Recent Encounter / Time
                 $this->updateRecentActivity($encounter, $encounterDetails, 'dungeon', $dungeonId); // Recent Dungeon Encounter / Time
-                $this->updateRecentActivity($encounter, $encounterDetails, 'tier', $tierId); // Recent Tier Encounter / Time
-                $this->updateRecentActivity($encounter, $encounterDetails, 'tierRaidSize', $tierRaidSize); // Recent Tier Size Encounter / Time
+                //$this->updateRecentActivity($encounter, $encounterDetails, 'tier', $tierId); // Recent Tier Encounter / Time
+                //$this->updateRecentActivity($encounter, $encounterDetails, 'tierRaidSize', $tierRaidSize); // Recent Tier Size Encounter / Time
 
                 // Set World/Region/Server First
                 if ( $encounter->_serverRank == 1 ) {
                     $this->updateFirstCount('server', $encounterDetails->_type, $this);
                     $this->updateFirstCount('server', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
-                    $this->updateFirstCount('server', $encounterDetails->_type, $this->_tierDetails->$tierId);
-                    $this->updateFirstCount('server', $encounterDetails->_type, $this->_tierRaidSizeDetails->$tierRaidSize);
+                    //$this->updateFirstCount('server', $encounterDetails->_type, $this->_tierDetails->$tierId);
+                    //$this->updateFirstCount('server', $encounterDetails->_type, $this->_tierRaidSizeDetails->$tierRaidSize);
                 }
 
                 if ( $encounter->_regionRank == 1 ) {
                     $this->updateFirstCount('region', $encounterDetails->_type, $this);
                     $this->updateFirstCount('region', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
-                    $this->updateFirstCount('region', $encounterDetails->_type, $this->_tierDetails->$tierId);
-                    $this->updateFirstCount('region', $encounterDetails->_type, $this->_tierRaidSizeDetails->$tierRaidSize);
+                    //$this->updateFirstCount('region', $encounterDetails->_type, $this->_tierDetails->$tierId);
+                    //$this->updateFirstCount('region', $encounterDetails->_type, $this->_tierRaidSizeDetails->$tierRaidSize);
                 }
 
                 if ( $encounter->_worldRank == 1 ) {
                     $this->updateFirstCount('world', $encounterDetails->_type, $this);
                     $this->updateFirstCount('world', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
-                    $this->updateFirstCount('world', $encounterDetails->_type, $this->_tierDetails->$tierId);
-                    $this->updateFirstCount('world', $encounterDetails->_type, $this->_tierRaidSizeDetails->$tierRaidSize);
+                    //$this->updateFirstCount('world', $encounterDetails->_type, $this->_tierDetails->$tierId);
+                    //$this->updateFirstCount('world', $encounterDetails->_type, $this->_tierRaidSizeDetails->$tierRaidSize);
                 }
 
                 if ( $dataType == 'encounter' && $encounterId == $dataId ) {
@@ -346,6 +358,15 @@ class GuildDetails extends DetailObject {
         $this->_encounterDetails = $property;
     }
 
+    /**
+     * updates standings completion count based on encounterType
+     * 
+     * @param  string       $dataType      [ specific data view ]
+     * @param  string       $encounterType [ encounter type (0/1/2) ]
+     * @param  GuildDetails $object        [ dungeon/tier/raidsize/tiersize/overall details object ]
+     * 
+     * @return void
+     */
     public function updateFirstCount($dataType, $encounterType, $object) {
         if ( $encounterType == 0 ) {
             switch ( $dataType ) {
@@ -362,6 +383,15 @@ class GuildDetails extends DetailObject {
         }
     }
 
+    /**
+     * updates standings completion count based on encounterType
+     * 
+     * @param  object       $objDetails    [ dungeon/tier/raidsize/tiersize/overall details object ]
+     * @param  string       $encounterType [ encounter type (0/1/2) ]
+     * @param  GuildDetails $guildDetails  [ guild details object ]
+     * 
+     * @return void
+     */
     public function updateCompletedCount($objDetails, $encounterType, $guildDetails) {
         switch ($encounterType) {
             case 0:
@@ -378,14 +408,38 @@ class GuildDetails extends DetailObject {
         }
     }
 
+    /**
+     * update standings for normal encounters
+     * 
+     * @param  GuildDetails $guildDetails [ guild details object ]
+     * @param  Dungeon      $objDetails   [ dungeon object specific details ]
+     * @return void
+     */
     public function updateStandings($guildDetails, $objDetails) {
         $guildDetails->_standing = $guildDetails->_complete . '/' . $objDetails->_numOfEncounters . ' ' . $objDetails->_abbreviation;
     }
 
+    /**
+     * update standings for hard mode or special encounters
+     * 
+     * @param  GuildDetails $guildDetails [ guild details object ]
+     * @param  Dungeon      $objDetails   [ dungeon object specific details ]
+     * @return void
+     */
     public function updateHardModeStandings($guildDetails, $objDetails) {
         $guildDetails->_hardModeStanding = $guildDetails->_hardModeComplete . '/' . $objDetails->_numOfSpecialEncounters;
     }
 
+    /**
+     * update the recent raid activity property of the guild details object
+     * 
+     * @param  EncounterDetails $encounter        [ guild encounter details object ]
+     * @param  Encounter        $encounterDetails [ encounter object with encounter specific details ]
+     * @param  string           $obj              [ which ]
+     * @param  string           $id               [ id of specific encounter/dungeon/etc ]
+     * 
+     * @return void
+     */
     public function updateRecentActivity($encounter, $encounterDetails, $obj, $id) {
         if ( $encounterDetails->_type > 0 ) { return; }
 
@@ -410,50 +464,75 @@ class GuildDetails extends DetailObject {
             switch ( $obj ) {
                 case 'self':
                     $this->_recentTime             = $encounter->_strtotime;
-                    $this->_recentActivity         = $encounterDetails->_encounterName . " @ " . $encounter->_datetime;
+                    $this->_recentActivity         = $encounterDetails->_encounterName . ' @ ' . $encounter->_datetime;
                     $this->_recentEncounterDetails = $encounter;
                     break;
                 case 'dungeon':
                     $this->_dungeonDetails->$id->_recentTime             = $encounter->_strtotime;
-                    $this->_dungeonDetails->$id->_recentActivity         = $encounterDetails->_encounterName . " @ " . $encounter->_datetime;
+                    $this->_dungeonDetails->$id->_recentActivity         = $encounterDetails->_encounterName . ' @ ' . $encounter->_datetime;
                     $this->_dungeonDetails->$id->_recentEncounterDetails = $encounter;
                     break;
                 case 'tier':
                     $this->_tierDetails->$id->_recentTime             = $encounter->_strtotime;
-                    $this->_tierDetails->$id->_recentActivity         = $encounterDetails->_encounterName . " @ " . $encounter->_datetime;
+                    $this->_tierDetails->$id->_recentActivity         = $encounterDetails->_encounterName . ' @ ' . $encounter->_datetime;
                     $this->_tierDetails->$id->_recentEncounterDetails = $encounter;
                     break;
                 case 'tierRaidSize':
                     $this->_tierRaidSizeDetails->$id->_recentTime             = $encounter->_strtotime;
-                    $this->_tierRaidSizeDetails->$id->_recentActivity         = $encounterDetails->_encounterName . " @ " . $encounter->_datetime;
+                    $this->_tierRaidSizeDetails->$id->_recentActivity         = $encounterDetails->_encounterName . ' @ ' . $encounter->_datetime;
                     $this->_tierRaidSizeDetails->$id->_recentEncounterDetails = $encounter;
                     break;
             }
         }
     }
 
+    /**
+     * merge a guild's standing details into the guild object properties
+     * 
+     * @param  string $dataType [ encounterDetails, dungeonDetails, etc ]
+     * @param  string $id       [ id of specific encounter/dungeon/etc ]
+     * 
+     * @return void
+     */
     public function mergeViewDetails($dataType, $id) {
         foreach ($this->$dataType->$id->getProperties() as $key => $value) {
             $this->$key = $value;
         }
     }
 
+    /**
+     * merge ranking details into guild details object properties
+     * 
+     * @param  string $dataType [ encounterDetails, dungeonDetails, etc ]
+     * @param  string $id       [ id of specific encounter/dungeon/etc ]
+     * @param  string $view     [ specific list view server/region/world/etc ]
+     * 
+     * @return void
+     */
     public function mergeRankViewDetailsDetails($dataType, $id, $view) {
         foreach ($this->_rankDetails->$dataType->$id->getProperties() as $key => $value) {
             if ( is_a($value, 'RankViewDetails') ) {
                 $this->$key = $value->{'_'.$view};
 
                 if ( $key == '_trend' && intval($this->$key) > 0 ) {
-                    $this->$key = $GLOBALS['images']['trend_up'] . '<span>+' . $this->$key . '</span>';
+                    $this->$key = IMG_ARROW_TREND_UP_SML . '<span>+' . $this->$key . '</span>';
                 } elseif ( $key == '_trend' && intval($this->_trend) < 0 ) {
-                    $this->$key = $GLOBALS['images']['trend_down'] . '<span>' . $this->$key . '</span>';
+                    $this->$key = IMG_ARROW_TREND_DOWN_SML . '<span>' . $this->$key . '</span>';
                 }
             } else {
                 $this->$key = $value;
-            }        
+            }
         }
     }
 
+    /**
+     * get the difference in unix time between two time values
+     * 
+     * @param  integer $currentTime [ starting unix time value ]
+     * @param  integer $newTime     [ new unix time value ]
+     * 
+     * @return void
+     */
     public function getTimeDiff($currentTime, $newTime) {
         $timeDiff           = $newTime - $currentTime;
         $this->_timeDiff    = Functions::convertToDiffDaysHoursMins($timeDiff);
@@ -463,6 +542,14 @@ class GuildDetails extends DetailObject {
         }
     }
 
+    /**
+     * get the difference in point amounts between two point values
+     * 
+     * @param  double $currentPoints [ starting points value ]
+     * @param  double $newPoints     [ new points value ]
+     * 
+     * @return void
+     */
     public function getPointDiff($currentPoints, $newPoints) {
         $pointDiff        = $newPoints - $currentPoints;
         $this->_pointDiff = Functions::formatPoints($pointDiff);
