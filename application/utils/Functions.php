@@ -236,7 +236,7 @@ class Functions {
             if ( $module == 'rankings' ) {
                 $subHref = $subMod . '/';
             }
-        } elseif ( isset($moduleDetails->_tierSize) ) { // Its Tier Size
+        } elseif ( isset($moduleDetails->_tierRaidSize) ) { // Its Tier Size
                     
         }
 

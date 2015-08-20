@@ -15,7 +15,7 @@ class CommonDataContainer {
     public static $rankSystemArray;
     public static $twitchArray;
     public static $raidSizeArray;
-    public static $tierSizeArray;
+    public static $tierRaidSizeArray;
     public static $daysArray;
     public static $monthsArray;
     public static $yearsArray;
@@ -29,24 +29,24 @@ class CommonDataContainer {
      * @return void
      */
     public static function init() {
-        self::$guildArray      = array();
-        self::$regionArray     = array();
-        self::$serverArray     = array();
-        self::$tierArray       = array();
-        self::$dungeonArray    = array();
-        self::$encounterArray  = array();
-        self::$countryArray    = array();
-        self::$factionArray    = array();
-        self::$rankSystemArray = array();
-        self::$twitchArray     = array();
-        self::$raidSizeArray   = array();
-        self::$tierSizeArray   = array();
-        self::$daysArray       = array();
-        self::$monthsArray     = array();
-        self::$yearsArray      = array();
-        self::$hoursArray      = array();
-        self::$minutesArray    = array();
-        self::$timezonesArray  = array();
+        self::$guildArray        = array();
+        self::$regionArray       = array();
+        self::$serverArray       = array();
+        self::$tierArray         = array();
+        self::$dungeonArray      = array();
+        self::$encounterArray    = array();
+        self::$countryArray      = array();
+        self::$factionArray      = array();
+        self::$rankSystemArray   = array();
+        self::$twitchArray       = array();
+        self::$raidSizeArray     = array();
+        self::$tierRaidSizeArray = array();
+        self::$daysArray         = array();
+        self::$monthsArray       = array();
+        self::$yearsArray        = array();
+        self::$hoursArray        = array();
+        self::$minutesArray      = array();
+        self::$timezonesArray    = array();
     }
 }
 

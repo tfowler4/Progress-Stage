@@ -12,8 +12,6 @@ class Article {
 
     /**
      * constructor
-     * 
-     * @param array $params [ PDO query object ]
      */
     public function __construct($params) {
         $this->title    = $params['title'];

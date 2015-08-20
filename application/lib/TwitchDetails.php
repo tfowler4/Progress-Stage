@@ -1,9 +1,9 @@
 <?php
 
 /**
- * twitch stream data object
+ * twitch stream details detail object
  */
-class TwitchDetails extends DataObject {
+class TwitchDetails extends DetailObject {
     protected $_url;
     protected $_image;
     protected $_active;

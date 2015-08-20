@@ -31,6 +31,11 @@ class Server extends DataObject {
         $this->_nameLink        = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('servers', '', '', $this->_name, '') . '</span>';
     }
 
+    /**
+     * get all guilds on a specific server
+     * 
+     * @return void
+     */
     public function getGuilds() {
         $guilds = new stdClass();
 
@@ -44,6 +49,11 @@ class Server extends DataObject {
         $this->_guilds = $guilds;
     }
 
+    /**
+     * get all region/world first kills of server
+     * 
+     * @return void
+     */
     public function getFirstEncounterKills() {
         foreach( $this->_guilds as $guildId => $guildDetails ) {
             $this->_numOfRegionFirsts += $guildDetails->_regionFirst;

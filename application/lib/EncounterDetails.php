@@ -26,10 +26,10 @@ class EncounterDetails extends DetailObject {
     protected $_screenshotLink = '--';
     protected $_video;
     protected $_videoLink = '--';
-    protected $_worldRank = '--';
-    protected $_regionRank = '--';
-    protected $_serverRank = '--';
-    protected $_countryRank = '--';
+    protected $_worldRank;
+    protected $_regionRank;
+    protected $_serverRank;
+    protected $_countryRank;
     protected $_worldRankImage = '--';
     protected $_regionRankImage = '--';
     protected $_serverRankImage = '--';

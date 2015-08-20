@@ -1,5 +1,16 @@
 <?php
+
+/**
+ * static class to handle $_POST values
+ */
 class Post {
+    /**
+     * retrieve value from key
+     * 
+     * @param  string $key [ field key from form ]
+     * 
+     * @return string [ post value from key ]
+     */
     public static function get($key) {
         $value = '';
 
@@ -12,6 +23,11 @@ class Post {
         return $value;
     }
 
+    /**
+     * get number of fields in POST
+     * 
+     * @return integer [ number of fields in POST ]
+     */
     public static function count() {
         $nonEmptyFields = 0;
 
@@ -26,6 +42,11 @@ class Post {
         return $nonEmptyFields;
     }
 
+    /**
+     * gets the current active form from button click
+     * 
+     * @return boolean [ if form is active then true, else false]
+     */
     public static function formActive() {
         if ( isset($_POST['active']) ) {
             return true;

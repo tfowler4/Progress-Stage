@@ -1,18 +1,27 @@
 <?php
+
+/**
+ * class to help create and sort a listings of guilds based on
+ * standings or rankings
+ */
 class Listings {
     protected $_listType;
     protected $_view;
     protected $_raidSize;
     protected $_tier;
-    protected $_tierSize;
+    protected $_tierRaidSize;
     protected $_dungeon;
     protected $_encounter;
     protected $_identifier;
     protected $_dataType;
+
     public $listArray;
 
-    const PAGE_NAME  = 'Standings';
+    const PAGE_NAME = 'Standings';
 
+    /**
+     * constructor
+     */
     public function __construct($listType, $params) {
         $this->_listType   = $listType;
         $this->_identifier = $params[0];
@@ -28,7 +37,11 @@ class Listings {
         }
     }
 
-    //TEMPORARY
+    /**
+     * TEMPORARY
+     *
+     * @return array
+     */
     public function getTemporarySortArray() {
         $sortArray = array();
 
@@ -60,7 +73,11 @@ class Listings {
         return $sortArray;
     }
 
-    //TEMPORARY
+    /**
+     * TEMPORARY
+     *
+     * @return void
+     */
     public function addGuildToListArray(&$guildDetails, &$temporaryGuildArray, &$completionTimeArray, &$rankArray) {
         $guildId = $guildDetails->_guildId;
 
@@ -72,7 +89,11 @@ class Listings {
         $rankArray++;
     }
 
-    //TEMPORARY
+    /**
+     * TEMPORARY
+     *
+     * @return array
+     */
     public function getStandings() {
         $returnArray         = array();
         $temporarySortArray  = array();
@@ -133,7 +154,11 @@ class Listings {
         return $returnArray;
     }
 
-    //TEMPORARY
+    /**
+     * TEMPORARY
+     *
+     * @return object
+     */
     public function setViewStandingsArray($viewType, $sortGuildArray) {
         $retVal = new stdClass();
 

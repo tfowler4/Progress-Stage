@@ -8,9 +8,9 @@ class TierDetails extends DetailObject {
     protected $_standing;
     protected $_hardModeComplete = 0;
     protected $_hardModeStanding;
-    protected $_recentActivity = '';
-    protected $_recentTime = '';
-    protected $_recentEncounterDetails = '';
+    protected $_recentActivity;
+    protected $_recentTime;
+    protected $_recentEncounterDetails;
     protected $_worldFirst = 0;
     protected $_regionFirst = 0;
     protected $_serverFirst = 0;

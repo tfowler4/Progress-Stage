@@ -1,9 +1,19 @@
 <?php
 
+/**
+ * class to handle site guild searching function
+ */
 class GuildSearch {
     protected static $_queryString;
+
     public static $searchResults = array();
 
+    /**
+     * runs a query to search database for guild names similar 
+     * to what is in the Post queryTerm field
+     * 
+     * @return array [ guild search results ]
+     */
     public static function getSearchResults() {
         self::$_queryString = Post::get('queryTerm');
 

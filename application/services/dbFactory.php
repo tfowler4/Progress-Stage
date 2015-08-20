@@ -29,7 +29,7 @@ class DbFactory {
         self::_getDungeons();
         self::_getTiers();
         self::_getRaidSizes();
-        self::_getTierSizes();
+        self::_getTierRaidSizes();
         self::_getRankSystems();
         self::_getGuilds();
     }
@@ -70,12 +70,12 @@ class DbFactory {
         }
     }
 
-    private static function _getTierSizes() {
+    private static function _getTierRaidSizes() {
         foreach ( CommonDataContainer::$tierArray as $tierId => $tierDetails ) {
             foreach ( CommonDataContainer::$raidSizeArray as $raidSize => $raidSizeDetails ) {
-                $tierSize = $tierDetails->_tier . '_' . $raidSizeDetails->_raidSize;
+                $tierRaidSize = $tierDetails->_tier . '_' . $raidSizeDetails->_raidSize;
 
-                CommonDataContainer::$tierSizeArray[$tierSize] = new TierSize($tierDetails, $raidSize, $tierSize);
+                CommonDataContainer::$tierRaidSizeArray[$tierRaidSize] = new TierRaidSize($tierDetails, $raidSize, $tierRaidSize);
             } 
         }
     }

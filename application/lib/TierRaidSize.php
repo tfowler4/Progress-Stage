@@ -3,10 +3,10 @@
 /**
  * tier raid size data object
  */
-class TierSize extends DataObject {
+class TierRaidSize extends DataObject {
     protected $_tier;
     protected $_raidSize;
-    protected $_tierSize;
+    protected $_tierRaidSize;
     protected $_numOfDungeons;
     protected $_numOfEncounters;
     protected $_numOfSpecialEncounters;
@@ -17,10 +17,10 @@ class TierSize extends DataObject {
     /**
      * constructor
      */
-    public function __construct($tierDetails, $raidSize, $tierSize) {
+    public function __construct($tierDetails, $raidSize, $tierRaidSize) {
         $this->_tier                    = $tierDetails->_tier;
         $this->_raidSize                = $raidSize;
-        $this->_tierSize                = $tierSize;
+        $this->_tierRaidSize            = $tierRaidSize;
         $this->_numOfDungeons           = 0;
         $this->_numOfEncounters         = 0;
         $this->_numOfSpecialEncounters  = 0;
@@ -29,6 +29,11 @@ class TierSize extends DataObject {
         $this->_abbreviation            = 'T' . $tierDetails->_tier . ' ' . $raidSize . 'M';
     }
 
+    /**
+     * get all dungeons with a specific tier raid size
+     * 
+     * @return object [ property containing all dungeons from a tier raid size ]
+     */
     public function getDungeons() {
         $property = new stdClass();
 
@@ -42,6 +47,11 @@ class TierSize extends DataObject {
         return $property;
     }
 
+    /**
+     * get all encounters with a specific tier
+     * 
+     * @return object [ property containing all raid sizes from a tier raid size ]
+     */
     public function getEncounters() {
         $property = new stdClass();
 

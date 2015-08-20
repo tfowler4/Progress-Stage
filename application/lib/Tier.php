@@ -39,10 +39,10 @@ class Tier extends DataObject {
         $this->_numOfSpecialEncounters  = $params['special_encounters'];
         $this->_abbreviation            = $this->_altTier;
         $this->_numOfDungeons           = 0;
-        //$this->_numOfEncounters         = 0;
-        $this->_dungeons                = $this->getDungeons($this->_tier);
-        //$this->_encounters              = $this->getEncounters($this->_tier);
-        $this->_raidSizes               = $this->getRaidSizes();
+        $this->_numOfEncounters         = 0;
+        $this->_dungeons                = $this->_getDungeons($this->_tier);
+        $this->_encounters              = $this->_getEncounters($this->_tier);
+        $this->_raidSizes               = $this->_getRaidSizes();
         $this->_firstTierClear          = 'N/A';
         $this->_recentTierClear         = 'N/A';
         $this->_numOfTierClears         = 0;
@@ -56,7 +56,14 @@ class Tier extends DataObject {
         }
     }
 
-    public function getDungeons($tier) {
+    /**
+     * get all dungeons with a specific tier
+     *
+     * @param  string $tier [ tier of content ]
+     * 
+     * @return object [ property containing all dungeons from a tier ]
+     */
+    private function _getDungeons($tier) {
         $property = new stdClass();
 
         krsort(CommonDataContainer::$dungeonArray);
@@ -67,7 +74,14 @@ class Tier extends DataObject {
         return $property;
     }
 
-    public function getEncounters($tier) {
+    /**
+     * get all encounters with a specific tier
+     *
+     * @param  string $tier [ tier of content ]
+     * 
+     * @return object [ property containing all encounters from a tier ]
+     */
+    private function _getEncounters($tier) {
         $property = new stdClass();
 
         foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ) {
@@ -77,7 +91,12 @@ class Tier extends DataObject {
         return $property;
     }
 
-    public function getRaidSizes() {
+    /**
+     * get all raid sizes with a specific tier
+     * 
+     * @return object [ property containing all raid sizes from a tier ]
+     */
+    private function _getRaidSizes() {
         $property = new stdClass();
 
         foreach( $this->_dungeons as $dungeonDetails ) {
@@ -89,6 +108,11 @@ class Tier extends DataObject {
         return $property;
     }
 
+    /**
+     * set tier clear information for guilds
+     * 
+     * @return void
+     */
     public function setTierClears() {
         $tierClearOrderedArr   = array();
 

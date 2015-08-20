@@ -25,6 +25,11 @@ class Region extends DataObject {
         $this->_servers         = $this->getServers($this->_abbreviation);
     }
 
+    /**
+     * get all servers with a specific region
+     * 
+     * @return object [ property containing all servers from a specific region ]
+     */
     public function getServers($region) {
         $property = new stdClass();
 

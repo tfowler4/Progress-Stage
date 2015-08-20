@@ -19,8 +19,8 @@ class RankDetails extends DetailObject {
         $this->_id     = $id;
         $this->_points = !empty($params[1]) ? $params[1] : 0;
 
-        if ( !empty($params[2]) ) { $this->_rank = new RankView(array_slice($params, 2, 4)); }
-        if ( !empty($params[6]) ) { $this->_trend = new RankView(array_slice($params, 6, 4)); }
-        if ( !empty($params[10]) ) { $this->_prevRank = new RankView(array_slice($params, 10, 4)); }
+        if ( !empty($params[2]) ) { $this->_rank = new RankViewDetails(array_slice($params, 2, 4)); }
+        if ( !empty($params[6]) ) { $this->_trend = new RankViewDetails(array_slice($params, 6, 4)); }
+        if ( !empty($params[10]) ) { $this->_prevRank = new RankViewDetails(array_slice($params, 10, 4)); }
     }
 }

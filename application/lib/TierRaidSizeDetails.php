@@ -1,14 +1,13 @@
 <?php
 
 /**
- * dungeon details detail object
+ * tier raid size details detail object
  */
-class DungeonDetails extends DetailObject {
+class TierRaidSizeDetails extends DetailObject {
     protected $_complete = 0;
     protected $_standing;
     protected $_hardModeComplete = 0;
     protected $_hardModeStanding;
-    protected $_conqeuror = 'No';
     protected $_recentActivity;
     protected $_recentTime;
     protected $_recentEncounterDetails;
@@ -19,8 +18,8 @@ class DungeonDetails extends DetailObject {
     /**
      * constructor
      */
-    public function __construct(&$dungeonDetails) {
-        $this->_standing         = 0 . '/' . $dungeonDetails->_numOfEncounters;
-        $this->_hardModeStanding = 0 . '/' . $dungeonDetails->_numOfSpecialEncounters;
+    public function __construct(&$tierRaidSizeDetails) {
+        $this->_standing         = 0 . '/' . $tierRaidSizeDetails->_numOfEncounters;
+        $this->_hardModeStanding = 0 . '/' . $tierRaidSizeDetails->_numOfSpecialEncounters;
     }
 }

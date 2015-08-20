@@ -18,26 +18,40 @@ class RaidSize extends DataObject {
         $this->_raidSize        = $raidSize;
         $this->_numOfDungeons   = 0;
         $this->_numOfEncounters = 0;
-        $this->_dungeons        = $this->getDungeons();
-        $this->_encounters      = $this->getEncounters();
+        $this->_dungeons        = $this->_getDungeons($raidSize);
+        $this->_encounters      = $this->_getEncounters($raidSize);
         $this->_abbreviation    = $raidSize . 'M';
     }
 
-    public function getDungeons() {
+    /**
+     * get all dungeons with a specific raid size
+     *
+     * @param  string $raidSize [ number of players in raid ]
+     * 
+     * @return object [ property containing all encounters from a raid size ]
+     */
+    private function _getDungeons($raidSize) {
         $property = new stdClass();
 
         foreach( CommonDataContainer::$dungeonArray as $dungeon_id => $dungeon_details ) {
-            if ( $dungeon_details->_raidSize == $this->_raidSize ) { $property->$dungeon_id = $dungeon_details; $this->_numOfDungeons++; }
+            if ( $dungeon_details->_raidSize == $raidSize ) { $property->$dungeon_id = $dungeon_details; $this->_numOfDungeons++; }
         }
 
         return $property;
     }
 
-    public function getEncounters() {
+    /**
+     * get all encounters for a specific raid size
+     *
+     * @param  string $raidSize [ number of players in raid ]
+     * 
+     * @return object [ property containing all encounters from a raid size ]
+     */
+    private function _getEncounters($raidSize) {
         $property = new stdClass();
 
         foreach( CommonDataContainer::$encounterArray as $encounter_id => $encounter_details ) {
-            if ( $encounter_details->_raidSize == $this->_raidSize ) { $property->$encounter_id = $encounter_details; $this->_numOfEncounters++; }
+            if ( $encounter_details->_raidSize == $raidSize ) { $property->$encounter_id = $encounter_details; $this->_numOfEncounters++; }
         }
 
         return $property;

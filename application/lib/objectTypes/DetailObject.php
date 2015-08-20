@@ -1,9 +1,13 @@
 <?php
+
+/**
+ * detail object for guild specific objects
+ */
 abstract class DetailObject {
     /**
      * get all the properties of the object
      * 
-     * @return array [ all properties ]
+     * @return array [ all properties of object ]
      */
     public function getProperties() {
         return get_object_vars($this);

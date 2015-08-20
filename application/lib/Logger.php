@@ -1,13 +1,25 @@
 <?php
+
+/**
+ * class to log data in either database or text files
+ */
 class Logger {
-    static protected $_logPath;
-    static protected $_logFile;
-    static protected $_logDate;
-    static protected $_severity;
-    static protected $_message;
-    static protected $_fileHandle;
-    
-    static public function log($severity, $message) {
+    protected static $_logPath;
+    protected static $_logFile;
+    protected static $_logDate;
+    protected static $_severity;
+    protected static $_message;
+    protected static $_fileHandle;
+
+    /**
+     * creates logging message
+     * 
+     * @param  string $severity [ log message severity status ]
+     * @param  string $message  [ log message ]
+     * 
+     * @return void
+     */
+    public static function log($severity, $message) {
         // INFO DEBUG WARN ERROR
         self::$_severity = $severity;
         self::$_message  = $message;
@@ -30,13 +42,23 @@ class Logger {
         self::writeToDB();
     }
 
-    static public function writeToFile() {
+    /**
+     * write log message to text file
+     * 
+     * @return void
+     */
+    public static function writeToFile() {
         self::$_fileHandle = fopen(self::$_logFile, 'a+');
         fwrite(self::$_fileHandle, self::$_severity . ' | ' . self::$_logDate . ' | ' . session_id() . ' | ' . self::$_message . "\n");
         fclose(self::$_fileHandle);
     }
 
-    static public function writeToDB() {
+    /**
+     * place log message into database entry
+     * 
+     * @return void
+     */
+    public static function writeToDB() {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(

@@ -6,7 +6,7 @@ class StandingsModel extends Model {
     protected $_view;
     protected $_raidSize;
     protected $_tier;
-    protected $_tierSize;
+    protected $_tierRaidSize;
     protected $_dungeon;
     protected $_encounter;
     protected $_detailsPane;
