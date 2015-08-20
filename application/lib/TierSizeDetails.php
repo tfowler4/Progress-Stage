@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * tier raid size details detail object
+ */
 class TierSizeDetails extends DetailObject {
     protected $_complete = 0;
     protected $_standing;
@@ -11,6 +15,9 @@ class TierSizeDetails extends DetailObject {
     protected $_regionFirst = 0;
     protected $_serverFirst = 0;
 
+    /**
+     * constructor
+     */
     public function __construct(&$tierSizeDetails) {
         $this->_standing         = 0 . '/' . $tierSizeDetails->_numOfEncounters;
         $this->_hardModeStanding = 0 . '/' . $tierSizeDetails->_numOfSpecialEncounters;

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * dungeon details data object for guild
+ * dungeon details detail object
  */
 class DungeonDetails extends DetailObject {
     protected $_complete = 0;

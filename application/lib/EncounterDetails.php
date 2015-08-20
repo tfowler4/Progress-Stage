@@ -1,7 +1,7 @@
 <?php
 
 /**
- * encounter details data object for guild
+ * encounter details detail object
  */
 class EncounterDetails extends DetailObject {
     protected $_encounterName;

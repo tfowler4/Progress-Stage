@@ -14,6 +14,9 @@ class TierSize extends DataObject {
     protected $_encounters;
     protected $_abbreviation;
 
+    /**
+     * constructor
+     */
     public function __construct($tierDetails, $raidSize, $tierSize) {
         $this->_tier                    = $tierDetails->_tier;
         $this->_raidSize                = $raidSize;

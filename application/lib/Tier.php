@@ -25,6 +25,9 @@ class Tier extends DataObject {
     protected $_numOfNATierClears;
     protected $_numOfEUTierClears;
 
+    /**
+     * constructor
+     */
     public function __construct(&$params) {
         $this->_tierId                  = $params['tier_id'];
         $this->_tier                    = $params['tier'];

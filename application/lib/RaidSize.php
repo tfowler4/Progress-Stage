@@ -11,6 +11,9 @@ class RaidSize extends DataObject {
     protected $_encounters;
     protected $_abbreviation;
 
+    /**
+     * constructor
+     */
     public function __construct($raidSize) {
         $this->_raidSize        = $raidSize;
         $this->_numOfDungeons   = 0;

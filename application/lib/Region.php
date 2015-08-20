@@ -12,6 +12,9 @@ class Region extends DataObject {
     protected $_regionImage;
     protected $_servers;
 
+    /**
+     * constructor
+     */
     public function __construct($params) {
         $this->_regionId        = $params['region_id'];
         $this->_abbreviation    = $params['abbreviation'];

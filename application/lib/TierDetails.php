@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * tier details detail object
+ */
 class TierDetails extends DetailObject {
     protected $_complete = 0;
     protected $_standing;
@@ -11,6 +15,9 @@ class TierDetails extends DetailObject {
     protected $_regionFirst = 0;
     protected $_serverFirst = 0;
 
+    /**
+     * constructor
+     */
     public function __construct(&$tierDetails) {
         $this->_standing         = 0 . '/' . $tierDetails->_numOfEncounters;
         $this->_hardModeStanding = 0 . '/' . $tierDetails->_numOfSpecialEncounters;

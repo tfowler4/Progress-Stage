@@ -11,6 +11,9 @@ class TwitchDetails extends DataObject {
     protected $_guildDetails;
     protected $_twitchId;
 
+    /**
+     * constructor
+     */
     public function __construct($params) {
         $this->_twitchId     = $params['twitch_id'];
         $this->_url          = $params['twitch_url'];

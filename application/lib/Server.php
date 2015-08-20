@@ -17,6 +17,9 @@ class Server extends DataObject {
     protected $_numOfWorldFirsts = 0;
     protected $_guilds;
 
+    /**
+     * constructor
+     */
     public function __construct($params) {
         $this->_serverId        = $params['server_id'];
         $this->_name            = $params['name'];

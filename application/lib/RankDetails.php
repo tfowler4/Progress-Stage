@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * rank details detail object
+ */
 class RankDetails extends DetailObject {
     protected $_id;
     protected $_system;
@@ -7,6 +11,9 @@ class RankDetails extends DetailObject {
     protected $_prevRank;
     protected $_trend;
 
+    /**
+     * constructor
+     */
     public function __construct($params, $id) {
         $this->_system = $params[0];
         $this->_id     = $id;

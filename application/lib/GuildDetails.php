@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * guild details detail object
+ */
 class GuildDetails extends DetailObject {
     // Standard Properties
     protected $_guildId;
@@ -75,7 +79,10 @@ class GuildDetails extends DetailObject {
     protected $_worldRankImage = '--';
     protected $_regionRankImage = '--';
     protected $_serverRankImage = '--';
-    
+
+    /**
+     * constructor
+     */
     public function __construct(&$params) {
         $this->_guildId          = $params['guild_id'];
         $this->_name             = $params['name'];
