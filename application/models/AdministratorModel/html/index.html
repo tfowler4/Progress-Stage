@@ -632,7 +632,7 @@
 
                 <div class="option-container">
                     <div class="option-title">Add News Article</div>
-                    <form class="admin-form kill edit" id="form-kill-edit" method="POST" action="<?php echo PAGE_ADMIN; ?>">
+                    <form class="admin-form news add" id="form-article-add" method="POST" action="<?php echo PAGE_ADMIN; ?>">
                         <div class="option-content">
                             <table>
                                 <thead>
@@ -654,7 +654,7 @@
                                         <th>Content</th>
                                     </tr>
                                      <tr>
-                                        <td><textarea id='textarea_output' style='height:225px; text-align:left;'></textarea></td>
+                                        <td><textarea name='textarea_output-content' style='height:225px; text-align:left;'></textarea></td>
                                     </tr>
                                 </tbody>
                                 <tfoot>

@@ -72,6 +72,9 @@ class AdministratorModel extends Model {
                 case "guild-remove":
                     $this->removeGuild();
                     break;
+                case "article-add":
+                    $this->addNewArticle();
+                    break;
                 case "article-edit":
                     $this->editArticle($_POST['article']);
                     break;
@@ -637,6 +640,23 @@ class AdministratorModel extends Model {
         }
 
         return $returnArray;
+    }
+
+    public function addNewArticle() {
+        $title   = $_POST['form'][0]['value'];
+        $author  = $_POST['form'][1]['value'];
+        $content = $_POST['form'][2]['value'];
+
+        $sqlString = sprintf(
+            "INSERT INTO %s
+            (title, content, added_by)
+            values('%s', '%s', '%s')",
+            DbFactory::TABLE_NEWS,
+            $title,
+            $content,
+            $author
+            );
+        die;
     }
 
     public function editArticleHtml($newsArticle, $articleId) {
