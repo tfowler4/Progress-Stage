@@ -14,7 +14,7 @@
 
                 <div class="option-container">
                     <div class="option-title">Create New Tier</div>
-                    <form class="admin-form tier"id="form-tier-add" method="POST" action="<?php echo PAGE_ADMIN; ?>">
+                    <form class="admin-form tier" id="form-tier-add" method="POST" action="<?php echo PAGE_ADMIN; ?>">
                         <div class="option-content">
                             <table>
                                 <thead>
@@ -33,7 +33,9 @@
                                     <tr>
                                         <th>Alt Name</th>
                                     </tr>
-                                        <td><input class="admin-textbox" type="text" name="text-alt-name" /></td>
+                                        <td>
+                                            <input class="admin-textbox" type="text" name="text-alt-name" />
+                                        </td>
                                     <tr>
                                     </tr>
                                     <tr>
@@ -274,7 +276,7 @@
 
                 <div class="option-container">
                     <div class="option-title">Create Encounter</div>
-                    <form class="admin-form encounter"id="form-encounter-add" method="POST" action="<?php echo PAGE_ADMIN; ?>">
+                    <form class="admin-form encounter" id="form-encounter-add" method="POST" action="<?php echo PAGE_ADMIN; ?>">
                         <div class="option-content">
                             <table>
                                 <thead>
@@ -284,7 +286,9 @@
                                         <th>Name</th>
                                     </tr>
                                     <tr>
-                                        <td><input class="admin-textbox" type="text" name="text-encounter-name" /></td>
+                                        <td>
+                                            <input class="admin-textbox" type="text" name="text-encounter-name" />
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>Dungeon</th>
@@ -664,8 +668,7 @@
 
                 <div class="option-container">
                     <div class="option-title">Edit/Remove News Article</div>
-                    <form class="admin-form kill edit" id="form-kill-edit" method="POST" action="<?php echo PAGE_ADMIN; ?>">
-                        <div class="option-content kill edit">
+                        <div class="option-content">
                             <table>
                                 <thead>
                                 </thead>
@@ -675,7 +678,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                        <select class="admin-select utility" name="select-utility">
+                                        <select class="admin-select article edit" name="select-article">
                                             <?php foreach( $data->getNewsArticle() as $newsId => $newsArticle ): ?>
                                                 <option value="<?php echo $newsId; ?>"><?php echo $newsArticle->date . ' - ' . $newsArticle->title; ?></option>
                                             <?php endforeach; ?>
@@ -686,10 +689,10 @@
                                 <tfoot>
                                 </tfoot>
                             </table>
+                            <div id="admin-article-listing"></div>
                          </div>
                         <div class="vertical-separator"></div>
                         <div class="option-footer"></div>
-                     </form>
                 </div>
             </div>
         </div>

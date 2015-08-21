@@ -2,6 +2,7 @@
 
 class AdministratorModel extends Model {
     protected $_userDetails;
+    protected $_newsArticleArray = array();
 
     const PAGE_TITLE = 'Administrator Control Panel';
 
@@ -70,6 +71,15 @@ class AdministratorModel extends Model {
                     break;
                 case "guild-remove":
                     $this->removeGuild();
+                    break;
+                case "article-edit":
+                    $this->editArticle($_POST['article']);
+                    break;
+                case "article-edit-details":
+                    $this->editArticleDetails();
+                    break;
+                case "article-remove":
+                    $this->removeArticle();
                     break;
             }
         }
@@ -520,19 +530,6 @@ class AdministratorModel extends Model {
         die;
     }
 
-    public function removeGuild() {
-        $guildId = $_POST['form'][0]['value'];
-
-        $sqlString = sprintf(
-            "DELETE 
-               FROM %s
-              WHERE guild_id = '%s'",
-            DbFactory::TABLE_GUILDS,
-            $guildId
-            );
-        die;
-    }
-
     public function editGuildHtml($guildDetails) {
         $html = '';
         $html .= '<form class="admin-form guild edit details" id="form-guild-edit-details" method="POST" action="' . PAGE_ADMIN . '">';
@@ -607,6 +604,19 @@ class AdministratorModel extends Model {
         die;
     }
 
+    public function removeGuild() {
+        $guildId = $_POST['form'][0]['value'];
+
+        $sqlString = sprintf(
+            "DELETE 
+               FROM %s
+              WHERE guild_id = '%s'",
+            DbFactory::TABLE_GUILDS,
+            $guildId
+            );
+        die;
+    }
+
     public function getNewsArticle() {
         $dbh         = DbFactory::getDbh();
         $returnArray = array();
@@ -627,6 +637,79 @@ class AdministratorModel extends Model {
         }
 
         return $returnArray;
+    }
+
+    public function editArticleHtml($newsArticle, $articleId) {
+        $html = '';
+        $html .= '<form class="admin-form news edit" id="form-article-edit-details" method="POST" action="' . PAGE_ADMIN . '">';
+        $html .= '<table class="admin-article-listing">';
+        $html .= '<thead>';
+        $html .= '</thead>';
+        $html .= '<tbody>';
+        $html .= '<tr><td><input hidden type="text" name="text-article-id" value="' . $articleId . '"/></td></tr>';
+        $html .= '<tr><th>Article Title</th></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-article-title" value="' . $newsArticle->title . '"/></td></tr>';
+        $html .= '<tr><th>Date</th></tr>';
+        $html .= '<tr><td>' . $newsArticle->date . '</td></tr>';
+        $html .= '<tr><th>Author</th></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-author" value="' . $newsArticle->postedBy . '"/></td></tr>';
+        $html .= '<tr><th>Content</th></tr>';
+        $html .= '<tr><td><textarea class="admin-textarea" name="textarea-content" style="height:225px; text-align:left;"">' . $newsArticle->content . '</textarea></td></tr>';
+        $html .= '</tbody>';
+        $html .= '</table>';
+        $html .= '<div class="vertical-separator"></div>';
+        $html .= '<input id="admin-submit-article-edit" type="submit" value="Submit" />';
+        $html .= '</form>';
+        $html .= '<div class="vertical-separator"></div>';
+        $html .= '<form class="admin-form news remove" id="form-article-remove" method="POST" action="' . PAGE_ADMIN . '">';
+        $html .= '<input hidden type="text" name="text-article-id" value="' . $articleId . '"/>';
+        $html .= '<input id="admin-submit-article-remove" type="submit" value="Remove" />';
+        $html .= '</form>';
+
+        return $html;
+    }
+
+    public function editArticle($articleId) {
+        $html = '';
+
+        $this->_newsArticleArray = $this->getNewsArticle();
+        $newsArticle = $this->_newsArticleArray[$articleId];
+
+        $html = $this->editArticleHtml($newsArticle, $articleId);
+        echo $html;
+        die;
+    }
+
+    public function editArticleDetails() {
+        $articleId = $_POST['form'][0]['value'];
+        $title     = $_POST['form'][1]['value'];
+        $author    = $_POST['form'][2]['value'];
+        $content   = $_POST['form'][3]['value'];
+
+        $sqlString = sprintf(
+            "UPDATE %s
+            SET title = '%s', content = '%s',  added_by = '%s'
+            WHERE news_id = '%s'",
+            DbFactory::TABLE_NEWS,
+            $title,
+            $content,
+            $author,
+            $articleId
+            );
+        die;
+    }
+
+    public function removeArticle() {
+        $articleId = $_POST['form'][0]['value'];
+
+        $sqlString = sprintf(
+            "DELETE 
+               FROM %s
+              WHERE news_id = '%s'",
+            DbFactory::TABLE_NEWS,
+            $articleId
+            );
+        die;
     }
 }
 

@@ -1,6 +1,7 @@
 var Administrator = function() {
     var activeDiv;
     var currentPageUrl;
+
     // Submit admin forms
     $(document).on('submit', '.admin-form', function() {
         event.preventDefault();
@@ -8,7 +9,6 @@ var Administrator = function() {
         var formData   = $(this).serializeArray();
         var id         = $(this).prop('id').replace('form-', '');
         currentPageUrl = document.URL;
-        //var formName    = id.replace('-', ' ').ucFirst();
 
         $.ajax({
             type:    'POST',
@@ -16,7 +16,7 @@ var Administrator = function() {
             data:    {form:formData, request:id},
             encode:  true,
             success: function(data) {
-                console.log(data);
+                //console.log(data);
             },
             error:  function(data) {
                 console.log(data);
@@ -104,8 +104,23 @@ var Administrator = function() {
         });
     });
 
-    // function to capitalize first letter of the form name
-    String.prototype.ucFirst = function() {
-        return this.charAt(0).toUpperCase() + this.substr(1);
-    }
+    // Display article details from drop down selection
+    $(document).on('change', '.admin-select.article.edit', function() {
+        var articleId = $(this).val();
+        currentPageUrl  = document.URL;
+
+        $.ajax({
+            type:    'POST',
+            url:     currentPageUrl,
+            data:    {request: 'article-edit', article:articleId},
+            encode:  true,
+            success: function(data) {
+                activeDiv = $('#admin-article-listing');
+                activeDiv.html(data);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    });
 };
