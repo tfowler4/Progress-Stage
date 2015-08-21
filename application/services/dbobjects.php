@@ -1,10 +1,22 @@
 <?php
+
+/**
+ * database objects for insert/edlete/update queries
+ */
 class DBObjects {
     protected static $_queryObject;
     protected static $_sqlString;
     protected static $_successful;
+
     public static $insertId;
 
+    /**
+     * execute the sql query
+     * 
+     * @param string $id [ id of database column of lastInsertId ]
+     * 
+     * @return void
+     */
     protected static function _execute($id = null) {
         $dbh = DbFactory::getDbh();
         self::$_queryObject = $dbh->prepare(self::$_sqlString);
@@ -14,6 +26,13 @@ class DBObjects {
         Logger::log('INFO', 'Executed Query: ' . self::$_sqlString . ' - Insert ID: ' . self::$insertId);
     }
 
+    /**
+     * generate sql string to add a new guild to database
+     * 
+     * @param object $fields [ strings to display in log ]
+     *
+     * @return void
+     */
     public static function addGuild($fields = null) {
         Logger::log('INFO', '***Preparing to add Guild: ' . $fields->guildName . '***');
 
@@ -38,6 +57,15 @@ class DBObjects {
         self::_execute('guild_id');
     }
 
+    /**
+     * generate sql string to add a new raid team for guild to database
+     *
+     * @param object $fields        [ strings to display in log ]
+     * @param string $userId        [ userId to be set as creator ]
+     * @param string $parentDetails [ parent guild details object ]
+     *
+     * @return void
+     */
     public static function addChildGuild($fields = null, $userId, $parentDetails) {
         Logger::log('INFO', '***Preparing to add Raid Team: ' . $fields->guildName . '***');
 
@@ -83,6 +111,15 @@ class DBObjects {
         self::_execute();
     }
 
+
+    /**
+     * generate sql string to edit guild in database
+     *
+     * @param object $fields       [ strings to display in log ]
+     * @param string $guildDetails [ guild details object ]
+     *
+     * @return void
+     */
     public static function editGuild($fields = null, $guildDetails) {
         Logger::log('INFO', '***Preparing to edit Guild: ' . $guildDetails->_name . '***');
 
@@ -114,6 +151,13 @@ class DBObjects {
         self::_execute();
     }
 
+    /**
+     * generate sql string to remove a guild from database
+     * 
+     * @param object $fields [ strings to display in log ]
+     *
+     * @return void
+     */
     public static function removeGuild($fields = null) {
         Logger::log('INFO', '***Preparing to remove Guild: ' . $fields->guildId . '***');
 
@@ -128,6 +172,14 @@ class DBObjects {
         self::_execute();
     }
 
+    /**
+     * generate sql string to remove a raid team of a guild from database
+     * 
+     * @param string $childId  [ raid team id ]
+     * @param string $parentId [ parent guild id ]
+     *
+     * @return void
+     */
     public static function removeChildGuild($childId, $parentId) {
         self::$_sqlString = sprintf(
             "UPDATE %s
@@ -141,6 +193,14 @@ class DBObjects {
         self::_execute();
     }
 
+    /**
+     * generate sql string to add a kill to a guild from database
+     * 
+     * @param object $fields [ strings to display in log ]
+     * @param string $sql    [ progression column string ]
+     *
+     * @return void
+     */
     public static function addKill($fields = null, $sql) {
         Logger::log('INFO', '***Preparing to add Kill: ' . $fields->encounter . ' for Guild: ' . $fields->guildId . '***');
 
@@ -172,6 +232,14 @@ class DBObjects {
         self::_execute('guild_id');
     }
 
+    /**
+     * generate sql string to edit a kill to a guild from database
+     * 
+     * @param object $fields [ strings to display in log ]
+     * @param string $sql    [ progression column string ]
+     *
+     * @return void
+     */
     public static function editKill($fields = null, $sql) {
         Logger::log('INFO', '***Preparing to edit Kill: ' . $fields->encounter . ' for Guild: ' . $fields->guildId . '***');
 
@@ -204,6 +272,14 @@ class DBObjects {
         self::_execute();
     }
 
+    /**
+     * generate sql string to remove a kill from a guild from database
+     * 
+     * @param object $fields [ strings to display in log ]
+     * @param string $sql    [ progression column string ]
+     *
+     * @return void
+     */
     public static function removeKill($fields = null, $sql) {
         Logger::log('INFO', '***Preparing to remove Kill: ' . $fields->encounter . ' for Guild: ' . $fields->guildId . '***');
 
@@ -219,6 +295,13 @@ class DBObjects {
         self::_execute();
     }
 
+    /**
+     * generate sql string to add a new user to database
+     * 
+     * @param object $fields [ strings to display in log ]
+     *
+     * @return void
+     */
     public static function addUser($fields = null) {
         Logger::log('INFO', '***Preparing to add User: ' . $fields->username . '***');
 
@@ -236,6 +319,13 @@ class DBObjects {
         self::_execute('user_id');
     }
 
+    /**
+     * generate sql string to edit user's email in database
+     * 
+     * @param object $fields [ strings to display in log ]
+     *
+     * @return void
+     */
     public static function editUserEmail($fields = null) {
         Logger::log('INFO', '***Preparing to edit User Email: ' . $fields->userId . '***');
 
@@ -251,6 +341,13 @@ class DBObjects {
         self::_execute();
     }
 
+    /**
+     * generate sql string to edit user's password in database
+     * 
+     * @param object $fields [ strings to display in log ]
+     *
+     * @return void
+     */
     public static function editUserPassword($fields = null) {
         Logger::log('INFO', '***Preparing to edit User Password: ' . $fields->userId . '***');
 

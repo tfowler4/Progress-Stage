@@ -159,6 +159,7 @@ class GuildDetails extends DetailObject {
      * specify a specific character limit for guild name when displaying
      * 
      * @param  integer $textLimit [ number of characters ]
+     * 
      * @return void
      */
     public function nameLength($textLimit) {
@@ -174,6 +175,7 @@ class GuildDetails extends DetailObject {
      * 
      * @param  string $dataType [ specify which ranking details to generate ex. encounters ]
      * @param  string $dataId   [ specify the id for a specific dungeon/encounter ]
+     * 
      * @return void
      */
     public function generateRankDetails($dataType, $dataId = null) {
@@ -413,6 +415,7 @@ class GuildDetails extends DetailObject {
      * 
      * @param  GuildDetails $guildDetails [ guild details object ]
      * @param  Dungeon      $objDetails   [ dungeon object specific details ]
+     * 
      * @return void
      */
     public function updateStandings($guildDetails, $objDetails) {
@@ -424,6 +427,7 @@ class GuildDetails extends DetailObject {
      * 
      * @param  GuildDetails $guildDetails [ guild details object ]
      * @param  Dungeon      $objDetails   [ dungeon object specific details ]
+     * 
      * @return void
      */
     public function updateHardModeStandings($guildDetails, $objDetails) {

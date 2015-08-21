@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * database factory for common data objects 
+ */
 class DbFactory {
     private static $_dbh;
 
@@ -34,6 +38,11 @@ class DbFactory {
         self::_getGuilds();
     }
 
+    /**
+     * get a list of all servers from database
+     * 
+     * @return void
+     */
     private static function _getServers() {
         $query = self::$_dbh->query(sprintf(
             "SELECT *
@@ -44,6 +53,11 @@ class DbFactory {
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { $row['name'] = utf8_encode($row['name']); CommonDataContainer::$serverArray[$row['name']] = new Server($row); }
     }
 
+    /**
+     * get a list of all regions from database
+     * 
+     * @return void
+     */
     private static function _getRegions() {
         $query = self::$_dbh->query(sprintf(
             "SELECT *
@@ -53,7 +67,12 @@ class DbFactory {
              ));
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { CommonDataContainer::$regionArray[$row['abbreviation']] = new Region($row); }
     }
-    
+
+    /**
+     * get a list of all tiers from database
+     * 
+     * @return void
+     */
     private static function _getTiers() {
         $query = self::$_dbh->query(sprintf(
             "SELECT *
@@ -64,22 +83,37 @@ class DbFactory {
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { CommonDataContainer::$tierArray[$row['tier']] = new Tier($row); }
     }
 
+    /**
+     * get a list of all raid sizes from database
+     * 
+     * @return void
+     */
     private static function _getRaidSizes() {
         foreach ( unserialize (RAID_SIZES) as $raidSize ) {
             CommonDataContainer::$raidSizeArray[$raidSize] = new RaidSize($raidSize);
         }
     }
 
+    /**
+     * get a list of raid sizes in each tier
+     * 
+     * @return void
+     */
     private static function _getTierRaidSizes() {
         foreach ( CommonDataContainer::$tierArray as $tierId => $tierDetails ) {
             foreach ( CommonDataContainer::$raidSizeArray as $raidSize => $raidSizeDetails ) {
                 $tierRaidSize = $tierDetails->_tier . '_' . $raidSizeDetails->_raidSize;
 
                 CommonDataContainer::$tierRaidSizeArray[$tierRaidSize] = new TierRaidSize($tierDetails, $raidSize, $tierRaidSize);
-            } 
+            }
         }
     }
 
+    /**
+     * get a list of all dungeonsd from database
+     * 
+     * @return void
+     */
     private static function _getDungeons() {
         $query = self::$_dbh->query(sprintf(
             "SELECT *
@@ -89,7 +123,12 @@ class DbFactory {
             ));
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { CommonDataContainer::$dungeonArray[$row['dungeon_id']] = new Dungeon($row); }
     }
-    
+
+    /**
+     * get a list of all servers from database
+     * 
+     * @return void
+     */
     private static function _getEncounters() {
         $query = self::$_dbh->query(sprintf(
             "SELECT *
@@ -100,6 +139,11 @@ class DbFactory {
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { CommonDataContainer::$encounterArray[$row['encounter_id']] = new Encounter($row); }
     }
 
+    /**
+     * get a list of all countries from database
+     * 
+     * @return void
+     */
     private static function _getCountries() {
         $query = self::$_dbh->query(sprintf(
             "SELECT *
@@ -109,7 +153,12 @@ class DbFactory {
             ));
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { CommonDataContainer::$countryArray[$row['name']] = new Country($row); }
     }
-    
+
+    /**
+     * get a list of all factions from database
+     * 
+     * @return void
+     */
     private static function _getFactions() {
         $query = self::$_dbh->query(sprintf(
             "SELECT *
@@ -120,6 +169,11 @@ class DbFactory {
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { CommonDataContainer::$factionArray[$row['name']] = new Faction($row); }
     }
 
+    /**
+     * get a list of all guilds from database
+     * 
+     * @return void
+     */
     private static function _getGuilds() {
         $query = self::$_dbh->query(sprintf(
             "SELECT *
@@ -130,6 +184,11 @@ class DbFactory {
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) { CommonDataContainer::$guildArray[$row['guild_id']] = new GuildDetails($row); }
     }
 
+    /**
+     * get a list of all rank systems from database
+     * 
+     * @return void
+     */
     private static function _getRankSystems() {
         $query = self::$_dbh->query(sprintf(
             "SELECT *
@@ -140,6 +199,11 @@ class DbFactory {
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { CommonDataContainer::$rankSystemArray[$row['abbreviation']] = new RankSystem($row); }
     }
 
+    /**
+     * get a list of all twitch channels from database
+     * 
+     * @return void
+     */
     private static function _getTwitchChannels() {
         $query = self::$_dbh->query(sprintf(
             "SELECT *
@@ -149,6 +213,11 @@ class DbFactory {
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { CommonDataContainer::$twitchArray[$row['twitch_num']] = $row; }
     }
 
+    /**
+     * get a databasehandler
+     * 
+     * @return Db [ database handler ]
+     */
     public static function getDbh() {
         return Db::getDbh();
     }

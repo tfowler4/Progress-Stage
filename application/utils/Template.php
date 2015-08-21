@@ -1,7 +1,17 @@
 <?php
-class Template {
-    public static function init() {}
 
+/**
+ * class for handling drawing commonly used template elements
+ */
+class Template {
+    /**
+     * draw empty table row that spans the length of tableheader columns
+     * 
+     * @param  array  $tableHeader [ list of header columns ]
+     * @param  string $rowText     [ text to be displayed in row ]
+     * 
+     * @return string [ html string containing empty table row ]
+     */
     public static function drawEmptyGuildTableRow($tableHeader, $rowText) {
         $html = '';
         $html .= '<tr>';
@@ -11,6 +21,13 @@ class Template {
         return $html;
     }
 
+    /**
+     * draw table subheader row
+     * 
+     * @param  array  $tableHeader [ list of header columns ]
+     * 
+     * @return string [ html string containing subheader table row ]
+     */
     public static function drawSubHeaderTableRow($tableHeader) {
         $html      = '';
         $cellCount = 1;
@@ -34,6 +51,16 @@ class Template {
         return $html;
     }
 
+    /**
+     * draw table subtitle row
+     * 
+     * @param  array  $tableHeader [ list of header columns ]
+     * @param  string $headerText  [ text to be in the table cell ]
+     * @param  string $optionText  [ text to be on the right side of table cell ]
+     * @param  string $optionId    [ id of optionText ]
+     * 
+     * @return string [ html string containing subtitle table row ]
+     */
     public static function drawSubTitleTableRow($tableHeader, $headerText, $optionText = '', $optionId = '') {
         $columnSpan  = count($tableHeader);
         $optionClass = '';
@@ -57,6 +84,15 @@ class Template {
         return $html;
     }
 
+    /**
+     * draw table body row
+     * 
+     * @param  array  $tableHeader  [ list of header columns ]
+     * @param  object $columnObject [ object that contains the keys/values ]
+     * @param  string $specialRules [ special ruleset definition ]
+     * 
+     * @return string [ html string containing a table row ]
+     */
     public static function drawBodyTableRow($tableHeader, $columnObject, $specialRules = '') {
         $html        = '';
         $cellCount   = 1;
@@ -145,6 +181,14 @@ class Template {
         return $html;
     }
 
+    /**
+     * draw glossary box
+     * 
+     * @param  array   $glossaryArray [ array containing glossary key/values ]
+     * @param  integer $numOfColumns  [ number of columsn]
+     * 
+     * @return string [ html string containing glossary table ]
+     */
     public static function drawGlossary($glossaryArray, $numOfColumns) {
         $html        = '';
         $columnCount = 0;
@@ -179,6 +223,14 @@ class Template {
         return $html;
     }
 
+    /**
+     * draw top 3 guild content pane
+     * 
+     * @param  array $topGuildArray   [ array of all the guilds in the pane ]
+     * @param  array $guildProperties [ array of the properties to display ]
+     * 
+     * @return string [ html string containing top guild pane ]
+     */
     public static function drawTopGuildPane($topGuildArray, $guildProperties) {
         $html       = '';
         $guildCount = 1;
@@ -215,6 +267,13 @@ class Template {
         return $html;
     }
 
+    /**
+     * get guild logo image html
+     * 
+     * @param  GuildDetails $guildDetails [ guild details object ]
+     * 
+     * @return string [ html string containing guild logo ]
+     */
     public static function getLogo($guildDetails) {
         $logo     = '';
         $src      = FOLD_GUILD_LOGOS . 'logo-' . $guildDetails->_guildId;
@@ -234,6 +293,14 @@ class Template {
         return $logo;
     }
 
+    /**
+     * get screenshot image html
+     * 
+     * @param  GuildDetails     $guildDetails     [ guild details object ]
+     * @param  EncounterDetails $encounterDetails [ encounter details object ]
+     * 
+     * @return string [ html string containing screenshot ]
+     */
     public static function getScreenshot($guildDetails, $encounterDetails) {
         $screenshot = '';
 
@@ -258,6 +325,15 @@ class Template {
         return $screenshot;
     }
 
+    /**
+     * get the spreadsheet html
+     * 
+     * @param  array          $tableHeader    [ list of header columns ]
+     * @param  Listings       $spreadsheet    [ spreadsheet listings ]
+     * @param  DungeonDetails $dungeonDetails [ dungeon details object ]
+     * 
+     * @return string [ html string containing spreadsheet html ]
+     */
     public static function getSpreadsheetHtml($tableHeader, $spreadsheet, $dungeonDetails) {
         $glossaryArray = array(
             'World Frist' => '<span class="world-first-rank">First guild to complete encounter in the world</span>',
@@ -295,6 +371,14 @@ class Template {
         return $html;
     }
 
+
+    /**
+     * get spreadsheet html from ajax request
+     * 
+     * @param  array $dungeonData [ dungeon data containing view and id ]
+     * 
+     * @return string [ html string containing spreadsheet html ]
+     */
     public static function getSpreadsheet($dungeonData) {
         $html        = '';
         $tableHeader = '';
@@ -332,6 +416,13 @@ class Template {
         return $html;
     }
 
+    /**
+     * get html select dropdown menu containing encountert names
+     * 
+     * @param  string $guildId [ id of a guild ]
+     * 
+     * @return string [ html string containing select dropdown with encounters ]
+     */
     public static function getEncounterDropdownListHtml($guildId) {
         $guildDetails = CommonDataContainer::$guildArray[$guildId];
         $guildDetails->generateEncounterDetails('');
@@ -347,6 +438,14 @@ class Template {
         return $html;
     }
 
+    /**
+     * draw header top level menu item
+     * 
+     * @param  string  $modelName   [ name of active model ]
+     * @param  boolean $isHyperlink [ value to determine if hyperlink styling is applied ]
+     * 
+     * @return string [ html containing header menu item ]
+     */
     public static function drawHeaderMenuItem($modelName, $isHyperlink) {
         $html = '';
 
@@ -433,6 +532,16 @@ class Template {
         return $html;
     }
 
+    /**
+     * draw second and third levels of header mouseover menu
+     * 
+     * @param  string  $modelName     [ name of active model ]
+     * @param  boolean $isHyperlink   [ value to determine if hyperlink styling is applied ]
+     * @param  itneger $numOfLevels   [ number of dropdown levels ]
+     * @param  array   $topLevelArray [ array of content dropdown menu will display ]
+     * 
+     * @return string [ html string containing dropdown levels of header menu item ]
+     */
     public static function drawHeaderMenuDropdownItem($modelName, $isHyperlink, $numOfLevels, $topLevelArray) {
         $html  = '';
 
@@ -491,6 +600,13 @@ class Template {
         return $html;
     }
 
+    /**
+     * get the necessary form html through given form id
+     * 
+     * @param  string $formId [ id of form ]
+     * 
+     * @return void
+     */
     public static function getPopupForm($formId) {
         include_once ABSOLUTE_PATH . '/public/templates/default/forms.html';
     }
