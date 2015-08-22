@@ -1,42 +1,51 @@
 <?php
+
+/**
+ * commonly used application functions
+ */
 class Functions {
+    /**
+     * initialize
+     * 
+     * @return void
+     */
     public static function init() {
-        CommonDataContainer::$daysArray         = self::getDays();
-        CommonDataContainer::$monthsArray       = self::getMonths();
-        CommonDataContainer::$yearsArray        = self::getYears();
-        CommonDataContainer::$hoursArray        = self::getHours();
-        CommonDataContainer::$minutesArray      = self::getMinutes();
-        CommonDataContainer::$timezonesArray    = self::getTimezones();
+        CommonDataContainer::$daysArray      = self::getDays();
+        CommonDataContainer::$monthsArray    = self::getMonths();
+        CommonDataContainer::$yearsArray     = self::getYears();
+        CommonDataContainer::$hoursArray     = self::getHours();
+        CommonDataContainer::$minutesArray   = self::getMinutes();
+        CommonDataContainer::$timezonesArray = self::getTimezones();
     }
 
-    /******DATE/TIME ARRAYS*****/
-
-    /*
-     * Get minutes in array format with leading zeros
-     * @return $arr [0] => 00, [59] => 59
+    /**
+     * get minutes in array format with leading zeros
+     * 
+     * @return array [ [0] => 00, [59] => 59 ]
      */
     public static function getMinutes() {
-        $arr = array();
+        $retArray = array();
 
-        $arr['00'] = '00';
+        $retArray['00'] = '00';
 
         for ( $minute = 1; $minute < 60; $minute++ ) {
-            if ( strlen($minute) == 1 ) $minute = '0' . $minute;
+            if ( strlen($minute) == 1 ) { $minute = '0' . $minute; }
             
-            $arr[$minute] = $minute;
+            $retArray[$minute] = $minute;
         }
 
-        return $arr;
+        return $retArray;
     }
 
-    /*
-     * Get hours in array format in 24-hour format with leading zeros
-     * @return @arr [0] => 00 (Midnight), [23] => 23 (11pm)
+    /**
+     * get hours in array format in 24-hour format with leading zeros
+     * 
+     * @return array [ [0] => 00 (Midnight), [23] => 23 (11pm) ]
      */
     public static function getHours() {
-        $arr = array();
+        $retArray = array();
 
-        $arr['00'] = '12am';
+        $retArray['00'] = '12am';
 
         for ( $hour = 0; $hour < 24; $hour++ ) {
             $hourValue = $hour;
@@ -55,92 +64,96 @@ class Functions {
                 $hourValue = ($hour-12) . 'pm';
             }
 
-            $arr[$hour] = $hourValue;
+            $retArray[$hour] = $hourValue;
         }
 
-        return $arr;
+        return $retArray;
     }
 
-    /*
-     * Get months in array format with leading zeros
-     * @return $arr [1] => 1 (January), [12] => 12 (December)
+    /**
+     * get months in array format with leading zeros
+     * 
+     * @return array [ [1] => 1 (January), [12] => 12 (December) ]
      */
     public static function getMonths() {
-        $arr = array();
+        $retArray = array();
 
         for ( $month = 1; $month < 13; $month++ ) {
             $monthValue = $month;
 
             if ( $month < 10 ) { $month = '0' . $month; }
 
-            $arr[$month] = date('F', mktime(0,0,0,$month, 1, date('Y'))) . '-' . $month;
+            $retArray[$month] = date('F', mktime(0, 0, 0, $month, 1, date('Y'))) . ' - ' . $month;
         }
 
-        return $arr;
+        return $retArray;
     }
 
-    /*
-     * Get days in array format with leading zeros
-     * @return $arr [1] => 1, [32] => 12
+    /**
+     * get days in array format with leading zeros
+     * 
+     * @return array [ [1] => 1, [32] => 12 ]
      */
     public static function getDays() {
-        $arr = array();
+        $retArray = array();
 
         for ( $day = 1; $day < 33; $day++ ) {
-            if ( strlen($day) == 1 ) $day = '0' . $day;
-            $arr[$day] = $day;
+            if ( strlen($day) == 1 ) { $day = '0' . $day; }
+            $retArray[$day] = $day;
         }
 
-        return $arr;
+        return $retArray;
     }
 
-    /*
-     * Get years in array format from release year to current year
-     * @return $arr [0] => 2011, [5] => 2016
+    /**
+     * get years in array format from release year to current year
+     * 
+     * @return array [ [0] => 2011, [5] => 2016 ] 
      */ 
     public static function getYears() {
-        $arr          = array();
-        $current_year = date("Y");
+        $retArray    = array();
+        $currentYear = date('Y');
 
-        for ( $year = RELEASE_YEAR; $year <= $current_year; $year++ ) {
-            //array_push($arr, $year);
-            $arr[$year] = $year;
+        for ( $year = RELEASE_YEAR; $year <= $currentYear; $year++ ) {
+            $retArray[$year] = $year;
         }
 
-        return $arr;
+        return $retArray;
     }
 
-    /*
-     * Get timezones in associative array format
-     * @return $arr [UTC+0000] => UTC+0000
+    /**
+     * get timezones in associative array format
+     * 
+     * @return array [ "UTC+0000" => UTC+0000 ]
      */
     public static function getTimezones() {
-        $arr        = array();
-        $timestamp  = time();
+        $retArray  = array();
+        $timestamp = time();
 
         foreach(timezone_identifiers_list() as $key => $zone) {
             date_default_timezone_set($zone);
 
-            $timezone = 'UTC '.date('P', $timestamp)." ".date('T');
-            $arr[$timezone] = $timezone;
+            $timezone            = 'UTC ' . date('P', $timestamp) . ' ' . date('T');
+            $retArray[$timezone] = $timezone;
         }
 
-        ksort($arr);
+        ksort($retArray);
 
         date_default_timezone_set(DEFAULT_TIME_ZONE);
 
-        return $arr;
+        return $retArray;
     }
 
-    /******HYPERLINKS*****/
-
-    /*
-     * @param string $module Name of module link will be directing
-     * @param mixed $moduleDetails Extra details outlining the depth of the hyperlink (ex: standings, rankings, etc)
-     * @param string $subMod Modular options to direct views normally
-     * @param string $text Text displaying for hyperlink
-     * @param string $textLimit Cut off for hyperlink text
-     * @return string $hyperlink Hyperlink html
+    /**
+     * generate hyperlink that directs to another location on the website
+     * 
+     * @param string $module       [ name of module link will be directing ]
+     * @param mixed $moduleDetails [ extra details outlining the depth of the hyperlink (ex: standings, rankings, etc) ]
+     * @param string $subMod       [ modular options to direct views normally ]
+     * @param string $text         [ text displaying for hyperlink ]
+     * @param string $textLimit    [ cut off for hyperlink text ]
+     * 
+     * @return string [ hyperlink html ]
      */
     public static function generateInternalHyperLink($module, $moduleDetails, $subMod, $text, $textLimit, $link = true) {
         $hyperlink  = '';
@@ -201,6 +214,16 @@ class Functions {
         return $hyperlink;
     }
 
+    /**
+     * generate hyperlink to redirect off the website
+     * 
+     * @param  string  $url       [ url string ]
+     * @param  string  $text      [ display text ]
+     * @param  integer $textLimit [ number of characters ]
+     * @param  boolean $link      [ true if html else url only ]
+     * 
+     * @return string [ hyperlink html ]
+     */
     public static function generateExternalHyperLink($url, $text, $textLimit, $link = true) {
         $valid_url = parse_url($url);
 
@@ -215,10 +238,13 @@ class Functions {
         return $hyperlink;
     }
 
-    /*
-     * @param object $moduleDetails Object containing details used for hyperlink parameters
-     * @param string $subMod Sub module option immediately following module in hyperlink address
-     * @return string $subHref Extra hyperlink parameters
+    /**
+     *
+     * 
+     * @param object $moduleDetails [ object containing details used for hyperlink parameters ]
+     * @param string $subMod        [ sub module option immediately following module in hyperlink address ]
+     * 
+     * @return string [ extra hyperlink parameters ]
      */
     public static function generateHyperlinkDetails($module, $moduleDetails, $subMod) {
         $subHref = '';
@@ -236,13 +262,19 @@ class Functions {
             if ( $module == 'rankings' ) {
                 $subHref = $subMod . '/';
             }
-        } elseif ( isset($moduleDetails->_tierRaidSize) ) { // Its Tier Size
-                    
         }
 
         return $subHref;
     }
 
+    /**
+     * get country flag image
+     * 
+     * @param  string $name [ name of country ]
+     * @param  string $size [ size of image ]
+     * 
+     * @return string [ html containing country flag image ]
+     */
     public static function getImageFlag($name, $size = '') {
         $folder = FOLD_FLAGS;
         $image  = '';
@@ -266,6 +298,14 @@ class Functions {
         return $image;
     }
 
+    /**
+     * get faction logo image
+     * 
+     * @param  atring $name [ faction name ]
+     * @param  string $size [ size of image ]
+     * 
+     * @return string [ html containing faction image ]
+     */
     public static function getImageFaction($name, $size = '' ) {
         $image  = '';
         $folder = FOLD_FACTIONS;
@@ -276,33 +316,36 @@ class Functions {
             $folder .= 'large/'; 
         } elseif ( $size == 'medium' ) { 
             $folder .= 'large/';
-            //$style  = 'style="height:26px;"';
         }
 
-        $image  = '<img src="'. $folder . $name . '_default.png" alt="' . $name . '" ' . $style . '>';
+        $image = '<img src="'. $folder . $name . '_default.png" alt="' . $name . '" ' . $style . '>';
 
         return $image;
     }
 
-    public static function getBackgroundFaction($name) {
-        $image  = '';
-        $folder = FOLD_FACTIONS;
-        $name   = strtolower(str_replace(' ', '_', $name));
-
-        $image  = $folder . $name . '_bg.png';
-
-        return $image;
-    }
-
+    /**
+     * get trending arrow image
+     * 
+     * @param  string $trend [ guild trend ]
+     * 
+     * @return string [ html containing trending arrow image ]
+     */
     public static function getTrendImage($trend) {
-        $image = "";
+        $image = '';
 
-        if ( ($trend != "--" || $trend != "NEW") && $trend  > 0 ) $image = IMG_ARROW_TREND_UP_SML;
-        if ( ($trend != "--" || $trend != "NEW") && $trend  < 0 ) $image = IMG_ARROW_TREND_DOWN_SML;
+        if ( ($trend != '--' || $trend != 'NEW') && $trend  > 0 ) { $image = IMG_ARROW_TREND_UP_SML; }
+        if ( ($trend != '--' || $trend != 'NEW') && $trend  < 0 ) { $image = IMG_ARROW_TREND_DOWN_SML; }
 
         return $image;
     }
 
+    /**
+     * get rank medal image
+     * 
+     * @param  string $rank [ guild rank ]
+     * 
+     * @return string [ html containing rank medal image ]
+     */
     public static function getRankMedal($rank) {
         if ( $rank == 1 ) {
             $rank = IMG_MEDAL_GOLD;
@@ -315,12 +358,26 @@ class Functions {
         return $rank;
     }
 
-    /*****DATE FORMATTING*****/
+    /**
+     * format date into provided format
+     * 
+     * @param  string $date   [ date string ]
+     * @param  string $format [ date format ]
+     * 
+     * @return string [ formated date string ]
+     */
     public static function formatDate($date, $format) {
         $str_date = strtotime($date);
         return sprintf(date($format, $str_date));
     }
 
+    /**
+     * convert unix timestamp to hours minutes format
+     * 
+     * @param  string $time [ unix timestamp ]
+     * 
+     * @return string [ time in hours minutes format ]
+     */
     public static function convertToHoursMins($time) {
         settype($time, 'integer');
 
@@ -332,6 +389,13 @@ class Functions {
         return sprintf('%d Hours %d Minutes', $hours, $minutes);
     }
 
+    /**
+     * convert unix timestamp to time difference format
+     * 
+     * @param  string $time [ unix format time ]
+     * 
+     * @return string [ time difference ]
+     */
     public static function convertToDiffDaysHoursMins($time) {
         settype($time, 'integer');
 
@@ -345,73 +409,130 @@ class Functions {
         return sprintf('%d Days %d Hours %d Minutes', $days, $hours, $minutes);
     }
 
+    /**
+     * remove spaces and replace with underscores
+     * 
+     * @param  string $text [ text to be modified]
+     * 
+     * @return string [ modified text ]
+     */
     public static function cleanLink($text) {
-        $text = strtolower(str_replace(" ", "_", $text));
+        $text = strtolower(str_replace(' ', '_', $text));
 
         return $text;
     }
 
+    /**
+     * apply limit to text characters
+     * 
+     * @param  string  $name   [ text string ]
+     * @param  integer $length [ text length ]
+     * 
+     * @return string [ text shortened ]
+     */
     public static function shortName($name, $length) {
-        if ( !isset($length) || $length == "" ) { return $name; }
+        if ( !isset($length) || $length == '' ) { return $name; }
 
         if ( strlen($name) > $length ) {
-            $name = str_replace(" ", "_", $name);
+            $name = str_replace(' ', '_', $name);
 
-            if ( strrpos($name, "_") == ($length - 1) ) $name = substr($name, 0, $length - 1);
-            $name = trim(substr(trim($name), 0, $length))."...";
-            $name = str_replace("_", " ", $name);
+            if ( strrpos($name, '_') == ($length - 1) ) { $name = substr($name, 0, $length - 1); }
+            $name = trim(substr(trim($name), 0, $length)) . '...';
+            $name = str_replace('_', ' ', $name);
         }
 
         return $name;
     }
 
+    /**
+     * convert number to ordinal format
+     * 
+     * @param  integer $number [ number in need to be converted ]
+     * 
+     * @return string [ number in ordinal format ]
+     */
     public static function convertToOrdinal($number) {
-        $abbreviation   = "";
-        $ends           = array('th','st','nd','rd','th','th','th','th','th','th');
+        $abbreviation = "";
+        $ends         = array('th','st','nd','rd','th','th','th','th','th','th');
 
-        if ( $number == "N/A" || $number == "--" ) { return "N/A"; }
+        if ( $number == 'N/A' || $number == '--' ) { return 'N/A'; }
 
         if ( ($number % 100) >= 11 && ($number % 100) <= 13 ) {
-            $abbreviation = "{$number}th";
+            $abbreviation = $number . 'th';
         } else {
-            $abbreviation = $number.$ends[$number % 10];
+            $abbreviation = $number . $ends[$number % 10];
         }
 
         return $abbreviation;
     }
 
+    /**
+     * formats ranking points
+     * 
+     * @param  string $points [ ranking points ]
+     * 
+     * @return string [ points in 2 decimal format with thousand separator ]
+     */
     public static function formatPoints($points) {
         return number_format($points, 2, '.', ',');
     }
 
-    /*****GET DATA*****/
+    /**
+     * get server data object by name
+     * 
+     * @param  string $serverName [ name of server ]
+     * 
+     * @return Server [ server data object ]
+     */
     public static function getServerByName($serverName) {
-        $serverName = str_replace("_", " ", $serverName);
+        $serverName = str_replace('_', ' ', $serverName);
 
         foreach ( CommonDataContainer::$serverArray as $serverId => $serverDetails ) {
             if ( strcasecmp($serverName, $serverDetails->_name) == 0 ) { return $serverDetails; }
         }
     }
 
+    /**
+     * get tier data object by name
+     * 
+     * @param  string $tierName [ name of tier ]
+     * 
+     * @return Tier [ tier data object ]
+     */
     public static function getTierByName($tierName) {
-        $tierName = str_replace("_", " ", $tierName);
+        $tierName = str_replace('_', ' ', $tierName);
 
         foreach ( CommonDataContainer::$tierArray as $tierId => $tierDetails ) {
             if ( strcasecmp($tierName, $tierDetails->_name) == 0 ) { return $tierDetails; }
         }
     }
 
+    /**
+     * get dungeon data object by name
+     * 
+     * @param  string $dungeonName [ name of dungeon ]
+     * 
+     * @return Dungeon [ dungeon data object ]
+     */
     public static function getDungeonByName($dungeonName) {
-        $dungeonName = str_replace("_", " ", $dungeonName);
+        $dungeonName = str_replace('_', ' ', $dungeonName);
 
         foreach ( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ) {
             if ( strcasecmp($dungeonName, $dungeonDetails->_name) == 0 ) { return $dungeonDetails; }
         }
     }
 
+    /**
+     * get encounter data object by name
+     * 
+     * @param  string $encounterName [ name of encounter ]
+     * @param  string $dungeonName   [ name of dungeon ]
+     * 
+     * @return Encounter [ encounter data object ]
+     */
     public static function getEncounterByName($encounterName, $dungeonName) {
-        $encounterName = str_replace("_", " ", $encounterName);
-        $dungeonName   = str_replace("_", " ", $dungeonName);
+        $encounterName = str_replace('_', ' ', $encounterName);
+        $dungeonName   = str_replace('_', ' ', $dungeonName);
 
         foreach ( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ) {
             if ( strcasecmp($encounterName, $encounterDetails->_name) == 0 
@@ -421,14 +542,28 @@ class Functions {
         }
     }
 
+    /**
+     * get rank system data object by abbreviation
+     * 
+     * @param  string $identifier [ rank system abbreviation]
+     * 
+     * @return RankSystem [ rank system object ]
+     */
     public static function getRankSystemByName($identifier) {
-        foreach ( CommonDataContainer::$rankSystemArray as $systemId => $systemDetails ) {
-            if ( $systemDetails->_abbreviation == $identifier ) {
-                return $systemDetails;
+        foreach ( CommonDataContainer::$rankSystemArray as $rankSystemId => $rankSystemDetails ) {
+            if ( $rankSystemDetails->_abbreviation == $identifier ) {
+                return $rankSystemDetails;
             }
         }
     }
 
+    /**
+     * direct page to 404 not found page
+     * 
+     * @param  integer $type [ type of error page code ]
+     * 
+     * @return void
+     */
     public static function sendTo404($type = '') {
         $pathTo404 = HOST_NAME . '/error';
 
@@ -440,6 +575,13 @@ class Functions {
         exit;
     }
 
+    /**
+     * validate image submitted from form to ensure format and size are valid
+     * 
+     * @param  array [ image from form as array ]
+     * 
+     * @return boolean [ true if image is valid ]
+     */
     public static function validateImage($image) {
         if ( empty($image['tmp_name']) ) { return false; }
 
@@ -470,10 +612,27 @@ class Functions {
         return $validImage;
     }
 
+    /**
+     * send email address
+     * 
+     * @param  string $emailAddress [ address email being sent to ]
+     * @param  string $emailSubject [ subject of email ]
+     * @param  string $emailMessage [ email message content ]
+     * @param  string $emailHeaders [ additional email headers ]
+     * 
+     * @return boolean [ true if mail is sent correctly ]
+     */
     public static function sendMail($emailAddress, $emailSubject, $emailMessage, $emailHeaders) {
         return mail($emailAddress, $emailSubject, $emailMessage, $emailHeaders);
     }
 
+    /**
+     * display message dialog window
+     * 
+     * @param  array $dialogOptions [ array with dialog options ]
+     * 
+     * @return string [ html string containing dialog window ]
+     */
     public static function showDialogWindow($dialogOptions) {
         $html = '';
         $html .= '<div id="dialog-wrapper">';
@@ -483,9 +642,17 @@ class Functions {
         return $html;
     }
 
+    /**
+     * generate guild encounter database progression string by mapping form to the
+     * encounter details object
+     * 
+     * @param  string           $insertString     [ current progression string ]
+     * @param  EncounterDetails $encounterDetails [ guild encounter details object ]
+     * @param  string           $guildId          [ id of guild ]
+     * 
+     * @return string [ insert string ]
+     */
     public static function generateDBInsertString($insertString, $encounterDetails, $guildId) {
-        // Map Form to encounterDetails mapping
-
         $encounterObj = new stdClass();
         $encounterObj->_encounterId = self::getEncounterFormValue($encounterDetails, '_encounterId', $guildId);
         $encounterObj->_year        = self::getEncounterFormValue($encounterDetails, '_year', $guildId);
@@ -528,6 +695,15 @@ class Functions {
         return $insertString;
     }
 
+    /**
+     * get corrected encounter form values from different encounter forms
+     * 
+     * @param  EncounterDetails $encounterDetails [ guild encounter details ]
+     * @param  string           $field            [ form field ]
+     * @param  string           $guildId          [ id of guild ]
+     * 
+     * @return string [ encounter value for form ]
+     */
     public static function getEncounterFormValue($encounterDetails, $field, $guildId) {
         $retVal;
 
@@ -555,6 +731,14 @@ class Functions {
         return $retVal;
     }
 
+    /**
+     * post news article to twitter social network
+     * 
+     * @param  string  $articleTitle [ title of news article ]
+     * @param  integer $type         [ type of news article ]
+     * 
+     * @return void
+     */
     public static function postTwitter($articleTitle, $type) {
         // 0 - Standard News Article
         // 1 - Weekly Report
@@ -582,6 +766,13 @@ class Functions {
         $reply = $cb->statuses_update($params);
     }
 
+    /**
+     * create shortened url strings using bitly api
+     * 
+     * @param  string $url [ html string to be shortned ]
+     * 
+     * @return string [ url shortened by bitly ]
+     */
     public static function generateBitlyUrl($url) {
         $params                 = array();
         $params['access_token'] = BITLY_TOKEN;

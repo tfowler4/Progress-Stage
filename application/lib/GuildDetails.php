@@ -513,7 +513,7 @@ class GuildDetails extends DetailObject {
      * 
      * @return void
      */
-    public function mergeRankViewDetailsDetails($dataType, $id, $view) {
+    public function mergeRankViewDetails($dataType, $id, $view) {
         foreach ($this->_rankDetails->$dataType->$id->getProperties() as $key => $value) {
             if ( is_a($value, 'RankViewDetails') ) {
                 $this->$key = $value->{'_'.$view};

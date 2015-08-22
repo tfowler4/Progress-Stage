@@ -371,7 +371,6 @@ class Template {
         return $html;
     }
 
-
     /**
      * get spreadsheet html from ajax request
      * 
