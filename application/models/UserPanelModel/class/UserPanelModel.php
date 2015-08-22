@@ -62,19 +62,22 @@ class UserPanelModel extends Model {
 
     const PAGE_TITLE = 'User Panel';
 
+    /**
+     * constructor
+     */
     public function __construct($module, $params) {
         parent::__construct();
 
         $this->title = self::PAGE_TITLE;
 
         $this->_userDetails = $_SESSION['userDetails'];
-        $this->_userDetails = $this->getUpdatedUserDetails($this->_userDetails->_userId);
-        $this->_userGuilds  = $this->getUserGuilds($this->_userDetails->_userId);
+        $this->_userDetails = $this->_getUpdatedUserDetails($this->_userDetails->_userId);
+        $this->_userGuilds  = $this->_getUserGuilds($this->_userDetails->_userId);
 
         if ( !empty($params) ) {
             if ( isset($params[0]) ) { $this->subModule         = strtolower($params[0]); }
             if ( isset($params[1]) ) { $this->_action           = strtolower($params[1]); }
-            if ( isset($params[2]) ) { $this->_guildDetails = $this->getCorrectGuild($params[2]); }
+            if ( isset($params[2]) ) { $this->_guildDetails = $this->_getCorrectGuild($params[2]); }
             if ( isset($params[3]) ) {
                 if ( isset($this->_guildDetails->_encounterDetails->{$params[3]}) ) {
                     $this->_encounterDetails = $this->_guildDetails->_encounterDetails->{$params[3]};
@@ -84,7 +87,7 @@ class UserPanelModel extends Model {
 
         $this->_tableHeader = self::TABLE_HEADER_PROGRESSION;
 
-        $this->loadFormFields();
+        $this->_loadFormFields();
 
         $pathToCP = HOST_NAME . '/userpanel';
 
@@ -93,21 +96,21 @@ class UserPanelModel extends Model {
                 $this->_formFields = new GuildFormFields();
 
                 if ( Post::formActive() ) {
-                    $this->processGuildForm();
+                    $this->_processGuildForm();
 
                     if ( $this->_validForm ) {
                         switch($this->_action) {
                             case self::GUILD_ADD:
-                                $this->addGuild();
+                                $this->_addGuild();
                                 break;
                             case self::GUILD_REMOVE:
-                                $this->removeGuild();
+                                $this->_removeGuild();
                                 break;
                             case self::GUILD_EDIT:
-                                $this->editGuild();
+                                $this->_editGuild();
                                 break;
                             case self::GUILD_RAID_TEAM:
-                                $this->addRaidTeam();
+                                $this->_addRaidTeam();
                                 break;
                         }
 
@@ -120,16 +123,16 @@ class UserPanelModel extends Model {
                 $this->_formFields = new UserFormFields();
 
                 if ( Post::formActive() ) {
-                    $this->processUserForm();
+                    $this->_processUserForm();
 
                     if ( $this->_validForm ) {
                         switch($this->_action) {
                             case self::USER_EMAIL:
-                                $this->updateEmail();
+                                $this->_updateEmail();
                                 break;
                             case self::USER_PASSWORD:
-                                if ( $this->validatePassword() ) {
-                                    $this->updatePassword();
+                                if ( $this->_validatePassword() ) {
+                                    $this->_updatePassword();
                                 } else {
                                     $this->_dialogOptions = array('title' => 'Error', 'message' => 'Ensure your old password is correct and new password is typed correctly.');
                                 }
@@ -147,18 +150,18 @@ class UserPanelModel extends Model {
                 $this->mergeOptionsToEncounters();
 
                 if ( Post::formActive() ) {
-                    $this->processKillForm();
+                    $this->_processKillForm();
 
                     if ( $this->_validForm ) {
                         switch($this->_action) {
                             case self::KILLS_ADD:
-                                $this->addKill();
+                                $this->_addKill();
                                 break;
                             case self::KILLS_REMOVE:
-                                $this->removeKill();
+                                $this->_removeKill();
                                 break;
                             case self::KILLS_EDIT:
-                                $this->editKill();
+                                $this->_editKill();
                                 break;
                         }
 
@@ -170,7 +173,12 @@ class UserPanelModel extends Model {
         }
     }
 
-    public function processUserForm() {
+    /**
+     * process submitted user form
+     * 
+     * @return void
+     */
+    private function _processUserForm() {
         $this->_formFields->userId            = Post::get('userpanel-user-id');
         $this->_formFields->email             = Post::get('userpanel-email');
         $this->_formFields->oldPassword       = Post::get('userpanel-password');
@@ -190,7 +198,12 @@ class UserPanelModel extends Model {
         }
     }
 
-    public function processKillForm() {
+    /**
+     * process submitted kill submitted form
+     * 
+     * @return void
+     */
+    private function _processKillForm() {
         $this->_formFields->guildId    = Post::get('userpanel-guild');
         $this->_formFields->encounter  = Post::get('userpanel-encounter');
         $this->_formFields->dateMonth  = Post::get('userpanel-month');
@@ -220,7 +233,12 @@ class UserPanelModel extends Model {
         }
     }
 
-    public function processGuildForm() {
+    /**
+     * process submitted guild form
+     * 
+     * @return void
+     */
+    private function _processGuildForm() {
         $this->_formFields->guildId     = Post::get('userpanel-guild-id');
         $this->_formFields->guildName   = Post::get('userpanel-guild-name');
         $this->_formFields->faction     = Post::get('userpanel-faction');
@@ -245,8 +263,13 @@ class UserPanelModel extends Model {
         }
     }
 
-    public function validatePassword() {
-        if ( $this->encryptPasscode($this->_userDetails->userName, $this->_formFields->oldPassword) == $this->_userDetails->_encrypedPassword ) {
+    /**
+     * validate that both passwords match
+     * 
+     * @return boolean [ true if passwords match ]
+     */
+    private function _validatePassword() {
+        if ( $this->_encryptPasscode($this->_formFields->oldPassword) == $this->_userDetails->_encrypedPassword ) {
             if ( ($this->_formFields->newPassword == $this->_formFields->retypeNewPassword)
                  && strlen($this->_formFields->newPassword) >= PASSWORD_MINIMUM) {
                 return true;
@@ -256,8 +279,17 @@ class UserPanelModel extends Model {
         return false;
     }
 
-    public function getRaidTeams($guildId, $guildDetails) {
+    /**
+     * get child raid teams of a guild
+     * 
+     * @param  integer      $guildId      [ id of guild ]
+     * @param  GuildDetails $guildDetails [ guild details object ]
+     * 
+     * @return array [ array of raid teams ]
+     */
+    private function _getRaidTeams($guildId, $guildDetails) {
         if ( empty($guildDetails->_child) ) { return array(); }
+
         $raidTeamArray   = null;
         $raidTeamIdArray = explode('||', $guildDetails->_child);
 
@@ -268,11 +300,18 @@ class UserPanelModel extends Model {
         return $raidTeamArray;
     }
 
-    public function getCorrectGuild($guildId) {
+    /**
+     * get the correct guild based on the userId
+     * 
+     * @param  integer $guildId [ id of guild ]
+     * 
+     * @return GuildDetails $guildDetails [ guild details object ]
+     */
+    private function _getCorrectGuild($guildId) {
         $guildDetails = CommonDataContainer::$guildArray[$guildId];
 
         if ( !empty($guildDetails) && $guildDetails->_creatorId == $this->_userDetails->_userId ) {
-            $this->_raidTeams[$guildId] = $this->getRaidTeams($guildId, $guildDetails);
+            $this->_raidTeams[$guildId] = $this->_getRaidTeams($guildId, $guildDetails);
         }
 
         if ( isset($guildDetails) ) {
@@ -282,25 +321,45 @@ class UserPanelModel extends Model {
         return $guildDetails;
     }
 
-    public function updateEmail() {
+    /**
+     * update user email in database
+     * 
+     * @return void
+     */
+    private function _updateEmail() {
         DBObjects::editUserEmail($this->_formFields);
     }
 
-    public function updatePassword() {
-        $this->_formFields->newPassword = $this->encryptPasscode($this->_userDetails->userName, $this->_formFields->newPassword);
+    /**
+     * update user password in database
+     * 
+     * @return void
+     */
+    private function _updatePassword() {
+        $this->_formFields->newPassword = $this->_encryptPasscode($this->_formFields->newPassword);
 
         DBObjects::editUserPassword($this->_formFields);
     }
 
-    public function editGuild() {
+    /**
+     * update guild in database
+     * 
+     * @return void
+     */
+    private function _editGuild() {
         $this->_formFields->region = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
-        DBObjects::editGuild($this->_formFields, $this->_guildDetails);
-        if ( !empty($this->_formFields->guildLogo['tmp_name']) ) { $this->assignGuildLogo($this->_guildDetails->_guildId); }
+        DBObjects::_editGuild($this->_formFields, $this->_guildDetails);
+        if ( !empty($this->_formFields->guildLogo['tmp_name']) ) { $this->_assignGuildLogo($this->_guildDetails->_guildId); }
     }
 
-    public function removeGuild() {
-        DBObjects::removeGuild($this->_formFields);
+    /**
+     * remove guild in database
+     * 
+     * @return void
+     */
+    private function _removeGuild() {
+        DBObjects::_removeGuild($this->_formFields);
 
         // Guild is a child of a parent guild, update parent's info
         if ( !empty($this->_guildDetails->_parent) ) {
@@ -329,36 +388,56 @@ class UserPanelModel extends Model {
                  $childForm = new stdClass();
                  $childForm->guildId = $guildId;
 
-                 DBObjects::removeGuild($childForm);
-                 $this->removeGuildLogo($childForm->guildId);
+                 DBObjects::_removeGuild($childForm);
+                 $this->_removeGuildLogo($childForm->guildId);
             }
         }
 
-        $this->removeGuildLogo($this->_formFields->guildId);
+        $this->_removeGuildLogo($this->_formFields->guildId);
     }
 
-    public function addGuild() {
+    /**
+     * add guild into database
+     * 
+     * @return void
+     */
+    private function _addGuild() {
         $this->_formFields->region = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
-        DBObjects::addGuild($this->_formFields);
-        $this->assignGuildLogo(DBObjects::$insertId);
+        DBObjects::_addGuild($this->_formFields);
+        $this->_assignGuildLogo(DBObjects::$insertId);
     }
 
-    public function addRaidTeam() {
+    /**
+     * add guild into database
+     * 
+     * @return void
+     */
+    private function _addRaidTeam() {
         $this->_formFields->region = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
         DBObjects::addChildGuild($this->_formFields, $this->_userDetails->_userId, $this->_guildDetails);
-        $this->copyParentGuildLogo($this->_guildDetails->_guildId, DBObjects::$insertId);
+        $this->_copyParentGuildLogo($this->_guildDetails->_guildId, DBObjects::$insertId);
     }
 
-    public function copyParentGuildLogo($parentId, $childId) {
+    /**
+     * copy the parent guild logo onto the child guild logo
+     * 
+     * @return void
+     */
+    private function _copyParentGuildLogo($parentId, $childId) {
         $parentPath = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/guilds/logos/logo-' . $parentId);
         $childPath  = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/guilds/logos/logo-' . $childId);
 
         copy($parentPath, $childPath);
     }
 
-    public function assignGuildLogo($guildId) {
+    /**
+     * assign guild logo to guild after being created, default if no logo is uploaded
+     * 
+     * @return void
+     */
+    private function _assignGuildLogo($guildId) {
         $imagePath        = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/guilds/logos/logo-' . $guildId);
         $defaultImagePath = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/logos/site/guild_default_logo.png');
 
@@ -375,7 +454,12 @@ class UserPanelModel extends Model {
         }
     }
 
-    public function removeGuildLogo($guildId) {
+    /**
+     * remove guild logo image from filesystem
+     * 
+     * @return void
+     */
+    private function _removeGuildLogo($guildId) {
         $imagePath = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/guilds/logos/logo-' . $guildId);
 
         if ( file_exists($imagePath) ) {
@@ -383,7 +467,12 @@ class UserPanelModel extends Model {
         }
     }
 
-    public function removeScreenshot($guildId, $encounterId) {
+    /**
+     * remove screenshot image from filesystem
+     * 
+     * @return void
+     */
+    private function _removeScreenshot($guildId, $encounterId) {
         $imagePath = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/screenshots/killshots/' . $guildId . '-' . $encounterId);
 
         if ( file_exists($imagePath) ) {
@@ -391,18 +480,28 @@ class UserPanelModel extends Model {
         }
     }
 
-    public function removeKill() {
-        $progressionString = $this->removeKillFromProgressionString($this->_guildDetails->_progression);
+    /**
+     * remove kill from guild progression string in database
+     * 
+     * @return void
+     */
+    private function _removeKill() {
+        $progressionString = $this->_removeKillFromProgressionString($this->_guildDetails->_progression);
 
-        DBObjects::removeKill($this->_formFields, $progressionString);
-        $this->removeScreenshot($this->_formFields->guildId, $this->_formFields->encounter);
+        DBObjects::_removeKill($this->_formFields, $progressionString);
+        $this->_removeScreenshot($this->_formFields->guildId, $this->_formFields->encounter);
     }
 
-    public function editKill() {
-        $progressionString = $this->removeKillFromProgressionString($this->_guildDetails->_progression);
-        $progressionString = $this->generateProgressionString($progressionString);
+    /**
+     * edit kill from guild progression in database
+     * 
+     * @return void
+     */
+    private function _editKill() {
+        $progressionString = $this->_removeKillFromProgressionString($this->_guildDetails->_progression);
+        $progressionString = $this->_generateProgressionString($progressionString);
 
-        DBObjects::editKill($this->_formFields, $progressionString);
+        DBObjects::_editKill($this->_formFields, $progressionString);
 
         if ( Functions::validateImage($this->_formFields->screenshot) ) {
             $imagePath = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/screenshots/killshots/' . $this->_formFields->guildId . '-' . $this->_formFields->encounter);
@@ -415,10 +514,15 @@ class UserPanelModel extends Model {
         }
     }
 
-    public function addKill() {
-        $progressionString = $this->generateProgressionString($this->_guildDetails->_progression);
+    /**
+     * add kill from guild progression in database
+     * 
+     * @return void
+     */
+    private function _addKill() {
+        $progressionString = $this->_generateProgressionString($this->_guildDetails->_progression);
 
-        DBObjects::addKill($this->_formFields, $progressionString);
+        DBObjects::_addKill($this->_formFields, $progressionString);
 
         if ( Functions::validateImage($this->_formFields->screenshot) ) {
             $imagePath = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/screenshots/killshots/' . $this->_formFields->guildId . '-' . $this->_formFields->encounter);
@@ -431,7 +535,14 @@ class UserPanelModel extends Model {
         }
     }
 
-    public function removeKillFromProgressionString($progressionString) {
+    /**
+     * remove kill from guild progression string
+     *
+     * @param  string $progressionString [ kill progression string ]
+     * 
+     * @return void
+     */
+    private function _removeKillFromProgressionString($progressionString) {
         $newProgressionString = '';
 
         if ( !empty($progressionString) ) {
@@ -454,14 +565,27 @@ class UserPanelModel extends Model {
         return $newProgressionString;
     }
 
-    public function generateProgressionString($progressionString) {
-        echo $progressionString."<br><br>";
+    /**
+     * generate database upload string for progression column in guild table
+     *
+     * @param  string $progressionString [ kill progression string ]
+     * 
+     * @return string [ progression string ]
+     */
+    private function _generateProgressionString($progressionString) {
         $insertString = Functions::generateDBInsertString($progressionString, $this->_formFields, $this->_guildDetails->_guildId);
 
         return $insertString;
     }
 
-    public function getUserGuilds($userId) {
+    /**
+     * get list of guilds based on user logged in
+     * 
+     * @param  integer $userId [ id of user ]
+     * 
+     * @return array [ array of guilds ]
+     */
+    private function _getUserGuilds($userId) {
         $dbh        = DbFactory::getDbh();
         $guildArray = array();
 
@@ -477,14 +601,21 @@ class UserPanelModel extends Model {
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
             $guildArray[$row['guild_id']] = new GuildDetails($row);
 
-            $this->_raidTeams[$row['guild_id']] = $this->getRaidTeams($row['guild_id'], $guildArray[$row['guild_id']]);
+            $this->_raidTeams[$row['guild_id']] = $this->_getRaidTeams($row['guild_id'], $guildArray[$row['guild_id']]);
             $this->_numOfGuilds++;
         }
 
         return $guildArray;
     }
 
-    public function getUpdatedUserDetails($userId) {
+    /**
+     * get updated user details after submitting update form successfully
+     * 
+     * @param  integer $userId [ id of user ]
+     * 
+     * @return User [ user data object ]
+     */
+    private function _getUpdatedUserDetails($userId) {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
@@ -503,7 +634,14 @@ class UserPanelModel extends Model {
         }
     }
 
-    public function encryptPasscode($username, $password) {
+    /**
+     * encrypt the submitted password
+     * 
+     * @param  string $password [ unencrypted password ]
+     * 
+     * @return string [ encrypted password ]
+     */
+    private function _encryptPasscode($password) {
         $encryptedPasscode = sha1($password);
 
         for ( $i = 0; $i < 5; $i++ ) {
@@ -515,7 +653,12 @@ class UserPanelModel extends Model {
         return $encryptedPasscode;
     }
 
-    public function mergeOptionsToEncounters() {
+    /**
+     * adds edit/remove option properties to encounter details object
+     * 
+     * @return void
+     */
+    private function mergeOptionsToEncounters() {
         foreach( $this->_guildDetails->_encounterDetails as $encounterId => $encounterDetails ) {
             $newEncounterDetails = new stdClass();
 
@@ -536,6 +679,25 @@ class UserPanelModel extends Model {
         }
     }
 
+    /**
+     * load form fields object
+     * 
+     * @return void
+     */
+    private function _loadFormFields() {
+        require 'UserPanelFormFields.php';
+    }
+
+    /**
+     * generate model specific internal hyperlinks
+     * 
+     * @param  string  $subMod   [ name of sub-model ]
+     * @param  string  $function [ page function ]
+     * @param  string  $text     [ display text ]
+     * @param  boolean $link     [ true if want full html, false if just url ]
+     * 
+     * @return string [ html string with hyperlink ]
+     */
     public function generateInternalHyperLink($subMod, $function, $text, $link = true) {
         $url       = PAGE_USER_PANEL . $subMod . '/' . $function;
         $hyperlink = '';
@@ -545,21 +707,19 @@ class UserPanelModel extends Model {
         } else {
             $hyperlink = $url;
         }
-        
 
         return $hyperlink;
     }
 
-    public function loadFormFields() {
-        require 'UserPanelFormFields.php';
-    }
-
+    /**
+     * get html of sub-model template file
+     * 
+     * @param  object $data [ page data ]
+     * 
+     * @return void
+     */
     public function getHTML($data) {
         $htmlFile = $this->subModule . '-' . $this->_action . '.html';
         include ABSOLUTE_PATH . '/application/models/UserPanelModel/html/' . $htmlFile;
-    }
-
-    public function __destruct() {
-
     }
 }

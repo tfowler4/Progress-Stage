@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * guild & raid team add/edit form
+ */
 class GuildFormFields {
     public $guildId;
     public $guildName;
@@ -14,6 +18,9 @@ class GuildFormFields {
     public $guildLogo;
 }
 
+/**
+ * user edit form
+ */
 class UserFormFields {
     public $userId;
     public $email;
@@ -22,6 +29,9 @@ class UserFormFields {
     public $retypeNewPassword;
 }
 
+/**
+ * kill submission form
+ */
 class KillSubmissionFormFields {
     public $guildId;
     public $encounter;
