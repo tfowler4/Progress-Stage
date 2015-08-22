@@ -1,11 +1,16 @@
 <?php 
-
+/**
+ * class to handle insert, update, and delete of tiers, dungeones,
+ * encounters, guild, and news articles
+ */
 class AdministratorModel extends Model {
     protected $_userDetails;
     protected $_newsArticleArray = array();
 
     const PAGE_TITLE = 'Administrator Control Panel';
-
+    /**
+     * constructor
+     */
     public function __construct($module, $params) {
         parent::__construct();
 
@@ -87,7 +92,11 @@ class AdministratorModel extends Model {
             }
         }
     }
-
+    /**
+     * insert new tier details into the database
+     *
+     * @return void
+     */
     public function addNewTier() {
         $tier      = $_POST['form'][0]['value'];
         $altName   = $_POST['form'][1]['value'];
@@ -106,7 +115,13 @@ class AdministratorModel extends Model {
             );
         die;
     }
-
+    /**
+     * create html to prepare form and display all necessary tier details
+     * 
+     * @param  TierDetails $tierDetails [ tier details object ]
+     * 
+     * @return string                   [ return html containing specified tier details ]
+     */
     public function editTierHtml($tierDetails) {
         $startDate = explode(' ', $tierDetails->_dateStart);
         $endDate   = explode(' ', $tierDetails->_dateEnd);
@@ -190,7 +205,14 @@ class AdministratorModel extends Model {
 
         return $html;
     }
-
+    /**
+     * get id from drop down selection to obtain the specific tier details
+     * and pass that array to editTierHtml to display
+     * 
+     * @param  string $tierId [ id of a specific tier]
+     * 
+     * @return void
+     */
     public function editTier($tierId) {
         $html        = '';
         $tierDetails = CommonDataContainer::$tierArray[$tierId];
@@ -200,7 +222,11 @@ class AdministratorModel extends Model {
         echo $html;
         die;
     }
-
+    /**
+     * update tier_table with provided tier details
+     * 
+     * @return void
+     */
     public function editTierDetails() {
         $tierId    = $_POST['form'][0]['value'];
         $tier      = $_POST['form'][1]['value'];
@@ -225,7 +251,11 @@ class AdministratorModel extends Model {
             );
         die;
     }
-
+    /**
+     * delete from tier_table by specified id
+     * 
+     * @return void
+     */
     public function removeTier() {
         $tierId = $_POST['form'][0]['value'];
         
@@ -238,7 +268,11 @@ class AdministratorModel extends Model {
             );
         die;
     }
-
+    /**
+     * insert new dungeon details into the database
+     *
+     * @return void
+     */
     public function addNewDungeon() {
         $dungeon   = $_POST['form'][0]['value'];
         $tier      = $_POST['form'][1]['value'];
@@ -255,7 +289,13 @@ class AdministratorModel extends Model {
             );
         die;
     }
-
+    /**
+     * create html to prepare form and display all necessary dungeon details
+     * 
+     * @param  DungeonDetails $dungeonDetails [ dungeon details object ]
+     * 
+     * @return string                         [ return html containing specified dungeon details ]
+     */
     public function editDungeonHtml($dungeonDetails) {
         $raidSize    = array(10, 20);
         $dungeonType = array(0 => 'Standard Dungeon', 1 => 'Special Dungeon (Unranked)');
@@ -341,7 +381,14 @@ class AdministratorModel extends Model {
 
         return $html;
     }
-
+    /**
+     * get id from drop down selection to obtain the specific dungeon details
+     * and pass that array to editDungeonHtml to display
+     * 
+     * @param  string $dungeonId [ id of a specific dungeon ]
+     * 
+     * @return void
+     */
     public function editDungeon($dungeonId) {
         $html           = '';
         $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
@@ -351,7 +398,11 @@ class AdministratorModel extends Model {
         echo $html;
         die;
     }
-
+    /**
+     * update dungeon_table with provided dungeon details
+     * 
+     * @return void
+     */
     public function editDungeonDetails() {
         $dungeonId    = $_POST['form'][0]['value'];
         $dungeon      = $_POST['form'][1]['value'];
@@ -378,7 +429,11 @@ class AdministratorModel extends Model {
             );
         die;
     }
-
+    /**
+     * delete from dungeon_table by specified id
+     * 
+     * @return void
+     */
     public function removeDungeon() {
         $dungeonId = $_POST['form'][0]['value'];
 
@@ -391,7 +446,11 @@ class AdministratorModel extends Model {
             );
         die;
     }
-
+    /**
+     * insert new encounter details into the database
+     *
+     * @return void
+     */
     public function addNewEncounter() {
         $encounter = $_POST['form'][0]['value'];
         $dungeon   = $_POST['form'][1]['value'];
@@ -410,7 +469,13 @@ class AdministratorModel extends Model {
             );
         die;
     }
-
+    /**
+     * create html to prepare form and display all necessary encounter details
+     * 
+     * @param  EncounterDetails $encounterDetails [ encounter details object ]
+     * 
+     * @return string                             [ return html containing specified dungeon details ]
+     */
     public function editEncounterHtml($encounterDetails) {
         $launchDate = explode('-', $encounterDetails->_dateLaunch);
 
@@ -467,7 +532,14 @@ class AdministratorModel extends Model {
 
         return $html;
     }
-
+    /**
+     * get id from drop down selection to obtain the specific encounter details
+     * and pass that array to editEncounterHtml to display
+     * 
+     * @param  string $encounterId [ id of a specific encounter ]
+     * 
+     * @return void
+     */
     public function editEncounter($encounterId) {
         $html             = '';
         $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
@@ -477,7 +549,11 @@ class AdministratorModel extends Model {
         echo $html;
         die;
     }
-
+    /**
+     * update encounterlist_table with provided encounter details
+     * 
+     * @return void
+     */
     public function editEncounterDetails() {
         $encounterId        = $_POST['form'][0]['value'];
         $encounter          = $_POST['form'][1]['value'];
@@ -502,7 +578,11 @@ class AdministratorModel extends Model {
             );
         die;
     }
-
+    /**
+     * delete from encounterlist_table by specified id
+     * 
+     * @return void
+     */
     public function removeEncounter() {
         $encounterId = $_POST['form'][0]['value'];
 
@@ -515,7 +595,11 @@ class AdministratorModel extends Model {
             );
         die;
     }
-
+    /**
+     * insert new guild details into the database
+     *
+     * @return void
+     */
     public function addNewGuild() {
         $guild   = $_POST['form'][0]['value'];
         $server  = $_POST['form'][1]['value'];
@@ -532,7 +616,13 @@ class AdministratorModel extends Model {
             );
         die;
     }
-
+    /**
+     * create html to prepare form and display all necessary guild details
+     * 
+     * @param  GuildDetails $guildDetails [ guild details object ]
+     * 
+     * @return string                     [ return html containing specified dungeon details ]
+     */
     public function editGuildHtml($guildDetails) {
         $html = '';
         $html .= '<form class="admin-form guild edit details" id="form-guild-edit-details" method="POST" action="' . PAGE_ADMIN . '">';
@@ -567,7 +657,14 @@ class AdministratorModel extends Model {
 
         return $html;
     }
-
+    /**
+     * get id from drop down selection to obtain the specific guild details
+     * and pass that array to editGuildHtml to display
+     * 
+     * @param  string $guildId [ id of a specific guild ]
+     * 
+     * @return void
+     */
     public function editGuild($guildId) {
         $html         = '';
         $guildDetails = CommonDataContainer::$guildArray[$guildId];
@@ -577,7 +674,11 @@ class AdministratorModel extends Model {
         echo $html;
         die;
     }
-
+    /**
+     * update guild_table with provided guild details
+     * 
+     * @return void
+     */
     public function editGuildDetails() {
         $guildId  = $_POST['form'][0]['value'];
         $leader   = $_POST['form'][1]['value'];
@@ -606,7 +707,11 @@ class AdministratorModel extends Model {
             );
         die;
     }
-
+    /**
+     * delete from guild_table by specified id
+     * 
+     * @return void
+     */
     public function removeGuild() {
         $guildId = $_POST['form'][0]['value'];
 
@@ -619,7 +724,11 @@ class AdministratorModel extends Model {
             );
         die;
     }
-
+    /**
+     * get news article details from database
+     * 
+     * @return array [ return an array of article details object ]
+     */
     public function getNewsArticle() {
         $dbh         = DbFactory::getDbh();
         $returnArray = array();
@@ -641,7 +750,11 @@ class AdministratorModel extends Model {
 
         return $returnArray;
     }
-
+    /**
+     * insert new article details into the database
+     *
+     * @return void
+     */
     public function addNewArticle() {
         $title   = $_POST['form'][0]['value'];
         $author  = $_POST['form'][1]['value'];
@@ -658,7 +771,15 @@ class AdministratorModel extends Model {
             );
         die;
     }
-
+    /**
+     * create html to prepare form and display all necessary news article details
+     * 
+     * @param  Article $newsArticle [ article object ]
+     *
+     * @param  string $articleId    [ id of specific article]
+     * 
+     * @return string               [ return html containing specified dungeon details ]
+     */
     public function editArticleHtml($newsArticle, $articleId) {
         $html = '';
         $html .= '<form class="admin-form news edit" id="form-article-edit-details" method="POST" action="' . PAGE_ADMIN . '">';
@@ -688,7 +809,14 @@ class AdministratorModel extends Model {
 
         return $html;
     }
-
+    /**
+     * get id from drop down selection to obtain the specific article details
+     * and pass that array to editArticleHtml to display
+     * 
+     * @param  string $articleId [ id of a specific news article ]
+     * 
+     * @return void
+     */
     public function editArticle($articleId) {
         $html = '';
 
@@ -699,7 +827,11 @@ class AdministratorModel extends Model {
         echo $html;
         die;
     }
-
+    /**
+     * update news_table with provided article details
+     * 
+     * @return void
+     */
     public function editArticleDetails() {
         $articleId = $_POST['form'][0]['value'];
         $title     = $_POST['form'][1]['value'];
@@ -718,7 +850,11 @@ class AdministratorModel extends Model {
             );
         die;
     }
-
+    /**
+     * delete from news_table by specified id
+     * 
+     * @return void
+     */
     public function removeArticle() {
         $articleId = $_POST['form'][0]['value'];
 
