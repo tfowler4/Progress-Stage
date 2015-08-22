@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * quick submission form
+ */
 class QuickSubmissionFormFields {
     public $guildId;
     public $encounter;

@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * specific server progression standings page
+ */
 class ServersModel extends Model {
     protected $_dungeonGuildArray;
     protected $_standingsArray;
@@ -46,6 +50,9 @@ class ServersModel extends Model {
     const PAGE_TITLE = 'Server Progression';
     const PAGE_NAME  = '';
 
+    /**
+     * constructor
+     */
     public function __construct($module, $params) {
         parent::__construct();
 
@@ -78,6 +85,13 @@ class ServersModel extends Model {
         $this->title = $this->_serverDetails->_name . ' Raid Progression';
     }
 
+    /**
+     * get sorted guild array based on number of encounters completed in dungeon
+     * 
+     * @param  Dungeon $dungeonDetails [ dungeon data object ]
+     * 
+     * @return array [ sorted guild array by amount completed ]
+     */
     public function getTemporarySortArray($dungeonDetails) {
         $sortArray                = array();
         $this->_dungeonGuildArray = array();
@@ -100,17 +114,34 @@ class ServersModel extends Model {
         return $sortArray;
     }
 
-    public function addGuildToListArray(&$guildDetails, &$temporaryGuildArray, &$completionTimeArray, &$rankArray) {
+    /**
+     * add guild to the temporary guild array
+     * 
+     * @param GuildDetails &$guildDetails        [ guild details detail object ]
+     * @param array        &$temporaryGuildArray [ list of guilds ]
+     * @param array        &$completionTimeArray [ list of completion times ]
+     * @param integer      &$rankCount           [ guild rank increment ]
+     *
+     * @return void
+     */
+    public function addGuildToListArray(&$guildDetails, &$temporaryGuildArray, &$completionTimeArray, &$rankCount) {
         $guildId = $guildDetails->_guildId;
 
         $guildDetails->getTimeDiff($completionTimeArray, $guildDetails->_strtotime);
-        $guildDetails->_rank = $rankArray;
+        $guildDetails->_rank = $rankCount;
 
         $temporaryGuildArray[$guildId] = $guildDetails;
         $completionTimeArray           = $guildDetails->_strtotime;
-        $rankArray++;
+        $rankCount++;
     }
 
+    /**
+     * get guild standings based upon tier selected
+     * 
+     * @param  Tier $tierDetails    [ tier data object ]
+     * 
+     * @return array [ array of guilds sorted by completion standings ]
+     */
     public function getStandings($tierDetails) {
         $returnArray = array();
 
@@ -149,7 +180,15 @@ class ServersModel extends Model {
         return $returnArray;
     }
 
-    public function setViewStandingsArray($viewType, $sortGuildArray, $dungeonDetails) {
+    /**
+     * set the standings header and guild array per view
+     * 
+     * @param array   $sortGuildArray [ array of guilds ]
+     * @param Dungeon $dungeonDetails [ dungeon data object ]
+     *
+     * @return object [ standings object array ]
+     */
+    public function setViewStandingsArray($sortGuildArray, $dungeonDetails) {
         $retVal         = new stdClass();
         $retVal->header = $dungeonDetails->_name . ' Standings';
         $retVal->data   = (!empty($sortGuildArray) ? $sortGuildArray : array());
@@ -157,6 +196,15 @@ class ServersModel extends Model {
         return $retVal;
     }
 
+    /**
+     * generate model specific internal links
+     * 
+     * @param  string  $tier        [ tier name ]
+     * @param  string  $text        [ display text ]
+     * @param  boolean $spreadsheet [ true if link to spreadsheet popup ]
+     * 
+     * @return string [ html hyperlink ]
+     */
     public function generateInternalHyperLink($tier, $text, $spreadsheet = false) {
         $url       = PAGE_SERVERS . $this->_server;
         $hyperlink = '';

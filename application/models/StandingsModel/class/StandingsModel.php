@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * progression standings guild listing page
+ */
 class StandingsModel extends Model {
     protected $_standingsArray = array();
     protected $_topGuildsArray = array();
@@ -80,6 +84,9 @@ class StandingsModel extends Model {
     const PAGE_TITLE = 'Progression Standings';
     const PAGE_NAME  = 'Standings';
 
+    /**
+     * constructor
+     */
     public function __construct($module, $params) {
         parent::__construct();
 
@@ -96,16 +103,25 @@ class StandingsModel extends Model {
             }
         }
         
-        $this->getDataDetails($this->_tier, $this->_dungeon, $this->_encounter);
+        $this->_getDataDetails($this->_tier, $this->_dungeon, $this->_encounter);
 
         $this->_detailsPane    = $this->_dataDetails;
-        $this->_standingsArray = $this->getStandings();
+        $this->_standingsArray = $this->_getStandings();
         $this->_dataDetails->setClears();
         
         $this->title .= ' ' . self::PAGE_NAME;
     }
 
-    public function getDataDetails($tier, $dungeon, $encounter) {
+    /**
+     * get model data details based on url parameters
+     * 
+     * @param  string $tier      [ name of tier ]
+     * @param  string $dungeon   [ name of dungeon ]
+     * @param  string $encounter [ name of encounter ]
+     * 
+     * @return mixed [ null if dataDetails are empty ]
+     */
+    private function _getDataDetails($tier, $dungeon, $encounter) {
         if ( !empty($this->_encounter) ) {
             $this->_dataType    = '_encounterDetails'; 
             $this->_dataDetails = Functions::getEncounterByName($this->_encounter, $this->_dungeon);
@@ -127,7 +143,12 @@ class StandingsModel extends Model {
         if ( empty($this->_dataDetails) ) { Functions::sendTo404(); }
     }
 
-    public function getTemporarySortArray() {
+    /**
+     * get sorted guild array based on number of encounters completed in dungeon
+     *
+     * @return array [ sorted guild array by amount completed ]
+     */
+    private function _getTemporarySortArray() {
         $sortArray = array();
 
         foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
@@ -169,25 +190,40 @@ class StandingsModel extends Model {
         return $sortArray;
     }
 
-    public function addGuildToListArray(&$guildDetails, &$temporaryGuildArray, &$completionTimeArray, &$rankArray) {
+    /**
+     * add guild to the temporary guild array
+     * 
+     * @param GuildDetails &$guildDetails        [ guild details detail object ]
+     * @param array        &$temporaryGuildArray [ list of guilds ]
+     * @param array        &$completionTimeArray [ list of completion times ]
+     * @param integer      &$rankCount           [ guild rank increment ]
+     *
+     * @return void
+     */
+    private function _addGuildToListArray(&$guildDetails, &$temporaryGuildArray, &$completionTimeArray, &$rankCount) {
         $guildId = $guildDetails->_guildId;
 
         $guildDetails->getTimeDiff($completionTimeArray, $guildDetails->_strtotime);
-        $guildDetails->_rank = $rankArray;
+        $guildDetails->_rank = $rankCount;
 
         $temporaryGuildArray[$guildId] = $guildDetails;
         $completionTimeArray           = $guildDetails->_strtotime;
-        $rankArray++;
+        $rankCount++;
     }
 
-    public function getStandings() {
+    /**
+     * get guild standings based upon view and content selected
+     * 
+     * @return array [ array of guilds sorted by completion standings ]
+     */
+    private function _getStandings() {
         $returnArray         = array();
         $temporarySortArray  = array();
         $rankArray           = array();
         $completionTimeArray = array();
         $sortGuildArray      = array();
 
-        $temporarySortArray = $this->getTemporarySortArray();
+        $temporarySortArray = $this->_getTemporarySortArray();
 
         if ( !empty($temporarySortArray) ) {
             krsort($temporarySortArray);
@@ -209,40 +245,48 @@ class StandingsModel extends Model {
                             if ( !isset($sortGuildArray['world']) ) { $sortGuildArray['world'] = array(); }
                             if ( !isset($rankArray['world']) ) { $rankArray['world'] = 1; }
 
-                            $this->addGuildToListArray($guildDetails, $sortGuildArray['world'], $completionTimeArray['world'], $rankArray['world']);
+                            $this->_addGuildToListArray($guildDetails, $sortGuildArray['world'], $completionTimeArray['world'], $rankArray['world']);
                             break;
                         case 'region':
                             if ( !isset($completionTimeArray['region'][$region]) ) { $completionTimeArray['region'][$region] = 0; }
                             if ( !isset($sortGuildArray['region'][$region]) ) { $sortGuildArray['region'][$region] = array(); }
                             if ( !isset($rankArray['region'][$region]) ) { $rankArray['region'][$region] = 1; }
 
-                            $this->addGuildToListArray($guildDetails, $sortGuildArray['region'][$region], $completionTimeArray['region'][$region], $rankArray['region'][$region]);
+                            $this->_addGuildToListArray($guildDetails, $sortGuildArray['region'][$region], $completionTimeArray['region'][$region], $rankArray['region'][$region]);
                             break;
                         case 'server':
                             if ( !isset($completionTimeArray['server'][$server]) ) { $completionTimeArray['server'][$server] = 0; }
                             if ( !isset($sortGuildArray['server'][$server]) ) { $sortGuildArray['server'][$server] = array(); }
                             if ( !isset($rankArray['server'][$server]) ) { $rankArray['server'][$server] = 1; }
 
-                            $this->addGuildToListArray($guildDetails, $sortGuildArray['server'][$server], $completionTimeArray['server'][$server], $rankArray['server'][$server]);
+                            $this->_addGuildToListArray($guildDetails, $sortGuildArray['server'][$server], $completionTimeArray['server'][$server], $rankArray['server'][$server]);
                             break;
                         case 'country':
                             if ( !isset($completionTimeArray['country'][$country]) ) { $completionTimeArray['country'][$country] = 0; }
                             if ( !isset($sortGuildArray['country'][$country]) ) { $sortGuildArray['country'][$country] = array(); }
                             if ( !isset($rankArray['country'][$country]) ) { $rankArray['country'][$country] = 1; }
 
-                            $this->addGuildToListArray($guildDetails, $sortGuildArray['country'][$country], $completionTimeArray['country'][$country], $rankArray['country'][$country]);
+                            $this->_addGuildToListArray($guildDetails, $sortGuildArray['country'][$country], $completionTimeArray['country'][$country], $rankArray['country'][$country]);
                             break;
                     }
                 }
             }
         }
 
-        $returnArray = $this->setViewStandingsArray($this->_view, $sortGuildArray);
+        $returnArray = $this->_setViewStandingsArray($this->_view, $sortGuildArray);
 
         return $returnArray;
     }
 
-    public function setViewStandingsArray($viewType, $sortGuildArray) {
+    /**
+     * set the standings header and guild array per view
+     *
+     * @param string $viewType       [ view filter ex. server/region ]
+     * @param array  $sortGuildArray [ array of guilds ]
+     *
+     * @return object [ standings object array ]
+     */
+    private function _setViewStandingsArray($viewType, $sortGuildArray) {
         $retVal = new stdClass();
 
         switch( $this->_view ) {
@@ -294,6 +338,15 @@ class StandingsModel extends Model {
         return $retVal;
     }
 
+    /**
+     * generate model specific internal links
+     * 
+     * @param  string  $view        [ view type filter ]
+     * @param  string  $text        [ display text ]
+     * @param  boolean $spreadsheet [ true if link to spreadsheet popup ]
+     * 
+     * @return string [ html hyperlink ]
+     */
     public function generateInternalHyperLink($view, $text, $spreadsheet = false) {
         $url       = PAGE_STANDINGS . $view;
         $hyperlink = '';
@@ -306,24 +359,5 @@ class StandingsModel extends Model {
         $hyperlink = '<a href="' . $url . '" target"_blank">' . $text . '</a>';
 
         return $hyperlink;
-    }
-
-    public function getLogo($guildDetails) {
-        $logo        = '';
-        $src         = FOLD_GUILD_LOGOS . 'logo-' . $guildDetails->_guildId;
-        $localSrc    = ABSOLUTE_PATH . '/public/images/' . strtolower(GAME_NAME_1) . '/guilds/logos/logo-' . $guildDetails->_guildId;
-
-        if ( getimagesize($localSrc) ) {
-            $imageDimensions = getimagesize($localSrc);
-            $class           = '';
-
-            if ( $imageDimensions[0] > 300 ) { 
-                $class = 'class="guild-logo-medium"'; 
-            }
-
-            $logo  = '<img src="' . $src . '" ' . $class . '>';
-        }
-
-        return $logo;
     }
 }

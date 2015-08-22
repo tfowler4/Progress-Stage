@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * contact us page to send emails to administrators
+ */
 class ContactUsModel extends Model {
     protected $_validSubmission = false;
     protected $_sucessfulSubmission = false;
@@ -7,20 +11,23 @@ class ContactUsModel extends Model {
 
     const PAGE_TITLE = 'Contact Us';
 
+    /**
+     * constructor
+     */
     public function __construct($module, $params) {
         parent::__construct();
 
         $this->title = self::PAGE_TITLE;
 
-        $this->loadFormFields();
+        $this->_loadFormFields();
 
         $this->_formFields = new ContactUsFormFields();
 
         if ( Post::formActive() ) { // Form has required fields filled out
-            $this->_validSubmission = $this->validateForm();
+            $this->_validSubmission = $this->_validateForm();
 
             if ( $this->_validSubmission ) { // Ensures guild does not have encounter already submitted
-                $this->_sucessfulSubmission = $this->processForm();
+                $this->_sucessfulSubmission = $this->_processForm();
 
                 if ( $this->_sucessfulSubmission ) { // If successful email
                     $this->_dialogOptions = array('title' => 'Success', 'message' => 'Your feedback has been submitted! We will be getting in contact with you shortly!');
@@ -31,7 +38,12 @@ class ContactUsModel extends Model {
         }
     }
 
-    public function processForm() {
+    /**
+     * process submitted contact us form
+     * 
+     * @return boolean [ true if email was sent successfully ]
+     */
+    private function _processForm() {
         $emailHeader  = array();
         $emailHeader[] = 'From: ' . EMAIL_ADMIN;
         $emailHeader[] = 'Reply-To:';
@@ -48,7 +60,12 @@ class ContactUsModel extends Model {
         return Functions::sendMail( $emailAddress, $emailSubject, $emailMessage, implode("\r\n", $emailHeader) );
     }
 
-    public function validateForm() {
+    /**
+     * validate submitted contact us form for invalid submission
+     * 
+     * @return boolean [ true if submission is valid ]
+     */
+    private function _validateForm() {
         $this->_formFields->email    = Post::get('contact-email');
         $this->_formFields->message  = Post::get('contact-message');
         $this->_formFields->feedback = Post::get('contact-feedback');
@@ -62,11 +79,12 @@ class ContactUsModel extends Model {
         return $this->_validSubmission;
     }
 
-    public function loadFormFields() {
+    /**
+     * load form fields object
+     * 
+     * @return void
+     */
+    private function _loadFormFields() {
         require 'ContactUsFormFields.php';
-    }
-
-    public function __destruct() {
-
     }
 }

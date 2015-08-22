@@ -5,6 +5,9 @@ Header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-ch
 Header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
 Header('Pragma: no-cache');
 
+/**
+ * guild signature image generator
+ */
 class GuildSignature {
     protected $_guildId;
     protected $_rankSystem;
@@ -15,6 +18,9 @@ class GuildSignature {
     protected $_guildDetails;
     protected $_dungeonDetails;
 
+    /**
+     * constructor
+     */
     public function __construct($params) {
         if ( isset($params[0]) ) { $this->_guildId    = $params[0]; } else { die; }
         if ( isset($params[1]) ) { $this->_dungeonId  = $params[1]; } else { die; }
@@ -23,6 +29,11 @@ class GuildSignature {
         $this->getDetails();
     }
 
+    /**
+     * get guild details details object
+     * 
+     * @return void
+     */
     public function getDetails() {
         if ( !isset(CommonDataContainer::$guildArray[$this->_guildId]) ) { die; }
 
@@ -34,6 +45,13 @@ class GuildSignature {
         $this->getHTML($this->_guildDetails);
     }
 
+    /**
+     * get html of signature image
+     * 
+     * @param  GuildDetails $guildDetails [ guild details object ]
+     * 
+     * @return void
+     */
     public function getHTML($guildDetails) {
         $boxName    = array();
         $boxRank    = array();

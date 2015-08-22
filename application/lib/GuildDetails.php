@@ -122,7 +122,7 @@ class GuildDetails extends DetailObject {
         if ( $this->_active == '1' ) { $this->_activeStatus = 'Active'; }
         if ( $this->_active == '0' ) { $this->_activeStatus = 'Inactive'; }
 
-        if ( $this->_activeStatus == 'Active' ) {
+        if ( $this->_activeStatus == 'Inactive' ) {
             $this->_nameLink = $this->_countryImage . '<span>' . Functions::generateInternalHyperLink('guild', '', $this->_server, $this->_name, '') . '</span>';
         } else {
             $this->_nameLink = $this->_countryImage . '<span>' . Functions::generateInternalHyperLink('guild', $this->_faction, $this->_server, $this->_name, '') . '</span>';

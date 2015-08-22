@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * point rankings guild listing page
+ */
 class RankingsModel extends Model {
     protected $_rankingsArray = array();
     protected $_topGuildsArray = array();
@@ -72,6 +76,9 @@ class RankingsModel extends Model {
     const PAGE_TITLE = 'Point Rankings';
     const PAGE_NAME  = 'Rankings';
 
+    /**
+     * constructor
+     */
     public function __construct($module, $params) {
         parent::__construct();
 
@@ -82,16 +89,25 @@ class RankingsModel extends Model {
         if ( isset($params[2]) ) { $this->_tier     = $params[2]; }
         if ( isset($params[3]) ) { $this->_dungeon  = $params[3]; }
 
-        $this->getDataDetails($this->_rankType, $this->_tier, $this->_dungeon);
+        $this->_getDataDetails($this->_rankType, $this->_tier, $this->_dungeon);
 
         $this->_detailsPane   = $this->_dataDetails;
-        $this->_rankingsArray = $this->getRankings($this->_rankType, $this->_view, $this->_tier, $this->_dungeon);
+        $this->_rankingsArray = $this->_getRankings($this->_rankType, $this->_view, $this->_tier, $this->_dungeon);
         $this->_dataDetails->setClears();
 
         $this->title .= ' Rankings';
     }
 
-    public function getDataDetails($rankType, $tier, $dungeon) {
+    /**
+     * get model data details based on url parameters
+     * 
+     * @param  string $rankType  [ name of rank system ]
+     * @param  string $tier      [ name of tier ]
+     * @param  string $dungeon   [ name of dungeon ]
+     * 
+     * @return mixed [ null if dataDetails are empty ]
+     */
+    private function _getDataDetails($rankType, $tier, $dungeon) {
         $systemDetails = Functions::getRankSystemByName($rankType);
         $systemId      = $systemDetails->_abbreviation;
 
@@ -122,7 +138,12 @@ class RankingsModel extends Model {
         if ( empty($this->_dataDetails) ) { Functions::sendTo404(); }
     }
 
-    public function getTemporarySortArray() {
+    /**
+     * get sorted guild array based on number of encounters completed in dungeon
+     *
+     * @return array [ sorted guild array by amount completed ]
+     */
+    private function _getTemporarySortArray() {
         $sortArray = array();
 
         foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
@@ -139,14 +160,24 @@ class RankingsModel extends Model {
         return $sortArray;
     }
 
-    public function getRankings($rankType, $view, $tier, $dungeon) {
+    /**
+     * get guild rankings based upon type of content selected
+     * 
+     * @param  string $rankType [ point ranking system ]
+     * @param  string $view     [ view type filter ]
+     * @param  string $tier     [ name of tier ]
+     * @param  string $dungeon  [ name of dungeon ]
+     * 
+     * @return array [ array of guilds sorted by points ]
+     */
+    private function _getRankings($rankType, $view, $tier, $dungeon) {
         $returnArray         = array();
         $temporarySortArray  = array();
         $completionTimeArray = array();
         $sortGuildArray      = array();
         $pointDiffArray      = array();
 
-        $temporarySortArray = $this->getTemporarySortArray();
+        $temporarySortArray = $this->_getTemporarySortArray();
 
         if ( !empty($temporarySortArray) ) {
             arsort($temporarySortArray);
@@ -201,12 +232,20 @@ class RankingsModel extends Model {
             }
         }
 
-        $returnArray = $this->setViewRankingsArray($this->_view, $sortGuildArray);
+        $returnArray = $this->_setViewRankingsArray($this->_view, $sortGuildArray);
 
         return $returnArray;
     }
 
-    public function setViewRankingsArray($viewType, $sortGuildArray) {
+    /**
+     * set the rankings header and guild array per view
+     *
+     * @param string $viewType       [ view filter ex. server/region ]
+     * @param array  $sortGuildArray [ array of guilds ]
+     *
+     * @return object [ standings object array ]
+     */
+    private function _setViewRankingsArray($viewType, $sortGuildArray) {
         $retVal = new stdClass();
 
         switch( $this->_view ) {
@@ -258,6 +297,15 @@ class RankingsModel extends Model {
         return $retVal;
     }
 
+    /**
+     * generate model specific internal links
+     * 
+     * @param  string  $view   [ view type filter ]
+     * @param  string  $system [ point ranking system ]
+     * @param  string  $text   [ display text ]
+     * 
+     * @return string [ html hyperlink ]
+     */
     public function generateInternalHyperLink($view, $system, $text) {
         $url       = PAGE_RANKINGS . $view;
         $hyperlink = '';
@@ -269,24 +317,5 @@ class RankingsModel extends Model {
         $hyperlink = '<a href="' . $url . '" target"_blank">' . $text . '</a>';
 
         return $hyperlink;
-    }
-
-    public function getLogo($guildDetails) {
-        $logo        = '';
-        $src         = FOLD_GUILD_LOGOS . 'logo-' . $guildDetails->_guildId;
-        $localSrc    = ABSOLUTE_PATH . '/public/images/' . strtolower(GAME_NAME_1) . '/guilds/logos/logo-' . $guildDetails->_guildId;
-
-        if ( getimagesize($localSrc) ) {
-            $imageDimensions = getimagesize($localSrc);
-            $class           = '';
-
-            if ( $imageDimensions[0] > 300 ) { 
-                $class = 'class="guild-logo-medium"'; 
-            }
-
-            $logo  = '<img src="' . $src . '" ' . $class . '>';
-        }
-
-        return $logo;
     }
 }

@@ -1,7 +1,10 @@
 <?php
+
+/**
+ * guild directory listing page for all guilds registered on the site
+ */
 class GuildDirectoryModel extends Model {
-    protected $_guildArray;
-    protected $_newGuildsArr;
+    protected $_newGuildsArray;
     protected $_guildListing;
     protected $_detailsPane;
 
@@ -25,22 +28,28 @@ class GuildDirectoryModel extends Model {
             'Inactive European Guilds'       => 'numOfInactiveEUGuilds'
         );
 
+    /**
+     * constructor
+     */
     public function __construct($module, $params) {
         parent::__construct();
 
         $this->title = self::PAGE_TITLE;
 
-        $this->_guildArray = CommonDataContainer::$guildArray;
-
-        $this->_guildListing    = $this->getListing();
-        $this->_newGuildsArr    = $this->getNewestGuilds();
-        $this->_detailsPane     = $this->getGuildData();
+        $this->_guildListing   = $this->_getListing();
+        $this->_newGuildsArray = $this->_getNewestGuilds();
+        $this->_detailsPane    = $this->_getGuildData();
     }
 
-    public function getListing() {
+    /**
+     * get a listing of guilds in a sorted manner
+     * 
+     * @return array [ array sorted by region then active status ]
+     */
+    private function _getListing() {
         $sortArray = array();
 
-        foreach ( $this->_guildArray as $guildId => $guildDetails ) {
+        foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
             $guildDetails->generateEncounterDetails('');
             $region = $guildDetails->_region;
             $active = $guildDetails->_active;
@@ -53,15 +62,15 @@ class GuildDirectoryModel extends Model {
         foreach ( $sortArray as $active => $region ) {
             krsort($sortArray[$active]); // Active -> Inactive
 
-            foreach ( $sortArray[$active] as $region => $guildArr ) {
+            foreach ( $sortArray[$active] as $region => $guildArray ) {
                 asort($sortArray[$active][$region]); // A - Z
             }
         }
 
         foreach ( $sortArray as $active => $region ) {
-            foreach ( $sortArray[$active] as $region => $guildArr ) {
+            foreach ( $sortArray[$active] as $region => $guildArray ) {
                 foreach ( $sortArray[$active][$region] as $guildId => $name ) {
-                    $sortArray[$active][$region][$guildId] = $this->_guildArray[$guildId];
+                    $sortArray[$active][$region][$guildId] = CommonDataContainer::$guildArray[$guildId];
                 }
             }
         }
@@ -69,11 +78,16 @@ class GuildDirectoryModel extends Model {
         return $sortArray;
     }
 
-    public function getNewestGuilds() {
+    /**
+     * get the newest guilds registered
+     * 
+     * @return array [ array of guildd ]
+     */
+    private function _getNewestGuilds() {
         $sortArray    = array();
         $returnArray  = array();
 
-        foreach ( $this->_guildArray as $guildId => $guildDetails ) {
+        foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
             $sortArray[$guildId] = $guildDetails->_dateCreated;
         }
 
@@ -85,19 +99,24 @@ class GuildDirectoryModel extends Model {
         foreach ( $sortArray as $guildId => $dateCreated ) {
             if ( $count == $limit ) { break; }
 
-            $returnArray[$guildId] = $this->_guildArray[$guildId];
+            $returnArray[$guildId] = CommonDataContainer::$guildArray[$guildId];
             $count++;
         }
 
         return $returnArray;
     }
 
-    public function getGuildData() {
+    /**
+     * get site guild data for number of active/inactive guilds
+     * 
+     * @return object [ site properties ]
+     */
+    private function _getGuildData() {
         $returnObj = new stdClass();
 
-        $returnObj->numOfGuilds = count($this->_guildArray);
+        $returnObj->numOfGuilds = count(CommonDataContainer::$guildArray);
 
-        foreach ( $this->_guildArray as $guildId => $guildDetails ) {
+        foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
             if ( $guildDetails->_region == 'NA' ) { 
                 if ( !isset($returnObj->numOfActiveNAGuilds) ) { 
                     $returnObj->numOfActiveNAGuilds = 0; 
@@ -107,7 +126,7 @@ class GuildDirectoryModel extends Model {
                     $returnObj->numOfInactiveNAGuilds = 0; 
                 }
 
-                if ( $guildDetails->_active == 'Inactive' ) {
+                if ( $guildDetails->_activeStatus == 'Inactive' ) {
                     $returnObj->numOfInactiveNAGuilds++; 
                 } else {
                     $returnObj->numOfActiveNAGuilds++; 
@@ -123,7 +142,7 @@ class GuildDirectoryModel extends Model {
                     $returnObj->numOfInactiveEUGuilds = 0; 
                 }
 
-                if ( $guildDetails->_active == 'Inactive' ) {
+                if ( $guildDetails->_activeStatus == 'Inactive' ) {
                     $returnObj->numOfInactiveEUGuilds++; 
                 } else {
                     $returnObj->numOfActiveEUGuilds++; 

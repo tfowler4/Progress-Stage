@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * register to the website page
+ */
 class RegisterModel extends Model {
     protected $_newestGuilds;
     protected $_formFields;
@@ -8,29 +12,37 @@ class RegisterModel extends Model {
     const PASSWORD_MINIMUM = 3;
     const PAGE_TITLE       = 'Registration';
 
+    /**
+     * constructor
+     */
     public function __construct($module, $params) {
         parent::__construct();
 
         $this->title = self::PAGE_TITLE;
 
-        $this->loadFormFields();
+        $this->_loadFormFields();
 
         $this->_formFields = new RegisterFormFields();
 
         if ( Post::formActive() ) { 
-            $this->getRegistrationType();
+            $this->_getRegistrationType();
 
             if ( !empty($this->_registerType) ) { 
-                $this->processForm($this->_registerType);
+                $this->_processForm($this->_registerType);
             } else {
                 $this->_dialogOptions = array('title' => 'Error', 'message' => 'Please fill out the form!');
             }
         }
 
-        $this->_newestGuilds = $this->getNewestGuilds();
+        $this->_newestGuilds = $this->_getNewestGuilds();
     }
 
-    public function getRegistrationType() {
+    /**
+     * get registration type by determining if specific fields were completed
+     * 
+     * @return void
+     */
+    private function _getRegistrationType() {
         $this->_formFields->username       = Post::get('register-username');
         $this->_formFields->email          = Post::get('register-email');
         $this->_formFields->password       = Post::get('register-password');
@@ -66,21 +78,31 @@ class RegisterModel extends Model {
         }
     }
 
-    public function processForm($registerType) {
+    /**
+     * process submitted register form depending on register type
+     * 
+     * @return void
+     */
+    private function _processForm($registerType) {
         switch($registerType) {
             case 'user':
-                $this->registerUser();
+                $this->_registerUser();
                 break;
             case 'guild':
-                $this->registerUser();
-                $this->registerGuild();
+                $this->_registerUser();
+                $this->_registerGuild();
                 break;
             default:
                 break;
         }
     }
 
-    public function getNewestGuilds() {
+    /**
+     * get the newest guilds registered
+     * 
+     * @return array [ array of guildd ]
+     */
+    private function _getNewestGuilds() {
         $dbh        = DbFactory::getDbh();
         $dataArray  = array();
 
@@ -101,8 +123,13 @@ class RegisterModel extends Model {
         return $dataArray;
     }
 
-    public function registerUser() {
-        $this->_formFields->password = $this->encryptPasscode($this->_formFields->username, $this->_formFields->password);
+    /**
+     * register user to website and redirect to user panel page
+     * 
+     * @return return void
+     */
+    private function _registerUser() {
+        $this->_formFields->password = $this->_encryptPasscode($this->_formFields->password);
 
         DBObjects::addUser($this->_formFields);
 
@@ -127,14 +154,26 @@ class RegisterModel extends Model {
         }
     }
 
-    public function registerGuild() {
+    /**
+     * register guild to website
+     * 
+     * @return return void
+     */
+    private function _registerGuild() {
         $this->_formFields->region = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
         DBObjects::addGuild($this->_formFields);
-        $this->assignGuildLogo(DBObjects::$insertId);
+        $this->_assignGuildLogo(DBObjects::$insertId);
     }
 
-    public function assignGuildLogo($guildId) {
+    /**
+     * assign guild logo image to guild if one is supplied, else assign default
+     * 
+     * @param  integer $guildId [ id of guild ]
+     * 
+     * @return void
+     */
+    private function _assignGuildLogo($guildId) {
         $imagePath        = ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/guilds/logos/logo-' . $guildId;
         $defaultImagePath = ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/logos/site/guild_default_logo.png';
 
@@ -145,7 +184,14 @@ class RegisterModel extends Model {
         }
     }
 
-    public function encryptPasscode($username, $password) {
+    /**
+     * encrypt the submitted password
+     * 
+     * @param  string $password [ unencrypted password ]
+     * 
+     * @return string [ encrypted password ]
+     */
+    private function _encryptPasscode($password) {
         $encryptedPasscode = sha1($password);
 
         for ( $i = 0; $i < 5; $i++ ) {
@@ -157,7 +203,12 @@ class RegisterModel extends Model {
         return $encryptedPasscode;
     }
 
-    public function loadFormFields() {
+    /**
+     * load form fields object
+     * 
+     * @return void
+     */
+    private function _loadFormFields() {
         require 'RegisterFormFields.php';
     }
 }

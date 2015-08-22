@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * submit kills without logging in page
+ */
 class QuickSubmissionModel extends Model {
     protected $_validSubmission = false;
     protected $_validEncounter = false;
@@ -11,6 +15,9 @@ class QuickSubmissionModel extends Model {
 
     const PAGE_TITLE = 'Quick Kill Submission';
 
+    /**
+     * constructor
+     */
     public function __construct($module, $params) {
         parent::__construct();
 
@@ -45,6 +52,11 @@ class QuickSubmissionModel extends Model {
         }
     }
 
+    /**
+     * validate submitted quick submission form for invalid submission
+     * 
+     * @return boolean [ true if submission is valid ]
+     */
     public function validateForm() {
         $this->_formFields->guildId    = Post::get('quick-guild');
         $this->_formFields->encounter  = Post::get('quick-encounter');
@@ -74,10 +86,20 @@ class QuickSubmissionModel extends Model {
         return $this->_validSubmission;
     }
 
+    /**
+     * validate encounter if it already exists
+     * 
+     * @return boolean [ true if submission is valid ]
+     */
     public function validateEncounter() {
         return !isset($this->_guildDetails->_encounterDetails->{$this->_encounterId});
     }
 
+    /**
+     * process submitted quick submission form
+     * 
+     * @return void
+     */
     public function processForm() {
         $dbh               = DbFactory::getDbh();
         $progressionString = $this->generateProgressionString($this->_guildDetails->_progression);
@@ -95,17 +117,25 @@ class QuickSubmissionModel extends Model {
         }
     }
 
+    /**
+     * generate guild database progression string
+     * 
+     * @param  string $progressionString [ current progression string ]
+     * 
+     * @return string [ progression insert string ]
+     */
     public function generateProgressionString($progressionString) {
         $insertString = Functions::generateDBInsertString($progressionString, $this->_formFields, $this->_guildId);
 
         return $insertString;
     }
 
+    /**
+     * load form fields object
+     * 
+     * @return void
+     */
     public function loadFormFields() {
         require 'QuickSubmissionFormFields.php';
-    }
-
-    public function __destruct() {
-
     }
 }

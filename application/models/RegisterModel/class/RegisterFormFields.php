@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * register form
+ */
 class RegisterFormFields {
     public $username;
     public $email;

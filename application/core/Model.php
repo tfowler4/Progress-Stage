@@ -52,4 +52,16 @@ abstract class Model {
     public function __isset($name) {
         return isset($this->$name);
     }
+
+    /**
+     * magic destruct
+     */
+    public function __destruct() {}
+
+    /**
+     * magic unset
+     */
+    public function __unset($name) {
+        unset($this->$name);
+    }
 }

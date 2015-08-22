@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * reset password for user account page
+ */
 class ResetModel extends Model {
     protected $_validSubmission = false;
     protected $_successfulEmail = false;
@@ -14,12 +18,15 @@ class ResetModel extends Model {
 
     const PAGE_TITLE = 'Password Recovery';
 
+    /**
+     * constructor
+     */
     public function __construct($module, $params) {
         parent::__construct();
 
         $this->title = self::PAGE_TITLE;
 
-        $this->loadFormFields();
+        $this->_loadFormFields();
 
         if ( !empty($params) && $params[0] == self::SUB_COMPLETE ) { // complete submodule, with confirm code and retype passwords in
             $this->_formFields                    = new ConfirmFormFields();
@@ -27,12 +34,12 @@ class ResetModel extends Model {
             $this->_formFields->retypeNewPassword = Post::get('reset-password-confirm');
             $this->_formFields->confirmCode       = Post::get('reset-confirm-code');
 
-            $this->_userDetails = $this->findConfirmCode($this->_formFields->confirmCode);
+            $this->_userDetails = $this->_findConfirmCode($this->_formFields->confirmCode);
 
             if ( $this->_userDetails ) {
-                if ( $this->validatePassword() ) {
-                    $this->_encryptedPassword = $this->encryptPasscode($this->_userDetails->_userName, $this->_formFields->newPassword);
-                    $this->updateUserPassword();
+                if ( $this->_validatePassword() ) {
+                    $this->_encryptedPassword = $this->_encryptPasscode($this->_formFields->newPassword);
+                    $this->_updateUserPassword();
 
                     $this->_dialogOptions = array('title' => 'Notice', 'message' => 'Your password has been reset! Please try logging in now!');
                     return;
@@ -40,7 +47,7 @@ class ResetModel extends Model {
             }
         } elseif ( !empty($params) && count($params) == 1 ) { // Only confirmcode exists
             $this->_confirmCode = $params[0];
-            $this->_userDetails = $this->findConfirmCode($this->_confirmCode);
+            $this->_userDetails = $this->_findConfirmCode($this->_confirmCode);
 
             if ( $this->_userDetails ) {
                 $this->_action ='complete';
@@ -49,21 +56,21 @@ class ResetModel extends Model {
             $this->_formFields = new ResetFormFields();
             
             if ( Post::formActive() ) { // Form has required fields filled out
-                $this->_validSubmission = $this->validateForm();
+                $this->_validSubmission = $this->_validateForm();
             } else {
                 return;
             }
 
             if ( $this->_validSubmission ) {
-                $this->_userDetails = $this->searchForUser();
+                $this->_userDetails = $this->_searchForUser();
             } else {
                 $this->_dialogOptions = array('title' => 'Error', 'message' => 'There was an odd error with your form, please');
                 return;
             }
 
             if ( $this->_userDetails ) {
-                $this->setConfirmCode();
-                $this->_successfulEmail = $this->sendResetEmail();
+                $this->_setConfirmCode();
+                $this->_successfulEmail = $this->_sendResetEmail();
                 $this->_dialogOptions = array('title' => 'Notice', 'message' => 'An email has been sent to the user account\'s email address containing the reset link.');
                 return;
             } else {
@@ -73,7 +80,14 @@ class ResetModel extends Model {
         }
     }
 
-    public function findConfirmCode($confirmCode) {
+    /**
+     * query the database for the submitted confirmation code
+     * 
+     * @param  string $confirmCode [ confirmation code to reset password ]
+     * 
+     * @return User [ user data object ]
+     */
+    private function _findConfirmCode($confirmCode) {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
@@ -90,7 +104,12 @@ class ResetModel extends Model {
         }
     }
 
-    public function setConfirmCode() {
+    /**
+     * set confirmation code to user record in database
+     *
+     * @return void
+     */
+    private function _setConfirmCode() {
         $dbh = DbFactory::getDbh();
 
         $this->_confirmCode = md5(uniqid(rand(), true));
@@ -106,7 +125,12 @@ class ResetModel extends Model {
         $query->execute();
     }
 
-    public function sendResetEmail() {
+    /**
+     * send email containing confirmation link to reset password
+     * 
+     * @return void
+     */
+    private function _sendResetEmail() {
         $emailHeader   = array();
         $emailHeader[] = 'From: ' . EMAIL_ADMIN;
         $emailHeader[] = 'Reply-To:';
@@ -123,7 +147,12 @@ class ResetModel extends Model {
         Functions::sendMail($emailAddress, $emailSubject, $emailMessage, $emailHeader);
     }
 
-    public function searchForUser() {
+    /**
+     * query database for user based on submitted form fields
+     * 
+     * @return mixed [ user data object if found else null ]
+     */
+    private function _searchForUser() {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
@@ -143,7 +172,12 @@ class ResetModel extends Model {
         return null;
     }
 
-    public function updateUserPassword() {
+    /**
+     * update user password in database
+     * 
+     * @return void
+     */
+    private function _updateUserPassword() {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
@@ -158,7 +192,14 @@ class ResetModel extends Model {
         $query->execute();
     }
 
-    public function encryptPasscode($username, $password) {
+    /**
+     * encrypt the submitted password
+     * 
+     * @param  string $password [ unencrypted password ]
+     * 
+     * @return string [ encrypted password ]
+     */
+    private function _encryptPasscode($password) {
         $encryptedPasscode = sha1($password);
 
         for ( $i = 0; $i < 5; $i++ ) {
@@ -170,16 +211,26 @@ class ResetModel extends Model {
         return $encryptedPasscode;
     }
 
-    public function validatePassword() {
-            if ( ($this->_formFields->newPassword == $this->_formFields->retypeNewPassword)
-                 && strlen($this->_formFields->newPassword) >= PASSWORD_MINIMUM) {
-                return true;
-            }
+    /**
+     * validate if submitted passwords match
+     * 
+     * @return boolean [ true if password matches ]
+     */
+    private function _validatePassword() {
+        if ( ($this->_formFields->newPassword == $this->_formFields->retypeNewPassword)
+             && strlen($this->_formFields->newPassword) >= PASSWORD_MINIMUM) {
+            return true;
+        }
 
         return false;
     }
 
-    public function validateForm() {
+    /**
+     * validate submitted reset form for invalid submission
+     * 
+     * @return boolean [ true if submission is valid ]
+     */
+    private function _validateForm() {
         $this->_formFields->username = Post::get('reset-username');
         $this->_formFields->email    = Post::get('reset-email');
 
@@ -194,16 +245,12 @@ class ResetModel extends Model {
         return $this->_validSubmission;
     }
 
-    public function loadFormFields() {
+    /**
+     * load form fields object
+     * 
+     * @return void
+     */
+    private function _loadFormFields() {
         require 'ResetFormFields.php';
-    }
-
-    public function getHTML($data) {
-        $htmlFile = $this->subModule . '-' . $this->_action . '.html';
-        include ABSOLUTE_PATH . '/application/models/UserPanelModel/html/' . $htmlFile;
-    }
-
-    public function __destruct() {
-
     }
 }

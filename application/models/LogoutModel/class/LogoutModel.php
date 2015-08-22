@@ -1,7 +1,14 @@
 <?php
+
+/**
+ * logout of the website page
+ */
 class LogoutModel extends Model {
     const PAGE_TITLE = 'Logout';
 
+    /**
+     * constructor
+     */
     public function __construct($module, $params) {
         parent::__construct();
 
@@ -12,9 +19,5 @@ class LogoutModel extends Model {
 
             $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully logged out!');
         }
-    }
-
-    public function __destruct() {
-
     }
 }

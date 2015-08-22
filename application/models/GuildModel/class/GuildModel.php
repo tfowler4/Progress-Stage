@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * guild profile page displaying for a specific guild
+ */
 class GuildModel extends Model {
     protected $_guildId;
     protected $_name;
@@ -62,6 +66,9 @@ class GuildModel extends Model {
     const PAGE_TITLE = 'Guild Profile';
     const PAGE_NAME  = 'Guild Profile';
 
+    /**
+     * constructor
+     */
     public function __construct($module, $params) {
         parent::__construct();
 
@@ -89,34 +96,46 @@ class GuildModel extends Model {
         
         if ( isset($params[1]) ) { $this->_server = $params[1]; }
 
-        $this->_guildDetails = $this->getGuildDetails();
+        $this->_guildDetails = $this->_getGuildDetails();
         if ( empty($this->_guildDetails) ) { Functions::sendTo404(); }
 
         $this->_guildDetails->generateEncounterDetails('');
         $this->_guildDetails->generateRankDetails('encounters');
-        $this->_activityArray    = $this->getActivityTimeline();
+        $this->_activityArray    = $this->_getActivityTimeline();
         $this->_latestScreenshot = Template::getScreenshot($this->_guildDetails, $this->_guildDetails->_recentEncounterDetails);
 
         $this->_raidProgressionTableHeader  = self::TABLE_HEADER_PROGRESSION;
         $this->_activityTimelineTableHeader = self::TABLE_HEADER_TIMELINE;
 
         if ( !empty($this->_latestScreenshot) ) {
-            $this->_recentActivity = $this->getRecentActivityDetails();
+            $this->_recentActivity = $this->_getRecentActivityDetails();
         }
 
-        $this->mergeRankDetailsToEncounters();
+        $this->_mergeRankDetailsToEncounters();
 
         $this->title = $this->_guildDetails->_name . ' ' . self::PAGE_NAME;
     }
 
-    public function getGuildDetails() {
+    /**
+     * get guild details details object
+     * 
+     * @return return mixed [ if no guild is found return null, else Guild Details details object ]
+     */
+    private function _getGuildDetails() {
         if ( isset($this->_guildId) ) { return CommonDataContainer::$guildArray[$this->_guildId]; }
-        if ( isset($this->_name) && !isset($this->_server) ) { return $this->getDetailsByName($this->_name); }
-        if ( isset($this->_name) && isset($this->_server) ) { return $this->getDetailsByNameServer($this->_name, $this->_server); }
+        if ( isset($this->_name) && !isset($this->_server) ) { return $this->_getDetailsByName($this->_name); }
+        if ( isset($this->_name) && isset($this->_server) ) { return $this->_getDetailsByNameServer($this->_name, $this->_server); }
         return null;
     }
-    
-    public function getDetailsByName($guildName) {
+
+    /**
+     * get guild details object by guild name
+     * 
+     * @param  string $guildName [ name of guild ]
+     * 
+     * @return return mixed [ if no guild is found return null, else Guild Details details object ]
+     */
+    private function _getDetailsByName($guildName) {
         $guildName = trim(str_replace("_", " ", $guildName));
     
         foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
@@ -127,8 +146,16 @@ class GuildModel extends Model {
         
         return null;
     }
-    
-    public function getDetailsByNameServer($guildName, $server) {
+
+    /**
+     * get guild details object by guild name and server
+     * 
+     * @param  string $guildName [ name of guild ]
+     * @param  string $server    [ name of server ]
+     * 
+     * @return return mixed [ if no guild is found return null, else Guild Details details object ]
+     */
+    private function _getDetailsByNameServer($guildName, $server) {
         $guildName = trim(str_replace("_", " ", $guildName));
         
         foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
@@ -140,7 +167,12 @@ class GuildModel extends Model {
         return null;
     }
 
-    public function mergeRankDetailsToEncounters() {
+    /**
+     * merge ranking details and standing details into new object
+     * 
+     * @return void
+     */
+    private function _mergeRankDetailsToEncounters() {
         foreach( $this->_guildDetails->_encounterDetails as $encounterId => $encounterDetails ) {
             $newEncounterDetails = new stdClass();
 
@@ -165,7 +197,12 @@ class GuildModel extends Model {
         }
     }
 
-    public function getActivityTimeline() {
+    /**
+     * generate activity line from newest to oldest kill
+     * 
+     * @return array [ list of kills sorted by time ]
+     */
+    private function _getActivityTimeline() {
         $returnArray = array();
         $killTimeArray = array();
 
@@ -181,7 +218,7 @@ class GuildModel extends Model {
         $currentStrToTime = '';
 
         foreach( $killTimeArray as $encounterId => $strtotime ) {
-            $this->_guildDetails->_encounterDetails->$encounterId->_span = $this->getKillSpan($currentStrToTime, $strtotime);
+            $this->_guildDetails->_encounterDetails->$encounterId->_span = $this->_getKillSpan($currentStrToTime, $strtotime);
             $currentStrToTime = $strtotime;
 
             $returnArray[$encounterId] = $this->_guildDetails->_encounterDetails->$encounterId;
@@ -190,7 +227,15 @@ class GuildModel extends Model {
         return $returnArray;
     }
 
-    public function getKillSpan($currentStrToTime, $newStrToTime) {
+    /**
+     * get time between two kills
+     * 
+     * @param  string $currentStrToTime [ current unix timestamp ]
+     * @param  string $newStrToTime     [ new unix timestamp ]
+     * 
+     * @return string [ formatted time between kills ]
+     */
+    private function _getKillSpan($currentStrToTime, $newStrToTime) {
         $returnSpan = '--';
 
         if ( empty($currentStrToTime) ) {
@@ -212,17 +257,17 @@ class GuildModel extends Model {
         $time       = '';
 
         if ( $hours > 0 && $days <= 0 && $months <= 0 ) {
-            $minutes    = number_format($minutes / 60, 0, "", "");
-            $time       = "-$hours.$minutes Hours";
+            $minutes = number_format($minutes / 60, 0, '', '');
+            $time    = '-' . $hours . '.' . $minutes . ' Hours';
         } elseif ( $days > 0 && $months <= 0 ) {
-            $hours      = number_format($hours / 24, 0, "", "");
-            $time       = "-$days.$hours Days";
+            $hours = number_format($hours / 24, 0, '', '');
+            $time  = '-' . $days . '.' . $hours . ' Days';
         } elseif ( $months > 0  ) {
-            $number_days    = number_format(($newStrToTime - $currentStrToTime)  / (60 * 60 * 24), 0, "", "");
-            $minutes        = number_format($minutes / 60, 0, "", "");
-            $time           = "-$number_days.$minutes Days";
+            $numOfDays = number_format(($newStrToTime - $currentStrToTime)  / (60 * 60 * 24), 0, '', '');
+            $minutes   = number_format($minutes / 60, 0, '', '');
+            $time      = '-' . $numOfDays . '.' . $minutes . ' Days';
         } else {
-            $time = "-$minutes Minutes";
+            $time = '-' . $minutes . ' Minutes';
         }
 
         $returnSpan = $time;
@@ -230,7 +275,12 @@ class GuildModel extends Model {
         return $returnSpan;
     }
 
-    public function getRecentActivityDetails() {
+    /**
+     * get details of the most recently completed encounter
+     * 
+     * @return array [ encounter details in array format ]
+     */
+    private function _getRecentActivityDetails() {
         $returnArray      = array();
         $activityDetails  = $this->_guildDetails->_recentEncounterDetails;
         $encounterId      = $activityDetails->_encounterId;
@@ -246,6 +296,13 @@ class GuildModel extends Model {
         return $returnArray;
     }
 
+    /**
+     * generate page internal hyperlink anchor
+     * 
+     * @param  string $location [ name of location ]
+     * 
+     * @return string [ html string containing hyperlink anchor ]
+     */
     public function generateInternalAnchor($location) {
         $url       = '#' . $location;
         $url       = strtolower(str_replace(" ", "-", $url)) . '-anchor';

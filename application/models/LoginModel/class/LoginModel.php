@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * login to the website page
+ */
 class LoginModel extends Model {
     protected $_validSubmission = false;
     protected $_sucessfulSubmission = false;
@@ -7,20 +11,23 @@ class LoginModel extends Model {
 
     const PAGE_TITLE = 'Login';
 
+    /**
+     * constructor
+     */
     public function __construct($module, $params) {
         parent::__construct();
 
         $this->title = self::PAGE_TITLE;
 
-        $this->loadFormFields();
+        $this->_loadFormFields();
 
         $this->_formFields = new LoginFormFields();
 
         if ( Post::formActive() ) { // Form has required fields filled out
-            $this->_validSubmission = $this->validateForm();
+            $this->_validSubmission = $this->_validateForm();
 
             if ( $this->_validSubmission ) { // Ensures guild does not have encounter already submitted
-                $this->_sucessfulSubmission = $this->processForm();
+                $this->_sucessfulSubmission = $this->_processForm();
 
                 if ( $this->_sucessfulSubmission ) { // If successful login, redirect
                     $pathToCP = HOST_NAME . '/userpanel';
@@ -34,9 +41,14 @@ class LoginModel extends Model {
         }
     }
 
-    public function processForm() {
+    /**
+     * process submitted contact us form
+     * 
+     * @return boolean [ true if email was sent successfully ]
+     */
+    private function _processForm() {
         $dbh               = DbFactory::getDbh();
-        $encryptedPassword = $this->encryptPasscode($this->_formFields->password);
+        $encryptedPassword = $this->_encryptPasscode($this->_formFields->password);
 
         $query = $dbh->prepare(sprintf(
             "SELECT *
@@ -59,7 +71,12 @@ class LoginModel extends Model {
         return $this->_sucessfulSubmission;
     }
 
-    public function validateForm() {
+    /**
+     * validate submitted contact us form for invalid submission
+     * 
+     * @return boolean [ true if submission is valid ]
+     */
+    private function _validateForm() {
         $this->_formFields->username = Post::get('login-username');
         $this->_formFields->password = Post::get('login-password');
 
@@ -70,7 +87,14 @@ class LoginModel extends Model {
         return $this->_validSubmission;
     }
 
-    public function encryptPasscode($password) {
+    /**
+     * encrypt the submitted password
+     * 
+     * @param  string $password [ unencrypted password ]
+     * 
+     * @return string [ encrypted password ]
+     */
+    private function _encryptPasscode($password) {
         $encryptedPasscode = sha1($password);
 
         for ( $i = 0; $i < 5; $i++ ) {
@@ -82,11 +106,12 @@ class LoginModel extends Model {
         return $encryptedPasscode;
     }
 
-    public function loadFormFields() {
+    /**
+     * load form fields object
+     * 
+     * @return void
+     */
+    private function _loadFormFields() {
         require 'LoginFormFields.php';
-    }
-
-    public function __destruct() {
-
     }
 }

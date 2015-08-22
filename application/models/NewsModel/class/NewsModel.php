@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * index news page of website
+ */
 class NewsModel extends Model {
     protected $_article;
     protected $_recentRaids       = array();
@@ -25,6 +29,9 @@ class NewsModel extends Model {
             'Progress' => '_standing'
         );
 
+    /**
+     * constructor
+     */
     public function __construct($module, $article) {
         parent::__construct();
 
@@ -36,23 +43,31 @@ class NewsModel extends Model {
         $this->_article = strtolower(str_replace("_"," ", $this->_article)); 
         $this->_article = strtolower(str_replace("poundsign","#", $this->_article));
 
-        $this->_videoLinks     = $this->getLiveVideos(self::STREAM_CHANNELS);
-        $this->_newsArticles   = $this->getArticles($this->article, self::LIMIT_NEWS);
-        $this->_guildStandings = $this->getStandings(self::STANDINGS_DISPLAY, self::LIMIT_GUILD_STANDINGS);
-        $this->_guildRankings  = $this->getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
-        $this->_recentRaids    = $this->getRecentRaids(self::LIMIT_RECENT_RAIDS);
+        $this->_videoLinks     = $this->_getLiveVideos(self::STREAM_CHANNELS);
+        $this->_newsArticles   = $this->_getArticles($this->article, self::LIMIT_NEWS);
+        $this->_guildStandings = $this->_getStandings(self::STANDINGS_DISPLAY, self::LIMIT_GUILD_STANDINGS);
+        $this->_guildRankings  = $this->_getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
+        $this->_recentRaids    = $this->_getRecentRaids(self::LIMIT_RECENT_RAIDS);
 
         $this->_standingsTableHeader = self::HEADER_STANDINGS;
     }
 
-    public function getArticles($article, $limit) {
+    /**
+     * get news articles
+     * 
+     * @param  string  $article [ title of news article ]
+     * @param  integer $limit   [ maximum number of articles ]
+     * 
+     * @return array [ array of news articles ]
+     */
+    private function _getArticles($article, $limit) {
         $dataArray = array();
         $query;
 
-        if ( strlen($article) > 0 ) { 
-            $query  = $this->getNewsArticle($article); 
+        if ( !empty($article) ) {
+            $query = $this->_getNewsArticle($article);
         } else {
-            $query = $this->getNews($limit);
+            $query = $this->_getNews($limit);
         }
 
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
@@ -64,11 +79,18 @@ class NewsModel extends Model {
         return $dataArray;
     }
 
-    public function getLiveVideos($limit) {
+    /**
+     * get live streaming video channels
+     * 
+     * @param  integer $limit [ maximus number of channels ]
+     * 
+     * @return array [ array of live stream objects ]
+     */
+    private function _getLiveVideos($limit) {
         $dataArray = array();
         $query;
 
-        $query  = $this->getTwitchChannels($limit); 
+        $query  = $this->_getTwitchChannels($limit); 
 
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
             $dataArray[$row['twitch_id']] = new TwitchDetails($row);
@@ -78,7 +100,14 @@ class NewsModel extends Model {
         return $dataArray;
     }
 
-    public function getTemporarySortArray($dungeonDetails) {
+    /**
+     * get sorted guild array based on number of encounters completed in dungeon
+     * 
+     * @param  Dungeon $dungeonDetails [ dungeon data object ]
+     * 
+     * @return array [ sorted guild array by amount completed ]
+     */
+    private function _getTemporarySortArray($dungeonDetails) {
         $sortArray                = array();
         $this->_dungeonGuildArray = array();
         $dungeonId                = $dungeonDetails->_dungeonId;
@@ -100,7 +129,16 @@ class NewsModel extends Model {
         return $sortArray;
     }
 
-    public function setViewStandingsArray($viewType, $sortGuildArray, $dungeonDetails, $guildLimit) {
+    /**
+     * set the standings header and guild array per view
+     * 
+     * @param array   $sortGuildArray [ array of guilds ]
+     * @param Dungeon $dungeonDetails [ dungeon data object ]
+     * @param integer $guildLimit     [ maximum number of guilds ]
+     *
+     * @return object [ standings object array ]
+     */
+    private function _setViewStandingsArray($sortGuildArray, $dungeonDetails, $guildLimit) {
         $retVal         = new stdClass();
         $retVal->header = $dungeonDetails->_name . ' Top ' . $guildLimit . ' Standings';
         $retVal->data   = (!empty($sortGuildArray) ? $sortGuildArray : array());
@@ -108,18 +146,36 @@ class NewsModel extends Model {
         return $retVal;
     }
 
-    public function addGuildToListArray(&$guildDetails, &$temporaryGuildArray, &$completionTimeArray, &$rankArray) {
+    /**
+     * add guild to the temporary guild array
+     * 
+     * @param GuildDetails &$guildDetails        [ guild details detail object ]
+     * @param array        &$temporaryGuildArray [ list of guilds ]
+     * @param array        &$completionTimeArray [ list of completion times ]
+     * @param integer      &$rankCount           [ guild rank increment ]
+     *
+     * @return void
+     */
+    private function _addGuildToListArray(&$guildDetails, &$temporaryGuildArray, &$completionTimeArray, &$rankCount) {
         $guildId = $guildDetails->_guildId;
 
         $guildDetails->getTimeDiff($completionTimeArray, $guildDetails->_strtotime);
-        $guildDetails->_rank = $rankArray;
+        $guildDetails->_rank = $rankCount;
 
         $temporaryGuildArray[$guildId] = $guildDetails;
         $completionTimeArray           = $guildDetails->_strtotime;
-        $rankArray++;
+        $rankCount++;
     }
 
-    public function getStandings($content, $guildLimit) {
+    /**
+     * get guild standings based upon type of content selected
+     * 
+     * @param  integer $content    [ identifier for type of standing tables ]
+     * @param  integer $guildLimit [ maximum number of guilds ]
+     * 
+     * @return array [ array of guilds sorted by completion standings ]
+     */
+    private function _getStandings($content, $guildLimit) {
         /**
          * Standings Content
          * 0 - Latest Tier, Latest 2 Dungeon Worldwide
@@ -136,15 +192,13 @@ class NewsModel extends Model {
         $dungeonCount = 0;
 
         foreach ( $tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
-            //if ( $dungeonCount > 1 ) { break; }
-
             $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
             $temporarySortArray  = array();
             $sortGuildArray      = array();
             $completionTimeArray = 0;
             $rankArray           = 1;
 
-            $temporarySortArray = $this->getTemporarySortArray($dungeonDetails);
+            $temporarySortArray = $this->_getTemporarySortArray($dungeonDetails);
 
             if ( !empty($temporarySortArray) ) {
                 krsort($temporarySortArray);
@@ -159,40 +213,51 @@ class NewsModel extends Model {
                         if ( !isset($sortGuildArray) ) { $sortGuildArray = array(); }
                         if ( !isset($rankArray) ) { $rankArray = 1; }
 
-                        $this->addGuildToListArray($guildDetails, $sortGuildArray, $completionTimeArray, $rankArray);
+                        $this->_addGuildToListArray($guildDetails, $sortGuildArray, $completionTimeArray, $rankArray);
                     }
                 }
             }
 
-            $returnArray[$dungeonId] = $this->setViewStandingsArray($this->_view, $sortGuildArray, $dungeonDetails, $guildLimit);
+            $returnArray[$dungeonId] = $this->_setViewStandingsArray($sortGuildArray, $dungeonDetails, $guildLimit);
             $dungeonCount++;
         }
 
         // Split into Regions
         if ( $content == 1 ) {
-            $returnArray = $this->convertStandingsToRegion($returnArray, $guildLimit);
+            $returnArray = $this->_convertStandingsToRegion($returnArray, $guildLimit);
         }
 
         // Cut off limit amount of guilds
-        $returnArray = $this->setLimitToStandingsArray($returnArray, $guildLimit);
+        $returnArray = $this->_setLimitToStandingsArray($returnArray, $guildLimit);
 
         return $returnArray;
     }
 
-    public function setLimitToStandingsArray($standingsArray, $guildLimit) {
+    /**
+     * sets the limit number of guilds in standings
+     * 
+     * @param  array   $standingsArray [ array of guilds ]
+     * @param  integer $guildLimit     [ maximum number of guilds ]
+     *
+     * @return array [ array of guilds ]
+     */
+    private function _setLimitToStandingsArray($standingsArray, $guildLimit) {
         foreach( $standingsArray as $dungeonId => $dungeonTable ) {
-
-            if ( count($standingsArray[$dungeonId]->data) < $guildLimit ) { 
-                //$guildLimit = count($standingsArray[$dungeonId]->data); 
-            }
-
             $standingsArray[$dungeonId]->data = array_slice($standingsArray[$dungeonId]->data, 0 , $guildLimit);
         }
 
         return $standingsArray;
     }
 
-    public function convertStandingsToRegion($standingsArray, $guildLimit) {
+    /**
+     * convert standings array to be region based
+     * 
+     * @param  array   $standingsArray [ array of guilds ]
+     * @param  integer $guildLimit     [ maximum number of guilds ]
+     * 
+     * @return array [ array of guilds ]
+     */
+    private function _convertStandingsToRegion($standingsArray, $guildLimit) {
         $returnArray = array();
 
         foreach( $standingsArray as $dungeonId => $dungeonTable ) {
@@ -223,9 +288,17 @@ class NewsModel extends Model {
         return $returnArray;
     }
 
-    public function getRankings($point_system, $limit) {
-        $returnArray        = array();
-        $dungeonStatsArray  = array();
+    /**
+     * get guild rankings based upon type of content selected
+     * 
+     * @param  integer $pointSystem [ default point ranking system ]
+     * @param  integer $limit       [ maximum number of guilds ]
+     * 
+     * @return array [ array of guilds sorted by points ]
+     */
+    private function _getRankings($pointSystem, $limit) {
+        $returnArray       = array();
+        $dungeonStatsArray = array();
 
         foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
             $guildDetails->generateRankDetails('dungeons');
@@ -233,9 +306,9 @@ class NewsModel extends Model {
             if ( !isset($guildDetails->_rankDetails->_rankDungeons) ) { continue; }
 
             foreach ( $guildDetails->_rankDetails->_rankDungeons as $dungeonDetails ) {
-                $dungeonId  = $dungeonDetails->_id;
-                $points     = $dungeonDetails->_points;
-                $system     = CommonDataContainer::$rankSystemArray[$dungeonDetails->_system]->_abbreviation;
+                $dungeonId = $dungeonDetails->_id;
+                $points    = $dungeonDetails->_points;
+                $system    = CommonDataContainer::$rankSystemArray[$dungeonDetails->_system]->_abbreviation;
 
                 $dungeonStatsArray[$dungeonId][$system][$guildId] = $points;
             }
@@ -295,7 +368,14 @@ class NewsModel extends Model {
         return $returnArray;
     }
 
-    public function getRecentRaids($limit) {
+    /**
+     * get the most recent submitted encounters sorted by kill date
+     * 
+     * @param  integer $limit  [ maximum number of encounter entries ]
+     * 
+     * @return array [ array of encounter kill data entries ]
+     */
+    private function _getRecentRaids($limit) {
         $dbh       = DbFactory::getDbh();
         $dataArray = array();
 
@@ -339,7 +419,14 @@ class NewsModel extends Model {
         return $dataArray;
     }
 
-    public function getNews($limit) {
+    /**
+     * get news article query
+     * 
+     * @param  integer $limit [ maximum number of news articles ]
+     * 
+     * @return PDObject [ pdo database object ]
+     */
+    private function _getNews($limit) {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
@@ -351,10 +438,18 @@ class NewsModel extends Model {
                     DbFactory::TABLE_NEWS,
                     $limit));
         $query->execute();
-        return $query;  
+
+        return $query;
     }
 
-    public function getNewsArticle($articleTitle) {
+    /**
+     * get specific news article query
+     * 
+     * @param  string $articleTitle [ title of news article ]
+     * 
+     * @return PDObject [ pdo database object ]
+     */
+    private function _getNewsArticle($articleTitle) {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
@@ -367,10 +462,18 @@ class NewsModel extends Model {
                     $articleTitle
                 ));
         $query->execute();
+
         return $query;
     }
 
-    public function getTwitchChannels($limit) {
+    /**
+     * get twitch channels query
+     * 
+     * @param  integer $limit [ maximum number of channels ]
+     * 
+     * @return PDObject [ pdo database object ]
+     */
+    private function _getTwitchChannels($limit) {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(

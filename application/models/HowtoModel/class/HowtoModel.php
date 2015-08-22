@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * how to page displaying site formulas and functionality
+ */
 class HowtoModel extends Model {
     const PAGE_TITLE = 'How-To use ' . SITE_TITLE;
 
@@ -20,6 +24,9 @@ class HowtoModel extends Model {
             'BEPV' => 'Base Encounter Point Value'
         );
 
+    /**
+     * constructor
+     */
     public function __construct($module, $params) {
         parent::__construct();
 
