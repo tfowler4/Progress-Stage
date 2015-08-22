@@ -611,5 +611,3 @@ class Template {
         include_once ABSOLUTE_PATH . '/public/templates/default/forms.html';
     }
 }
-
-Template::init();
