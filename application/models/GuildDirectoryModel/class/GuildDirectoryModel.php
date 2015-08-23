@@ -52,7 +52,7 @@ class GuildDirectoryModel extends Model {
         foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
             $guildDetails->generateEncounterDetails('');
             $region = $guildDetails->_region;
-            $active = $guildDetails->_active;
+            $active = $guildDetails->_activeStatus;
 
             $sortArray[$active][$region][$guildId] = $guildDetails->_name;
         }

@@ -13,50 +13,50 @@ class UpdateAllPointRankings extends Script {
     protected static $_rankArrayForDungeons;
 
     public static function init() {
-        Logger::log('INFO', 'Starting Update All Point Rankings...');
+        Logger::log('INFO', 'Starting Update All Point Rankings...', 'dev');
 
-        Logger::log('INFO', 'Encounters Needing Updates');
+        Logger::log('INFO', 'Encounters Needing Updates', 'dev');
         self::getEncountersNeedingUpdate();
 
         if ( !empty(self::$_encountersNeedUpdateArray) ) {
-            Logger::log('INFO', 'Generating Guild Details');
+            Logger::log('INFO', 'Generating Guild Details', 'dev');
             self::generateGuildEncounterDetails();
 
-            Logger::log('INFO', 'Generate Encounter Kill Details');
+            Logger::log('INFO', 'Generate Encounter Kill Details', 'dev');
             self::generateEncounterKillDetails();
 
-            Logger::log('INFO', 'Generate Dungeon Kill Details');
+            Logger::log('INFO', 'Generate Dungeon Kill Details', 'dev');
             self::generateDungeonKillDetails();
 
-            Logger::log('INFO', 'Put Guild Kills Into Array');
+            Logger::log('INFO', 'Put Guild Kills Into Array', 'dev');
             self::putGuildKillsInArray();
 
-            Logger::log('INFO', 'Get Active Guilds in Dungeon');
+            Logger::log('INFO', 'Get Active Guilds in Dungeon', 'dev');
             self::getActiveGuildsInDungeon();
 
-            Logger::log('INFO', 'Sort Kills By Time Per Encounter');
+            Logger::log('INFO', 'Sort Kills By Time Per Encounter', 'dev');
             self::sortKills();
 
-            Logger::log('INFO', 'Assign Points To Encounters');
+            Logger::log('INFO', 'Assign Points To Encounters', 'dev');
             self::assignPoints();
 
-            Logger::log('INFO', 'Create Encounter Ranks For Guilds');
+            Logger::log('INFO', 'Create Encounter Ranks For Guilds', 'dev');
             self::createEncounterRanksForGuilds();
 
-            Logger::log('INFO', 'Create Dungeon Ranks And Trends For Guilds');
+            Logger::log('INFO', 'Create Dungeon Ranks And Trends For Guilds', 'dev');
             self::createDungeonRanksForGuilds();
 
-            Logger::log('INFO', 'Create Encounter Database Insert Strings');
+            Logger::log('INFO', 'Create Encounter Database Insert Strings', 'dev');
             self::createEncounterInsertStrings();
 
-            Logger::log('INFO', 'Create Dungeon Database Insert Strings');
+            Logger::log('INFO', 'Create Dungeon Database Insert Strings', 'dev');
             self::createDungeonInsertStrings();
 
-            Logger::log('INFO', 'Updating Recent Raid Table');
+            Logger::log('INFO', 'Updating Recent Raid Table', 'dev');
             self::updateRecentRaidTable();
         }
 
-        Logger::log('INFO', 'Update All Point Rankings Completed!');
+        Logger::log('INFO', 'Update All Point Rankings Completed!', 'dev');
     }
 
     public static function updateRecentRaidTable() {

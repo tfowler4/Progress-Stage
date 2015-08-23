@@ -8,7 +8,7 @@ class BackupDatabase extends Script {
     protected static $oldBackupPath;
 
     public static function init() {
-        Logger::log('INFO', 'Starting Backup Database...');
+        Logger::log('INFO', 'Starting Backup Database...', 'dev');
 
         self::$backupFileName = DB_NAME . date("Y-m-d_H-i"). '.sql';
 
@@ -19,7 +19,7 @@ class BackupDatabase extends Script {
         $command = 'mysqldump --no-defaults -h' . DB_HOST . ' -u' . DB_USER . ' -p' . DB_PASS . ' ' . DB_NAME . ' > ' . self::$backupFileName; // > stdout_output.txt 2>stderr_output.txt
         exec($command);
 
-        Logger::log('INFO', 'Backup File: ' . self::$backupFileName . '...');
+        Logger::log('INFO', 'Backup File: ' . self::$backupFileName . '...', 'dev');
 
         self::moveFile();
     }
@@ -35,7 +35,7 @@ class BackupDatabase extends Script {
 
         if ( !file_exists(self::$backupPath) ) {
             if ( !mkdir(self::$backupPath, 0777, true) ) {
-                Logger::log('ERROR', 'Folder unable to be created at location: ' . self::$backupPath);
+                Logger::log('ERROR', 'Folder unable to be created at location: ' . self::$backupPath, 'dev');
             }
         }
 
@@ -43,7 +43,7 @@ class BackupDatabase extends Script {
 
         rename(self::$oldBackupPath, self::$backupPath);
 
-        Logger::log('INFO', 'Backup Database Completed!');
+        Logger::log('INFO', 'Backup Database Completed!', 'dev');
     }
 }
 

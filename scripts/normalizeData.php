@@ -7,7 +7,7 @@ class NormalizeData extends Script {
     protected static $_newFormat;
 
     public static function init() {
-        Logger::log('INFO', 'Starting Normalize Data process...');
+        Logger::log('INFO', 'Starting Normalize Data process...', 'dev');
 
         self::$_oldFormat = array(
             '0' => 'Encounter ID',
@@ -68,7 +68,7 @@ class NormalizeData extends Script {
         self::convertProgressionStringToNewFormat();
         self::insertProgressionStringIntoDatabase();
 
-        Logger::log('INFO', 'Normalize Data Completed!');
+        Logger::log('INFO', 'Normalize Data Completed!', 'dev');
     }
 
     public static function insertProgressionStringIntoDatabase() {

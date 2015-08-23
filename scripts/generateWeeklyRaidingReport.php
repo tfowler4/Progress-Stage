@@ -12,7 +12,7 @@ class WeeklyRaidingReport extends Script {
     protected static $reportArticle;
 
     public static function init() {
-        Logger::log('INFO', 'Starting Generate Weekly Raiding Report...');
+        Logger::log('INFO', 'Starting Generate Weekly Raiding Report...', 'dev');
 
         self::$encountersKilledArray = array();
         self::$latestDateStrtotime   = strtotime('now');
@@ -25,13 +25,13 @@ class WeeklyRaidingReport extends Script {
         self::createArticle();
         self::displayArticle();
 
-        Logger::log('INFO', 'Adding new Weekly Raiding Report to Database...');
+        Logger::log('INFO', 'Adding new Weekly Raiding Report to Database...', 'dev');
         self::addArticleToDatabase();
 
-        Logger::log('INFO', 'Sending Social Media Update Posts...');
+        Logger::log('INFO', 'Sending Social Media Update Posts...', 'dev');
         self::createSocialMediaPosts();
 
-        Logger::log('INFO', 'Generate Weekly Raiding Report Complete!');
+        Logger::log('INFO', 'Generate Weekly Raiding Report Complete!', 'dev');
     }
 
     public static function getPastWeekEncounters() {
@@ -130,7 +130,7 @@ class WeeklyRaidingReport extends Script {
     }
 
     public static function createSocialMediaPosts() {
-        Logger::log('INFO', 'Posting to Twitter...');
+        Logger::log('INFO', 'Posting to Twitter...', 'dev');
         Functions::postTwitter(self::$reportArticle->title, 1);
     }
 }

@@ -7,14 +7,14 @@ class GeneratePassword extends Script {
     protected static $_encryptedPassword;
 
     public static function init() {
-        Logger::log('INFO', 'Starting Generate Password...');
+        Logger::log('INFO', 'Starting Generate Password...', 'dev');
 
         if ( !empty($_GET['password']) ) {
             self::$_unEncryptedPassword = $_GET['password'];
             self::encryptPassword(self::$_unEncryptedPassword);
             self::displayPassword();
 
-            Logger::log('INFO', 'Generate Password Completed!');
+            Logger::log('INFO', 'Generate Password Completed!', 'dev');
         } else {
             echo "Please provide a password for encryption";
         }

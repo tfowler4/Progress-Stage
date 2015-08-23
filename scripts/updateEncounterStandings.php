@@ -7,14 +7,14 @@ class UpdateEncounterStandings extends Script {
     protected static $_sortedEncounterKillArray;
 
     public static function init() {
-        Logger::log('INFO', 'Starting Update Encounter Standings...');
+        Logger::log('INFO', 'Starting Update Encounter Standings...', 'dev');
 
         self::getAllEncounterKills();
         self::sortKillsByTime();
         self::setNewKillRanks();
         self::insertUpdatedGuildKills();
 
-        Logger::log('INFO', 'Update Encounter Standings Completed!');
+        Logger::log('INFO', 'Update Encounter Standings Completed!', 'dev');
     }
 
     public static function getAllEncounterKills() {
@@ -59,8 +59,6 @@ class UpdateEncounterStandings extends Script {
                 if ( !isset($rankArray['server'][$server]) ) { $rankArray['server'][$server] = 1; }
                 if ( !isset($rankArray['region'][$region]) ) { $rankArray['region'][$region] = 1; }
                 if ( !isset($rankArray['country'][$country]) ) { $rankArray['country'][$country] = 1; }
-
-                echo "Guild: ".$guildDetails->_nameLink."--Encounter:".$encounterId."---WorldRank:".$rankArray['world']."---RegionRank:".$rankArray['region'][$region]."---Serverank:".$rankArray['server'][$server]."---CountryRank:".$rankArray['country'][$country]."<br>";
 
                 $guildDetails->_encounterDetails->$encounterId->_worldRank   = $rankArray['world'];
                 $guildDetails->_encounterDetails->$encounterId->_serverRank  = $rankArray['server'][$server];

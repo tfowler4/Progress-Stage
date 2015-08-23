@@ -10,6 +10,7 @@ class Logger {
     protected static $_severity;
     protected static $_message;
     protected static $_fileHandle;
+    protected static $_logType;
 
     /**
      * creates logging message
@@ -19,17 +20,23 @@ class Logger {
      * 
      * @return void
      */
-    public static function log($severity, $message) {
+    public static function log($severity, $message, $logType = 'user') {
         // INFO DEBUG WARN ERROR
         self::$_severity = $severity;
         self::$_message  = $message;
+        self::$_logType  = $logType;
 
         $year           = date('Y');
         $month          = date('n')."-".date('M');
         $currentDate    = date('Y-m-d');
         self::$_logDate = date('Y-m-d H:i');
 
-        self::$_logPath = strtolower(FOLD_LOGS . $year . '/' . $month);
+        if ( self::$_logType == 'user' ) {
+            self::$_logPath = strtolower(FOLD_LOGS . '/user/' . $year . '/' . $month);
+        } elseif ( self::$_logType == 'dev' ) {
+            self::$_logPath = strtolower(FOLD_LOGS . '/dev/' . $year . '/' . $month);
+        }
+
         self::$_logFile = strtolower(self::$_logPath . '/' . SITE_TITLE . '-' . $currentDate . '.txt');
 
         if ( !file_exists(self::$_logPath) ) { 
@@ -63,10 +70,11 @@ class Logger {
 
         $query = $dbh->prepare(sprintf(
             "INSERT INTO %s
-            (severity, session_id, message)
-            values('%s','%s',\"%s\")",
+            (severity, type, session_id, message)
+            values('%s','%s','%s',\"%s\")",
             DbFactory::TABLE_LOGGING,
             self::$_severity,
+            self::$_logType,
             session_id(),
             self::$_message
         ));

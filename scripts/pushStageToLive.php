@@ -14,7 +14,7 @@ class PushStageToLive {
     const SOURCE_FOLDER              = ABSOLUTE_PATH;
 
     static public function init() {
-        Logger::log('INFO', 'Starting Push Stage To Live...');
+        Logger::log('INFO', 'Starting Push Stage To Live...', 'dev');
 
         $folders       = explode("/", self::SOURCE_FOLDER);
         $remove_folder = array_pop($folders);
@@ -28,14 +28,14 @@ class PushStageToLive {
         }
 
         if ( file_exists(self::$_destination) ) {
-            Logger::log('INFO', 'Starting Search Directory in ' . self::$_gameName . '...');
+            Logger::log('INFO', 'Starting Search Directory in ' . self::$_gameName . '...', 'dev');
 
             self::searchDirectory(self::SOURCE_FOLDER);
             
-            Logger::log('INFO', 'Search Directory in ' . self::$_gameName . ' Completed!');
-            Logger::log('INFO', 'Total Number of Files Updated: ' . self::$_numberOfFiles);
+            Logger::log('INFO', 'Search Directory in ' . self::$_gameName . ' Completed!', 'dev');
+            Logger::log('INFO', 'Total Number of Files Updated: ' . self::$_numberOfFiles, 'dev');
         }
-        Logger::log('INFO', 'Push Stage To Live Completed!');
+        Logger::log('INFO', 'Push Stage To Live Completed!', 'dev');
     }
     
     static public function searchDirectory($currentFolder) {
@@ -147,7 +147,7 @@ class PushStageToLive {
         if ( is_array($files) ) {
             foreach ($files as $file) {
                 $fileInfo = 'File: ' . $file['fileName'] . ' Last Modified: ' . date ("F d Y H:i:s", $file['modifiedTime']);
-                Logger::log('INFO', $fileInfo);
+                Logger::log('INFO', $fileInfo, 'dev');
             }
         }
     }

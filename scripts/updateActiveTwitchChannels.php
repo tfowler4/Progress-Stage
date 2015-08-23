@@ -11,7 +11,7 @@ class Twitch extends Script {
     const IMAGE_WIDTH  = 900;
 
     public static function init() {
-        Logger::log('INFO', 'Starting Update Twitch Channel...');
+        Logger::log('INFO', 'Starting Update Twitch Channel...', 'dev');
 
         self::cleanTwitchDirectory();
         self::getTwitchChannels();
@@ -47,11 +47,11 @@ class Twitch extends Script {
             } 
         }
 
-        Logger::log('INFO', 'Setting Active Channels...');
+        Logger::log('INFO', 'Setting Active Channels...', 'dev');
 
         self::setActiveChannels();
 
-        Logger::log('INFO', 'Update Twitch Channel Complete!');
+        Logger::log('INFO', 'Update Twitch Channel Complete!', 'dev');
     }
 
     public static function cleanTwitchDirectory() {
