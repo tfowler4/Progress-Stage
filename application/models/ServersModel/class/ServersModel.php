@@ -174,7 +174,7 @@ class ServersModel extends Model {
                 }
             }
 
-            $returnArray[$dungeonId] = $this->setViewStandingsArray($this->_view, $sortGuildArray, $dungeonDetails);
+            $returnArray[$dungeonId] = $this->setViewStandingsArray($sortGuildArray, $dungeonDetails);
         }
 
         return $returnArray;
