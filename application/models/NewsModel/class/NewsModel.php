@@ -32,19 +32,19 @@ class NewsModel extends Model {
     /**
      * constructor
      */
-    public function __construct($module, $article) {
+    public function __construct($module, $params) {
         parent::__construct();
 
         $this->title       = self::PAGE_TITLE;
         $this->description = self::PAGE_DESCRIPTION;
 
-        if ( isset($params[0]) ) { $this->_article = $article; }
+        if ( isset($params[0]) ) { $this->_article = $params[0]; }
 
         $this->_article = strtolower(str_replace("_"," ", $this->_article)); 
         $this->_article = strtolower(str_replace("poundsign","#", $this->_article));
 
         $this->_videoLinks     = $this->_getLiveVideos(self::STREAM_CHANNELS);
-        $this->_newsArticles   = $this->_getArticles($this->article, self::LIMIT_NEWS);
+        $this->_newsArticles   = $this->_getArticles($this->_article, self::LIMIT_NEWS);
         $this->_guildStandings = $this->_getStandings(self::STANDINGS_DISPLAY, self::LIMIT_GUILD_STANDINGS);
         $this->_guildRankings  = $this->_getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
         $this->_recentRaids    = $this->_getRecentRaids(self::LIMIT_RECENT_RAIDS);
@@ -451,6 +451,16 @@ class NewsModel extends Model {
      */
     private function _getNewsArticle($articleTitle) {
         $dbh = DbFactory::getDbh();
+
+        echo sprintf(
+            "SELECT *
+               FROM %s
+              WHERE published = 1
+                AND title LIKE LOWER('%s')
+              LIMIT 1", 
+                    DbFactory::TABLE_NEWS, 
+                    $articleTitle
+                );
 
         $query = $dbh->prepare(sprintf(
             "SELECT *

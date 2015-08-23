@@ -164,6 +164,10 @@ class Functions {
         switch($module) {
             case 'news':
                 $href = PAGE_INDEX;
+
+                if ( !empty($moduleDetails) ) {
+                    $href .= 'news/' . self::cleanLink($moduleDetails);
+                }
                 break;
             case 'servers':
                 $href = PAGE_SERVERS . self::cleanLink($text); 

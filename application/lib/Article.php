@@ -9,16 +9,18 @@ class Article {
     public $postedBy;
     public $content;
     public $type;
+    public $hyperlink;
 
     /**
      * constructor
      */
     public function __construct($params) {
-        $this->title    = $params['title'];
-        $this->date     = $params['date_added'];
-        $this->postedBy = $params['added_by'];
-        $this->content  = $this->_parseImagesInContent($params['content']);
-        $this->type     = $params['type'];
+        $this->title     = $params['title'];
+        $this->date      = $params['date_added'];
+        $this->postedBy  = $params['added_by'];
+        $this->content   = $this->_parseImagesInContent($params['content']);
+        $this->type      = $params['type'];
+        $this->hyperlink = Functions::generateInternalHyperLink('news', $this->title, '', $this->title, 0);
     }
 
     /**
