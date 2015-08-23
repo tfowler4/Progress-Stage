@@ -6,6 +6,7 @@
 class AdministratorModel extends Model {
     protected $_userDetails;
     protected $_newsArticleArray = array();
+    protected $_dbh;
 
     const PAGE_TITLE = 'Administrator Control Panel';
     /**
@@ -15,6 +16,8 @@ class AdministratorModel extends Model {
         parent::__construct();
 
         $this->title = self::PAGE_TITLE;
+
+        $this->_dbh = DbFactory::getDbh();
 
         if (isset($_SESSION['userDetails']) ) {
             $this->_userDetails = $_SESSION['userDetails'];
@@ -98,21 +101,27 @@ class AdministratorModel extends Model {
      * @return void
      */
     public function addNewTier() {
-        $tier      = $_POST['form'][0]['value'];
-        $altName   = $_POST['form'][1]['value'];
-        $tierName  = $_POST['form'][2]['value'];
-        $startDate = $_POST['form'][5]['value'] . '-' . $_POST['form'][3]['value'] . '-' .$_POST['form'][4]['value'];
+        $tier      = Post::get('create-tier-number');
+        $altTier   = Post::get('create-tier-alt-number');
+        $tierName  = Post::get('create-tier-name');
+        $altName   = Post::get('create-tier-alt-name');
+        $startDate = Post::get('create-tier-year') . '-' . Post::get('create-tier-month') . '-' . Post::get('create-tier-day');
 
         $sqlString = sprintf(
             "INSERT INTO %s
-            (tier, alt_tier, title, date_start)
-            values('%s', '%s', '%s', '%s')",
+            (tier, title, alt_tier, alt_title, date_start)
+            values('%s', '%s', '%s', '%s', '%s')",
             DbFactory::TABLE_TIERS,
             $tier,
-            $altName,
             $tierName,
+            $altTier,
+            $altName,
             $startDate
             );
+
+        $query = $this->_dbh->prepare($sqlString);
+        $query->execute();
+
         die;
     }
     /**
@@ -132,13 +141,13 @@ class AdministratorModel extends Model {
         $html .= '<thead>';
         $html .= '</thead>';
         $html .= '<tbody>';
-        $html .= '<tr><td><input hidden type="text" name="text-tier-id" value="' . $tierDetails->_tierId . '"/></td></tr>';
+        $html .= '<tr><td><input hidden type="text" name="edit-tier-id" value="' . $tierDetails->_tierId . '"/></td></tr>';
         $html .= '<tr><th>Tier</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-tier" value="' . $tierDetails->_tier . '"/></td></tr>';
-        $html .= '<tr><th>Alt Name</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-alt-tier" value="' . $tierDetails->_altTier . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-tier-number" value="' . $tierDetails->_tier . '"/></td></tr>';
+        $html .= '<tr><th>Alt Tier Number</th></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-tier-alt-number" value="' . $tierDetails->_altTier . '"/></td></tr>';
         $html .= '<tr><th>Start Date</th></tr>';
-        $html .= '<tr><td><select class="admin-select month" name="select-month">';
+        $html .= '<tr><td><select class="admin-select month" name="edit-tier-start-month">';
             foreach( CommonDataContainer::$monthsArray as $month => $monthValue):
                 if ( $month == date('m', strtotime($tierDetails->_dateStart)) ):
                     $html .= '<option value="' . $month . '" selected>' . $monthValue . '</option>';
@@ -147,7 +156,7 @@ class AdministratorModel extends Model {
                 endif;
             endforeach;
         $html .= '</select>';
-        $html .= '<select class="admin-select day" name="select-day">';
+        $html .= '<select class="admin-select day" name="edit-tier-start-day">';
             foreach( CommonDataContainer::$daysArray as $day => $dayValue):
                 if ( $day == $startDate[1] ):
                     $html .= '<option value="' . $day . '" selected>' . $dayValue . '</option>';
@@ -156,7 +165,7 @@ class AdministratorModel extends Model {
                 endif;
             endforeach;
         $html .= '</select>';
-        $html .= '<select class="admin-select year" name="select-year">';
+        $html .= '<select class="admin-select year" name="edit-tier-start-year">';
             foreach( CommonDataContainer::$yearsArray as $year => $yearValue):
                 if ( $year == $startDate[2] ):
                     $html .= '<option value="' . $year . '" selected>' . $yearValue . '</option>';
@@ -166,7 +175,7 @@ class AdministratorModel extends Model {
             endforeach;
         $html .= '</select></td></tr>';
         $html .= '<tr><th>End Date</th></tr>';
-        $html .= '<tr><td><select class="admin-select month" name="select-month">';
+        $html .= '<tr><td><select class="admin-select month" name="edit-tier-end-month">';
             foreach( CommonDataContainer::$monthsArray as $month => $monthValue):
                 if ( ($tierDetails->_dateEnd != 'Currently Active') && ($month == date('m', strtotime($tierDetails->_dateEnd))) ):
                     $html .= '<option value="' . $month . '" selected>' . $monthValue . '</option>';
@@ -175,7 +184,7 @@ class AdministratorModel extends Model {
                 endif;
             endforeach;
         $html .= '</select>';
-        $html .= '<select class="admin-select day" name="select-day">';
+        $html .= '<select class="admin-select day" name="edit-tier-end-day">';
             foreach( CommonDataContainer::$daysArray as $day => $dayValue):
                 if ( ($tierDetails->_dateEnd != 'Currently Active') && ($day == $endDate[1]) ):
                     $html .= '<option value="' . $day . '" selected>' . $dayValue . '</option>';
@@ -184,7 +193,7 @@ class AdministratorModel extends Model {
                 endif;
             endforeach;
         $html .= '</select>';
-        $html .= '<select class="admin-select year" name="select-year">';
+        $html .= '<select class="admin-select year" name="edit-tier-end-year">';
             foreach( CommonDataContainer::$yearsArray as $year => $yearValue):
                 if ( ($tierDetails->_dateEnd != 'Currently Active') && ($year == $endDate[2]) ):
                     $html .= '<option value="' . $year . '" selected>' . $yearValue . '</option>';
@@ -194,9 +203,9 @@ class AdministratorModel extends Model {
             endforeach;
         $html .= '</select></td></tr>';
         $html .= '<tr><th>Title</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-title" value="' . $tierDetails->_name . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-tier-name" value="' . $tierDetails->_name . '"/></td></tr>';
         $html .= '<tr><th>Alt Title</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-alt-title" value="' . $tierDetails->_altTitle . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-tier-alt-name" value="' . $tierDetails->_altTitle . '"/></td></tr>';
         $html .= '</tbody>';
         $html .= '</table>';
         $html .= '<div class="vertical-separator"></div>';
@@ -228,27 +237,40 @@ class AdministratorModel extends Model {
      * @return void
      */
     public function editTierDetails() {
-        $tierId    = $_POST['form'][0]['value'];
-        $tier      = $_POST['form'][1]['value'];
-        $altTier   = $_POST['form'][2]['value'];
-        $startDate = $_POST['form'][5]['value'] . '-' . $_POST['form'][3]['value'] . '-' .$_POST['form'][4]['value'];
-        $endDate   = $_POST['form'][8]['value'] . '-' . $_POST['form'][6]['value'] . '-' .$_POST['form'][7]['value'];
-        $title     = $_POST['form'][9]['value'];
-        $altTitle  = $_POST['form'][10]['value'];
+        $tierId    = Post::get('edit-tier-id');
+        $tier      = Post::get('edit-tier-number');
+        $altTier   = Post::get('edit-tier-alt-number');
+        $startDate = Post::get('edit-tier-start-year') . '-' . Post::get('edit-tier-start-month') . '-' . Post::get('edit-tier-start-day');
+        $endDate   = Post::get('edit-tier-end-year') . '-' . Post::get('edit-tier-end-month') . '-' . Post::get('edit-tier-end-day');
+        $tierName  = Post::get('edit-tier-name');
+        $altName   = Post::get('edit-tier-alt-name');
+
+        // If date is 2011-01-01, set to 0000-00-00
+        if ( $endDate == '2011-01-01' ) {
+            $endDate = '0000-00-00';
+        }
 
         $sqlString = sprintf(
             "UPDATE %s
-            SET tier = '%s', alt_tier = '%s', date_start = '%s', date_end = '%s', title = '%s', alt_title = '%s'
-            WHERE tier_id = '%s'",
+                SET tier = '%s', 
+                    alt_tier = '%s', 
+                    date_start = '%s', 
+                    date_end = '%s', 
+                    title = '%s', 
+                    alt_title = '%s'
+              WHERE tier_id = '%s'",
             DbFactory::TABLE_TIERS,
             $tier,
             $altTier,
             $startDate,
             $endDate,
-            $title,
-            $altTitle,
+            $tierName,
+            $altName,
             $tierId
             );
+
+        $query = $this->_dbh->prepare($sqlString);
+        $query->execute();
         die;
     }
     /**
@@ -257,7 +279,7 @@ class AdministratorModel extends Model {
      * @return void
      */
     public function removeTier() {
-        $tierId = $_POST['form'][0]['value'];
+        $tierId = Post::get('remove-tier-id');
         
         $sqlString = sprintf(
             "DELETE 
@@ -266,6 +288,9 @@ class AdministratorModel extends Model {
             DbFactory::TABLE_TIERS,
             $tierId
             );
+
+        $query = $this->_dbh->prepare($sqlString);
+        $query->execute();
         die;
     }
     /**

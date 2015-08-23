@@ -6,20 +6,21 @@ var Administrator = function() {
     $(document).on('submit', '.admin-form', function() {
         event.preventDefault();
 
-        var formData   = $(this).serializeArray();
+        var form       = $(this).closest('form');
         var id         = $(this).prop('id').replace('form-', '');
+        var formData   = $(this).serialize() + '&request=' + id;
         currentPageUrl = document.URL;
 
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
-            data:    {form:formData, request:id},
+            data:    formData,
             encode:  true,
             success: function(data) {
-                //console.log(data);
+                console.log(data);
             },
             error:  function(data) {
-                console.log(data);
+                console.log('ERROR');
             }
         });
     });
