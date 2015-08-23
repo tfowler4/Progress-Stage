@@ -16,6 +16,7 @@ define('FOLD_BACKUPS',    ABSOLUTE_PATH . '/data/backups/');
 define('FOLD_LOGS',       ABSOLUTE_PATH . '/data/logs/');
 define('FOLD_WIDGETS',    ABSOLUTE_PATH . '/public/images/' . strtolower(GAME_NAME_1) . '/widgets/');
 define('FOLD_FONTS',      ABSOLUTE_PATH . '/public/fonts/');
+define('FOLD_TEMPLATES',  ABSOLUTE_PATH . '/public/templates/');
 
 // image folder paths
 define('FOLD_IMAGES',      FOLD_PUBLIC .      '/images/');

@@ -83,3 +83,8 @@ ob_start('ob_gzhandler');
 if ( session_id() == '' || !isset($_SESSION) ) {
     session_start();
 }
+
+// set default template
+if ( !isset($_SESSION['template']) ) {
+    $_SESSION['template'] = DEFAULT_TEMPLATE;
+}

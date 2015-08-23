@@ -28,6 +28,7 @@ define('LINK_COMPANY_2',       'http://www.ncsoft.com');
 define('LINK_GAME_1',          'http://www.wildstar-online.com');
 define('LINK_TWITTER',         'http://twitter.com/WildstarProgres');
 define('COPYRIGHT',            '&copy; ' . RELEASE_YEAR . ' ' . SITE_TITLE . ' - All Rights Reserved.');
+define('DEFAULT_TEMPLATE',     'default');
 
 define('FACTIONS',   serialize(array('Exiles', 'Dominion')));
 define('RAID_SIZES', serialize(array('40', '20')));

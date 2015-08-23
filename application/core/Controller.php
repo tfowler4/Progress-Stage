@@ -44,7 +44,7 @@ class Controller {
      */
     protected function _view($view = '', $data = array() ) {
         $jsFile             = '';
-        $this->_contentFile = 'public/templates/default/404.html';
+        $this->_contentFile = FOLD_TEMPLATES . $_SESSION['template'] . '/404.html';
 
         // Specific html file
         if ( isset($data->subModule) ) {
@@ -55,7 +55,7 @@ class Controller {
 
         // if no content file found, display the 404 page
         if ( !file_exists($this->_contentFile) ) {
-            $this->_contentFile = 'public/templates/default/404.html';
+            $this->_contentFile = FOLD_TEMPLATES . $_SESSION['template'] . '/404.html';
         }
 
         // if specific css file found, include it
@@ -68,9 +68,7 @@ class Controller {
             $jsFile = 'public/js/' . $this->_modelName . '/' . $this->_modelName . '.js';
         }
 
-        define('TEMPLATE', "public/templates/default/");
-
         // include the index html file
-        include 'public/templates/default/index.html';
+        include FOLD_TEMPLATES . $_SESSION['template'] . '/index.html';
     }
 }

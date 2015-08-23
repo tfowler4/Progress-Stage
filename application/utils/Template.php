@@ -607,6 +607,6 @@ class Template {
      * @return void
      */
     public static function getPopupForm($formId) {
-        include_once ABSOLUTE_PATH . '/public/templates/default/forms.html';
+        include_once FOLD_TEMPLATES . $_SESSION['template'] . '/forms.html';
     }
 }
