@@ -3,7 +3,8 @@
 /**
  * article class to display content in a news article format
  */
-class Article {
+class Article extends DataObject {
+    public $articleId;
     public $title;
     public $date;
     public $postedBy;
@@ -15,6 +16,7 @@ class Article {
      * constructor
      */
     public function __construct($params) {
+        $this->articleId = $params['news_id'];
         $this->title     = $params['title'];
         $this->date      = $params['date_added'];
         $this->postedBy  = $params['added_by'];
