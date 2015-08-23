@@ -172,8 +172,8 @@ class RegisterModel extends Model {
      * @return void
      */
     private function _assignGuildLogo($guildId) {
-        $imagePath        = ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/guilds/logos/logo-' . $guildId;
-        $defaultImagePath = ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/logos/site/guild_default_logo.png';
+        $imagePath        = ABS_FOLD_SITE_GUILD_LOGOS . 'logo-' . $guildId;
+        $defaultImagePath = ABS_FOLD_SITE_LOGOS . 'guild_default_logo.png';
 
         if ( Functions::validateImage($this->_formFields->guildLogo) ) {
             move_uploaded_file($this->_formFields->guildLogo['tmp_name'], $imagePath);

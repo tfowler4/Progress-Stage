@@ -32,9 +32,9 @@ class Logger {
         self::$_logDate = date('Y-m-d H:i');
 
         if ( self::$_logType == 'user' ) {
-            self::$_logPath = strtolower(FOLD_LOGS . '/user/' . $year . '/' . $month);
+            self::$_logPath = strtolower(ABS_FOLD_LOGS . '/user/' . $year . '/' . $month);
         } elseif ( self::$_logType == 'dev' ) {
-            self::$_logPath = strtolower(FOLD_LOGS . '/dev/' . $year . '/' . $month);
+            self::$_logPath = strtolower(ABS_FOLD_LOGS . '/dev/' . $year . '/' . $month);
         }
 
         self::$_logFile = strtolower(self::$_logPath . '/' . SITE_TITLE . '-' . $currentDate . '.txt');

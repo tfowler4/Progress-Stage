@@ -62,7 +62,7 @@ class EncounterDetails extends DetailObject {
         $this->_dungeon       = CommonDataContainer::$encounterArray[$this->_encounterId]->_dungeon;
         $this->_tier          = CommonDataContainer::$encounterArray[$this->_encounterId]->_tier;
 
-        if ( file_exists(strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/screenshots/killshots/' . $guildDetails->_guildId . '-' . $this->_encounterId)) ) {
+        if ( file_exists(strtolower(ABS_FOLD_KILLSHOTS . $guildDetails->_guildId . '-' . $this->_encounterId)) ) {
             $this->_screenshotLink = '<a href="' . FOLD_KILLSHOTS . $guildDetails->_guildId . '-' . $this->_encounterId  . '" rel="lightbox[\'kill_shots\']">View</a>';
         } else {
             $this->_screenshotLink = '--';

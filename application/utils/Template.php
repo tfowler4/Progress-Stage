@@ -277,7 +277,7 @@ class Template {
     public static function getLogo($guildDetails) {
         $logo     = '';
         $src      = FOLD_GUILD_LOGOS . 'logo-' . $guildDetails->_guildId;
-        $localSrc = ABSOLUTE_PATH . '/public/images/' . strtolower(GAME_NAME_1) . '/guilds/logos/logo-' . $guildDetails->_guildId;
+        $localSrc = ABS_FOLD_SITE_GUILD_LOGOS . 'logo-' . $guildDetails->_guildId;
 
         if ( file_exists($localSrc) && getimagesize($localSrc) ) {
             $imageDimensions = getimagesize($localSrc);
@@ -308,7 +308,7 @@ class Template {
             $encounterId = $encounterDetails->_encounterId;
             $identifier  = $guildDetails->_guildId . '-' . $encounterId;
             $src         = FOLD_KILLSHOTS . $identifier;
-            $localSrc    = ABSOLUTE_PATH . '/public/images/' . strtolower(GAME_NAME_1) .  '/screenshots/killshots/' . $identifier;
+            $localSrc    = ABS_FOLD_KILLSHOTS . $identifier;
 
             if ( file_exists($localSrc) && getimagesize($localSrc) ) {
                 $imageDimensions    = getimagesize($localSrc);
@@ -611,6 +611,6 @@ class Template {
      * @return void
      */
     public static function getPopupForm($formId) {
-        include_once FOLD_TEMPLATES . $_SESSION['template'] . '/forms.html';
+        include_once ABS_FOLD_TEMPLATES . $_SESSION['template'] . '/forms.html';
     }
 }

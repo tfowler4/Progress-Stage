@@ -78,7 +78,7 @@ class GuildSignature {
         }
 
         $image     = '';
-        $imagePath = FOLD_WIDGETS . 'bg_widget_' . strtolower($this->_guildDetails->_faction) . '.png';
+        $imagePath = ABS_FOLD_WIDGETS . 'bg_widget_' . strtolower($this->_guildDetails->_faction) . '.png';
 
         if ( file_exists($imagePath) ) {
             $image = imagecreatefrompng($imagePath);
@@ -87,12 +87,12 @@ class GuildSignature {
         imageAlphaBlending($image, true);
         imageSaveAlpha($image, true);
 
-        $fontArialRegular   = FOLD_FONTS . 'ARIAL.TTF';
-        $fontArialBold      = FOLD_FONTS . 'ARIALBD.TTF';
-        $fontArialBlack     = FOLD_FONTS . 'ARIBLK.TTF';
-        $fontVerdanaRegular = FOLD_FONTS . 'VERDANA.TTF';
-        $fontVerdanaBold    = FOLD_FONTS . 'VERDANAB.TTF';
-        $fontVerdanaItalic  = FOLD_FONTS . 'VERDANAI.TTF';
+        $fontArialRegular   = ABS_FOLD_FONTS . 'ARIAL.TTF';
+        $fontArialBold      = ABS_FOLD_FONTS . 'ARIALBD.TTF';
+        $fontArialBlack     = ABS_FOLD_FONTS . 'ARIBLK.TTF';
+        $fontVerdanaRegular = ABS_FOLD_FONTS . 'VERDANA.TTF';
+        $fontVerdanaBold    = ABS_FOLD_FONTS . 'VERDANAB.TTF';
+        $fontVerdanaItalic  = ABS_FOLD_FONTS . 'VERDANAI.TTF';
         $white              = imagecolorallocate($image, 255, 255, 255);
         $startingPoint      = 390;
         $nameText           = $this->_guildDetails->_name;

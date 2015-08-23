@@ -20,7 +20,7 @@ class TwitchDetails extends DetailObject {
         $this->_active       = $params['active'];
         $this->_guildDetails = CommonDataContainer::$guildArray[$params['guild_id']];
 
-        $path = ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/twitch/' . $params['twitch_id'];
+        $path = ABS_FOLD_TWITCH . $params['twitch_id'];
         $this->_image = '<img src="' . FOLD_TWITCH . $params['twitch_id'] . '">';
         $this->_hyperlink = Functions::generateExternalHyperLink($this->_url, $this->_image, '', false);
     }

@@ -11,12 +11,16 @@ define('FOLD_APP',    HOST_NAME . '/application');
 define('FOLD_PUBLIC', HOST_NAME . '/public');
 
 // absolute pathing folders where adding/deletes will occur
-define('FOLD_SCRIPTS',    ABSOLUTE_PATH . '/scripts/');
-define('FOLD_BACKUPS',    ABSOLUTE_PATH . '/data/backups/');
-define('FOLD_LOGS',       ABSOLUTE_PATH . '/data/logs/');
-define('FOLD_WIDGETS',    ABSOLUTE_PATH . '/public/images/' . strtolower(GAME_NAME_1) . '/widgets/');
-define('FOLD_FONTS',      ABSOLUTE_PATH . '/public/fonts/');
-define('FOLD_TEMPLATES',  ABSOLUTE_PATH . '/public/templates/');
+define('ABS_FOLD_SCRIPTS',          ABSOLUTE_PATH . '/scripts/');
+define('ABS_FOLD_BACKUPS',          ABSOLUTE_PATH . '/data/backups/');
+define('ABS_FOLD_LOGS',             ABSOLUTE_PATH . '/data/logs/');
+define('ABS_FOLD_WIDGETS',          ABSOLUTE_PATH . '/public/images/' . strtolower(GAME_NAME_1) . '/widgets/');
+define('ABS_FOLD_KILLSHOTS',        ABSOLUTE_PATH . '/public/images/' . strtolower(GAME_NAME_1) . '/screenshots/killshots/');
+define('ABS_FOLD_TWITCH',           ABSOLUTE_PATH . '/public/images/' . strtolower(GAME_NAME_1) . '/twitch/');
+define('ABS_FOLD_SITE_LOGOS',       ABSOLUTE_PATH . '/public/images/' . strtolower(GAME_NAME_1) . '/logos/site/');
+define('ABS_FOLD_SITE_GUILD_LOGOS', ABSOLUTE_PATH . '/public/images/' . strtolower(GAME_NAME_1) . '/guilds/logos/');
+define('ABS_FOLD_FONTS',            ABSOLUTE_PATH . '/public/fonts/');
+define('ABS_FOLD_TEMPLATES',        ABSOLUTE_PATH . '/public/templates/');
 
 // image folder paths
 define('FOLD_IMAGES',      FOLD_PUBLIC .      '/images/');

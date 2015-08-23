@@ -16,7 +16,7 @@ class Twitch extends Script {
         self::cleanTwitchDirectory();
         self::getTwitchChannels();
 
-        $directory = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/twitch/');
+        $directory = ABS_FOLD_TWITCH;
         if( !is_dir($directory)) {
             mkdir($directory, 0777, true);
         }
@@ -55,7 +55,7 @@ class Twitch extends Script {
     }
 
     public static function cleanTwitchDirectory() {
-        $path = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/twitch/');
+        $path = ABS_FOLD_TWITCH;
 
         $files = glob($path . '*'); // get all file names
 

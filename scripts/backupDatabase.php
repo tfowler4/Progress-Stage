@@ -30,8 +30,8 @@ class BackupDatabase extends Script {
         $dateDay   = date('d');
         $fullDate  = $dateYear . '/' . $dateMonth . '/' . $dateDay;
 
-        self::$oldBackupPath = FOLD_SCRIPTS . self::$backupFileName;
-        self::$backupPath    = FOLD_BACKUPS . $fullDate;
+        self::$oldBackupPath = ABS_FOLD_SCRIPTS . self::$backupFileName;
+        self::$backupPath    = ABS_FOLD_BACKUPS . $fullDate;
 
         if ( !file_exists(self::$backupPath) ) {
             if ( !mkdir(self::$backupPath, 0777, true) ) {

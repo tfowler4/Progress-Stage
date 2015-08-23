@@ -105,7 +105,7 @@ class QuickSubmissionModel extends Model {
         DBObjects::addKill($this->_formFields, $progressionString);
 
         if ( Functions::validateImage($this->_formFields->screenshot) ) {
-            $imagePath = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/screenshots/killshots/' . $this->_formFields->guildId . '-' . $this->_formFields->encounter);
+            $imagePath = strtolower(ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter);
 
             if ( file_exists($imagePath) ) {
                 unlink($imagePath);

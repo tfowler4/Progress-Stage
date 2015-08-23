@@ -424,8 +424,8 @@ class UserPanelModel extends Model {
      * @return void
      */
     private function _copyParentGuildLogo($parentId, $childId) {
-        $parentPath = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/guilds/logos/logo-' . $parentId);
-        $childPath  = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/guilds/logos/logo-' . $childId);
+        $parentPath = ABS_FOLD_SITE_GUILD_LOGOS . 'logo-' . $parentId;
+        $childPath  = ABS_FOLD_SITE_GUILD_LOGOS . 'logo-' . $childId;
 
         copy($parentPath, $childPath);
     }
@@ -436,8 +436,8 @@ class UserPanelModel extends Model {
      * @return void
      */
     private function _assignGuildLogo($guildId) {
-        $imagePath        = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/guilds/logos/logo-' . $guildId);
-        $defaultImagePath = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/logos/site/guild_default_logo.png');
+        $imagePath        = ABS_FOLD_SITE_GUILD_LOGOS . 'logo-' . $guildId;
+        $defaultImagePath = ABS_FOLD_SITE_LOGOS . 'guild_default_logo.png';
 
         if ( Functions::validateImage($this->_formFields->guildLogo) ) {
             if ( !file_exists($imagePath) ) {
@@ -458,7 +458,7 @@ class UserPanelModel extends Model {
      * @return void
      */
     private function _removeGuildLogo($guildId) {
-        $imagePath = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/guilds/logos/logo-' . $guildId);
+        $imagePath = ABS_FOLD_SITE_LOGOS . 'logo-' . $guildId;
 
         if ( file_exists($imagePath) ) {
             unlink($imagePath);
@@ -471,7 +471,7 @@ class UserPanelModel extends Model {
      * @return void
      */
     private function _removeScreenshot($guildId, $encounterId) {
-        $imagePath = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/screenshots/killshots/' . $guildId . '-' . $encounterId);
+        $imagePath = ABS_FOLD_KILLSHOTS . $guildId . '-' . $encounterId;
 
         if ( file_exists($imagePath) ) {
             unlink($imagePath);
@@ -502,7 +502,7 @@ class UserPanelModel extends Model {
         DBObjects::_editKill($this->_formFields, $progressionString);
 
         if ( Functions::validateImage($this->_formFields->screenshot) ) {
-            $imagePath = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/screenshots/killshots/' . $this->_formFields->guildId . '-' . $this->_formFields->encounter);
+            $imagePath = ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter;
 
             if ( file_exists($imagePath) ) {
                 unlink($imagePath);
@@ -523,7 +523,7 @@ class UserPanelModel extends Model {
         DBObjects::_addKill($this->_formFields, $progressionString);
 
         if ( Functions::validateImage($this->_formFields->screenshot) ) {
-            $imagePath = strtolower(ABSOLUTE_PATH . '/public/images/' . GAME_NAME_1 . '/screenshots/killshots/' . $this->_formFields->guildId . '-' . $this->_formFields->encounter);
+            $imagePath = ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter;
 
             if ( file_exists($imagePath) ) {
                 unlink($imagePath);
