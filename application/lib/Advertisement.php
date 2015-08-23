@@ -12,7 +12,7 @@ class Advertisement {
 
         if ( !defined('WEBSERVER') || AD_HEADER != 1 ) { return $html; }
 
-        $html .= '<div style="height:90px; width:728px; margin:auto;">';
+        $html .= '<div class="advertisement-leaderboard">';
         $html .= '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                 <!-- Leaderboard - General -->
                 <ins class="adsbygoogle"
@@ -37,7 +37,7 @@ class Advertisement {
          if ( !defined('WEBSERVER') || AD_SIDEBAR != 1 ) { return $html; }
 
         $html .= '<div class="vertical-separator"></div>';
-        $html .= '<div style="height:300px; width:250px; margin:auto;">';
+        $html .= '<div class="advertisement-sidebar-medium">';
         $html = '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                 <!-- Sidebar - Medium -->
                 <ins class="adsbygoogle"
@@ -61,7 +61,7 @@ class Advertisement {
         if ( !defined('WEBSERVER') || AD_SIDEBAR != 1 ) { return $html; }
 
         $html .= '<div class="vertical-separator"></div>';
-        $html .= '<div style="height:600px; width:300px; margin:auto;">';
+        $html .= '<div class="advertisement-sidebar-large">';
         $html .= '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                 <!-- Sidebar - Large -->
                 <ins class="adsbygoogle"

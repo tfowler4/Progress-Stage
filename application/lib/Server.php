@@ -21,14 +21,14 @@ class Server extends DataObject {
      * constructor
      */
     public function __construct($params) {
-        $this->_serverId        = $params['server_id'];
-        $this->_name            = $params['name'];
-        $this->_country         = $params['country'];
-        $this->_region          = $params['region'];
-        $this->_type            = $params['type'];
-        $this->_type2           = $params['type2'];
-        $this->_countryImage    = Functions::getImageFlag($this->_country, '');
-        $this->_nameLink        = $this->_countryImage . '<span style="vertical-align:middle;">' . Functions::generateInternalHyperLink('servers', '', '', $this->_name, '') . '</span>';
+        $this->_serverId     = $params['server_id'];
+        $this->_name         = $params['name'];
+        $this->_country      = $params['country'];
+        $this->_region       = $params['region'];
+        $this->_type         = $params['type'];
+        $this->_type2        = $params['type2'];
+        $this->_countryImage = Functions::getImageFlag($this->_country, '');
+        $this->_nameLink     = $this->_countryImage . '<span>' . Functions::generateInternalHyperLink('servers', '', '', $this->_name, '') . '</span>';
     }
 
     /**

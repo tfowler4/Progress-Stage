@@ -282,7 +282,6 @@ class Functions {
     public static function getImageFlag($name, $size = '') {
         $folder = FOLD_FLAGS;
         $image  = '';
-        $style  = '';
         $class  = '';
         $name   = strtolower(str_replace(' ', '_', $name));
 
@@ -292,12 +291,12 @@ class Functions {
             $folder .= 'medium/';
         } elseif ( $size == 'small' ) {
             $folder .= 'medium/';
-            $style  = 'style="height:26px; vertical-align:middle; margin-right: 4px;"';
+            $class  = 'class="flag-custom"';
         } else {
             $class  = 'class="flag-icon"';
         }
 
-        $image  = '<img src="'. $folder . $name . '.png" alt="' . $name . '" ' . $class . ' ' . $style . '>';
+        $image  = '<img src="'. $folder . $name . '.png" alt="' . $name . '" ' . $class . '>';
 
         return $image;
     }
@@ -313,7 +312,6 @@ class Functions {
     public static function getImageFaction($name, $size = '' ) {
         $image  = '';
         $folder = FOLD_FACTIONS;
-        $style  = '';
         $name   = strtolower(str_replace(' ', '_', $name));
 
         if ( $size == 'large' ) { 
@@ -322,7 +320,7 @@ class Functions {
             $folder .= 'large/';
         }
 
-        $image = '<img src="'. $folder . $name . '_default.png" alt="' . $name . '" ' . $style . '>';
+        $image = '<img src="'. $folder . $name . '_default.png" alt="' . $name . '">';
 
         return $image;
     }

@@ -144,6 +144,12 @@ img {
     margin-right: 4px;
 }
 
+/* custom flag icon size for top guild pane */
+.flag-custom {
+    height: 26px;
+    margin-right: 4px;
+}
+
 /* large guild logo size over default */
 .guild-logo-large {
     width: 300px;
@@ -648,4 +654,25 @@ img {
 /* screenshot size - large if image too large and is resized down */
 .screenshot-large {
     max-width: 600px;
+}
+
+/* advertisement container - leaderboard */
+.advertisement-leaderboard {
+    height: 90px;
+    width: 728px;
+    margin: auto;
+}
+
+/* advertisement container - sidebar medium */
+.advertisement-sidebar-medium {
+    height: 300px;
+    width: 250px;
+    margin: auto;
+}
+
+/* advertisement container - sidebar medium */
+.advertisement-sidebar-large {
+    height: 600px;
+    width: 300px;
+    margin: auto;
 }

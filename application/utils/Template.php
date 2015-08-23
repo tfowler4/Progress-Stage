@@ -585,7 +585,7 @@ class Template {
                     $html .= '<div class="dropdown-menu-first-level">';
                         foreach( $topLevelArray as $regionId => $regionDetails ) {
                             $html .= '<div class="dropdown-menu-item">';
-                                $html .= $regionDetails->_regionImage . '<span style="vertical-align:middle;">' . $regionDetails->_name . '</span>';
+                                $html .= $regionDetails->_regionImage . '<span>' . $regionDetails->_name . '</span>';
                                 $html .= '<div class="dropdown-menu-second-level image">';
                                     foreach( $regionDetails->_servers as $serverId => $serverDetails ) {
                                         if ( $serverDetails->_region != $regionDetails->_abbreviation ) { continue; }

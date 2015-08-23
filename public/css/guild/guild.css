@@ -85,3 +85,11 @@
 #page-navigation ul li:hover {
     color: blue;
 }
+
+/* guild signature textarea output */
+#textarea_output {
+    height: 25px;
+    width: 752px;
+    font: normal 11px/1 Verdana;
+    text-align: center;
+}
