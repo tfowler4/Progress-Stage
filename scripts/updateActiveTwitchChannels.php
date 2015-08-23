@@ -34,9 +34,7 @@ class Twitch extends Script {
 
                 $twitchUrl = 'http://www.twitch.tv/' . $twitchDetails['twitch_id'];
 
-                //Move file to folder
-                echo "File Moving Begin<br>";
-
+                // Move file to folder
                 $imagePath = $directory . $twitchId;
 
                 if ( file_exists($imagePath) ) {
@@ -44,7 +42,6 @@ class Twitch extends Script {
                 }
 
                 file_put_contents($imagePath, file_get_contents($twitchImage));
-                echo "File Moving Done<br>";
 
                 self::$_activeChannels[$twitchDetails['twitch_id']] = $twitchDetails['twitch_id'];
             } 
@@ -98,10 +95,26 @@ class Twitch extends Script {
         if ( !empty($sql) ) {
             $query = self::$_dbh->query(sprintf(
                 "UPDATE twitch_table
-                    SET active = '%s'
+                    SET active = '%s', viewers = 0
                   WHERE %s",
                 1,
                 $sql
+                ));
+            $query->execute();
+        }
+
+        // update database row with viewers
+        foreach ( self::$_activeChannels as $twitchId ) {
+            $twitchObject = self::getChannelStream($twitchId);
+
+            $numOfViewers = $twitchObject['stream']['viewers'];
+
+            $query = self::$_dbh->query(sprintf(
+                "UPDATE twitch_table
+                    SET viewers = '%s'
+                  WHERE twitch_id = '%s'",
+                $numOfViewers,
+                $twitchId
                 ));
             $query->execute();
         }

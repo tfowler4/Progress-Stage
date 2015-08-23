@@ -480,6 +480,7 @@ class NewsModel extends Model {
             "SELECT *
                FROM %s
               WHERE active = 1
+              ORDER BY viewers ASC
               LIMIT %s", 
                     DbFactory::TABLE_TWITCH,
                     $limit
