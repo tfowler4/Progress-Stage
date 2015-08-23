@@ -42,9 +42,13 @@
                         <ul>
                             <?php foreach( $data->_videoLinks as $twitchId => $twitchDetails ): ?>
                                 <li>
+                                    <div class="media-overlay-top">
+                                        <div class="media-stream-logo"><?php echo Functions::generateExternalHyperLink(TWITCH_URL, IMG_TWITCH_LOGO, 0);; ?></div>
+                                    </div>
                                     <a href="<?php echo $twitchDetails->_hyperlink; ?>" target="_blank">
                                         <div class="media-container">
-                                            <div class="media-overlay">
+
+                                            <div class="media-overlay-bottom">
                                                 <div class="media-guild-logo"><?php echo $twitchDetails->_guildDetails->_logo; ?></div>
                                                 <div class="media-guild-flag"><?php echo Functions::getImageFlag($twitchDetails->_guildDetails->_country, 'large'); ?></div>
                                                 <div class="media-title">Now Streaming via Twitch</div>
@@ -58,6 +62,12 @@
                                 </li>
                             <?php endforeach; ?>
                         </ul>
+                        <div class="media-overlay-navigation">
+                            <?php $count = 0; foreach( $data->_videoLinks as $twitchId => $twitchDetails ): ?>
+                                <div class="circle<?php if ( $count > 0 ): ?> clickable faded<?php endif; ?> <?php echo $count; ?>"></div>
+                                <?php $count++; ?>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
 
                     <div class="scroll-button-media right">&gt;</div>

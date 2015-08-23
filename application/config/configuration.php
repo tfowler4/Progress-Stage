@@ -50,6 +50,9 @@ define('FTP_HOST',     'biz163.inmotionhosting.com');
 define('FTP_USER',     'vgtrin5');
 define('FTP_PASSWORD', 'Vannary74108520');
 
+// supported stream sites
+define('TWITCH_URL', 'http://www.twitch.tv');
+
 // Game specific settings
 include(strtolower(GAME_NAME_1) . '/settings.php');
 

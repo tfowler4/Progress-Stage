@@ -16,7 +16,7 @@ define('IMG_MEDAL_GOLD',           "<img style='height:16px; width:16px;'   src=
 define('IMG_MEDAL_SILVER',         "<img style='height:16px; width:16px;'   src='" . FOLD_GRAPHICS . "icon_medal_silver.png'                                    alt='2nd'>");
 define('IMG_MEDAL_BRONZE',         "<img style='height:16px; width:16px;'   src='" . FOLD_GRAPHICS . "icon_medal_bronze.png'                                    alt='3rd'>");
 define('IMG_LOADING_SPINNER',      "<img style='height:100px; width:100px;' src='" . FOLD_GRAPHICS . "load_spinner.gif'                                         alt='Loading'>");
-define('IMG_ICON_SEARCH',          "<img style='height:15ppx; width:15px; margin-left:-10px; vertical-align:middle;' src='" . FOLD_GRAPHICS . "icon_search.png' alt='Search'>");
+define('IMG_ICON_SEARCH',          "<img style='height:15px; width:15px; margin-left:-10px; vertical-align:middle;' src='" . FOLD_GRAPHICS . "icon_search.png' alt='Search'>");
 
 // site logos
 define('IMG_SITE_LOGO', "<img style='height:200px; width:200px;'  src='" . FOLD_SITE_LOGOS . "guild_default_logo.png' alt='Site Logo'>");
@@ -34,3 +34,6 @@ if ( defined('GAME_NAME_3') ) { define('IMG_GAME_LOGO_3', "<img style='width:225
 if ( defined('COMPANY_1') ) { define('IMG_COMPANY_LOGO_1', "<img style='width:225px;' src='" . FOLD_GAME_LOGOS . "company_logo_1.png' alt='" . COMPANY_1 . " Logo'>"); }
 if ( defined('COMPANY_2') ) { define('IMG_COMPANY_LOGO_2', "<img style='width:225px;' src='" . FOLD_GAME_LOGOS . "company_logo_2.png' alt='" . COMPANY_2 . " Logo'>"); }
 if ( defined('COMPANY_3') ) { define('IMG_COMPANY_LOGO_3', "<img style='width:225px;' src='" . FOLD_GAME_LOGOS . "company_logo_3.png' alt='" . COMPANY_3 . " Logo'>"); }
+
+//globol images
+define('IMG_TWITCH_LOGO', "<img src='" . FOLD_GLOBAL . "twitch-logo.png' alt='Twitch'>");

@@ -106,10 +106,10 @@ var NewsEventBinder = function() {
 
     // media viewer buttons click to scroll through different video/streams
     $(document).on('click touchstart', '.scroll-button-media', function() {
-        var numOfMediaItems   = $("#media-pane ul li").length;
-        var mediaSlideDelay   = 400;
-        var mediaSlideWidth   = 900;
-        var maxMediaPaneSize  = numOfMediaItems * mediaSlideWidth;
+        var numOfMediaItems  = $("#media-pane ul li").length;
+        var mediaSlideDelay  = 350;
+        var mediaSlideWidth  = 900;
+        var maxMediaPaneSize = numOfMediaItems * mediaSlideWidth;
 
         if( stopClick ) { return; }
 
@@ -128,8 +128,16 @@ var NewsEventBinder = function() {
              || (direction == 'right' && pos > (-1*maxMediaPaneSize) ) ) {
             stopClick = true;
 
-            // media overlay bar
-            $('.media-overlay').slideToggle(mediaSlideDelay).delay(mediaSlideDelay).slideToggle(mediaSlideDelay);
+            var navigationNumber = -1 * (pos / mediaSlideWidth);
+            $('.circle').not('.clickable.faded').addClass('clickable faded');
+
+            $('.circle.'+navigationNumber).removeClass('clickable faded');
+
+            // media overlay top bar logo
+            $('.media-overlay-top img').fadeToggle(mediaSlideDelay).delay(mediaSlideDelay).fadeToggle(mediaSlideDelay);
+
+            // media overlay bottom bar
+            $('.media-overlay-bottom').slideToggle(mediaSlideDelay).delay(mediaSlideDelay).slideToggle(mediaSlideDelay);
 
             // image slider
             $('#media-pane ul').delay(mediaSlideDelay).animate({ left: pos }, mediaSlideDelay);
@@ -147,6 +155,47 @@ var NewsEventBinder = function() {
                 stopClick = false;
             });
         }
+    });
+
+    // media overlay navigation button click to scroll to exact stream
+    $(document).on('click touchstart', '.circle.clickable.faded', function() {
+        var mediaSlideDelay = 350;
+        var mediaSlideWidth = 900;
+        var currentPosition = parseInt($('#media-pane ul').css("left").replace("px", ""));
+
+        if( stopClick ) { return; }
+
+        stopClick = true;
+
+        $('.circle').not('.clickable.faded').addClass('clickable faded');
+
+        $(this).removeClass('clickable faded');
+
+        var navigationNumber = parseInt($(this).attr('class').replace('circle', ''));
+        var mediaPosition    = navigationNumber * mediaSlideWidth;
+        var newPosition      = -1 * mediaPosition;
+
+        // media overlay top bar logo
+        $('.media-overlay-top img').fadeToggle(mediaSlideDelay).delay(mediaSlideDelay).fadeToggle(mediaSlideDelay);
+
+        // media overlay bottom bar
+        $('.media-overlay-bottom').slideToggle(mediaSlideDelay).delay(mediaSlideDelay).slideToggle(mediaSlideDelay);
+
+        // image slider
+        $('#media-pane ul').delay(mediaSlideDelay).animate({ left: newPosition }, mediaSlideDelay);
+
+        // place guild logo back to its original place by fading out and resetting
+        if ( $('.media-guild-logo').css('margin-right') == '5px' ) {
+            $('.media-guild-logo').fadeToggle(mediaSlideDelay, function() {
+                $('.media-guild-logo').css('margin-right', '500px');
+                $('.media-guild-logo').css('display', 'block');
+            })
+        }
+
+        // animate guild logo 
+        $('.media-guild-logo').delay(mediaSlideDelay).animate({ 'margin-right': 5 }, mediaSlideDelay, function() {
+            stopClick = false;
+        });
     });
 
     // when page loads, re-adjust guild logos on media overlay to be centered based on image height
