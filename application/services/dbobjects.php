@@ -20,7 +20,12 @@ class DBObjects {
     protected static function _execute($id = null) {
         $dbh = DbFactory::getDbh();
         self::$_queryObject = $dbh->prepare(self::$_sqlString);
-        self::$_queryObject->execute();
+
+        try {
+            self::$_queryObject->execute();
+        } catch (PDOException $exception) {
+            Logger::log('ERROR', 'Attempted Query failed: ' . $exception->getMessage());
+        }
         
         if ( $id) { self::$insertId = $dbh->lastInsertId($id); }
         Logger::log('INFO', 'Executed Query: ' . self::$_sqlString . ' - Insert ID: ' . self::$insertId);
