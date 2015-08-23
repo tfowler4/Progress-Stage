@@ -42,20 +42,14 @@ class ContactUsModel extends Model {
      * @return boolean [ true if email was sent successfully ]
      */
     private function _processForm() {
-        $emailHeader  = array();
-        $emailHeader[] = 'From: ' . EMAIL_ADMIN;
-        $emailHeader[] = 'Reply-To:';
-        $emailHeader[] = 'Return-Path:';
-        $emailHeader[] = 'CC:';
-        $emailHeader[] = 'BCC:';
-        $emailAddress  = EMAIL_ADMIN;
-        $emailSubject  = SITE_TITLE_SHORT . ' - ' . $this->_formFields->feedback;
-        $emailMessage  = "Dear Site Administrator,<br><br>";
-        $emailMessage  .= $this->_formFields->email . " has some feedback for you!<br><br>" . $this->_formFields->message;
+        $emailAddress = EMAIL_ADMIN;
+        $emailSubject = SITE_TITLE_SHORT . ' - ' . $this->_formFields->feedback;
+        $emailMessage = "Dear Site Administrator,<br><br>";
+        $emailMessage .= $this->_formFields->email . " has some feedback for you!<br><br>" . $this->_formFields->message;
 
         Logger::log('INFO', 'Sending Feedback Email: ' . $this->_formFields->email . ' -> ' . $this->_formFields->message);
 
-        return Functions::sendMail( $emailAddress, $emailSubject, $emailMessage, implode("\r\n", $emailHeader) );
+        return Functions::sendMail($emailAddress, $emailSubject, $emailMessage);
     }
 
     /**

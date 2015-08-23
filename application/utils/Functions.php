@@ -624,8 +624,19 @@ class Functions {
      * 
      * @return boolean [ true if mail is sent correctly ]
      */
-    public static function sendMail($emailAddress, $emailSubject, $emailMessage, $emailHeaders) {
-        return mail($emailAddress, $emailSubject, $emailMessage, $emailHeaders);
+    public static function sendMail($emailAddress, $emailSubject, $emailMessage) {
+        $headers  = "From: " . $emailAddress . "\r\n";
+        $headers .= "Reply-To: ". $emailAddress . "\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+        $htmlMessage  = '<html>';
+        $htmlMessage .= '<body>';
+        $htmlMessage .= $emailMessage;
+        $htmlMessage .= '</body>';
+        $htmlMessage .= '</html>';
+
+        return mail($emailAddress, $emailSubject, $htmlMessage, $headers);
     }
 
     /**

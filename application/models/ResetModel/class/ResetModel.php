@@ -129,20 +129,14 @@ class ResetModel extends Model {
      * @return void
      */
     private function _sendResetEmail() {
-        $emailHeader   = array();
-        $emailHeader[] = 'From: ' . EMAIL_ADMIN;
-        $emailHeader[] = 'Reply-To:';
-        $emailHeader[] = 'Return-Path:';
-        $emailHeader[] = 'CC:';
-        $emailHeader[] = 'BCC:';
-        $emailSubject  = SITE_TITLE_SHORT . ' - Password Recovery';
-
-        $userId       = $this->_userDetails->_userId;
         $emailAddress = $this->_userDetails->_emailAddress;
+        $emailSubject = SITE_TITLE_SHORT . ' - Password Recovery';
         $emailLink    = HOST_NAME . '/reset/' . $this->_confirmCode;
         $emailMessage = 'Dear Registered User,<br><br>In order to reset your password, please click the following link to complete your password recovery process!<br><br>' . $emailLink;
-        
-        Functions::sendMail($emailAddress, $emailSubject, $emailMessage, $emailHeader);
+
+        Logger::log('INFO', 'Sending Reset Email: ' . $emailAddress . ' -> ' . $emailMessage);
+
+        Functions::sendMail($emailAddress, $emailSubject, $emailMessage);
     }
 
     /**
