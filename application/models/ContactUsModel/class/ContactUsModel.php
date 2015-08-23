@@ -19,8 +19,6 @@ class ContactUsModel extends Model {
 
         $this->title = self::PAGE_TITLE;
 
-        $this->_loadFormFields();
-
         $this->_formFields = new ContactUsFormFields();
 
         if ( Post::formActive() ) { // Form has required fields filled out
@@ -77,14 +75,5 @@ class ContactUsModel extends Model {
         }
 
         return $this->_validSubmission;
-    }
-
-    /**
-     * load form fields object
-     * 
-     * @return void
-     */
-    private function _loadFormFields() {
-        require 'ContactUsFormFields.php';
     }
 }

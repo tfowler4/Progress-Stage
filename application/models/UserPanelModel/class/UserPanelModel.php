@@ -87,8 +87,6 @@ class UserPanelModel extends Model {
 
         $this->_tableHeader = self::TABLE_HEADER_PROGRESSION;
 
-        $this->_loadFormFields();
-
         $pathToCP = HOST_NAME . '/userpanel';
 
         switch($this->subModule) {
@@ -677,15 +675,6 @@ class UserPanelModel extends Model {
 
             $this->_guildDetails->_encounterDetails->$encounterId = $newEncounterDetails;
         }
-    }
-
-    /**
-     * load form fields object
-     * 
-     * @return void
-     */
-    private function _loadFormFields() {
-        require 'UserPanelFormFields.php';
     }
 
     /**

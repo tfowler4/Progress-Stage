@@ -20,8 +20,6 @@ class RegisterModel extends Model {
 
         $this->title = self::PAGE_TITLE;
 
-        $this->_loadFormFields();
-
         $this->_formFields = new RegisterFormFields();
 
         if ( Post::formActive() ) { 
@@ -201,14 +199,5 @@ class RegisterModel extends Model {
         crypt($encryptedPasscode, '');
 
         return $encryptedPasscode;
-    }
-
-    /**
-     * load form fields object
-     * 
-     * @return void
-     */
-    private function _loadFormFields() {
-        require 'RegisterFormFields.php';
     }
 }

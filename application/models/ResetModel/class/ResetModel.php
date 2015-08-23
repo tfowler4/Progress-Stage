@@ -26,8 +26,6 @@ class ResetModel extends Model {
 
         $this->title = self::PAGE_TITLE;
 
-        $this->_loadFormFields();
-
         if ( !empty($params) && $params[0] == self::SUB_COMPLETE ) { // complete submodule, with confirm code and retype passwords in
             $this->_formFields                    = new ConfirmFormFields();
             $this->_formFields->newPassword       = Post::get('reset-password');
@@ -243,14 +241,5 @@ class ResetModel extends Model {
         }
 
         return $this->_validSubmission;
-    }
-
-    /**
-     * load form fields object
-     * 
-     * @return void
-     */
-    private function _loadFormFields() {
-        require 'ResetFormFields.php';
     }
 }

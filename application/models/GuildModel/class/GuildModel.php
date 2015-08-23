@@ -75,7 +75,7 @@ class GuildModel extends Model {
         if ( isset($params[1]) && $params[1] == 'sig' ) {
             $paramsArray = array_slice($params, 2);
 
-            include 'GuildSignature.php';
+            //include 'GuildSignature.php';
             $guildSig = new GuildSignature($paramsArray);
             die;
         }

@@ -1,10 +1,5 @@
 <?php
 
-Header('Content-type: image/png');
-Header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
-Header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
-Header('Pragma: no-cache');
-
 /**
  * guild signature image generator
  */
@@ -22,6 +17,11 @@ class GuildSignature {
      * constructor
      */
     public function __construct($params) {
+        Header('Content-type: image/png');
+        Header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+        Header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
+        Header('Pragma: no-cache');
+
         if ( isset($params[0]) ) { $this->_guildId    = $params[0]; } else { die; }
         if ( isset($params[1]) ) { $this->_dungeonId  = $params[1]; } else { die; }
         if ( isset($params[2]) ) { $this->_rankSystem = $params[2]; } else { die; }

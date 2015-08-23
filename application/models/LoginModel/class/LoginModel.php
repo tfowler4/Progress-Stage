@@ -19,8 +19,6 @@ class LoginModel extends Model {
 
         $this->title = self::PAGE_TITLE;
 
-        $this->_loadFormFields();
-
         $this->_formFields = new LoginFormFields();
 
         if ( Post::formActive() ) { // Form has required fields filled out
@@ -104,14 +102,5 @@ class LoginModel extends Model {
         crypt($encryptedPasscode, '');
 
         return $encryptedPasscode;
-    }
-
-    /**
-     * load form fields object
-     * 
-     * @return void
-     */
-    private function _loadFormFields() {
-        require 'LoginFormFields.php';
     }
 }

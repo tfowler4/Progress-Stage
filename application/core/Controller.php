@@ -11,10 +11,10 @@ class Controller {
     /**
      * creates requested model class
      * 
-     * @param string $model [ name of model class ]
+     * @param string $model  [ name of model class ]
      * @param array  $params [ parameters passed ]
      * 
-     * @return object mo
+     * @return object [ new model object ]
      */
     protected function _model($model, $params) {
         $this->_modelName = strtolower($model);
@@ -26,8 +26,9 @@ class Controller {
             $params           = 'down';
         }
 
-        if ( file_exists('application/models/' . $this->_modelFile . '/class/' . $this->_modelFile . '.php') ) {
-            include 'application/models/' . $this->_modelFile . '/class/'. $this->_modelFile . '.php';
+        // include all class files of model
+        foreach ( glob('application/models/' . $this->_modelFile . '/class/*.php') as $fileName ) {
+            include $fileName;
         }
 
         return new $this->_modelFile($model, $params);

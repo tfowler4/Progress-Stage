@@ -23,8 +23,6 @@ class QuickSubmissionModel extends Model {
 
         $this->title = self::PAGE_TITLE;
 
-        $this->loadFormFields();
-
         $this->_formFields = new QuickSubmissionFormFields();
 
         if ( Post::formActive() ) { // Form has required fields filled out
@@ -128,14 +126,5 @@ class QuickSubmissionModel extends Model {
         $insertString = Functions::generateDBInsertString($progressionString, $this->_formFields, $this->_guildId);
 
         return $insertString;
-    }
-
-    /**
-     * load form fields object
-     * 
-     * @return void
-     */
-    public function loadFormFields() {
-        require 'QuickSubmissionFormFields.php';
     }
 }
