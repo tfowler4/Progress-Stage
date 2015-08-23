@@ -301,7 +301,7 @@ class Template {
      * 
      * @return string [ html string containing screenshot ]
      */
-    public static function getScreenshot($guildDetails, $encounterDetails) {
+    public static function getScreenshot($guildDetails, $encounterDetails, $resizable = false) {
         $screenshot = '';
 
         if ( !empty($encounterDetails) ) {
@@ -318,7 +318,11 @@ class Template {
                     $class = 'class="screenshot-large"'; 
                 }
 
-                $screenshot  = '<img src="' . $src . '" ' . $class . '>';
+                $screenshot = '<img src="' . $src . '" ' . $class . ' >';
+
+                if ( $resizable ) {
+                    $screenshot = '<a href=' . $src . ' rel="lightbox[\'kill_shots\']">' . $screenshot . '</a>';
+                }
             }
         }
 

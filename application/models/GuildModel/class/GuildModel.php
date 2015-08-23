@@ -102,7 +102,7 @@ class GuildModel extends Model {
         $this->_guildDetails->generateEncounterDetails('');
         $this->_guildDetails->generateRankDetails('encounters');
         $this->_activityArray    = $this->_getActivityTimeline();
-        $this->_latestScreenshot = Template::getScreenshot($this->_guildDetails, $this->_guildDetails->_recentEncounterDetails);
+        $this->_latestScreenshot = Template::getScreenshot($this->_guildDetails, $this->_guildDetails->_recentEncounterDetails, true);
 
         $this->_raidProgressionTableHeader  = self::TABLE_HEADER_PROGRESSION;
         $this->_activityTimelineTableHeader = self::TABLE_HEADER_TIMELINE;
