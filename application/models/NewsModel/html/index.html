@@ -77,22 +77,22 @@
             <?php endif; ?>
 
             <div id="standings-wrapper">
-                <?php $count = 0; foreach( $data->_guildStandings as $dungeonId => $dungeonTable ): ?>
+                <?php $count = 0; foreach( $data->_guildStandings as $dungeonId => $guildArray ): ?>
                     <div class="table-wrapper standings medium">
                         <table class="listing news">
                             <thead>
                             </thead>
                             <tbody>
-                                <?php echo Template::drawSubTitleTableRow($data->_standingsTableHeader, $dungeonTable->header, 'View as Spreadsheet', $dungeonId); ?>
+                                <?php echo Template::drawSubTitleTableRow($data->_listings->_tableHeader, 'test tezt', 'View as Spreadsheet', $dungeonId); ?>
 
-                                <?php if ( !empty($dungeonTable->data) ): ?>
-                                    <?php echo Template::drawSubHeaderTableRow($data->_standingsTableHeader); ?>
+                                <?php if ( !empty($guildArray) ): ?>
+                                    <?php echo Template::drawSubHeaderTableRow($data->_listings->_tableHeader); ?>
 
-                                    <?php foreach( $dungeonTable->data as $guildId => $guildDetails ): ?>
-                                        <?php echo Template::drawBodyTableRow($data->_standingsTableHeader, $guildDetails); ?>
+                                    <?php foreach( $guildArray as $guildId => $guildDetails ): ?>
+                                        <?php echo Template::drawBodyTableRow($data->_listings->_tableHeader, $guildDetails); ?>
                                     <?php endforeach; ?>
                                 <?php else: ?>
-                                    <?php echo Template::drawEmptyGuildTableRow($data->_standingsTableHeader, 'No guild data found.'); ?>
+                                    <?php echo Template::drawEmptyGuildTableRow($data->_listings->_tableHeader, 'No guild data found.'); ?>
                                 <?php endif; ?>
                             </tbody>
                         </table>

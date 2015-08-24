@@ -12,6 +12,7 @@ class NewsModel extends Model {
     protected $_guildStandings    = array();
     protected $_dungeonGuildArray = array();
     protected $_standingsTableHeader;
+    protected $_listings;
     
     const PAGE_TITLE            = GAME_NAME_1 . '\'s Raid Progression Tracker';
     const PAGE_DESCRIPTION      = GAME_NAME_1 . '\'s #1 Resource for raid progression tracking.';
@@ -185,6 +186,46 @@ class NewsModel extends Model {
         // If no videos present, double the standings
         if ( empty($this->_videoLinks) ) { $guildLimit += $guildLimit; }
 
+        $tierDetails = CommonDataContainer::$tierArray[LATEST_TIER];
+        $params      = array();
+        $returnArray = array();
+
+        if ( $content == 0 ) {
+            $params[0] = 'world';
+            $params[1] = Functions::cleanLink($tierDetails->_name);
+
+            $dungeonCount = 0;
+            foreach ( $tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
+                if ( $dungeonCount > 1 ) { break; }
+
+                $params[2] = Functions::cleanLink($dungeonDetails->_name);
+
+                $this->_listings = new Listings('news', $params);
+                $returnArray[$dungeonId] = $this->_listings->listArray;
+
+                $dungeonCount++;
+            }
+        } elseif ( $content == 1 ) {
+            $params[0] = 'region';
+            $params[1] = Functions::cleanLink($tierDetails->_name);
+
+            $dungeonCount = 0;
+            foreach ( $tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
+                if ( $dungeonCount > 0 ) { break; }
+
+                $params[2] = Functions::cleanLink($dungeonDetails->_name);
+
+                $this->_listings = new Listings('news', $params);
+                $returnArray[$dungeonId] = $this->_listings->listArray;
+
+                $dungeonCount++;
+            }
+        }
+
+        //$this->_tableHeader    = $this->_listings->_tableHeader;
+        //$this->_dataDetails    = $this->_listings->_dataDetails;
+
+        /*
         $returnArray  = array();
         $tierDetails  = CommonDataContainer::$tierArray[LATEST_TIER];
         $dungeonLimit = 2;
@@ -229,7 +270,7 @@ class NewsModel extends Model {
 
         // Cut off limit amount of guilds
         $returnArray = $this->_setLimitToStandingsArray($returnArray, $guildLimit);
-
+        */
         return $returnArray;
     }
 

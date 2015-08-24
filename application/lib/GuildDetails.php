@@ -292,8 +292,8 @@ class GuildDetails extends DetailObject {
                 $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
                 $dungeonId           = $encounterDetails->_dungeonId;
                 $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
-                //$tierId              = $dungeonDetails->_tier;
-                //$tierDetails         = CommonDataContainer::$tierArray[$tierId];
+                $tierId              = $dungeonDetails->_tier;
+                $tierDetails         = CommonDataContainer::$tierArray[$tierId];
                 //$raidSize            = $dungeonDetails->_raidSize;
                 //$tierRaidSize        = $tierDetails->_tier . '_' . $raidSize;
                 //$tierRaidSizeDetails = CommonDataContainer::$tierRaidSizeArray[$tierRaidSize];
@@ -306,7 +306,7 @@ class GuildDetails extends DetailObject {
                 
                 if ( $dataType == 'dungeon' && $dungeonId != $dataId ) { continue; }
 
-                //if ( $dataType == 'tier' && $tierId != $dataId ) { continue; }
+                if ( $dataType == 'tier' && $tierId != $dataId ) { continue; }
 
                 if ( $dataType == 'tierRaidSize' && $tierRaidSize != $dataId ) { continue; }
 

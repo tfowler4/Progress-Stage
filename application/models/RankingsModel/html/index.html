@@ -5,7 +5,7 @@
         <div id="title-wrapper">
             <div id="title-text-wrapper">
                 <div id="title-main-text"><?php echo $data->_detailsPane->_name; ?></div>
-                <div id="title-sub-text">Point Rankings (<?php echo unserialize(RANK_SYSTEMS)[$data->_rankType]; ?>)</div>
+                <div id="title-sub-text">Point Rankings (<?php echo unserialize(RANK_SYSTEMS)[$data->_listings->_rankType]; ?>)</div>
             </div>
 
             <div class="move-right">
@@ -15,13 +15,13 @@
 
         <div class="clear"></div>
 
-        <?php if ( !empty($data->_topGuildsArray) ): ?>
+        <?php if ( !empty($data->_listings->_topGuildsArray) ): ?>
             <div class="vertical-separator"></div>
-            <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_standing', '_points')); ?>
+            <?php echo Template::drawTopGuildPane($data->_listings->_topGuildsArray, array('_standing', '_points')); ?>
         <?php endif; ?>
 
         <div id="page-details-wrapper">
-            <?php if ( isset($data->_dungeon) ): ?>
+            <?php if ( isset($data->_listings->_dungeon) ): ?>
                 <table class="page-details">
                     <thead>
                         <tr>
@@ -62,9 +62,9 @@
 
         <div id="submenu-1" class="move-left">
             <ul class="submenu noselect">
-                <?php echo $data->generateInternalHyperLink('world', $data->_rankType, '<li>World</li>'); ?>
-                <?php echo $data->generateInternalHyperLink('region', $data->_rankType, '<li>Regional</li>'); ?>
-                <?php echo $data->generateInternalHyperLink('server', $data->_rankType, '<li>Server</li>'); ?>
+                <?php echo $data->generateInternalHyperLink('world', $data->_listings->_rankType, '<li>World</li>'); ?>
+                <?php echo $data->generateInternalHyperLink('region', $data->_listings->_rankType, '<li>Regional</li>'); ?>
+                <?php echo $data->generateInternalHyperLink('server', $data->_listings->_rankType, '<li>Server</li>'); ?>
                 <!--<?php echo $data->generateInternalHyperLink('country', $data->_rankType, '<li>Country</li>'); ?>-->
             </ul>
         </div>
@@ -72,7 +72,7 @@
         <div id="submenu-2" class="move-right">
             <ul class="submenu">
                 <?php foreach(unserialize(RANK_SYSTEMS) as $systemAbbrev => $systemName): ?>
-                    <?php echo $data->generateInternalHyperLink($data->_view, $systemAbbrev, '<li>' . $systemName . '</li>'); ?>
+                    <?php echo $data->generateInternalHyperLink($data->_listings->_view, $systemAbbrev, '<li>' . $systemName . '</li>'); ?>
                 <?php endforeach; ?>
             </ul>
         </div>

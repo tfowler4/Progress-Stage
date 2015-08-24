@@ -67,24 +67,13 @@ class StandingsModel extends Model {
 
         $this->title = self::PAGE_TITLE;
 
-        if ( isset($params[0]) ) { $this->_view    = $params[0]; }
-        if ( isset($params[1]) ) { $this->_tier    = $params[1]; }
-        if ( isset($params[2]) ) { $this->_dungeon = $params[2]; }
-        if ( isset($params[3]) ) {
-            if ( $params[3] == 'spreadsheet' ) {
-                $this->_isSpreadsheet = true;
-            } else {
-              $this->_encounter = $params[3];
-            }
-        }
-
         $this->_listings       = new Listings('standings', $params);
         $this->_standingsArray = $this->_listings->listArray;
         $this->_tableHeader    = $this->_listings->_tableHeader;
         $this->_dataDetails    = $this->_listings->_dataDetails;
         $this->_detailsPane    = $this->_dataDetails;
         $this->_dataDetails->setClears();
-        
+
         $this->title = $this->_listings->_title . ' ' . self::PAGE_TITLE;
     }
 
@@ -101,9 +90,9 @@ class StandingsModel extends Model {
         $url       = PAGE_STANDINGS . $view;
         $hyperlink = '';
 
-        if ( isset($this->_tier) ) { $url .= '/' . $this->_tier; }
-        if ( isset($this->_dungeon) ) { $url .= '/' . $this->_dungeon; }
-        if ( isset($this->_encounter) ) { $url .= '/' . $this->_encounter; }
+        if ( isset($this->_listings->_tier) ) { $url .= '/' . $this->_listings->_tier; }
+        if ( isset($this->_listings->_dungeon) ) { $url .= '/' . $this->_listings->_dungeon; }
+        if ( isset($this->_listings->_encounter) ) { $url .= '/' . $this->_listings->_encounter; }
         if ( $spreadsheet ) { $url .= '/spreadsheet'; }
 
         $hyperlink = '<a href="' . $url . '" target"_blank">' . $text . '</a>';

@@ -76,7 +76,7 @@
         <?php if ( isset($data->_listings->_dungeon) && !isset($data->_listings->_encounter) ): ?>
             <div id="submenu-2" class="move-right">
                 <ul class="submenu">
-                    <a id="<?php echo $data->_identifier . '-' . $data->_view; ?>" href="#" class="spreadsheet"><li>View as Spreadsheet</li></a>
+                    <a id="<?php echo $data->_listings->_identifier . '-' . $data->_listings->_view; ?>" href="#" class="spreadsheet"><li>View as Spreadsheet</li></a>
                 </ul>
             </div>
         <?php endif; ?>

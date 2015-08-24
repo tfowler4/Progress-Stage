@@ -6,7 +6,7 @@
             <div id="title-flag"><?php echo Functions::getImageFlag($data->_detailsPane->_country, 'medium'); ?></div>
             <div id="title-text-wrapper">
                 <div id="title-main-text"><?php echo $data->_detailsPane->_name; ?></div>
-                <div id="title-sub-text"><?php echo '(T' . $data->_tierDetails->_tier . '/' . $data->_tierDetails->_altTier . ') ' . $data->_tierDetails->_name; ?> Progression Standings</div>
+                <div id="title-sub-text"><?php echo '(T' . $data->_listings->_tierDetails->_tier . '/' . $data->_listings->_tierDetails->_altTier . ') ' . $data->_listings->_tierDetails->_name; ?> Progression Standings</div>
             </div>
 
             <div class="move-right">
@@ -16,9 +16,9 @@
 
         <div class="clear"></div>
 
-        <?php if ( !empty($data->_topGuildsArray) ): ?>
+        <?php if ( !empty($data->_listings->_topGuildsArray) ): ?>
             <div class="vertical-separator"></div>
-            <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_standing')); ?>
+            <?php echo Template::drawTopGuildPane($data->_listings->_topGuildsArray, array('_standing')); ?>
         <?php endif; ?>
 
         <div id="page-details-wrapper">
