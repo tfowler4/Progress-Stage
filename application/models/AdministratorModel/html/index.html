@@ -21,7 +21,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th>Tier</th>
+                                        <th>Tier Number</th>
                                     </tr>
                                      <tr>
                                         <td>
@@ -106,11 +106,11 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th>Tier</th>
+                                        <th>Tier Name</th>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <select class="admin-select tier edit" name="select-tier">
+                                            <select class="admin-select tier edit" name="edit-tier-name">
                                                 <option value="">Select Tier</option>
                                                 <?php foreach( CommonDataContainer::$tierArray as $tierId => $tierDetails ): ?>
                                                     <option value="<?php echo $tierId; ?>"><?php echo $tierId . ' - ' . $tierDetails->_name; ?></option>
@@ -137,7 +137,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Tier Name</th>
                                     </tr>
                                     <tr>
                                         <td>
@@ -177,19 +177,19 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Dungeon Name</th>
                                     </tr>
                                     <tr>
-                                        <td><input class="admin-textbox" type="text" name="text-dungeon-name" /></td>
+                                        <td><input class="admin-textbox" type="text" name="create-dungeon-name" /></td>
                                     </tr>
                                     <tr>
-                                        <th>Tier</th>
+                                        <th>Tier Name</th>
                                     </tr>
                                      <tr>
                                         <td>
-                                            <select class="admin-select tier number" name="select-tier-num">
-                                                <?php foreach( CommonDataContainer::$tierArray as $tierId => $tierDetails ): ?>
-                                                    <option value="<?php echo $tierId; ?>"><?php echo $tierId . ' - ' . $tierDetails->_name; ?></option>
+                                            <select class="admin-select tier name" name="create-dungeon-tier-name">
+                                                <?php foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ): ?>
+                                                    <option value="<?php echo $tierDetails->_tier; ?>"><?php echo $tier . ' - ' . $tierDetails->_name; ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </td>
@@ -199,7 +199,7 @@
                                     </tr>
                                      <tr>
                                         <td>
-                                            <input class="admin-select mobs number" name="select-mobs-num" />
+                                            <input class="admin-select mobs number" name="create-dungeon-number-of-mobs" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -220,7 +220,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th>Dungeon</th>
+                                        <th>Dungeon Name</th>
                                     </tr>
                                     <tr>
                                         <td>
@@ -255,7 +255,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <select class="admin-select dungeon" name="select-dungeon">
+                                            <select class="admin-select dungeon" name="remove-dungeon-id">
                                                 <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
                                                     <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
                                                 <?php endforeach; ?>
@@ -291,21 +291,33 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Encounter Name</th>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input class="admin-textbox" type="text" name="text-encounter-name" />
+                                            <input class="admin-textbox" type="text" name="create-encounter-name" />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Dungeon</th>
+                                        <th>Dungeon Name</th>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <select class="admin-select dungeon" name="select-dungeon">
+                                            <select class="admin-select dungeon" name="create-encounter-dungeon-id">
                                                 <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
                                                     <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tier Name</th>
+                                    </tr>
+                                     <tr>
+                                        <td>
+                                            <select class="admin-select tier name" name="create-encounter-tier-number">
+                                                <?php foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ): ?>
+                                                    <option value="<?php echo $tierDetails->_tier; ?>"><?php echo $tier . ' - ' . $tierDetails->_name; ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </td>
@@ -332,7 +344,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <select class="admin-select encounter edit" name="select-encounter">
+                                            <select class="admin-select encounter edit" name="edit-encounter-id">
                                                 <option value="">Select Encounter</option>
                                                 <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ): ?>
                                                     <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . ' - ' . $encounterDetails->_name; ?></option>
@@ -363,7 +375,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <select class="admin-select encounter" name="select-encounter">
+                                            <select class="admin-select encounter" name="remove-encounter-id">
                                                 <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ): ?>
                                                     <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . ' - ' . $encounterDetails->_name; ?></option>
                                                 <?php endforeach; ?>
@@ -401,14 +413,14 @@
                                      <tr>
                                         <th>Guild Name</th>
                                     </tr>
-                                        <td><input class="admin-textbox" type="text" name="guild-name" /></td>
+                                        <td><input class="admin-textbox" type="text" name="create-guild-name" /></td>
                                     <tr>
                                     <tr>
                                         <th>Server</th>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <select class="admin-select server" name="select-server">
+                                            <select class="admin-select server" name="create-guild-server">
                                                 <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails ): ?>
                                                     <option value="<?php echo $serverId; ?>"><?php echo $serverDetails->_region . ' - ' . $serverDetails->_name; ?></option>
                                                 <?php endforeach; ?>
@@ -420,7 +432,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                        <select class="admin-select country" name="select-country">
+                                        <select class="admin-select country" name="create-gui-country">
                                             <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails ): ?>
                                                 <option value="<?php echo $countryId; ?>"><?php echo $countryDetails->_name; ?></option>
                                             <?php endforeach; ?>
@@ -447,7 +459,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <select class="admin-select guild edit" name="select-guild">
+                                            <select class="admin-select guild edit" name="edit-guild-id">
                                                 <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
                                                     <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
                                                 <?php endforeach; ?>
@@ -477,7 +489,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                        <select class="admin-select guild" name="select-guild">
+                                        <select class="admin-select guild" name="remove-guild-id">
                                             <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
                                                 <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
                                             <?php endforeach; ?>
