@@ -15,17 +15,17 @@
 
         <div class="clear"></div>
 
-        <?php if ( !empty($data->_topGuildsArray) ): ?>
+        <?php if ( !empty($data->_listings->_topGuildsArray) ): ?>
             <div class="vertical-separator"></div>
-            <?php if ( isset($data->_encounter) ): ?>
-                <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_datetime')); ?>
+            <?php if ( isset($data->_listings->_encounter) ): ?>
+                <?php echo Template::drawTopGuildPane($data->_listings->_topGuildsArray, array('_datetime')); ?>
             <?php else: ?>
-                <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_standing')); ?>
+                <?php echo Template::drawTopGuildPane($data->_listings->_topGuildsArray, array('_standing')); ?>
             <?php endif; ?>
         <?php endif; ?>
 
         <div id="page-details-wrapper">
-            <?php if ( isset($data->_encounter) ): ?>
+            <?php if ( isset($data->_listings->_encounter) ): ?>
                 <table class="page-details">
                     <thead>
                         <tr>
@@ -73,7 +73,7 @@
             </ul>
         </div>
 
-        <?php if ( isset($data->_dungeon) && !isset($data->_encounter) ): ?>
+        <?php if ( isset($data->_listings->_dungeon) && !isset($data->_listings->_encounter) ): ?>
             <div id="submenu-2" class="move-right">
                 <ul class="submenu">
                     <a id="<?php echo $data->_identifier . '-' . $data->_view; ?>" href="#" class="spreadsheet"><li>View as Spreadsheet</li></a>
