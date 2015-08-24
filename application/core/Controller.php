@@ -63,10 +63,23 @@ class Controller {
             $cssFile = 'public/css/' . $this->_modelName . '/' . $this->_modelName . '.css';
         }
 
-        // if specific js file found, include it
+        $javascriptFiles = array();
+        // minify all javascript global files
+        foreach( glob("public/js/global/*.js") as $filename ) {
+            $javascriptFiles[] = JSMin::minify(file_get_contents($filename));
+        }
+
+        // if specific js file found, include it, minify it
         if ( file_exists('public/js/' . $this->_modelName . '/' . $this->_modelName . '.js') ) {
             $jsFile = 'public/js/' . $this->_modelName . '/' . $this->_modelName . '.js';
+            $javascriptFiles[] = JSMin::minify(file_get_contents($jsFile));
         }
+
+        $customJSFiles  = '<script type="text/javascript">';
+        foreach ( $javascriptFiles as $jsFile ) {
+            $customJSFiles .= $jsFile;
+        }
+        $customJSFiles .= '</script>';
 
         // include the index html file
         include ABS_FOLD_TEMPLATES . $_SESSION['template'] . '/index.html';

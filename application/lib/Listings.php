@@ -4,7 +4,8 @@
  * class to help create and sort a listings of guilds based on
  * standings or rankings
  */
-class Listings {
+class Listings extends DataObject {
+    protected $_topGuildsArray = array();
     protected $_listType;
     protected $_view;
     protected $_raidSize;
@@ -14,19 +15,59 @@ class Listings {
     protected $_encounter;
     protected $_identifier;
     protected $_dataType;
+    protected $_dataDetails;
+    protected $_tableHeader;
+    protected $_title;
 
     public $listArray;
 
     const PAGE_NAME = 'Standings';
 
+    const TABLE_HEADER_DUNGEON = array(
+            'Rank'            => '_rank',
+            'Guild'           => '_nameLink',
+            'Server'          => '_serverLink',
+            'Progress'        => '_standing',
+            'Hard Modes'      => '_hardModeStanding',
+            'Conqueror'       => '_conqeuror',
+            'WF'              => '_worldFirst',
+            'RF'              => '_regionFirst',
+            'SF'              => '_serverFirst',
+            'Recent Activity' => '_recentActivity'
+        );
+
+    const TABLE_HEADER_ENCOUNTER = array(
+            'Rank'            => '_rank',
+            'Guild'           => '_nameLink',
+            'Server'          => '_serverLink',
+            'Date Completed'  => '_datetime',
+            'Time Difference' => '_timeDiff',
+            'WR'              => '_worldRankImage',
+            'RR'              => '_regionRankImage',
+            'SR'              => '_serverRankImage',
+            'Kill Video'      => '_videoLink',
+            'Screenshot'      => '_screenshotLink'
+        );
+
+
     /**
      * constructor
      */
     public function __construct($listType, $params) {
-        $this->_listType   = $listType;
-        $this->_identifier = $params[0];
-        $this->_view       = $params[1];
-        $this->_dataType   = '_dungeonDetails';
+        $this->_listType = $listType;
+
+        if ( isset($params[0]) ) { $this->_view    = $params[0]; }
+        if ( isset($params[1]) ) { $this->_tier    = $params[1]; }
+        if ( isset($params[2]) ) { $this->_dungeon = $params[2]; }
+        if ( isset($params[3]) ) {
+            if ( $params[3] == 'spreadsheet' ) {
+                $this->_isSpreadsheet = true;
+            } else {
+              $this->_encounter = $params[3];
+            }
+        }
+
+        $this->_getDataDetails($this->_tier, $this->_dungeon, $this->_encounter);
 
         switch ($this->_listType) {
             case 'standings':
@@ -35,6 +76,41 @@ class Listings {
             case 'rankings':
                 break;
         }
+    }
+
+    /**
+     * get model data details based on url parameters
+     * 
+     * @param  string $tier      [ name of tier ]
+     * @param  string $dungeon   [ name of dungeon ]
+     * @param  string $encounter [ name of encounter ]
+     * 
+     * @return mixed [ null if dataDetails are empty ]
+     */
+    private function _getDataDetails($tier, $dungeon, $encounter) {
+        if ( !empty($this->_encounter) ) {
+            $this->_dataType    = '_encounterDetails'; 
+            $this->_dataDetails = Functions::getEncounterByName($this->_encounter, $this->_dungeon);
+            $this->_tableHeader = self::TABLE_HEADER_ENCOUNTER;
+            $this->_identifier  = $this->_dataDetails->_encounterId;
+            $this->_title       = $this->_dataDetails->_encounterName;
+
+            if ( empty($this->_dataDetails) ) { return null; }
+
+            $this->_dataDetails->setClears();
+        } elseif ( !empty($this->_dungeon) ) {
+            $this->_dataType    = '_dungeonDetails';
+            $this->_dataDetails = Functions::getDungeonByName($this->_dungeon);
+            $this->_tableHeader = self::TABLE_HEADER_DUNGEON;
+            $this->_identifier  = $this->_dataDetails->_dungeonId;
+            $this->_title       = $this->_dataDetails->_name;
+
+            if ( empty($this->_dataDetails) ) { return null; }
+
+            $this->_dataDetails->setClears();
+        }
+
+        if ( empty($this->_dataDetails) ) { Functions::sendTo404(); }
     }
 
     /**
@@ -66,7 +142,18 @@ class Listings {
             if ( $this->_dataType == '_encounterDetails' ) { 
                 $sortArray[0][$guildId] = $progressionDetails->_strtotime; 
             } elseif ( $this->_dataType != '_encounterDetails' ) { 
-                $sortArray[$progressionDetails->_complete][$guildId] = $progressionDetails->_recentTime; 
+                $sortArray[$progressionDetails->_complete][$guildId] = $progressionDetails->_recentTime;
+
+                // If guild only submitted the final encounter, their complete will be equal to dungeon completion
+                if ( $progressionDetails->_complete != $this->_dataDetails->_numOfEncounters ) {
+                    $finalEncounterId = $this->_dataDetails->_finalEncounterId;
+
+                    if ( isset($guildDetails->_encounterDetails->$finalEncounterId) ) {
+                        $totalComplete = CommonDataContainer::$dungeonArray[$this->_identifier]->_numOfEncounters;
+
+                        $sortArray[$totalComplete][$guildId] = $progressionDetails->_recentTime;
+                    }
+                }
             }
         }
 
@@ -114,6 +201,8 @@ class Listings {
                     $server       = $guildDetails->_server;
                     $region       = $guildDetails->_region;
                     $country      = $guildDetails->_country;
+
+                    if ( count($this->_topGuildsArray) < 3 ) { $this->_topGuildsArray[$guildId] = CommonDataContainer::$guildArray[$guildId]; }
 
                     switch ( $this->_view ) {
                         case 'world':

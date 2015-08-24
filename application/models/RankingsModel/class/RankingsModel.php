@@ -17,6 +17,7 @@ class RankingsModel extends Model {
     protected $_rankingsType;
     protected $_standingsType;
     protected $_tableHeader;
+    protected $_listings;
 
     const LIMIT_TREND_UNRANK = 10;
     const LIMIT_TREND_RANK   = 10;

@@ -392,6 +392,7 @@ class Template {
         if ( isset($dungeonData[1]) ) { $view = $dungeonData[1]; }
 
         $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
+        $tierDetails    = CommonDataContainer::$tierArray[$dungeonDetails->_tier];
 
         $tableHeader = array(
                 'Rank'   => '_rank',
@@ -408,9 +409,11 @@ class Template {
 
         $tableHeader = array_merge($tableHeader, $encounterArray);
 
-        $params   = array();
-        $params[0] = $dungeonId;
-        $params[1] = $view;
+        $params    = array();
+        $params[] = $view;
+        $params[] = Functions::cleanLink($tierDetails->_name);
+        $params[] = Functions::cleanLink($dungeonDetails->_name);
+        $params[] = 'spreadsheet';
 
         $spreadsheet = new Listings('standings', $params);
 
