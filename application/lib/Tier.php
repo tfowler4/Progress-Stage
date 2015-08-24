@@ -85,7 +85,7 @@ class Tier extends DataObject {
         $property = new stdClass();
 
         foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ) {
-            if ( $encounterDetails->_tier == $tier ) { $property->$encounterId = $encounterDetails; }
+            if ( $encounterDetails->_tier == $tier ) { $property->$encounterId = $encounterDetails; $this->_numOfEncounters++; }
         }
 
         return $property;
