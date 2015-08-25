@@ -432,7 +432,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                        <select class="admin-select country" name="create-gui-country">
+                                        <select class="admin-select country" name="create-guild-country">
                                             <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails ): ?>
                                                 <option value="<?php echo $countryId; ?>"><?php echo $countryDetails->_name; ?></option>
                                             <?php endforeach; ?>
@@ -662,19 +662,19 @@
                                         <th>Article Title</th>
                                     </tr>
                                      <tr>
-                                        <td><input class="admin-textbox" type="text" name="text-article-title" /></td>
+                                        <td><input class="admin-textbox" type="text" name="create-article-title" /></td>
                                     </tr>
                                     <tr>
                                         <th>Author</th>
                                     </tr>
                                      <tr>
-                                        <td><input class="admin-textbox" type="text" name="text-article-author" /></td>
+                                        <td><input class="admin-textbox" type="text" name="create-article-author" /></td>
                                     </tr>
                                     <tr>
                                         <th>Content</th>
                                     </tr>
                                      <tr>
-                                        <td><textarea name='textarea_output-content' style='height:225px; text-align:left;'></textarea></td>
+                                        <td><textarea name='create-article-content' style='height:225px; text-align:left;'></textarea></td>
                                     </tr>
                                 </tbody>
                                 <tfoot>

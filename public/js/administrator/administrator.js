@@ -3,7 +3,7 @@ var Administrator = function() {
     var currentPageUrl;
 
     // Submit admin forms
-    $(document).on('submit', '.admin-form', function() {
+    $(document).on('submit', '.admin-form', function(event) {
         event.preventDefault();
 
         var form       = $(this).closest('form');
@@ -17,7 +17,7 @@ var Administrator = function() {
             data:    formData,
             encode:  true,
             success: function(data) {
-                console.log(data);
+                //console.log(data);
             },
             error:  function(data) {
                 console.log('ERROR');

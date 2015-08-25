@@ -885,11 +885,11 @@ class AdministratorModel extends Model {
      * @return void
      */
     public function addNewArticle() {
-        $title   = $_POST['form'][0]['value'];
-        $author  = $_POST['form'][1]['value'];
-        $content = $_POST['form'][2]['value'];
+        $title   = POST::get('create-article-title');
+        $author  = POST::get('create-article-author');
+        $content = POST::get('create-article-content');
 
-        $sqlString = sprintf(
+        $query = $this->_dbh->prepare(sprintf(
             "INSERT INTO %s
             (title, content, added_by)
             values('%s', '%s', '%s')",
@@ -897,7 +897,8 @@ class AdministratorModel extends Model {
             $title,
             $content,
             $author
-            );
+            ));
+        $query->execute();
         die;
     }
     /**
@@ -916,15 +917,15 @@ class AdministratorModel extends Model {
         $html .= '<thead>';
         $html .= '</thead>';
         $html .= '<tbody>';
-        $html .= '<tr><td><input hidden type="text" name="text-article-id" value="' . $articleId . '"/></td></tr>';
+        $html .= '<tr><td><input hidden type="text" name="edit-article-id" value="' . $articleId . '"/></td></tr>';
         $html .= '<tr><th>Article Title</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-article-title" value="' . $newsArticle->title . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-article-title" value="' . $newsArticle->title . '"/></td></tr>';
         $html .= '<tr><th>Date</th></tr>';
         $html .= '<tr><td>' . $newsArticle->date . '</td></tr>';
         $html .= '<tr><th>Author</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="text-author" value="' . $newsArticle->postedBy . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-article-author" value="' . $newsArticle->postedBy . '"/></td></tr>';
         $html .= '<tr><th>Content</th></tr>';
-        $html .= '<tr><td><textarea class="admin-textarea" name="textarea-content" style="height:225px; text-align:left;"">' . $newsArticle->content . '</textarea></td></tr>';
+        $html .= '<tr><td><textarea class="admin-textarea" name="edit-article-content" style="height:225px; text-align:left;"">' . $newsArticle->content . '</textarea></td></tr>';
         $html .= '</tbody>';
         $html .= '</table>';
         $html .= '<div class="vertical-separator"></div>';
@@ -932,7 +933,7 @@ class AdministratorModel extends Model {
         $html .= '</form>';
         $html .= '<div class="vertical-separator"></div>';
         $html .= '<form class="admin-form news remove" id="form-article-remove" method="POST" action="' . PAGE_ADMIN . '">';
-        $html .= '<input hidden type="text" name="text-article-id" value="' . $articleId . '"/>';
+        $html .= '<input hidden type="text" name="edit-article-id" value="' . $articleId . '"/>';
         $html .= '<input id="admin-submit-article-remove" type="submit" value="Remove" />';
         $html .= '</form>';
 
@@ -962,21 +963,24 @@ class AdministratorModel extends Model {
      * @return void
      */
     public function editArticleDetails() {
-        $articleId = $_POST['form'][0]['value'];
-        $title     = $_POST['form'][1]['value'];
-        $author    = $_POST['form'][2]['value'];
-        $content   = $_POST['form'][3]['value'];
+        $articleId = POST::get('edit-article-id');
+        $title     = POST::get('edit-article-title');
+        $author    = POST::get('edit-article-author');
+        $content   = POST::get('edit-article-content');
 
-        $sqlString = sprintf(
+        $query = $this->_dbh->prepare(sprintf(
             "UPDATE %s
-            SET title = '%s', content = '%s',  added_by = '%s'
+            SET title = '%s', 
+                content = '%s',  
+                added_by = '%s'
             WHERE news_id = '%s'",
             DbFactory::TABLE_NEWS,
             $title,
             $content,
             $author,
             $articleId
-            );
+            ));
+        $query->execute();
         die;
     }
     /**
@@ -985,15 +989,16 @@ class AdministratorModel extends Model {
      * @return void
      */
     public function removeArticle() {
-        $articleId = $_POST['form'][0]['value'];
+        $articleId = POST::get('edit-article-id');
 
-        $sqlString = sprintf(
+        $query = $this->_dbh->prepare(sprintf(
             "DELETE 
                FROM %s
               WHERE news_id = '%s'",
             DbFactory::TABLE_NEWS,
             $articleId
-            );
+            ));
+        $query->execute();
         die;
     }
 }
