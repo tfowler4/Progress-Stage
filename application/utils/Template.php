@@ -101,6 +101,7 @@ class Template {
         $html .= '<tr>';
 
         foreach( $tableHeader as $key => $value ) {
+            //print_r($columnObject);
             $columnValue = $columnObject->$value;
 
             $html .= '<td';

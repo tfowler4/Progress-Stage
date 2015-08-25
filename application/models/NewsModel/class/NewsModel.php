@@ -215,62 +215,31 @@ class NewsModel extends Model {
 
                 $params[2] = Functions::cleanLink($dungeonDetails->_name);
 
-                $this->_listings = new Listings('news', $params);
-                $returnArray[$dungeonId] = $this->_listings->listArray;
+                //$this->_listings = new Listings('news', $params);
+                $returnArray[$dungeonId] = new Listings('news', $params);
 
                 $dungeonCount++;
             }
-        }
 
-        //$this->_tableHeader    = $this->_listings->_tableHeader;
-        //$this->_dataDetails    = $this->_listings->_dataDetails;
+            $newReturnArray = array();
 
-        /*
-        $returnArray  = array();
-        $tierDetails  = CommonDataContainer::$tierArray[LATEST_TIER];
-        $dungeonLimit = 2;
-        $regionLimit  = 1;
-        $dungeonCount = 0;
+            foreach( $returnArray as $dungeonId => $listingObject ) {
 
-        foreach ( $tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
-            $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
-            $temporarySortArray  = array();
-            $sortGuildArray      = array();
-            $completionTimeArray = 0;
-            $rankArray           = 1;
+                $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
 
-            $temporarySortArray = $this->_getTemporarySortArray($dungeonDetails);
+                foreach( $listingObject->listArray as $region => $guildArray ) {
+                    $newReturnArray[$region] = new stdClass();
+                    $newReturnArray[$region]->header      = $dungeonDetails->_name . ' Top ' . $guildLimit . ' ' . $guildArray->header;
+                    $newReturnArray[$region]->tableHeader = $listingObject->_tableHeader;
+                    $newReturnArray[$region]->data        = $guildArray->data;
 
-            if ( !empty($temporarySortArray) ) {
-                krsort($temporarySortArray);
-
-                foreach ( $temporarySortArray as $score => $temporaryGuildArray ) {
-                    asort($temporaryGuildArray);
-
-                    foreach ( $temporaryGuildArray as $guildId => $complete ) {
-                        $guildDetails = $this->_dungeonGuildArray[$guildId];
-
-                        if ( !isset($completionTimeArray) ) { $completionTimeArray = 0; }
-                        if ( !isset($sortGuildArray) ) { $sortGuildArray = array(); }
-                        if ( !isset($rankArray) ) { $rankArray = 1; }
-
-                        $this->_addGuildToListArray($guildDetails, $sortGuildArray, $completionTimeArray, $rankArray);
-                    }
+                    $newReturnArray[$region]->header = str_replace($guildArray->header , $region . ' Guilds', $newReturnArray[$region]->header);
                 }
             }
 
-            $returnArray[$dungeonId] = $this->_setViewStandingsArray($sortGuildArray, $dungeonDetails, $guildLimit);
-            $dungeonCount++;
+            $returnArray = $newReturnArray;
         }
 
-        // Split into Regions
-        if ( $content == 1 ) {
-            $returnArray = $this->_convertStandingsToRegion($returnArray, $guildLimit);
-        }
-
-        // Cut off limit amount of guilds
-        $returnArray = $this->_setLimitToStandingsArray($returnArray, $guildLimit);
-        */
         return $returnArray;
     }
 
@@ -341,6 +310,51 @@ class NewsModel extends Model {
         $returnArray       = array();
         $dungeonStatsArray = array();
 
+        $tierDetails = CommonDataContainer::$tierArray[LATEST_TIER];
+        foreach( $tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
+            if ( $dungeonDetails->_type != 0 ) { continue; }
+
+            $returnArray[$dungeonId] = array();
+            $params                  = array();
+            $params[0]               = 'world';
+
+            foreach( unserialize(RANK_SYSTEMS) as $systemAbbrev => $systemName ) {
+                $params[1] = $systemAbbrev;
+                $params[2] = Functions::cleanLink($tierDetails->_name);
+                $params[3] = Functions::cleanLink($dungeonDetails->_name);
+
+                $returnArray[$dungeonId][$systemAbbrev] = new Listings('rankings', $params);
+
+                echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.'; 
+                echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb<br>';
+                //print_r($returnArray[$dungeonId][$systemAbbrev]);
+                //exit;
+            }
+
+            /*if ( isset($params[0]) ) { $this->_view     = $params[0]; }
+            if ( isset($params[1]) ) { $this->_rankType = $params[1]; }
+            if ( isset($params[2]) ) { $this->_tier     = $params[2]; }
+            if ( isset($params[3]) ) { $this->_dungeon  = $params[3]; }*/
+        }
+
+        //foreach( $returnArray as $dungeonId => $systemArray ) {
+            //echo "Dungeon : " .$dungeonId."<br>";
+            //print_r($systemArray);
+            //foreach( $systemArray as $systemId => $listingObject ) {
+                //echo "System : " .$systemId."<br>";
+                //print_r($listingObject->_listType);
+                //foreach( $guildArray as $guildId => $guildDetails ) {
+                    //print_r($guildDetails);
+                //}
+            //}
+        //}
+exit;
+        //$this->_listings      = new Listings('rankings', $params);
+        //$this->_rankingsArray = $this->_listings->listArray;
+
+        //world/QP/echoes_of_madness/hammerknell_fortress
+
+        /*
         foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
             $guildDetails->generateRankDetails('dungeons');
 
@@ -405,7 +419,7 @@ class NewsModel extends Model {
 
             $returnArray[$dungeonId]['data'] = $detailsArray;
         }
-
+        */
         return $returnArray;
     }
 
