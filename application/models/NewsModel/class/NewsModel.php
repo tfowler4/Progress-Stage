@@ -325,9 +325,9 @@ class NewsModel extends Model {
 
                 $returnArray[$dungeonId][$systemAbbrev] = new Listings('rankings', $params);
 
-                echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.'; 
-                echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb<br>';
-                //print_r($returnArray[$dungeonId][$systemAbbrev]);
+                //echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.'; 
+                //echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb<br>';
+                //print_r($returnArray[$dungeonId][$systemAbbrev]->listArray);
                 //exit;
             }
 
@@ -336,19 +336,44 @@ class NewsModel extends Model {
             if ( isset($params[2]) ) { $this->_tier     = $params[2]; }
             if ( isset($params[3]) ) { $this->_dungeon  = $params[3]; }*/
         }
+        
+        $newReturnArray = array();
 
-        //foreach( $returnArray as $dungeonId => $systemArray ) {
+        foreach( $returnArray as $dungeonId => $systemArray ) {
             //echo "Dungeon : " .$dungeonId."<br>";
             //print_r($systemArray);
-            //foreach( $systemArray as $systemId => $listingObject ) {
+            $detailsArray = array();
+            foreach( $systemArray as $systemId => $listingObject ) {
                 //echo "System : " .$systemId."<br>";
-                //print_r($listingObject->_listType);
-                //foreach( $guildArray as $guildId => $guildDetails ) {
-                    //print_r($guildDetails);
-                //}
-            //}
-        //}
-exit;
+                //print_r($listingObject->listArray);
+                 //print_r($listingObject->listArray->world->data);exit;
+                foreach( $listingObject->listArray->world->data as $guildId => $guildDetails ) {
+                    //print_r($guildDetails->data);exit;
+                    //echo "Guild ID: $guildId<br>";
+                    $rankDetails  = $guildDetails->_rankDetails->_rankDungeons->{$dungeonId . '_' . $systemId};
+                    $points       = Functions::formatPoints($rankDetails->_points);
+                    $trend        = $rankDetails->_trend->_world;
+                    $rank         = $rankDetails->_rank->_world;
+                    $image        = Functions::getTrendImage($trend);
+                    $identifier   = $guildId . ' | ' . $systemId;
+                    $guildDetails->nameLength(0);
+
+                    $detailsArray[$rank][$identifier]           = new stdClass();
+                    $detailsArray[$rank][$identifier]->points   = $points;
+                    $detailsArray[$rank][$identifier]->progress = $guildDetails->_dungeonDetails->$dungeonId->_standing;
+                    $detailsArray[$rank][$identifier]->guild    = $guildDetails->_nameLink;
+                    $detailsArray[$rank][$identifier]->rank     = $image . ' ' . $rank;
+                    //echo "IDentifier: $identifier<br>";
+                }
+
+                $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
+
+                $newReturnArray[$dungeonId]['abbreviation'] = strtolower($dungeonDetails->_abbreviation);
+                $newReturnArray[$dungeonId]['name'] = $dungeonDetails->_name;
+                $newReturnArray[$dungeonId]['data'] = $detailsArray;
+            }
+        }
+
         //$this->_listings      = new Listings('rankings', $params);
         //$this->_rankingsArray = $this->_listings->listArray;
 
@@ -420,7 +445,7 @@ exit;
             $returnArray[$dungeonId]['data'] = $detailsArray;
         }
         */
-        return $returnArray;
+        return $newReturnArray;
     }
 
     /**

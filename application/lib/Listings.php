@@ -91,7 +91,8 @@ class Listings extends DataObject {
         $this->_listType = $listType;
 
         foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
-            $this->_guildArray[$guildId] = clone($guildDetails);
+            //$this->_guildArray[$guildId] = clone($guildDetails);
+            $this->_guildArray[$guildId] = $guildDetails;
         }
 
         switch ($this->_listType) {

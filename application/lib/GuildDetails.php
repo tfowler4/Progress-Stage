@@ -43,6 +43,7 @@ class GuildDetails extends DetailObject {
     protected $_rankTierRaidSize;
     protected $_rankOverall;
     protected $_rankDetails;
+    protected $_isRankDetailsSet;
 
     // Detail Properties
     protected $_encounterDetails;
@@ -54,6 +55,7 @@ class GuildDetails extends DetailObject {
     protected $_screenshot;
     protected $_video;
     protected $_strtotime;
+    protected $_isEncounterDetailsSet;
 
     // Merged Standings Properties
     protected $_recentActivity;
@@ -281,6 +283,10 @@ class GuildDetails extends DetailObject {
     
     public function generateEncounterDetails($dataType, $dataId = null) {
         $property = new stdClass();
+
+        if ( !empty((array)$this->_encounterDetails) ) {
+            $property = $this->_encounterDetails;
+        }
         
         if ( isset($this->_progression) && !empty($this->_progression) ) {
             $progressionArr = explode("~~", $this->_progression);
@@ -294,64 +300,52 @@ class GuildDetails extends DetailObject {
                 $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
                 $tierId              = $dungeonDetails->_tier;
                 $tierDetails         = CommonDataContainer::$tierArray[$tierId];
-                //$raidSize            = $dungeonDetails->_raidSize;
-                //$tierRaidSize        = $tierDetails->_tier . '_' . $raidSize;
-                //$tierRaidSizeDetails = CommonDataContainer::$tierRaidSizeArray[$tierRaidSize];
 
                 $totalNumOfEncounters    = count(CommonDataContainer::$encounterArray);
                 $totalNumOfSpcEncounters = count(CommonDataContainer::$encounterArray);
 
                 // Create EncounterDetails Object
-                if ( $dataType == 'encounter' && $encounterId != $dataId ) { continue; }
-                
-                if ( $dataType == 'dungeon' && $dungeonId != $dataId ) { continue; }
+                if ( ($dataType == 'encounter' && $encounterId != $dataId)
+                || isset($this->_isEncounterDetailsSet[$encounterId]) ) { continue; }
 
-                if ( $dataType == 'tier' && $tierId != $dataId ) { continue; }
-
-                if ( $dataType == 'tierRaidSize' && $tierRaidSize != $dataId ) { continue; }
-
-                $encounter              = new EncounterDetails($progressionDetails, $this, $dungeonDetails);
-                $property->$encounterId = $encounter;
+                if ( ($dataType == 'dungeon' && $dungeonId != $dataId)
+                || isset($this->_isEncounterDetailsSet[$encounterId]) ) { continue; }
 
                 // Do not process if encounterDetails already exist
-                if ( isset($this->_encounterDetails->$encounterId) ) {
-                    continue; 
-                }
+                if ( !isset($this->_isEncounterDetailsSet[$encounterId]) ) {
+                    $encounter              = new EncounterDetails($progressionDetails, $this, $dungeonDetails);
+                    $property->$encounterId = $encounter;
 
-                $this->updateCompletedCount($dungeonDetails, $encounterDetails->_type, $this); // Increase Complete / Standing
-                $this->updateCompletedCount($dungeonDetails, $encounterDetails->_type, $this->_dungeonDetails->$dungeonId); // Increase Dungeon Complete / Standing
-                //$this->updateCompletedCount($tierDetails, $encounterDetails->_type, $this->_tierDetails->$tierId); // Increase Tier Complete / Standing
-                //$this->updateCompletedCount($tierRaidSizeDetails, $encounterDetails->_type, $this->_tierRaidSizeDetails->$tierRaidSize); // Increase Tier Size Complete / Standing
-                
-                $this->updateRecentActivity($encounter, $encounterDetails, 'self', ''); // Recent Encounter / Time
-                $this->updateRecentActivity($encounter, $encounterDetails, 'dungeon', $dungeonId); // Recent Dungeon Encounter / Time
-                //$this->updateRecentActivity($encounter, $encounterDetails, 'tier', $tierId); // Recent Tier Encounter / Time
-                //$this->updateRecentActivity($encounter, $encounterDetails, 'tierRaidSize', $tierRaidSize); // Recent Tier Size Encounter / Time
+                    //$this->updateCompletedCount($dungeonDetails, $encounterDetails->_type, $this); // Increase Complete / Standing
+                    $this->updateCompletedCount($dungeonDetails, $encounterDetails->_type, $this->_dungeonDetails->$dungeonId); // Increase Dungeon Complete / Standing
+                    
+                    $this->updateRecentActivity($encounter, $encounterDetails, 'self', ''); // Recent Encounter / Time
+                    $this->updateRecentActivity($encounter, $encounterDetails, 'dungeon', $dungeonId); // Recent Dungeon Encounter / Time
 
-                // Set World/Region/Server First
-                if ( $encounter->_serverRank == 1 ) {
-                    $this->updateFirstCount('server', $encounterDetails->_type, $this);
-                    $this->updateFirstCount('server', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
-                    //$this->updateFirstCount('server', $encounterDetails->_type, $this->_tierDetails->$tierId);
-                    //$this->updateFirstCount('server', $encounterDetails->_type, $this->_tierRaidSizeDetails->$tierRaidSize);
-                }
+                    // Set World/Region/Server First
+                    if ( $encounter->_serverRank == 1 ) {
+                        $this->updateFirstCount('server', $encounterDetails->_type, $this);
+                        $this->updateFirstCount('server', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
+                    }
 
-                if ( $encounter->_regionRank == 1 ) {
-                    $this->updateFirstCount('region', $encounterDetails->_type, $this);
-                    $this->updateFirstCount('region', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
-                    //$this->updateFirstCount('region', $encounterDetails->_type, $this->_tierDetails->$tierId);
-                    //$this->updateFirstCount('region', $encounterDetails->_type, $this->_tierRaidSizeDetails->$tierRaidSize);
-                }
+                    if ( $encounter->_regionRank == 1 ) {
+                        $this->updateFirstCount('region', $encounterDetails->_type, $this);
+                        $this->updateFirstCount('region', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
+                    }
 
-                if ( $encounter->_worldRank == 1 ) {
-                    $this->updateFirstCount('world', $encounterDetails->_type, $this);
-                    $this->updateFirstCount('world', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
-                    //$this->updateFirstCount('world', $encounterDetails->_type, $this->_tierDetails->$tierId);
-                    //$this->updateFirstCount('world', $encounterDetails->_type, $this->_tierRaidSizeDetails->$tierRaidSize);
+                    if ( $encounter->_worldRank == 1 ) {
+                        $this->updateFirstCount('world', $encounterDetails->_type, $this);
+                        $this->updateFirstCount('world', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
+                    }
+
+                    $this->_isEncounterDetailsSet[$encounterId] = true;
+                } else {
+                    continue;
                 }
 
                 if ( $dataType == 'encounter' && $encounterId == $dataId ) {
                     $this->_encounterDetails = $property;
+
                     return;
                 }
             }
