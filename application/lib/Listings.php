@@ -21,6 +21,7 @@ class Listings extends DataObject {
     protected $_title;
     protected $_isSpreadsheet;
     protected $_tierDetails;
+    protected $_listLimit;
 
     // RANKINGS
     protected $_rankType;
@@ -87,13 +88,9 @@ class Listings extends DataObject {
     /**
      * constructor
      */
-    public function __construct($listType, $params) {
-        $this->_listType = $listType;
-
-        foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
-            //$this->_guildArray[$guildId] = clone($guildDetails);
-            $this->_guildArray[$guildId] = $guildDetails;
-        }
+    public function __construct($listType, $params, $limit = 0) {
+        $this->_listType  = $listType;
+        $this->_listLimit = $limit;
 
         switch ($this->_listType) {
             case 'standings':
@@ -146,6 +143,10 @@ class Listings extends DataObject {
             case 'servers':
                 $this->listArray = $this->_getServerStandings();
                 break;
+        }
+
+        if ( $this->_listLimit > 0 ) {
+            $this->_applyListLimit();
         }
     }
 
@@ -212,7 +213,7 @@ class Listings extends DataObject {
         $sortArray = array();
 
         if ( $this->_listType == 'standings' || $this->_listType == 'news' ) {
-            foreach ( $this->_guildArray as $guildId => $guildDetails ) {
+            foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
                 switch ($this->_dataType) {
                     case '_tierDetails':
                         $guildDetails->generateEncounterDetails('tier', $this->_identifier);
@@ -231,7 +232,7 @@ class Listings extends DataObject {
 
                 if ( $this->_dataType != '_encounterDetails' && $progressionDetails->_complete == 0 ) { continue; }
  
-                $this->_guildArray[$guildId]->mergeViewDetails($this->_dataType, $this->_identifier);
+                CommonDataContainer::$guildArray[$guildId]->mergeViewDetails($this->_dataType, $this->_identifier);
 
                 if ( $this->_dataType == '_encounterDetails' ) { 
                     $sortArray[0][$guildId] = $progressionDetails->_strtotime; 
@@ -251,7 +252,7 @@ class Listings extends DataObject {
                 }
             }
         } elseif ( $this->_listType == 'rankings' ) {
-            foreach ( $this->_guildArray as $guildId => $guildDetails ) {
+            foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
                 $guildDetails->generateEncounterDetails('dungeon', $this->_standingsId);
                 $guildDetails->generateRankDetails('dungeons');
 
@@ -321,12 +322,12 @@ class Listings extends DataObject {
                 asort($temporaryGuildArray);
               
                 foreach ( $temporaryGuildArray as $guildId => $complete ) {
-                    $guildDetails = $this->_guildArray[$guildId];
+                    $guildDetails = CommonDataContainer::$guildArray[$guildId];
                     $server       = $guildDetails->_server;
                     $region       = $guildDetails->_region;
                     $country      = $guildDetails->_country;
 
-                    if ( count($this->_topGuildsArray) < 3 ) { $this->_topGuildsArray[$guildId] = $this->_guildArray[$guildId]; }
+                    if ( count($this->_topGuildsArray) < 3 ) { $this->_topGuildsArray[$guildId] = CommonDataContainer::$guildArray[$guildId]; }
 
                     switch ( $this->_view ) {
                         case 'world':
@@ -390,12 +391,12 @@ class Listings extends DataObject {
             arsort($temporarySortArray);
 
             foreach ( $temporarySortArray as $guildId => $points ) {
-                $this->_guildArray[$guildId]->mergeViewDetails($this->_standingsType, $this->_standingsId);
-                $this->_guildArray[$guildId]->mergeRankViewDetails($this->_rankingsType, $this->_rankingId, $this->_view);
+                CommonDataContainer::$guildArray[$guildId]->mergeViewDetails($this->_standingsType, $this->_standingsId);
+                CommonDataContainer::$guildArray[$guildId]->mergeRankViewDetails($this->_rankingsType, $this->_rankingId, $this->_view);
 
-                if ( count($this->_topGuildsArray) < 3 ) { $this->_topGuildsArray[$guildId] = $this->_guildArray[$guildId]; }
+                if ( count($this->_topGuildsArray) < 3 ) { $this->_topGuildsArray[$guildId] = CommonDataContainer::$guildArray[$guildId]; }
 
-                $guildDetails = $this->_guildArray[$guildId];
+                $guildDetails = CommonDataContainer::$guildArray[$guildId];
                 $server       = $guildDetails->_server;
                 $region       = $guildDetails->_region;
                 $country      = $guildDetails->_country;
@@ -435,7 +436,7 @@ class Listings extends DataObject {
                         break;
                 }
 
-                $this->_guildArray[$guildId]->_points = Functions::formatPoints($points);
+                CommonDataContainer::$guildArray[$guildId]->_points = Functions::formatPoints($points);
             }
         }
 
@@ -540,6 +541,32 @@ class Listings extends DataObject {
         }
 
         return $retVal;
+    }
+
+    private function _applyListLimit() {
+        $newListArray = new stdClass();
+
+
+        foreach( $this->listArray as $dataType => $guildArray ) {
+            $newListArray->$dataType         = new stdClass();
+            $newListArray->$dataType->header = $this->listArray->$dataType->header;
+            $newListArray->$dataType->data   = array();
+
+            $newGuildArray = array();
+            $guildCount    = 1;
+
+            $guildDataArray = $guildArray->data;
+            foreach( $guildDataArray as $guildId => $guildDetails ) {
+                if ( $guildCount > $this->_listLimit ) { break; }
+                $newGuildArray[$guildId] = $guildDetails;
+
+                $guildCount++;
+            }
+
+            $newListArray->$dataType->data = $newGuildArray;
+        }
+
+        $this->listArray = $newListArray;
     }
 
     /**

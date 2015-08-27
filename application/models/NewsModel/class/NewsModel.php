@@ -102,73 +102,6 @@ class NewsModel extends Model {
     }
 
     /**
-     * get sorted guild array based on number of encounters completed in dungeon
-     * 
-     * @param  Dungeon $dungeonDetails [ dungeon data object ]
-     * 
-     * @return array [ sorted guild array by amount completed ]
-     */
-    private function _getTemporarySortArray($dungeonDetails) {
-        $sortArray                = array();
-        $this->_dungeonGuildArray = array();
-        $dungeonId                = $dungeonDetails->_dungeonId;
-
-        foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
-            $this->_dungeonGuildArray[$guildId] = clone($guildDetails);
-
-            $guildDetails->generateEncounterDetails('dungeon', $dungeonId);
-
-            if ( empty($guildDetails->_dungeonDetails->$dungeonId->_complete) ) { continue; }
-
-            $progressionDetails = $guildDetails->_dungeonDetails->$dungeonId;
-
-            $this->_dungeonGuildArray[$guildId]->mergeViewDetails('_dungeonDetails', $dungeonId);
-
-            $sortArray[$progressionDetails->_complete][$guildId] = $progressionDetails->_recentTime;
-        }
-
-        return $sortArray;
-    }
-
-    /**
-     * set the standings header and guild array per view
-     * 
-     * @param array   $sortGuildArray [ array of guilds ]
-     * @param Dungeon $dungeonDetails [ dungeon data object ]
-     * @param integer $guildLimit     [ maximum number of guilds ]
-     *
-     * @return object [ standings object array ]
-     */
-    private function _setViewStandingsArray($sortGuildArray, $dungeonDetails, $guildLimit) {
-        $retVal         = new stdClass();
-        $retVal->header = $dungeonDetails->_name . ' Top ' . $guildLimit . ' Standings';
-        $retVal->data   = (!empty($sortGuildArray) ? $sortGuildArray : array());
-
-        return $retVal;
-    }
-
-    /**
-     * add guild to the temporary guild array
-     * 
-     * @param GuildDetails &$guildDetails        [ guild details detail object ]
-     * @param array        &$temporaryGuildArray [ list of guilds ]
-     * @param array        &$completionTimeArray [ list of completion times ]
-     * @param integer      &$rankCount           [ guild rank increment ]
-     *
-     * @return void
-     */
-    private function _addGuildToListArray(&$guildDetails, &$temporaryGuildArray, &$completionTimeArray, &$rankCount) {
-        $guildId = $guildDetails->_guildId;
-
-        $guildDetails->getTimeDiff($completionTimeArray, $guildDetails->_strtotime);
-        $guildDetails->_rank = $rankCount;
-
-        $temporaryGuildArray[$guildId] = $guildDetails;
-        $completionTimeArray           = $guildDetails->_strtotime;
-        $rankCount++;
-    }
-
-    /**
      * get guild standings based upon type of content selected
      * 
      * @param  integer $content    [ identifier for type of standing tables ]
@@ -215,84 +148,37 @@ class NewsModel extends Model {
 
                 $params[2] = Functions::cleanLink($dungeonDetails->_name);
 
-                //$this->_listings = new Listings('news', $params);
-                $returnArray[$dungeonId] = new Listings('news', $params);
+                $returnArray[$dungeonId] = new Listings('news', $params, $guildLimit);
 
                 $dungeonCount++;
             }
 
-            $newReturnArray = array();
+            $newReturnArray = new stdClass();
 
             foreach( $returnArray as $dungeonId => $listingObject ) {
 
                 $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
 
                 foreach( $listingObject->listArray as $region => $guildArray ) {
-                    $newReturnArray[$region] = new stdClass();
-                    $newReturnArray[$region]->header      = $dungeonDetails->_name . ' Top ' . $guildLimit . ' ' . $guildArray->header;
-                    $newReturnArray[$region]->tableHeader = $listingObject->_tableHeader;
-                    $newReturnArray[$region]->data        = $guildArray->data;
+                    $regionArray = array();
 
-                    $newReturnArray[$region]->header = str_replace($guildArray->header , $region . ' Guilds', $newReturnArray[$region]->header);
+                    $regionRank = 1;
+                    //print_r($guildArray->data);
+                    foreach( $guildArray->data as $guildId => $guildDetails ) {
+                        $guildArray->data[$guildId]->_rank = $regionRank;
+                        $regionRank++;
+                    }
+
+                    $newReturnArray->$region = new stdClass();
+                    $newReturnArray->$region->header      = $dungeonDetails->_name . ' Top ' . $guildLimit . ' ' . $guildArray->header;
+                    $newReturnArray->$region->tableHeader = $listingObject->_tableHeader;
+                    $newReturnArray->$region->data        = $guildArray->data;
+
+                    $newReturnArray->$region->header = str_replace($guildArray->header , $region . ' Guilds', $newReturnArray->$region->header);
                 }
             }
 
             $returnArray = $newReturnArray;
-        }
-
-        return $returnArray;
-    }
-
-    /**
-     * sets the limit number of guilds in standings
-     * 
-     * @param  array   $standingsArray [ array of guilds ]
-     * @param  integer $guildLimit     [ maximum number of guilds ]
-     *
-     * @return array [ array of guilds ]
-     */
-    private function _setLimitToStandingsArray($standingsArray, $guildLimit) {
-        foreach( $standingsArray as $dungeonId => $dungeonTable ) {
-            $standingsArray[$dungeonId]->data = array_slice($standingsArray[$dungeonId]->data, 0 , $guildLimit);
-        }
-
-        return $standingsArray;
-    }
-
-    /**
-     * convert standings array to be region based
-     * 
-     * @param  array   $standingsArray [ array of guilds ]
-     * @param  integer $guildLimit     [ maximum number of guilds ]
-     * 
-     * @return array [ array of guilds ]
-     */
-    private function _convertStandingsToRegion($standingsArray, $guildLimit) {
-        $returnArray = array();
-
-        foreach( $standingsArray as $dungeonId => $dungeonTable ) {
-            $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
-            $regionRank = array();
-            $regionValue;
-
-            foreach( $dungeonTable->data as $guildId => $guildDetails ) {
-                $regionValue = $dungeonId . '-region-' .$guildDetails->_region;
-
-                if ( !isset($returnArray[$regionValue]) ) {
-                    $returnArray[$regionValue] = new stdClass();
-                    $returnArray[$regionValue]->data = array();
-                    $returnArray[$regionValue]->header = $dungeonDetails->_name . ' Top ' . $guildLimit . ' ' .$guildDetails->_region . ' Guilds';
-
-                    $regionRank[$regionValue] = 1;
-                }
-
-                $guildDetails->_rank = $regionRank[$regionValue];
-                $returnArray[$regionValue]->data[$guildId] = $guildDetails;
-
-                $regionRank[$regionValue]++;
-            }
-
-            break;
         }
 
         return $returnArray;
@@ -323,33 +209,16 @@ class NewsModel extends Model {
                 $params[2] = Functions::cleanLink($tierDetails->_name);
                 $params[3] = Functions::cleanLink($dungeonDetails->_name);
 
-                $returnArray[$dungeonId][$systemAbbrev] = new Listings('rankings', $params);
-
-                //echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.'; 
-                //echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb<br>';
-                //print_r($returnArray[$dungeonId][$systemAbbrev]->listArray);
-                //exit;
+                $returnArray[$dungeonId][$systemAbbrev] = new Listings('rankings', $params, $limit);
             }
-
-            /*if ( isset($params[0]) ) { $this->_view     = $params[0]; }
-            if ( isset($params[1]) ) { $this->_rankType = $params[1]; }
-            if ( isset($params[2]) ) { $this->_tier     = $params[2]; }
-            if ( isset($params[3]) ) { $this->_dungeon  = $params[3]; }*/
         }
         
         $newReturnArray = array();
 
         foreach( $returnArray as $dungeonId => $systemArray ) {
-            //echo "Dungeon : " .$dungeonId."<br>";
-            //print_r($systemArray);
             $detailsArray = array();
             foreach( $systemArray as $systemId => $listingObject ) {
-                //echo "System : " .$systemId."<br>";
-                //print_r($listingObject->listArray);
-                 //print_r($listingObject->listArray->world->data);exit;
                 foreach( $listingObject->listArray->world->data as $guildId => $guildDetails ) {
-                    //print_r($guildDetails->data);exit;
-                    //echo "Guild ID: $guildId<br>";
                     $rankDetails  = $guildDetails->_rankDetails->_rankDungeons->{$dungeonId . '_' . $systemId};
                     $points       = Functions::formatPoints($rankDetails->_points);
                     $trend        = $rankDetails->_trend->_world;
@@ -363,7 +232,6 @@ class NewsModel extends Model {
                     $detailsArray[$rank][$identifier]->progress = $guildDetails->_dungeonDetails->$dungeonId->_standing;
                     $detailsArray[$rank][$identifier]->guild    = $guildDetails->_nameLink;
                     $detailsArray[$rank][$identifier]->rank     = $image . ' ' . $rank;
-                    //echo "IDentifier: $identifier<br>";
                 }
 
                 $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
@@ -374,77 +242,6 @@ class NewsModel extends Model {
             }
         }
 
-        //$this->_listings      = new Listings('rankings', $params);
-        //$this->_rankingsArray = $this->_listings->listArray;
-
-        //world/QP/echoes_of_madness/hammerknell_fortress
-
-        /*
-        foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
-            $guildDetails->generateRankDetails('dungeons');
-
-            if ( !isset($guildDetails->_rankDetails->_rankDungeons) ) { continue; }
-
-            foreach ( $guildDetails->_rankDetails->_rankDungeons as $dungeonDetails ) {
-                $dungeonId = $dungeonDetails->_id;
-                $points    = $dungeonDetails->_points;
-                $system    = CommonDataContainer::$rankSystemArray[$dungeonDetails->_system]->_abbreviation;
-
-                $dungeonStatsArray[$dungeonId][$system][$guildId] = $points;
-            }
-        }
-
-        $tierDetails = CommonDataContainer::$tierArray[LATEST_TIER];
-        foreach( $tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
-            if ( $dungeonDetails->_type != 0 ) { continue; }
-
-            $rankArray    = array();
-            $detailsArray = array();
-
-            $returnArray[$dungeonId]['name']         = $dungeonDetails->_name;
-            $returnArray[$dungeonId]['abbreviation'] = strtolower($dungeonDetails->_abbreviation);
-                            
-            if ( !isset($dungeonStatsArray[$dungeonId]) ) { continue; }
-
-            foreach ( $dungeonStatsArray[$dungeonId] as $systemId => $pointsArray ) {
-                foreach ( $pointsArray as $guildId => $points ) {
-                    $rankArray[$systemId][$guildId] = $points;
-                }
-            }
-
-            foreach ( $rankArray as $systemId => $guildArray ) {
-                arsort($guildArray);
-
-                $rankArray[$systemId] = $guildArray;
-            }
-            foreach ( $rankArray as $systemId => $guildArray ) {
-                $rank = 0;
-
-                foreach ( $guildArray as $guildId => $points ) {
-                    if ( $rank == $limit ) { break; }
-
-                    $guildDetails = CommonDataContainer::$guildArray[$guildId];
-                    $rankDetails  = $guildDetails->_rankDetails->_rankDungeons->{$dungeonId . '_' . $systemId};
-                    $points       = Functions::formatPoints($points);
-                    $trend        = $rankDetails->_trend->_world;
-                    $image        = Functions::getTrendImage($trend);
-                    $identifier   = $guildId . ' | ' . $systemId;
-                    $guildDetails->nameLength(0);
-                    $rank++;
-
-                    $detailsArray[$rank][$identifier]           = new stdClass();
-                    $detailsArray[$rank][$identifier]->points   = $points;
-                    $detailsArray[$rank][$identifier]->progress = $guildDetails->_dungeonDetails->$dungeonId->_standing;
-                    $detailsArray[$rank][$identifier]->guild    = $guildDetails->_nameLink;
-                    $detailsArray[$rank][$identifier]->rank     = $image . ' ' . $rank;
-                }
-            }
-
-
-
-            $returnArray[$dungeonId]['data'] = $detailsArray;
-        }
-        */
         return $newReturnArray;
     }
 
