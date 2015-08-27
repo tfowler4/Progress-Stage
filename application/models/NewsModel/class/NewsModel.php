@@ -47,8 +47,8 @@ class NewsModel extends Model {
         $this->_videoLinks     = $this->_getLiveVideos(self::STREAM_CHANNELS);
         $this->_newsArticles   = $this->_getArticles($this->_article, self::LIMIT_NEWS);
         $this->_guildStandings = $this->_getStandings(self::STANDINGS_DISPLAY, self::LIMIT_GUILD_STANDINGS);
-        $this->_guildRankings  = $this->_getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
-        $this->_recentRaids    = $this->_getRecentRaids(self::LIMIT_RECENT_RAIDS);
+        //$this->_guildRankings  = $this->_getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
+        //$this->_recentRaids    = $this->_getRecentRaids(self::LIMIT_RECENT_RAIDS);
 
         $this->_standingsTableHeader = self::HEADER_STANDINGS;
     }
@@ -123,7 +123,7 @@ class NewsModel extends Model {
         $params      = array();
         $returnArray = array();
 
-        if ( $content == 0 ) {
+        /*if ( $content == 0 ) {
             $params[0] = 'world';
             $params[1] = Functions::cleanLink($tierDetails->_name);
 
@@ -138,7 +138,7 @@ class NewsModel extends Model {
 
                 $dungeonCount++;
             }
-        } elseif ( $content == 1 ) {
+        } else*/if ( $content == 1 ) {
             $params[0] = 'region';
             $params[1] = Functions::cleanLink($tierDetails->_name);
 

@@ -92,6 +92,35 @@ class Listings extends DataObject {
         $this->_listType  = $listType;
         $this->_listLimit = $limit;
 
+/*
+Return Object
+    object->world['world']->header = 'Table Header'
+    object->world['world']->data = $guildArray
+    object->region['NA']->header = "EU Header"
+    object->region['EU']->header = "NA Header"
+ */
+
+        /*
+        $dbh       = DbFactory::getDbh();
+        $dataArray = array();
+
+        $query = $dbh->prepare(sprintf(
+            "SELECT *
+               FROM %s", 
+                    DbFactory::TABLE_GUILDS
+                ));
+        $query->execute();
+
+        while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
+            $this->_guildArray[$row['guild_id']] = new GuildDetails($row);
+        }
+        */
+        //foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
+            //$this->_guildArray[$guildId] = clone($guildDetails);
+        //}
+
+        $this->_guildArray = &CommonDataContainer::$guildArray;
+
         switch ($this->_listType) {
             case 'standings':
                 if ( isset($params[0]) ) { $this->_view    = $params[0]; }
@@ -213,7 +242,7 @@ class Listings extends DataObject {
         $sortArray = array();
 
         if ( $this->_listType == 'standings' || $this->_listType == 'news' ) {
-            foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
+            foreach ( $this->_guildArray as $guildId => $guildDetails ) {
                 switch ($this->_dataType) {
                     case '_tierDetails':
                         $guildDetails->generateEncounterDetails('tier', $this->_identifier);
@@ -232,7 +261,7 @@ class Listings extends DataObject {
 
                 if ( $this->_dataType != '_encounterDetails' && $progressionDetails->_complete == 0 ) { continue; }
  
-                CommonDataContainer::$guildArray[$guildId]->mergeViewDetails($this->_dataType, $this->_identifier);
+                $this->_guildArray[$guildId]->mergeViewDetails($this->_dataType, $this->_identifier);
 
                 if ( $this->_dataType == '_encounterDetails' ) { 
                     $sortArray[0][$guildId] = $progressionDetails->_strtotime; 
@@ -252,7 +281,7 @@ class Listings extends DataObject {
                 }
             }
         } elseif ( $this->_listType == 'rankings' ) {
-            foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
+            foreach ( $this->_guildArray as $guildId => $guildDetails ) {
                 $guildDetails->generateEncounterDetails('dungeon', $this->_standingsId);
                 $guildDetails->generateRankDetails('dungeons');
 
@@ -322,12 +351,12 @@ class Listings extends DataObject {
                 asort($temporaryGuildArray);
               
                 foreach ( $temporaryGuildArray as $guildId => $complete ) {
-                    $guildDetails = CommonDataContainer::$guildArray[$guildId];
+                    $guildDetails = $this->_guildArray[$guildId];
                     $server       = $guildDetails->_server;
                     $region       = $guildDetails->_region;
                     $country      = $guildDetails->_country;
 
-                    if ( count($this->_topGuildsArray) < 3 ) { $this->_topGuildsArray[$guildId] = CommonDataContainer::$guildArray[$guildId]; }
+                    if ( count($this->_topGuildsArray) < 3 ) { $this->_topGuildsArray[$guildId] = $this->_guildArray[$guildId]; }
 
                     switch ( $this->_view ) {
                         case 'world':
@@ -391,12 +420,12 @@ class Listings extends DataObject {
             arsort($temporarySortArray);
 
             foreach ( $temporarySortArray as $guildId => $points ) {
-                CommonDataContainer::$guildArray[$guildId]->mergeViewDetails($this->_standingsType, $this->_standingsId);
-                CommonDataContainer::$guildArray[$guildId]->mergeRankViewDetails($this->_rankingsType, $this->_rankingId, $this->_view);
+                $this->_guildArray[$guildId]->mergeViewDetails($this->_standingsType, $this->_standingsId);
+                $this->_guildArray[$guildId]->mergeRankViewDetails($this->_rankingsType, $this->_rankingId, $this->_view);
 
-                if ( count($this->_topGuildsArray) < 3 ) { $this->_topGuildsArray[$guildId] = CommonDataContainer::$guildArray[$guildId]; }
+                if ( count($this->_topGuildsArray) < 3 ) { $this->_topGuildsArray[$guildId] = $this->_guildArray[$guildId]; }
 
-                $guildDetails = CommonDataContainer::$guildArray[$guildId];
+                $guildDetails = $this->_guildArray[$guildId];
                 $server       = $guildDetails->_server;
                 $region       = $guildDetails->_region;
                 $country      = $guildDetails->_country;
@@ -436,7 +465,7 @@ class Listings extends DataObject {
                         break;
                 }
 
-                CommonDataContainer::$guildArray[$guildId]->_points = Functions::formatPoints($points);
+                $this->_guildArray[$guildId]->_points = Functions::formatPoints($points);
             }
         }
 
@@ -500,9 +529,10 @@ class Listings extends DataObject {
 
         switch( $this->_view ) {
             case 'world':
-                $retVal->world         = new stdClass();
-                $retVal->world->header = ucfirst($this->_view) . ' ' . self::PAGE_NAME;
-                $retVal->world->data   = (!empty($sortGuildArray['world']) ? $sortGuildArray['world'] : array());
+                $retVal->world = array();
+                $retVal->world['world']         = new stdClass();
+                $retVal->world['world']->header = ucfirst($this->_view) . ' ' . self::PAGE_NAME;
+                $retVal->world['world']->data   = (!empty($sortGuildArray['world']) ? $sortGuildArray['world'] : array());
 
                 break;
             case 'region':
@@ -510,9 +540,10 @@ class Listings extends DataObject {
                     $region       = $regionDetails->_name;
                     $abbreviation = $regionDetails->_abbreviation;
 
-                    $retVal->$abbreviation         = new stdClass();
-                    $retVal->$abbreviation->header = $regionDetails->_style . ' ' . self::PAGE_NAME;
-                    $retVal->$abbreviation->data   = (!empty($sortGuildArray['region'][$abbreviation]) ? $sortGuildArray['region'][$abbreviation] : array());
+                    $retVal->region = array();
+                    $retVal->region[$abbreviation]         = new stdClass();
+                    $retVal->region[$abbreviation]->header = $regionDetails->_style . ' ' . self::PAGE_NAME;
+                    $retVal->region[$abbreviation]->data   = (!empty($sortGuildArray['region'][$abbreviation]) ? $sortGuildArray['region'][$abbreviation] : array());
                 }
 
                 break;
@@ -521,13 +552,14 @@ class Listings extends DataObject {
                     $server = $serverDetails->_name;
                     $region = $serverDetails->_region;
 
-                    $retVal->$server         = new stdClass();
-                    $retVal->$server->header = $server . ' ' . self::PAGE_NAME;
-                    $retVal->$server->data   = (!empty($sortGuildArray['server'][$server]) ? $sortGuildArray['server'][$server] : array());
+                    $retVal->server = array();
+                    $retVal->server[$server]         = new stdClass();
+                    $retVal->server[$server]->header = $server . ' ' . self::PAGE_NAME;
+                    $retVal->server[$server]->data   = (!empty($sortGuildArray['server'][$server]) ? $sortGuildArray['server'][$server] : array());
                 }
 
                 break;
-            case 'country':
+            /*case 'country':
                 foreach ( CommonDataContainer::$countryArray as $countryId => $countryDetails ) {
                     $country = $countryDetails->_name;
                     $region  = $countryDetails->_region;
@@ -537,7 +569,7 @@ class Listings extends DataObject {
                     $retVal->$country->data   = (!empty($sortGuildArray['country'][$country]) ? $sortGuildArray['country'][$country] : array());
                 }
 
-                break;
+                break;*/
         }
 
         return $retVal;

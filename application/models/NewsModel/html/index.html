@@ -77,7 +77,30 @@
             <?php endif; ?>
 
             <div id="standings-wrapper">
-                <?php $count = 0; foreach( $data->_guildStandings as $dungeonId => $guildArray ): ?>
+                <div class="table-wrapper standings medium">
+                    <table class="listing news">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <?php echo Template::drawSubTitleTableRow(NewsModel::HEADER_STANDINGS, 'header', 'View as Spreadsheet', ''); ?>
+                            <?php echo Template::drawSubHeaderTableRow(NewsModel::HEADER_STANDINGS); ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="horizontal-separator"> </div>
+
+                <div class="table-wrapper standings medium">
+                    <table class="listing news">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <?php echo Template::drawSubTitleTableRow(NewsModel::HEADER_STANDINGS, 'header', 'View as Spreadsheet', ''); ?>
+                            <?php echo Template::drawSubHeaderTableRow(NewsModel::HEADER_STANDINGS); ?>
+                        </tbody>
+                    </table>
+                </div>
+                <!--<?php $count = 0; foreach( $data->_guildStandings as $dungeonId => $guildArray ): ?>
                     <div class="table-wrapper standings medium">
                         <table class="listing news">
                             <thead>
@@ -101,7 +124,7 @@
                     <?php if ( $count == 0 ): ?><div class="horizontal-separator"> </div><?php endif; ?>
 
                     <?php $count++; ?>
-                <?php endforeach; ?>
+                <?php endforeach; ?>-->
 
                 <div class="vertical-separator"></div>
             </div>
