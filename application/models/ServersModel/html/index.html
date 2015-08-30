@@ -6,7 +6,7 @@
             <div id="title-flag"><?php echo Functions::getImageFlag($data->_detailsPane->_country, 'medium'); ?></div>
             <div id="title-text-wrapper">
                 <div id="title-main-text"><?php echo $data->_detailsPane->_name; ?></div>
-                <div id="title-sub-text"><?php echo '(T' . $data->_listings->_tierDetails->_tier . '/' . $data->_listings->_tierDetails->_altTier . ') ' . $data->_listings->_tierDetails->_name; ?> Progression Standings</div>
+                <div id="title-sub-text"><?php echo '(T' . $data->_tierDetails->_tier . '/' . $data->_tierDetails->_altTier . ') ' . $data->_tierDetails->_name; ?> Progression Standings</div>
             </div>
 
             <div class="move-right">
@@ -16,9 +16,9 @@
 
         <div class="clear"></div>
 
-        <?php if ( !empty($data->_listings->_topGuildsArray) ): ?>
+        <?php if ( !empty($data->_topGuildsArray) ): ?>
             <div class="vertical-separator"></div>
-            <?php echo Template::drawTopGuildPane($data->_listings->_topGuildsArray, array('_standing')); ?>
+            <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_standing')); ?>
         <?php endif; ?>
 
         <div id="page-details-wrapper">
@@ -66,17 +66,17 @@
                 <thead>
                 </thead>
                 <tbody>
-                    <?php foreach( $data->_standingsArray as $dungeonId => $dungeon ): ?>
-                        <?php echo Template::drawSubTitleTableRow($data->_tableHeader, $dungeon->header); ?>
+                    <?php foreach( $data->_standingsArray as $listType => $dataArray ): ?>
+                        <?php echo Template::drawSubTitleTableRow($dataArray->tableFields, $dataArray->headerText); ?>
 
-                        <?php if ( !empty($dungeon->data) ): ?>
-                            <?php echo Template::drawSubHeaderTableRow($data->_tableHeader); ?>
+                        <?php if ( !empty($dataArray->data) ): ?>
+                            <?php echo Template::drawSubHeaderTableRow($dataArray->tableFields); ?>
 
-                            <?php foreach( $dungeon->data as $guildId => $guildDetails ): ?>
-                                <?php echo Template::drawBodyTableRow($data->_tableHeader, $guildDetails); ?>
+                            <?php foreach( $dataArray->data as $guildId => $guildDetails ): ?>
+                                <?php echo Template::drawBodyTableRow($dataArray->tableFields, $guildDetails); ?>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <?php echo Template::drawEmptyGuildTableRow($data->_tableHeader, 'No guild data found.'); ?>
+                            <?php echo Template::drawEmptyGuildTableRow($dataArray->tableFields, 'No guild data found.'); ?>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </tbody>

@@ -4,19 +4,30 @@
  * specific server progression standings page
  */
 class ServersModel extends Model {
-    protected $_dungeonGuildArray;
-    protected $_standingsArray;
-    protected $_dungeonArray;
-    protected $_tierDetails;
-    protected $_topGuildsArray;
-    protected $_serverDetails;
+    protected $_standingsArray = array();
+    protected $_topGuildsArray = array();
+
     protected $_server;
     protected $_tier;
     protected $_dungeon;
+
     protected $_detailsPane;
-    protected $_isSpreadsheet;
-    protected $_tableHeader;
-    protected $_listings;
+    protected $_tierDetails;
+    protected $_serverDetails;
+    protected $_guildListing;
+
+    const TABLE_HEADER_STANDINGS_DUNGEON = array(
+            'Rank'            => '_rank',
+            'Guild'           => '_nameLink',
+            'Server'          => '_serverLink',
+            'Progress'        => '_standing',
+            'Hard Modes'      => '_hardModeStanding',
+            'Conqueror'       => '_conqeuror',
+            'WF'              => '_worldFirst',
+            'RF'              => '_regionFirst',
+            'SF'              => '_serverFirst',
+            'Recent Activity' => '_recentActivity'
+        );
 
     const PANE_SERVER = array(
             'Server Name'   => '_nameLink',
@@ -32,7 +43,7 @@ class ServersModel extends Model {
             'SF' => 'Server Firsts',
             'WR' => 'World Rank',
             'RR' => 'Region Rank',
-            'SR' => 'Server Rank'
+            'SR' => 'Server Rank' 
         );
 
     const PAGE_TITLE = 'Server Progression';
@@ -46,14 +57,44 @@ class ServersModel extends Model {
 
         $this->title = self::PAGE_TITLE;
 
-        $this->_listings       = new Listings('servers', $params);
-        $this->_standingsArray = $this->_listings->listArray;
-        $this->_tableHeader    = $this->_listings->_tableHeader;
-        $this->_dataDetails    = $this->_listings->_dataDetails;
-        $this->_detailsPane    = $this->_listings->_serverDetails;
+        if ( isset($params[0]) ) { $this->_server = $params[0]; }
+        if ( isset($params[1]) ) { 
+            $this->_tier = $params[1];
+        } else {
+            $this->_tier = Functions::cleanLink(CommonDataContainer::$tierArray[LATEST_TIER]->_name);
+        }
+
+        $this->_serverDetails = Functions::getServerByName($this->_server);
+        $this->_tierDetails   = Functions::getTierByName($this->_tier);
+
+        $server = $this->_serverDetails->_name;
+        $region = $this->_serverDetails->_region;
+
+        foreach( $this->_tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
+            $dungeonName = Functions::cleanLink($dungeonDetails->_name);
+            $params[2] = $dungeonName;
+
+            $this->_guildListing = new Listings('servers', $params, 0, $this->_serverDetails);
+            $this->_standingsArray[$dungeonId] = $this->_guildListing->listArray->server[$server];
+            $this->_standingsArray[$dungeonId]->tableFields = $this->_setTableFields();
+            $this->_standingsArray[$dungeonId]->headerText  = $dungeonDetails->_name . ' Standings';
+
+            if ( empty($this->_topGuildsArray) ) {
+                $this->_topGuildsArray = $this->_guildListing->_topGuildsArray;
+            }
+        }
+
+        $this->_dataDetails = $this->_guildListing->_dataDetails;
+        $this->_detailsPane = $this->_guildListing->_serverDetails;
         $this->_detailsPane->getFirstEncounterKills();
 
         $this->title = $this->_detailsPane->_name . ' Raid Progression';
+    }
+
+    private function _setTableFields() {
+        $tableFields = self::TABLE_HEADER_STANDINGS_DUNGEON;
+
+        return $tableFields;
     }
 
     /**
@@ -66,7 +107,7 @@ class ServersModel extends Model {
      * @return string [ html hyperlink ]
      */
     public function generateInternalHyperLink($tier, $text, $spreadsheet = false) {
-        $url       = PAGE_SERVERS . $this->_listings->_server;
+        $url       = PAGE_SERVERS . $this->_server;
         $hyperlink = '';
 
         if ( isset($tier) ) { $url .= '/' . Functions::cleanLink($tier); }

@@ -4,12 +4,21 @@
  * encounter details detail object
  */
 class EncounterDetails extends DetailObject {
+    protected $_rank;
+    protected $_guildId;
+    protected $_name;
+    protected $_nameLink;
     protected $_encounterName;
     protected $_encounterId;
     protected $_dungeon;
     protected $_tier;
     protected $_server;
     protected $_serverLink;
+    protected $_killServer;
+    protected $_killServerLink;
+    protected $_country;
+    protected $_countryImage;
+    protected $_countryLink;
     protected $_date;
     protected $_time;
     protected $_datetime;
@@ -40,22 +49,22 @@ class EncounterDetails extends DetailObject {
      * constructor
      */
     public function __construct(&$params, &$guildDetails, &$dungeonDetails) {
-        $this->_encounterId = $params[0];
-        $this->_server      = (!empty($params[9]) ? $params[9] : $guildDetails->_server);
-        $this->_serverLink  = $guildDetails->_serverLink;
-        $this->_date        = $params[1];
-        $this->_time        = $params[2];
-        $this->_datetime    = Functions::formatDate($params[1] . ' ' . $params[2], 'm/d/Y H:i');
-        $this->_shorttime   = Functions::formatDate($params[1] . ' ' . $params[2], 'm/d H:i');
-        $this->_strtotime   = strtotime($params[1] . ' ' . $params[2]);
-        $this->_timezone    = (!empty($params[3]) ? $params[3] : 'SST'); //Standard Server Time
-        $this->_hour        = Functions::formatDate($params[2], 'h');
-        $this->_minute      = Functions::formatDate($params[2], 'i');
-        $this->_month       = Functions::formatDate($params[1], 'm');
-        $this->_day         = Functions::formatDate($params[1], 'd');
-        $this->_year        = Functions::formatDate($params[1], 'Y');
-        $this->_screenshot  = $guildDetails->_guildId . '-' . $this->_encounterId;
-        $this->_video       = $params[4];
+        $this->_encounterId    = $params[0];
+        $this->_killServer     = (!empty($params[9]) ? $params[9] : $guildDetails->_server);
+        $this->_killServerLink = $guildDetails->_serverLink;
+        $this->_date           = $params[1];
+        $this->_time           = $params[2];
+        $this->_datetime       = Functions::formatDate($params[1] . ' ' . $params[2], 'm/d/Y H:i');
+        $this->_shorttime      = Functions::formatDate($params[1] . ' ' . $params[2], 'm/d H:i');
+        $this->_strtotime      = strtotime($params[1] . ' ' . $params[2]);
+        $this->_timezone       = (!empty($params[3]) ? $params[3] : 'SST'); //Standard Server Time
+        $this->_hour           = Functions::formatDate($params[2], 'h');
+        $this->_minute         = Functions::formatDate($params[2], 'i');
+        $this->_month          = Functions::formatDate($params[1], 'm');
+        $this->_day            = Functions::formatDate($params[1], 'd');
+        $this->_year           = Functions::formatDate($params[1], 'Y');
+        $this->_screenshot     = $guildDetails->_guildId . '-' . $this->_encounterId;
+        $this->_video          = $params[4];
 
         // Add Encounter Specific details from Encounter Class for faster reference
         $this->_encounterName = Functions::generateInternalHyperlink('standings', CommonDataContainer::$encounterArray[$this->_encounterId], 'world', CommonDataContainer::$encounterArray[$this->_encounterId]->_encounterName, '');
@@ -82,6 +91,50 @@ class EncounterDetails extends DetailObject {
         if ( $guildDetails->_region == 'EU' && $dungeonDetails->_euTimeDiff > 0 ) {
             $this->_strtotime = strtotime("-".($dungeonDetails->_euTimeDiff + (7*60)) . ' minutes', $this->_strtotime);
             $this->_datetime  = date('m/d/Y H:i', $this->_strtotime);
+        }
+
+        $this->_guildId      = $guildDetails->_guildId;
+        $this->_name         = $guildDetails->_name;
+        $this->_nameLink     = $guildDetails->_nameLink;
+        $this->_server       = $guildDetails->_server;
+        $this->_serverLink   = $guildDetails->_serverLink;
+        $this->_country      = $guildDetails->_country;
+        $this->_countryImage = $guildDetails->_countryImage;
+        $this->_countryLink  = $guildDetails->_countryLink;
+    }
+
+    /**
+     * get the difference in unix time between two time values
+     * 
+     * @param  integer $currentTime [ starting unix time value ]
+     * @param  integer $newTime     [ new unix time value ]
+     * 
+     * @return void
+     */
+    public function getTimeDiff($currentTime, $newTime) {
+        $timeDiff           = $newTime - $currentTime;
+        $this->_timeDiff    = Functions::convertToDiffDaysHoursMins($timeDiff);
+
+        if ( $currentTime == 0 ) { 
+            $this->_timeDiff = '--'; 
+        }
+    }
+
+
+    /**
+     * get the difference in point amounts between two point values
+     * 
+     * @param  double $currentPoints [ starting points value ]
+     * @param  double $newPoints     [ new points value ]
+     * 
+     * @return void
+     */
+    public function getPointDiff($currentPoints, $newPoints) {
+        $pointDiff        = $newPoints - $currentPoints;
+        $this->_pointDiff = Functions::formatPoints($pointDiff);
+
+        if ( $currentPoints == 0 ) { 
+            $this->_pointDiff = '--'; 
         }
     }
 }

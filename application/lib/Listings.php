@@ -14,112 +14,36 @@ class Listings extends DataObject {
     protected $_tierRaidSize;
     protected $_dungeon;
     protected $_encounter;
+
     protected $_identifier;
     protected $_dataType;
     protected $_dataDetails;
-    protected $_tableHeader;
     protected $_title;
     protected $_isSpreadsheet;
-    protected $_tierDetails;
     protected $_listLimit;
+
+    protected $_tierDetails;
+    protected $_dungeonDetails;
+    protected $_encounterDetails;
 
     // RANKINGS
     protected $_rankType;
-    protected $_rankingsType;
     protected $_standingsType;
     protected $_standingsId;
     protected $_rankingId;
 
     // SERVERS
     protected $_serverDetails;
-    protected $_dungeonGuildArray;
 
     public $listArray;
-
-    const PAGE_NAME = 'Standings';
-
-    const TABLE_HEADER_STANDINGS_DUNGEON = array(
-            'Rank'            => '_rank',
-            'Guild'           => '_nameLink',
-            'Server'          => '_serverLink',
-            'Progress'        => '_standing',
-            'Hard Modes'      => '_hardModeStanding',
-            'Conqueror'       => '_conqeuror',
-            'WF'              => '_worldFirst',
-            'RF'              => '_regionFirst',
-            'SF'              => '_serverFirst',
-            'Recent Activity' => '_recentActivity'
-        );
-
-    const TABLE_HEADER_STANDINGS_ENCOUNTER = array(
-            'Rank'            => '_rank',
-            'Guild'           => '_nameLink',
-            'Server'          => '_serverLink',
-            'Date Completed'  => '_datetime',
-            'Time Difference' => '_timeDiff',
-            'WR'              => '_worldRankImage',
-            'RR'              => '_regionRankImage',
-            'SR'              => '_serverRankImage',
-            'Kill Video'      => '_videoLink',
-            'Screenshot'      => '_screenshotLink'
-        );
-
-    const TABLE_HEADER_RANKINGS_DEFAULT = array(
-            'Rank'          => '_rank',
-            'Guild'         => '_nameLink',
-            'Server'        => '_serverLink',
-            'Progress'      => '_standing',
-            'Points'        => '_points',
-            'Diff'          => '_pointDiff',
-            'WF'            => '_worldFirst',
-            'RF'            => '_regionFirst',
-            'SF'            => '_serverFirst',
-            'Trending'      => '_trend',
-            'Previous Rank' => '_prevRank'
-        );
-
-    const TABLE_HEADER_STANDINGS_NEWS = array(
-            'Rank'     => '_rank',
-            'Guild'    => '_nameLink',
-            'Server'   => '_serverLink',
-            'Progress' => '_standing'
-        );
 
     /**
      * constructor
      */
-    public function __construct($listType, $params, $limit = 0) {
-        $this->_listType  = $listType;
-        $this->_listLimit = $limit;
-
-/*
-Return Object
-    object->world['world']->header = 'Table Header'
-    object->world['world']->data = $guildArray
-    object->region['NA']->header = "EU Header"
-    object->region['EU']->header = "NA Header"
- */
-
-        /*
-        $dbh       = DbFactory::getDbh();
-        $dataArray = array();
-
-        $query = $dbh->prepare(sprintf(
-            "SELECT *
-               FROM %s", 
-                    DbFactory::TABLE_GUILDS
-                ));
-        $query->execute();
-
-        while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
-            $this->_guildArray[$row['guild_id']] = new GuildDetails($row);
-        }
-        */
-        //foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
-            //$this->_guildArray[$guildId] = clone($guildDetails);
-        //}
-
-        $this->_guildArray = &CommonDataContainer::$guildArray;
+    public function __construct($listType, $params, $limit = 0, $serverDetails = null) {
+        $this->_listType   = $listType;
+        $this->_listLimit  = $limit;
+        $this->_guildArray = CommonDataContainer::$guildArray;
 
         switch ($this->_listType) {
             case 'standings':
@@ -142,14 +66,19 @@ Return Object
                 break;
             case 'servers':
                 if ( isset($params[0]) ) { $this->_server = $params[0]; }
-                if ( isset($params[1]) ) { 
-                    $this->_tier = $params[1];
-                } else {
-                    $this->_tier = Functions::cleanLink(CommonDataContainer::$tierArray[LATEST_TIER]->_name);
-                }
 
-                $this->_serverDetails = Functions::getServerByName($this->_server);
+                if ( isset($params[1]) ) { $this->_tier = $params[1];
+                } else { $this->_tier = Functions::cleanLink(CommonDataContainer::$tierArray[LATEST_TIER]->_name); }
+
+                if ( isset($params[2]) ) { $this->_dungeon = $params[2]; }
+
+                if ( !empty($serverDetails) ) { $this->_serverDetails = $serverDetails;
+                } else { $this->_serverDetails = Functions::getServerByName($this->_server); }
+
                 $this->_serverDetails->getGuilds();
+                $this->_guildArray = $this->_serverDetails->_guilds;
+
+                $this->_view = 'server';
                 break;
             case 'news':
                 if ( isset($params[0]) ) { $this->_view    = $params[0]; }
@@ -164,19 +93,15 @@ Return Object
         switch ($this->_listType) {
             case 'standings':
             case 'news':
+            case 'servers':
                 $this->listArray = $this->_getStandings();
                 break;
             case 'rankings':
                 $this->listArray = $this->_getRankings();
                 break;
-            case 'servers':
-                $this->listArray = $this->_getServerStandings();
-                break;
         }
 
-        if ( $this->_listLimit > 0 ) {
-            $this->_applyListLimit();
-        }
+        $this->_applyListLimit();
     }
 
     /**
@@ -192,42 +117,42 @@ Return Object
         if ( !empty($this->_encounter) ) {
             $this->_dataType    = '_encounterDetails'; 
             $this->_dataDetails = Functions::getEncounterByName($this->_encounter, $this->_dungeon);
-            $this->_tableHeader = self::TABLE_HEADER_STANDINGS_ENCOUNTER;
             $this->_identifier  = $this->_dataDetails->_encounterId;
             $this->_title       = $this->_dataDetails->_encounterName;
 
             if ( empty($this->_dataDetails) ) { return null; }
 
-
+            $this->_encounterDetails = $this->_dataDetails;
+            $this->_dungeonDetails   = CommonDataContainer::$dungeonArray[$this->_dataDetails->_dungeonId];
+            $this->_tierDetails      = CommonDataContainer::$tierArray[$this->_dataDetails->_tier];
         } elseif ( !empty($this->_dungeon) ) {
             $this->_dataType    = '_dungeonDetails';
             $this->_dataDetails = Functions::getDungeonByName($this->_dungeon);
-            $this->_tableHeader = self::TABLE_HEADER_STANDINGS_DUNGEON;
             $this->_identifier  = $this->_dataDetails->_dungeonId;
             $this->_title       = $this->_dataDetails->_name;
 
             if ( empty($this->_dataDetails) ) { return null; }
 
+            $this->_dungeonDetails = $this->_dataDetails;
+            $this->_tierDetails    = CommonDataContainer::$tierArray[$this->_dataDetails->_tier];
+
             if ( $this->_listType == 'rankings' ) {
                 $systemDetails = Functions::getRankSystemByName($this->_rankType);
                 $systemId      = $systemDetails->_abbreviation;
 
-                $this->_rankingsType  = '_rankDungeons';
                 $this->_standingsType = '_dungeonDetails';
                 $this->_standingsId = $this->_dataDetails->_dungeonId;
-                $this->_rankingId   = $this->_standingsId . '_' . $systemId;
+                $this->_rankingId   = '_' . strtolower($systemId);
                 $this->title        = $this->_dataDetails->_name;
-            }
-
-            if ( $this->_listType == 'news' ) {
-                $this->_tableHeader = self::TABLE_HEADER_STANDINGS_NEWS;
             }
         } elseif ( !empty($this->_tier) ) {
             $this->_dataType    = '_tierDetails';
             $this->_dataDetails = Functions::getTierByName($this->_tier);
-            $this->_tierDetails = $this->_dataDetails;
-            $this->_tableHeader = self::TABLE_HEADER_STANDINGS_DUNGEON;
             $this->_identifier  = $this->_dataDetails->_tier;
+
+            if ( empty($this->_dataDetails) ) { return null; }
+
+            $this->_tierDetails = $this->_dataDetails;
         }
 
         if ( empty($this->_dataDetails) ) { Functions::sendTo404(); }
@@ -241,7 +166,7 @@ Return Object
     private function _getTemporarySortArray($dungeonDetails = null) {
         $sortArray = array();
 
-        if ( $this->_listType == 'standings' || $this->_listType == 'news' ) {
+        if ( $this->_listType == 'standings' || $this->_listType == 'news' || $this->_listType == 'servers' ) {
             foreach ( $this->_guildArray as $guildId => $guildDetails ) {
                 switch ($this->_dataType) {
                     case '_tierDetails':
@@ -260,11 +185,9 @@ Return Object
                 $progressionDetails = $guildDetails->{$this->_dataType}->{$this->_identifier};
 
                 if ( $this->_dataType != '_encounterDetails' && $progressionDetails->_complete == 0 ) { continue; }
- 
-                $this->_guildArray[$guildId]->mergeViewDetails($this->_dataType, $this->_identifier);
 
                 if ( $this->_dataType == '_encounterDetails' ) { 
-                    $sortArray[0][$guildId] = $progressionDetails->_strtotime; 
+                    $sortArray[0][$guildId] = $progressionDetails->_strtotime;
                 } elseif ( $this->_dataType != '_encounterDetails' ) { 
                     $sortArray[$progressionDetails->_complete][$guildId] = $progressionDetails->_recentTime;
 
@@ -285,29 +208,11 @@ Return Object
                 $guildDetails->generateEncounterDetails('dungeon', $this->_standingsId);
                 $guildDetails->generateRankDetails('dungeons');
 
-                if ( !isset($guildDetails->_rankDetails->{$this->_rankingsType}->{$this->_rankingId}) ) { continue; }
+                if ( !isset($guildDetails->{$this->_dataType}->{$this->_identifier}->{$this->_rankingId}) ) { continue; }
 
-                $points = $guildDetails->_rankDetails->{$this->_rankingsType}->{$this->_rankingId}->_points;
+                $points = $guildDetails->{$this->_dataType}->{$this->_identifier}->{$this->_rankingId}->_points;
 
                 $sortArray[$guildId] = $points;
-
-                $this->_tableHeader = self::TABLE_HEADER_RANKINGS_DEFAULT;
-            }
-        } elseif ( $this->_listType == 'servers' ) {
-            $dungeonId = $dungeonDetails->_dungeonId;
-
-            foreach ( $this->_serverDetails->_guilds as $guildId => $guildDetails ) {
-                $this->_dungeonGuildArray[$guildId] = clone($guildDetails);
-
-                $guildDetails->generateEncounterDetails('dungeon', $dungeonId);
-
-                if ( empty($guildDetails->_dungeonDetails->$dungeonId->_complete) ) { continue; }
-
-                $progressionDetails = $guildDetails->_dungeonDetails->$dungeonId;
-
-                $this->_dungeonGuildArray[$guildId]->mergeViewDetails('_dungeonDetails', $dungeonId);
-
-                $sortArray[$progressionDetails->_complete][$guildId] = $progressionDetails->_recentTime; 
             }
         }
 
@@ -322,7 +227,7 @@ Return Object
     private function _addGuildToListArray(&$guildDetails, &$temporaryGuildArray, &$completionTimeArray, &$rankArray) {
         $guildId = $guildDetails->_guildId;
 
-        $guildDetails->getTimeDiff($completionTimeArray, $guildDetails->_strtotime);
+        //$guildDetails->getTimeDiff($completionTimeArray, $guildDetails->_strtotime);
         $guildDetails->_rank = $rankArray;
 
         $temporaryGuildArray[$guildId] = $guildDetails;
@@ -355,8 +260,9 @@ Return Object
                     $server       = $guildDetails->_server;
                     $region       = $guildDetails->_region;
                     $country      = $guildDetails->_country;
+                    $guildDetails = $guildDetails->{$this->_dataType}->{$this->_identifier};
 
-                    if ( count($this->_topGuildsArray) < 3 ) { $this->_topGuildsArray[$guildId] = $this->_guildArray[$guildId]; }
+                    if ( count($this->_topGuildsArray) < 3 ) { $this->_topGuildsArray[$guildId] = $guildDetails; }
 
                     switch ( $this->_view ) {
                         case 'world':
@@ -392,7 +298,7 @@ Return Object
             }
         }
 
-        $returnArray = $this->_setViewArray($this->_view, $sortGuildArray);
+        $returnArray = $this->_setViewArray($sortGuildArray);
 
         return $returnArray;
     }
@@ -420,21 +326,19 @@ Return Object
             arsort($temporarySortArray);
 
             foreach ( $temporarySortArray as $guildId => $points ) {
-                $this->_guildArray[$guildId]->mergeViewDetails($this->_standingsType, $this->_standingsId);
-                $this->_guildArray[$guildId]->mergeRankViewDetails($this->_rankingsType, $this->_rankingId, $this->_view);
-
-                if ( count($this->_topGuildsArray) < 3 ) { $this->_topGuildsArray[$guildId] = $this->_guildArray[$guildId]; }
-
                 $guildDetails = $this->_guildArray[$guildId];
                 $server       = $guildDetails->_server;
                 $region       = $guildDetails->_region;
                 $country      = $guildDetails->_country;
+                $guildDetails = $guildDetails->{$this->_dataType}->{$this->_identifier};
+
+                if ( count($this->_topGuildsArray) < 3 ) { $this->_topGuildsArray[$guildId] = $guildDetails; }
 
                 switch ( $this->_view ) {
                     case 'world':
                         if ( !isset($pointDiffArray['world']) ) { $pointDiffArray['world'] = 0; }
 
-                        $guildDetails->getPointDiff($pointDiffArray['world'], $guildDetails->_points);
+                        //$guildDetails->getPointDiff($pointDiffArray['world'], $guildDetails->_points);
 
                         $sortGuildArray['world'][$guildId] = $guildDetails;
                         $pointDiffArray['world']           = $guildDetails->_points;
@@ -442,7 +346,7 @@ Return Object
                     case 'region':
                         if ( !isset($pointDiffArray['region'][$region]) ) { $pointDiffArray['region'][$region] = 0; }
 
-                        $guildDetails->getPointDiff($pointDiffArray['region'][$region], $guildDetails->_points);
+                        //$guildDetails->getPointDiff($pointDiffArray['region'][$region], $guildDetails->_points);
 
                         $sortGuildArray['region'][$region][$guildId] = $guildDetails;
                         $pointDiffArray['region'][$region] = $guildDetails->_points;
@@ -450,7 +354,7 @@ Return Object
                     case 'server':
                         if ( !isset($pointDiffArray['server'][$server]) ) { $pointDiffArray['server'][$server] = 0; }
 
-                        $guildDetails->getPointDiff($pointDiffArray['server'][$server], $guildDetails->_points);
+                        //$guildDetails->getPointDiff($pointDiffArray['server'][$server], $guildDetails->_points);
 
                         $sortGuildArray['server'][$server][$guildId] = $guildDetails;
                         $pointDiffArray['server'][$server] = $guildDetails->_points;
@@ -458,7 +362,7 @@ Return Object
                     case 'country':
                         if ( !isset($pointDiffArray['country'][$country]) ) { $pointDiffArray['country'][$country] = 0; }
 
-                        $guildDetails->getPointDiff($pointDiffArray['country'][$country], $guildDetails->_points);
+                        //$guildDetails->getPointDiff($pointDiffArray['country'][$country], $guildDetails->_points);
 
                         $sortGuildArray['country'][$country][$guildId]  = $guildDetails;
                         $pointDiffArray['country'][$country] = $guildDetails->_points;
@@ -469,52 +373,7 @@ Return Object
             }
         }
 
-        $returnArray = $this->_setViewArray($this->_view, $sortGuildArray);
-
-        return $returnArray;
-    }
-
-    /**
-     * get guild standings based upon tier selected
-     * 
-     * @param  Tier $tierDetails [ tier data object ]
-     * 
-     * @return array [ array of guilds sorted by completion standings ]
-     */
-    private function _getServerStandings() {
-        $returnArray = array();
-
-        foreach ( $this->_dataDetails->_dungeons as $dungeonId => $dungeonDetails ) {
-            $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
-            $temporarySortArray  = array();
-            $sortGuildArray      = array();
-            $completionTimeArray = 0;
-            $rankArray           = 1;
-
-            $temporarySortArray = $this->_getTemporarySortArray($dungeonDetails);
-
-            if ( !empty($temporarySortArray) ) {
-                krsort($temporarySortArray);
-
-                foreach ( $temporarySortArray as $score => $temporaryGuildArray ) {
-                    asort($temporaryGuildArray);
-                  
-                    foreach ( $temporaryGuildArray as $guildId => $complete ) {
-                        $guildDetails = $this->_dungeonGuildArray[$guildId];
-
-                        if ( count($this->_topGuildsArray) < 3 ) { $this->_topGuildsArray[$guildId] = $guildDetails; }
-
-                        if ( !isset($completionTimeArray) ) { $completionTimeArray = 0; }
-                        if ( !isset($sortGuildArray) ) { $sortGuildArray = array(); }
-                        if ( !isset($rankArray) ) { $rankArray = 1; }
-
-                        $this->_addGuildToListArray($guildDetails, $sortGuildArray, $completionTimeArray, $rankArray);
-                    }
-                }
-            }
-
-            $returnArray[$dungeonId] = $this->_setViewServerArray($sortGuildArray, $dungeonDetails);
-        }
+        $returnArray = $this->_setViewArray($sortGuildArray);
 
         return $returnArray;
     }
@@ -524,78 +383,77 @@ Return Object
      *
      * @return object
      */
-    private function _setViewArray($viewType, $sortGuildArray) {
-        $retVal = new stdClass();
+    private function _setViewArray($sortGuildArray) {
+        $guildListing = new GuildListing();
 
         switch( $this->_view ) {
             case 'world':
-                $retVal->world = array();
-                $retVal->world['world']         = new stdClass();
-                $retVal->world['world']->header = ucfirst($this->_view) . ' ' . self::PAGE_NAME;
-                $retVal->world['world']->data   = (!empty($sortGuildArray['world']) ? $sortGuildArray['world'] : array());
+                $guildListing->world = array();
+                $guildListing->world['world'] = (!empty($sortGuildArray['world']) ? $sortGuildArray['world'] : array());
 
                 break;
             case 'region':
+                $guildListing->region = array();
+
                 foreach ( CommonDataContainer::$regionArray as $regionId => $regionDetails ) {
                     $region       = $regionDetails->_name;
                     $abbreviation = $regionDetails->_abbreviation;
 
-                    $retVal->region = array();
-                    $retVal->region[$abbreviation]         = new stdClass();
-                    $retVal->region[$abbreviation]->header = $regionDetails->_style . ' ' . self::PAGE_NAME;
-                    $retVal->region[$abbreviation]->data   = (!empty($sortGuildArray['region'][$abbreviation]) ? $sortGuildArray['region'][$abbreviation] : array());
+                    $guildListing->region[$abbreviation] = (!empty($sortGuildArray['region'][$abbreviation]) ? $sortGuildArray['region'][$abbreviation] : array());
                 }
 
                 break;
             case 'server':
+                $guildListing->server = array();
+
                 foreach ( CommonDataContainer::$serverArray as $serverId => $serverDetails ) {
                     $server = $serverDetails->_name;
                     $region = $serverDetails->_region;
 
-                    $retVal->server = array();
-                    $retVal->server[$server]         = new stdClass();
-                    $retVal->server[$server]->header = $server . ' ' . self::PAGE_NAME;
-                    $retVal->server[$server]->data   = (!empty($sortGuildArray['server'][$server]) ? $sortGuildArray['server'][$server] : array());
+                    $guildListing->server[$server] = (!empty($sortGuildArray['server'][$server]) ? $sortGuildArray['server'][$server] : array());
                 }
 
                 break;
-            /*case 'country':
+            case 'country':
+                $guildListing->country = array();
+
                 foreach ( CommonDataContainer::$countryArray as $countryId => $countryDetails ) {
                     $country = $countryDetails->_name;
                     $region  = $countryDetails->_region;
 
-                    $retVal->$country         = new stdClass();
-                    $retVal->$country->header = $country . ' ' . self::PAGE_NAME;
-                    $retVal->$country->data   = (!empty($sortGuildArray['country'][$country]) ? $sortGuildArray['country'][$country] : array());
+                    $guildListing->$country[$country] = (!empty($sortGuildArray['country'][$country]) ? $sortGuildArray['country'][$country] : array());
                 }
 
-                break;*/
+                break;
         }
 
-        return $retVal;
+        return $guildListing;
     }
 
     private function _applyListLimit() {
-        $newListArray = new stdClass();
+        $newListArray = new GuildListing();
 
+        foreach( $this->listArray as $listType => $listTypeArray ) {
+            $listDataArray = array();
 
-        foreach( $this->listArray as $dataType => $guildArray ) {
-            $newListArray->$dataType         = new stdClass();
-            $newListArray->$dataType->header = $this->listArray->$dataType->header;
-            $newListArray->$dataType->data   = array();
+            if ( empty($listTypeArray) ) { continue; }
 
-            $newGuildArray = array();
-            $guildCount    = 1;
+            foreach( $listTypeArray as $listTypeName => $guildDataArray ) {
+                $newGuildArray = array();
+                $guildCount    = 1;
 
-            $guildDataArray = $guildArray->data;
-            foreach( $guildDataArray as $guildId => $guildDetails ) {
-                if ( $guildCount > $this->_listLimit ) { break; }
-                $newGuildArray[$guildId] = $guildDetails;
+                foreach( $guildDataArray as $guildId => $guildDetails ) {
+                    if ( !empty($this->_listLimit) && $guildCount > $this->_listLimit ) { break; }
+                    $newGuildArray[$guildId] = $guildDetails;
 
-                $guildCount++;
+                    $guildCount++;
+                }
+
+                $listDataArray[$listTypeName]       = new GuildListingDetails();
+                $listDataArray[$listTypeName]->data = (!empty($newGuildArray) ? $newGuildArray : array());
             }
 
-            $newListArray->$dataType->data = $newGuildArray;
+           $newListArray->$listType = $listDataArray;
         }
 
         $this->listArray = $newListArray;

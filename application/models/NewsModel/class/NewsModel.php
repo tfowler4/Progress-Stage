@@ -47,8 +47,8 @@ class NewsModel extends Model {
         $this->_videoLinks     = $this->_getLiveVideos(self::STREAM_CHANNELS);
         $this->_newsArticles   = $this->_getArticles($this->_article, self::LIMIT_NEWS);
         $this->_guildStandings = $this->_getStandings(self::STANDINGS_DISPLAY, self::LIMIT_GUILD_STANDINGS);
-        //$this->_guildRankings  = $this->_getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
-        //$this->_recentRaids    = $this->_getRecentRaids(self::LIMIT_RECENT_RAIDS);
+        $this->_guildRankings  = $this->_getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
+        $this->_recentRaids    = $this->_getRecentRaids(self::LIMIT_RECENT_RAIDS);
 
         $this->_standingsTableHeader = self::HEADER_STANDINGS;
     }
@@ -123,7 +123,7 @@ class NewsModel extends Model {
         $params      = array();
         $returnArray = array();
 
-        /*if ( $content == 0 ) {
+        if ( $content == 0 ) {
             $params[0] = 'world';
             $params[1] = Functions::cleanLink($tierDetails->_name);
 
@@ -133,12 +133,16 @@ class NewsModel extends Model {
 
                 $params[2] = Functions::cleanLink($dungeonDetails->_name);
 
-                $this->_listings = new Listings('news', $params);
-                $returnArray[$dungeonId] = $this->_listings->listArray;
+                $guildListing = new Listings('news', $params, $guildLimit);
+
+                $returnArray[$dungeonId] = $guildListing->listArray->world['world'];
+                $returnArray[$dungeonId]->tableFields = self::HEADER_STANDINGS;
+                $returnArray[$dungeonId]->headerText  = $dungeonDetails->_name . ' Top ' . $guildLimit . ' World Guilds';
+                $returnArray[$dungeonId]->dataDetails = $dungeonDetails;
 
                 $dungeonCount++;
             }
-        } else*/if ( $content == 1 ) {
+        } elseif ( $content == 1 ) {
             $params[0] = 'region';
             $params[1] = Functions::cleanLink($tierDetails->_name);
 
@@ -148,37 +152,21 @@ class NewsModel extends Model {
 
                 $params[2] = Functions::cleanLink($dungeonDetails->_name);
 
-                $returnArray[$dungeonId] = new Listings('news', $params, $guildLimit);
+                $guildListing = new Listings('news', $params, $guildLimit);
+
+                foreach( CommonDataContainer::$regionArray as $regionId => $regionDetails ) {
+                    $abbreviation = $regionDetails->_abbreviation;
+
+                    if ( isset($guildListing->listArray->region[$abbreviation]) ) {
+                        $returnArray[$abbreviation] = $guildListing->listArray->region[$abbreviation];
+                        $returnArray[$abbreviation]->tableFields = self::HEADER_STANDINGS;
+                        $returnArray[$abbreviation]->headerText  = $dungeonDetails->_name . ' Top ' . $guildLimit . ' ' . $abbreviation . ' Guilds';
+                        $returnArray[$abbreviation]->dataDetails = $dungeonDetails;
+                    }
+                }
 
                 $dungeonCount++;
             }
-
-            $newReturnArray = new stdClass();
-
-            foreach( $returnArray as $dungeonId => $listingObject ) {
-
-                $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
-
-                foreach( $listingObject->listArray as $region => $guildArray ) {
-                    $regionArray = array();
-
-                    $regionRank = 1;
-                    //print_r($guildArray->data);
-                    foreach( $guildArray->data as $guildId => $guildDetails ) {
-                        $guildArray->data[$guildId]->_rank = $regionRank;
-                        $regionRank++;
-                    }
-
-                    $newReturnArray->$region = new stdClass();
-                    $newReturnArray->$region->header      = $dungeonDetails->_name . ' Top ' . $guildLimit . ' ' . $guildArray->header;
-                    $newReturnArray->$region->tableHeader = $listingObject->_tableHeader;
-                    $newReturnArray->$region->data        = $guildArray->data;
-
-                    $newReturnArray->$region->header = str_replace($guildArray->header , $region . ' Guilds', $newReturnArray->$region->header);
-                }
-            }
-
-            $returnArray = $newReturnArray;
         }
 
         return $returnArray;
@@ -209,37 +197,43 @@ class NewsModel extends Model {
                 $params[2] = Functions::cleanLink($tierDetails->_name);
                 $params[3] = Functions::cleanLink($dungeonDetails->_name);
 
-                $returnArray[$dungeonId][$systemAbbrev] = new Listings('rankings', $params, $limit);
+                $guildListing = new Listings('rankings', $params, $limit);
+
+                $returnArray[$dungeonId] = $guildListing->listArray->world['world'];
+                $returnArray[$dungeonId]->tableFields = self::HEADER_STANDINGS;
+                $returnArray[$dungeonId]->headerText  = $dungeonDetails->_name;
+                $returnArray[$dungeonId]->dataDetails = $dungeonDetails;
             }
         }
         
         $newReturnArray = array();
 
-        foreach( $returnArray as $dungeonId => $systemArray ) {
+        foreach( $returnArray as $dungeonId => $guildArray ) {
             $detailsArray = array();
-            foreach( $systemArray as $systemId => $listingObject ) {
-                foreach( $listingObject->listArray->world->data as $guildId => $guildDetails ) {
-                    $rankDetails  = $guildDetails->_rankDetails->_rankDungeons->{$dungeonId . '_' . $systemId};
+
+            foreach( $guildArray->data as $guildId => $guildDetails ) {
+                foreach( unserialize(RANK_SYSTEMS) as $systemAbbrev => $systemName ) {
+                    $key          = '_' . strtolower($systemAbbrev);
+                    $rankDetails  = $guildDetails->$key;
                     $points       = Functions::formatPoints($rankDetails->_points);
                     $trend        = $rankDetails->_trend->_world;
                     $rank         = $rankDetails->_rank->_world;
                     $image        = Functions::getTrendImage($trend);
-                    $identifier   = $guildId . ' | ' . $systemId;
-                    $guildDetails->nameLength(0);
+                    $identifier   = $guildId . ' | ' . $systemAbbrev;
 
                     $detailsArray[$rank][$identifier]           = new stdClass();
                     $detailsArray[$rank][$identifier]->points   = $points;
-                    $detailsArray[$rank][$identifier]->progress = $guildDetails->_dungeonDetails->$dungeonId->_standing;
+                    $detailsArray[$rank][$identifier]->progress = $guildDetails->_standing;
                     $detailsArray[$rank][$identifier]->guild    = $guildDetails->_nameLink;
                     $detailsArray[$rank][$identifier]->rank     = $image . ' ' . $rank;
                 }
-
-                $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
-
-                $newReturnArray[$dungeonId]['abbreviation'] = strtolower($dungeonDetails->_abbreviation);
-                $newReturnArray[$dungeonId]['name'] = $dungeonDetails->_name;
-                $newReturnArray[$dungeonId]['data'] = $detailsArray;
             }
+
+            $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
+
+            $newReturnArray[$dungeonId]['abbreviation'] = strtolower($dungeonDetails->_abbreviation);
+            $newReturnArray[$dungeonId]['name'] = $dungeonDetails->_name;
+            $newReturnArray[$dungeonId]['data'] = $detailsArray;
         }
 
         return $newReturnArray;

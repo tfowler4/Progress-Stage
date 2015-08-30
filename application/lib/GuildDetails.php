@@ -223,10 +223,11 @@ class GuildDetails extends DetailObject {
                 foreach( $dungeonRankArray as $rankDetails ) {
                     $rankSystemArray = explode('||', $rankDetails);
                     
-                    $rankSystem = $rankSystemArray[0];
+                    $rankSystem = strtolower($rankSystemArray[0]);
                     $identifier = $dungeonId . '_' . $rankSystem;
 
-                    $rankDungeons->$identifier = new RankDetails($rankSystemArray, $dungeonId);
+                    //$rankDungeons->$identifier = new RankDetails($rankSystemArray, $dungeonId);
+                    $this->_dungeonDetails->$dungeonId->{'_' . $rankSystem} = new RankDetails($rankSystemArray, $dungeonId);
                 }
             }
 
@@ -275,7 +276,7 @@ class GuildDetails extends DetailObject {
         $property = new stdClass();
         
         foreach ( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ) {
-            $property->$dungeonId = new DungeonDetails($dungeonDetails);
+            $property->$dungeonId = new DungeonDetails($dungeonDetails, $this);
         }
         
         return $property;
@@ -481,79 +482,6 @@ class GuildDetails extends DetailObject {
                     $this->_tierRaidSizeDetails->$id->_recentEncounterDetails = $encounter;
                     break;
             }
-        }
-    }
-
-    /**
-     * merge a guild's standing details into the guild object properties
-     * 
-     * @param  string $dataType [ encounterDetails, dungeonDetails, etc ]
-     * @param  string $id       [ id of specific encounter/dungeon/etc ]
-     * 
-     * @return void
-     */
-    public function mergeViewDetails($dataType, $id) {
-        foreach ($this->$dataType->$id->getProperties() as $key => $value) {
-            $this->$key = $value;
-        }
-    }
-
-    /**
-     * merge ranking details into guild details object properties
-     * 
-     * @param  string $dataType [ encounterDetails, dungeonDetails, etc ]
-     * @param  string $id       [ id of specific encounter/dungeon/etc ]
-     * @param  string $view     [ specific list view server/region/world/etc ]
-     * 
-     * @return void
-     */
-    public function mergeRankViewDetails($dataType, $id, $view) {
-        foreach ($this->_rankDetails->$dataType->$id->getProperties() as $key => $value) {
-            if ( is_a($value, 'RankViewDetails') ) {
-                $this->$key = $value->{'_'.$view};
-
-                if ( $key == '_trend' && intval($this->$key) > 0 ) {
-                    $this->$key = IMG_ARROW_TREND_UP_SML . '<span>+' . $this->$key . '</span>';
-                } elseif ( $key == '_trend' && intval($this->_trend) < 0 ) {
-                    $this->$key = IMG_ARROW_TREND_DOWN_SML . '<span>' . $this->$key . '</span>';
-                }
-            } else {
-                $this->$key = $value;
-            }
-        }
-    }
-
-    /**
-     * get the difference in unix time between two time values
-     * 
-     * @param  integer $currentTime [ starting unix time value ]
-     * @param  integer $newTime     [ new unix time value ]
-     * 
-     * @return void
-     */
-    public function getTimeDiff($currentTime, $newTime) {
-        $timeDiff           = $newTime - $currentTime;
-        $this->_timeDiff    = Functions::convertToDiffDaysHoursMins($timeDiff);
-
-        if ( $currentTime == 0 ) { 
-            $this->_timeDiff = '--'; 
-        }
-    }
-
-    /**
-     * get the difference in point amounts between two point values
-     * 
-     * @param  double $currentPoints [ starting points value ]
-     * @param  double $newPoints     [ new points value ]
-     * 
-     * @return void
-     */
-    public function getPointDiff($currentPoints, $newPoints) {
-        $pointDiff        = $newPoints - $currentPoints;
-        $this->_pointDiff = Functions::formatPoints($pointDiff);
-
-        if ( $currentPoints == 0 ) { 
-            $this->_pointDiff = '--'; 
         }
     }
 }

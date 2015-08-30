@@ -794,6 +794,24 @@ class Functions {
 
         return $results['data']['url'];
     }
+
+    /**
+     * get the difference in point amounts between two point values
+     * 
+     * @param  double $currentPoints [ starting points value ]
+     * @param  double $newPoints     [ new points value ]
+     * 
+     * @return integer [ difference in points ]
+     */
+    public static function getPointDiff($currentPoints, $newPoints) {
+        $pointDiff = $newPoints - $currentPoints;
+
+        if ( $currentPoints == 0 ) { 
+            return '--'; 
+        }
+
+        return number_format($pointDiff, 2, '.', ',');
+    }
 }
 
 Functions::init();

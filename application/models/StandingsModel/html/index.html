@@ -15,17 +15,17 @@
 
         <div class="clear"></div>
 
-        <?php if ( !empty($data->_listings->_topGuildsArray) ): ?>
+        <?php if ( !empty($data->_topGuildsArray) ): ?>
             <div class="vertical-separator"></div>
-            <?php if ( isset($data->_listings->_encounter) ): ?>
-                <?php echo Template::drawTopGuildPane($data->_listings->_topGuildsArray, array('_datetime')); ?>
+            <?php if ( isset($data->_encounter) ): ?>
+                <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_datetime')); ?>
             <?php else: ?>
-                <?php echo Template::drawTopGuildPane($data->_listings->_topGuildsArray, array('_standing')); ?>
+                <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_standing')); ?>
             <?php endif; ?>
         <?php endif; ?>
 
         <div id="page-details-wrapper">
-            <?php if ( isset($data->_listings->_encounter) ): ?>
+            <?php if ( isset($data->_encounter) ): ?>
                 <table class="page-details">
                     <thead>
                         <tr>
@@ -73,7 +73,7 @@
             </ul>
         </div>
 
-        <?php if ( isset($data->_listings->_dungeon) && !isset($data->_listings->_encounter) ): ?>
+        <?php if ( isset($data->_dungeon) && !isset($data->_encounter) ): ?>
             <div id="submenu-2" class="move-right">
                 <ul class="submenu">
                     <a id="<?php echo $data->_listings->_identifier . '-' . $data->_listings->_view; ?>" href="#" class="spreadsheet"><li>View as Spreadsheet</li></a>
@@ -90,17 +90,17 @@
                 <thead>
                 </thead>
                 <tbody>
-                    <?php foreach( $data->_standingsArray as $dataType => $dataObject ): ?>
-                        <?php echo Template::drawSubTitleTableRow($data->_tableHeader, $dataObject->header); ?>
+                    <?php foreach( $data->_standingsArray as $listType => $dataArray ): ?>
+                        <?php echo Template::drawSubTitleTableRow($dataArray->tableFields, $dataArray->headerText); ?>
 
-                        <?php if ( !empty($dataObject->data) ): ?>
-                            <?php echo Template::drawSubHeaderTableRow($data->_tableHeader); ?>
+                        <?php if ( !empty($dataArray->data) ): ?>
+                            <?php echo Template::drawSubHeaderTableRow($dataArray->tableFields); ?>
 
-                            <?php foreach( $dataObject->data as $guildId => $guildDetails ): ?>
-                                <?php echo Template::drawBodyTableRow($data->_tableHeader, $guildDetails); ?>
+                            <?php foreach( $dataArray->data as $guildId => $guildDetails ): ?>
+                                <?php echo Template::drawBodyTableRow($dataArray->tableFields, $guildDetails); ?>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <?php echo Template::drawEmptyGuildTableRow($data->_tableHeader, 'No guild data found.'); ?>
+                            <?php echo Template::drawEmptyGuildTableRow($dataArray->tableFields, 'No guild data found.'); ?>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </tbody>

@@ -37,11 +37,15 @@ class Server extends DataObject {
      * @return void
      */
     public function getGuilds() {
-        $guilds = new stdClass();
+        $guilds = array();
+
+        if ( !empty($this->_guilds) ) {
+            $guilds = $this->_guilds;
+        }
 
         foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
-            if ( $guildDetails->_server == $this->_name ) {
-                $guilds->$guildId = $guildDetails;
+            if ( !isset($this->_guilds[$guildId]) && $guildDetails->_server == $this->_name ) {
+                $guilds[$guildId] = $guildDetails;
                 $this->_numOfGuilds++; 
             }
         }
