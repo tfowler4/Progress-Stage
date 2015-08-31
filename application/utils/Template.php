@@ -101,7 +101,6 @@ class Template {
         $html .= '<tr>';
 
         foreach( $tableHeader as $key => $value ) {
-            //print_r($columnObject);
             $columnValue = $columnObject->$value;
 
             $html .= '<td';
@@ -138,6 +137,9 @@ class Template {
             if ( !empty($specialRules) ) {
                 switch ($specialRules) {
                     case 'spreadsheet':
+                        // we need the guild details object given it default gives the dungeonDetails
+                        $columnObject = CommonDataContainer::$guildArray[$columnObject->_guildId];
+
                         // Given this is dungeon standings only, we know the key value will always be _encounterDetails->encounterId->_datatime, get the encounterId
                         if ( strpos($value, '->') > 0 ) {
                             $columnDetails = explode('->', $value);
@@ -355,13 +357,13 @@ class Template {
         $html .= '</thead>';
         $html .= '<tbody>';
 
-        foreach( $spreadsheet->listArray as $dataType => $dataObject ) {
-            $html .= self::drawSubTitleTableRow($tableHeader, $dungeonDetails->_name . ' ' . $dataObject->header . ' (Encounter Spreadsheet)');
+        foreach( $spreadsheet as $listType => $dataArray ) {
+            $html .= self::drawSubTitleTableRow($tableHeader, $dungeonDetails->_name . ' ' . $dataArray->headerText . ' (Encounter Spreadsheet)');
 
-            if ( !empty($dataObject->data) ) {
+            if ( !empty($dataArray->data) ) {
                 $html .= self::drawSubHeaderTableRow($tableHeader);
 
-                foreach ( $dataObject->data as $guildId => $guildDetails ) {
+                foreach ( $dataArray->data as $guildId => $guildDetails ) {
                     $html .= self::drawBodyTableRow($tableHeader, $guildDetails, 'spreadsheet');
                 }
             } else {
@@ -418,7 +420,28 @@ class Template {
 
         $spreadsheet = new Listings('standings', $params);
 
-        $html .= self::getSpreadsheetHtml($tableHeader, $spreadsheet, $dungeonDetails);
+        // set header text for spreadsheet sub-headers
+        switch ($view) {
+            case 'world':
+                $spreadsheet->listArray->world['world']->headerText = 'World Standings';
+                break;
+            case 'region':
+                foreach( $spreadsheet->listArray->$view as $listType => $dataArray ) {
+                    $regionDetails = CommonDataContainer::$regionArray[$listType];
+                    $dataArray->headerText = $regionDetails->_style . ' Standings';
+                }
+                break;
+            case 'server':
+                foreach( $spreadsheet->listArray->$view as $listType => $dataArray ) {
+                    $serverDetails = CommonDataContainer::$serverArray[$listType];
+                    $dataArray->headerText = $serverDetails->_name . ' Standings';
+                }
+                break;
+            case 'country':
+                break;
+        }
+
+        $html .= self::getSpreadsheetHtml($tableHeader, $spreadsheet->listArray->$view, $dungeonDetails);
 
         return $html;
     }

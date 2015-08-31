@@ -11,10 +11,10 @@ class StandingsModel extends Model {
     protected $_tier;
     protected $_dungeon;
     protected $_encounter;
-    
+    protected $_identifier;
+
     protected $_detailsPane;
     protected $_dataDetails;
-    protected $_guildListing;
 
     const GLOSSARY = array(
             'WF' => 'World Firsts',
@@ -89,7 +89,7 @@ class StandingsModel extends Model {
 
         $this->title = self::PAGE_TITLE;
 
-        $this->_guildListing = new Listings('standings', $params);
+        $guildListing = new Listings('standings', $params);
 
         if ( isset($params[0]) ) { $this->_view    = $params[0]; }
         if ( isset($params[1]) ) { $this->_tier    = $params[1]; }
@@ -98,8 +98,8 @@ class StandingsModel extends Model {
 
         switch($this->_view) {
             case 'world':
-                if ( isset($this->_guildListing->listArray->world['world']) ) {
-                    $this->_standingsArray['world'] = $this->_guildListing->listArray->world['world'];
+                if ( isset($guildListing->listArray->world['world']) ) {
+                    $this->_standingsArray['world'] = $guildListing->listArray->world['world'];
                     $this->_standingsArray['world']->tableFields = $this->_setTableFields($this->_tier, $this->_dungeon, $this->_encounter);
                     $this->_standingsArray['world']->headerText  = 'World Standings';
                 }
@@ -110,8 +110,8 @@ class StandingsModel extends Model {
                     $abbreviation = $regionDetails->_abbreviation;
                     $style        = $regionDetails->_style;
 
-                    if ( isset($this->_guildListing->listArray->region[$abbreviation]) ) {
-                        $this->_standingsArray[$abbreviation] = $this->_guildListing->listArray->region[$abbreviation];
+                    if ( isset($guildListing->listArray->region[$abbreviation]) ) {
+                        $this->_standingsArray[$abbreviation] = $guildListing->listArray->region[$abbreviation];
                         $this->_standingsArray[$abbreviation]->tableFields = $this->_setTableFields($this->_tier, $this->_dungeon, $this->_encounter);
                         $this->_standingsArray[$abbreviation]->headerText  = $style . ' Standings';
                     }
@@ -122,8 +122,8 @@ class StandingsModel extends Model {
                     $server = $serverDetails->_name;
                     $region = $serverDetails->_region;
 
-                    if ( isset($this->_guildListing->listArray->server[$server]) ) {
-                        $this->_standingsArray[$server] = $this->_guildListing->listArray->server[$server];
+                    if ( isset($guildListing->listArray->server[$server]) ) {
+                        $this->_standingsArray[$server] = $guildListing->listArray->server[$server];
                         $this->_standingsArray[$server]->tableFields = $this->_setTableFields($this->_tier, $this->_dungeon, $this->_encounter);
                         $this->_standingsArray[$server]->headerText  = $server . ' Standings';
                     }
@@ -131,14 +131,41 @@ class StandingsModel extends Model {
                 break;
         }
 
-        $this->_dataDetails    = $this->_guildListing->_dataDetails;
+        if ( $this->_encounter ) {
+            $this->_setEncounterTimeDiffField();
+        }
+
+        $this->_dataDetails    = $guildListing->_dataDetails;
         $this->_detailsPane    = $this->_dataDetails;
-        $this->_topGuildsArray = $this->_guildListing->_topGuildsArray;
+        $this->_topGuildsArray = $guildListing->_topGuildsArray;
+        $this->_identifier     = $guildListing->_identifier;
         $this->_dataDetails->setClears();
 
         $this->title = $this->_dataDetails->_name . ' ' . ucfirst($this->_view) . ' ' . self::PAGE_TITLE;
     }
 
+    private function _setEncounterTimeDiffField() {
+        foreach( $this->_standingsArray as $listType => $dataArray ) {
+
+            $currentTime = 0;
+            foreach( $dataArray->data as $guildId => $guildDetails ) {
+                $time = $guildDetails->_strtotime;
+                $guildDetails->getTimeDiff($currentTime, $time);
+
+                $currentTime = $time;
+            }
+        }
+    }
+
+    /**
+     * set the data table header fields to be displayed
+     * 
+     * @param string $tier      [ tier parameter ]
+     * @param string $dungeon   [ dungeon parameter ]
+     * @param string $encounter [ encounter parameter ]
+     *
+     * @return void
+     */
     private function _setTableFields($tier, $dungeon, $encounter) {
         $tableFields = array();
 

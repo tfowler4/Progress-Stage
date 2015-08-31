@@ -112,8 +112,8 @@ class EncounterDetails extends DetailObject {
      * @return void
      */
     public function getTimeDiff($currentTime, $newTime) {
-        $timeDiff           = $newTime - $currentTime;
-        $this->_timeDiff    = Functions::convertToDiffDaysHoursMins($timeDiff);
+        $timeDiff        = $newTime - $currentTime;
+        $this->_timeDiff = Functions::convertToDiffDaysHoursMins($timeDiff);
 
         if ( $currentTime == 0 ) { 
             $this->_timeDiff = '--'; 

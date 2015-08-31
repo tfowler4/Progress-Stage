@@ -68,13 +68,12 @@ class ServersModel extends Model {
         $this->_tierDetails   = Functions::getTierByName($this->_tier);
 
         $server = $this->_serverDetails->_name;
-        $region = $this->_serverDetails->_region;
 
         foreach( $this->_tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
             $dungeonName = Functions::cleanLink($dungeonDetails->_name);
             $params[2] = $dungeonName;
 
-            $this->_guildListing = new Listings('servers', $params, 0, $this->_serverDetails);
+            $this->_guildListing = new Listings('servers', $params, $this->_serverDetails);
             $this->_standingsArray[$dungeonId] = $this->_guildListing->listArray->server[$server];
             $this->_standingsArray[$dungeonId]->tableFields = $this->_setTableFields();
             $this->_standingsArray[$dungeonId]->headerText  = $dungeonDetails->_name . ' Standings';
@@ -88,9 +87,14 @@ class ServersModel extends Model {
         $this->_detailsPane = $this->_guildListing->_serverDetails;
         $this->_detailsPane->getFirstEncounterKills();
 
-        $this->title = $this->_detailsPane->_name . ' Raid Progression';
+        $this->title = $this->_detailsPane->_name . ' ' . self::PAGE_TITLE;
     }
 
+    /**
+     * set the data table header fields to be displayed
+     *
+     * @return void
+     */
     private function _setTableFields() {
         $tableFields = self::TABLE_HEADER_STANDINGS_DUNGEON;
 

@@ -10,9 +10,6 @@ class NewsModel extends Model {
     protected $_videoLinks        = array();
     protected $_guildRankings     = array();
     protected $_guildStandings    = array();
-    protected $_dungeonGuildArray = array();
-    protected $_standingsTableHeader;
-    protected $_listings;
     
     const PAGE_TITLE            = GAME_NAME_1 . '\'s Raid Progression Tracker';
     const PAGE_DESCRIPTION      = GAME_NAME_1 . '\'s #1 Resource for raid progression tracking.';
@@ -49,8 +46,6 @@ class NewsModel extends Model {
         $this->_guildStandings = $this->_getStandings(self::STANDINGS_DISPLAY, self::LIMIT_GUILD_STANDINGS);
         $this->_guildRankings  = $this->_getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
         $this->_recentRaids    = $this->_getRecentRaids(self::LIMIT_RECENT_RAIDS);
-
-        $this->_standingsTableHeader = self::HEADER_STANDINGS;
     }
 
     /**
@@ -140,6 +135,8 @@ class NewsModel extends Model {
                 $returnArray[$dungeonId]->headerText  = $dungeonDetails->_name . ' Top ' . $guildLimit . ' World Guilds';
                 $returnArray[$dungeonId]->dataDetails = $dungeonDetails;
 
+                $returnArray[$dungeonId]->data = array_splice($returnArray[$dungeonId]->data, 0, $guildLimit);
+
                 $dungeonCount++;
             }
         } elseif ( $content == 1 ) {
@@ -162,6 +159,8 @@ class NewsModel extends Model {
                         $returnArray[$abbreviation]->tableFields = self::HEADER_STANDINGS;
                         $returnArray[$abbreviation]->headerText  = $dungeonDetails->_name . ' Top ' . $guildLimit . ' ' . $abbreviation . ' Guilds';
                         $returnArray[$abbreviation]->dataDetails = $dungeonDetails;
+
+                        $returnArray[$abbreviation]->data = array_splice($returnArray[$abbreviation]->data, 0, $guildLimit);
                     }
                 }
 
@@ -197,7 +196,7 @@ class NewsModel extends Model {
                 $params[2] = Functions::cleanLink($tierDetails->_name);
                 $params[3] = Functions::cleanLink($dungeonDetails->_name);
 
-                $guildListing = new Listings('rankings', $params, $limit);
+                $guildListing = new Listings('rankings', $params);
 
                 $returnArray[$dungeonId] = $guildListing->listArray->world['world'];
                 $returnArray[$dungeonId]->tableFields = self::HEADER_STANDINGS;
@@ -218,16 +217,27 @@ class NewsModel extends Model {
                     $points       = Functions::formatPoints($rankDetails->_points);
                     $trend        = $rankDetails->_trend->_world;
                     $rank         = $rankDetails->_rank->_world;
+                    $rankId       = sprintf("%02d", $rank);
                     $image        = Functions::getTrendImage($trend);
-                    $identifier   = $guildId . ' | ' . $systemAbbrev;
+                    $identifier   = $systemAbbrev . ' | ' . $guildId;
 
-                    $detailsArray[$rank][$identifier]           = new stdClass();
-                    $detailsArray[$rank][$identifier]->points   = $points;
-                    $detailsArray[$rank][$identifier]->progress = $guildDetails->_standing;
-                    $detailsArray[$rank][$identifier]->guild    = $guildDetails->_nameLink;
-                    $detailsArray[$rank][$identifier]->rank     = $image . ' ' . $rank;
+                    $detailsArray[$rankId][$identifier]           = new stdClass();
+                    $detailsArray[$rankId][$identifier]->points   = $points;
+                    $detailsArray[$rankId][$identifier]->progress = $guildDetails->_standing;
+                    $detailsArray[$rankId][$identifier]->guild    = $guildDetails->_nameLink;
+                    $detailsArray[$rankId][$identifier]->rank     = $image . ' ' . $rank;
                 }
             }
+
+            ksort($detailsArray);
+
+            foreach( $detailsArray as $rank => $systemArray ) {
+                krsort($systemArray);
+
+                $detailsArray[$rank] = $systemArray;
+            }
+
+            $detailsArray = array_splice($detailsArray, 0, $limit);
 
             $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
 

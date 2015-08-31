@@ -20,7 +20,6 @@ class Listings extends DataObject {
     protected $_dataDetails;
     protected $_title;
     protected $_isSpreadsheet;
-    protected $_listLimit;
 
     protected $_tierDetails;
     protected $_dungeonDetails;
@@ -40,9 +39,8 @@ class Listings extends DataObject {
     /**
      * constructor
      */
-    public function __construct($listType, $params, $limit = 0, $serverDetails = null) {
+    public function __construct($listType, $params, $serverDetails = null) {
         $this->_listType   = $listType;
-        $this->_listLimit  = $limit;
         $this->_guildArray = CommonDataContainer::$guildArray;
 
         switch ($this->_listType) {
@@ -100,8 +98,6 @@ class Listings extends DataObject {
                 $this->listArray = $this->_getRankings();
                 break;
         }
-
-        $this->_applyListLimit();
     }
 
     /**
@@ -388,18 +384,17 @@ class Listings extends DataObject {
 
         switch( $this->_view ) {
             case 'world':
-                $guildListing->world = array();
-                $guildListing->world['world'] = (!empty($sortGuildArray['world']) ? $sortGuildArray['world'] : array());
+                $guildListing->world                = array();
+                $guildListing->world['world']       = new GuildListingDetails();
+                $guildListing->world['world']->data = (!empty($sortGuildArray['world']) ? $sortGuildArray['world'] : array());
 
                 break;
             case 'region':
                 $guildListing->region = array();
 
                 foreach ( CommonDataContainer::$regionArray as $regionId => $regionDetails ) {
-                    $region       = $regionDetails->_name;
-                    $abbreviation = $regionDetails->_abbreviation;
-
-                    $guildListing->region[$abbreviation] = (!empty($sortGuildArray['region'][$abbreviation]) ? $sortGuildArray['region'][$abbreviation] : array());
+                    $guildListing->region[$regionId]       = new GuildListingDetails();
+                    $guildListing->region[$regionId]->data = (!empty($sortGuildArray['region'][$regionId]) ? $sortGuildArray['region'][$regionId] : array());
                 }
 
                 break;
@@ -407,10 +402,8 @@ class Listings extends DataObject {
                 $guildListing->server = array();
 
                 foreach ( CommonDataContainer::$serverArray as $serverId => $serverDetails ) {
-                    $server = $serverDetails->_name;
-                    $region = $serverDetails->_region;
-
-                    $guildListing->server[$server] = (!empty($sortGuildArray['server'][$server]) ? $sortGuildArray['server'][$server] : array());
+                    $guildListing->server[$serverId]       = new GuildListingDetails();
+                    $guildListing->server[$serverId]->data = (!empty($sortGuildArray['server'][$serverId]) ? $sortGuildArray['server'][$serverId] : array());
                 }
 
                 break;
@@ -418,45 +411,14 @@ class Listings extends DataObject {
                 $guildListing->country = array();
 
                 foreach ( CommonDataContainer::$countryArray as $countryId => $countryDetails ) {
-                    $country = $countryDetails->_name;
-                    $region  = $countryDetails->_region;
-
-                    $guildListing->$country[$country] = (!empty($sortGuildArray['country'][$country]) ? $sortGuildArray['country'][$country] : array());
+                    $guildListing->country[$countryId]        = new GuildListingDetails();
+                    $guildListing->$country[$countryId]->data = (!empty($sortGuildArray['country'][$countryId]) ? $sortGuildArray['country'][$countryId] : array());
                 }
 
                 break;
         }
 
         return $guildListing;
-    }
-
-    private function _applyListLimit() {
-        $newListArray = new GuildListing();
-
-        foreach( $this->listArray as $listType => $listTypeArray ) {
-            $listDataArray = array();
-
-            if ( empty($listTypeArray) ) { continue; }
-
-            foreach( $listTypeArray as $listTypeName => $guildDataArray ) {
-                $newGuildArray = array();
-                $guildCount    = 1;
-
-                foreach( $guildDataArray as $guildId => $guildDetails ) {
-                    if ( !empty($this->_listLimit) && $guildCount > $this->_listLimit ) { break; }
-                    $newGuildArray[$guildId] = $guildDetails;
-
-                    $guildCount++;
-                }
-
-                $listDataArray[$listTypeName]       = new GuildListingDetails();
-                $listDataArray[$listTypeName]->data = (!empty($newGuildArray) ? $newGuildArray : array());
-            }
-
-           $newListArray->$listType = $listDataArray;
-        }
-
-        $this->listArray = $newListArray;
     }
 
     /**

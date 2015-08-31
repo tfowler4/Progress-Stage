@@ -15,7 +15,6 @@ class RankingsModel extends Model {
     
     protected $_detailsPane;
     protected $_dataDetails;
-    protected $_guildListing;
 
     const LIMIT_TREND_UNRANK = 10;
     const LIMIT_TREND_RANK   = 10;
@@ -83,7 +82,7 @@ class RankingsModel extends Model {
 
         $this->title = self::PAGE_TITLE;
 
-        $this->_guildListing = new Listings('rankings', $params);
+        $guildListing = new Listings('rankings', $params);
 
         if ( isset($params[0]) ) { $this->_view     = $params[0]; }
         if ( isset($params[1]) ) { $this->_rankType = $params[1]; }
@@ -93,8 +92,8 @@ class RankingsModel extends Model {
 
         switch($this->_view) {
             case 'world':
-                if ( isset($this->_guildListing->listArray->world['world']) ) {
-                    $this->_rankingsArray['world'] = $this->_guildListing->listArray->world['world'];
+                if ( isset($guildListing->listArray->world['world']) ) {
+                    $this->_rankingsArray['world'] = $guildListing->listArray->world['world'];
                     $this->_rankingsArray['world']->tableFields = $this->_setTableFields($this->_tier, $this->_dungeon, $this->_encounter);
                     $this->_rankingsArray['world']->headerText  = 'World Rankings';
                 }
@@ -105,8 +104,8 @@ class RankingsModel extends Model {
                     $abbreviation = $regionDetails->_abbreviation;
                     $style        = $regionDetails->_style;
 
-                    if ( isset($this->_guildListing->listArray->region[$abbreviation]) ) {
-                        $this->_rankingsArray[$abbreviation] = $this->_guildListing->listArray->region[$abbreviation];
+                    if ( isset($guildListing->listArray->region[$abbreviation]) ) {
+                        $this->_rankingsArray[$abbreviation] = $guildListing->listArray->region[$abbreviation];
                         $this->_rankingsArray[$abbreviation]->tableFields = $this->_setTableFields($this->_tier, $this->_dungeon, $this->_encounter);
                         $this->_rankingsArray[$abbreviation]->headerText  = $style . ' Rankings';
                     }
@@ -117,8 +116,8 @@ class RankingsModel extends Model {
                     $server = $serverDetails->_name;
                     $region = $serverDetails->_region;
 
-                    if ( isset($this->_guildListing->listArray->server[$server]) ) {
-                        $this->_rankingsArray[$server] = $this->_guildListing->listArray->server[$server];
+                    if ( isset($guildListing->listArray->server[$server]) ) {
+                        $this->_rankingsArray[$server] = $guildListing->listArray->server[$server];
                         $this->_rankingsArray[$server]->tableFields = $this->_setTableFields($this->_tier, $this->_dungeon, $this->_encounter);
                         $this->_rankingsArray[$server]->headerText  = $server . ' Rankings';
                     }
@@ -127,9 +126,9 @@ class RankingsModel extends Model {
         }
 
         $this->_setRankSystemDetails();
-        $this->_dataDetails    = $this->_guildListing->_dataDetails;
+        $this->_dataDetails    = $guildListing->_dataDetails;
         $this->_detailsPane    = $this->_dataDetails;
-        $this->_topGuildsArray = $this->_guildListing->_topGuildsArray;
+        $this->_topGuildsArray = $guildListing->_topGuildsArray;
         $this->_dataDetails->setClears();
 
         $this->title = $this->_dataDetails->_name . ' ' . ucfirst($this->_view) . ' ' . self::PAGE_TITLE;
@@ -153,6 +152,15 @@ class RankingsModel extends Model {
         }
     }
 
+    /**
+     * set the data table header fields to be displayed
+     * 
+     * @param string $tier      [ tier parameter ]
+     * @param string $dungeon   [ dungeon parameter ]
+     * @param string $encounter [ encounter parameter ]
+     *
+     * @return void
+     */
     private function _setTableFields($tier, $dungeon, $encounter) {
         $tableFields = array();
 

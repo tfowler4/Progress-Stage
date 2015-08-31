@@ -47,23 +47,4 @@ class DungeonDetails extends DetailObject {
         $this->_countryImage = $guildDetails->_countryImage;
         $this->_countryLink  = $guildDetails->_countryLink;
     }
-
-
-    /**
-     * get the difference in unix time between two time values
-     * 
-     * @param  integer $currentTime [ starting unix time value ]
-     * @param  integer $newTime     [ new unix time value ]
-     * 
-     * @return void
-     */
-    public function getTimeDiff($currentTime, $newTime) {
-        $timeDiff           = $newTime - $currentTime;
-        $this->_timeDiff    = Functions::convertToDiffDaysHoursMins($timeDiff);
-
-        if ( $currentTime == 0 ) { 
-            $this->_timeDiff = '--'; 
-        }
-    }
-
 }
