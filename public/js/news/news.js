@@ -1,19 +1,30 @@
 // news model event binder
 var NewsEventBinder = function() {
-    var stopClick = false;
+    var stopClickRecent    = false;
+    var stopClickMedia     = false;
+    var stopClickRankPanel = false;
+    var userClicked = false;
+    var autoSliding = true;
+
+    var numOfMediaItems;
+    var mediaSlideDelay;
+    var mediaSlideWidth;
+    var maxMediaPaneSize;
+    var mediaAutoSliderId;
+    var mediaSliderPosition;
 
     // side rankings system click to display different dungeons
     $(document).on('click touchstart', '.side-ranking-header.clickable', function() {
         var slideDelay      = 500;
         var blockRankHeight = '';
 
-        if( stopClick ) { return; }
+        if( stopClickRankPanel ) { return; }
 
         var paneTitleId = $(this).prop('id').replace('dungeon-rankings-clicker-', '');
         var currentPane = $('#dungeon-rankings-wrapper-' + paneTitleId);
 
         if ( currentPane.hasClass('hidden') ) {
-            stopClick = true;
+            stopClickRankPanel = true;
 
             var activePane = $(this).parent().children('.active');
 
@@ -26,7 +37,7 @@ var NewsEventBinder = function() {
             });
 
             currentPane.slideToggle(slideDelay, 'linear', function() {
-                stopClick = false;
+                stopClickRankPanel = false;
                 currentPane.removeClass('hidden');
                 currentPane.addClass('active');
                 activePane.css('background-color', '#D9D9D9');
@@ -40,12 +51,12 @@ var NewsEventBinder = function() {
 
     // side rankings system click to display different ranking systems data
     $(document).on('click touchstart', 'span.clickable', function() {
-        if( stopClick ) { return; }
+        if( stopClickRankPanel ) { return; }
 
         var systemId = $(this).prop('id').replace('system-selector-', '');
         
         if ( !$(this).hasClass('highlight') ) {
-            stopClick = true;
+            stopClickRankPanel = true;
             $(this).parent().children('.highlight').removeClass('highlight');
             $(this).addClass('highlight');
 
@@ -69,7 +80,7 @@ var NewsEventBinder = function() {
             $(me).parent().find(newIdentifier).removeClass('hidden');
 
             if ( enableClick ) {
-                stopClick = false;
+                stopClickRankPanel = false;
             }
         });
     };
@@ -82,7 +93,7 @@ var NewsEventBinder = function() {
         var recentSlideWidth  = 1206;
         var maxRecentPaneSize = numOfRecentItems * recentSlideWidth;
 
-        if( stopClick ) { return; }
+        if( stopClickRecent ) { return; }
 
         var pos = $('#latest-kills ul').css("left").replace("px", "");
         var direction;
@@ -97,36 +108,48 @@ var NewsEventBinder = function() {
 
         if ( (direction == 'left' && parseInt(pos) <= 0) 
              || (direction == 'right' && pos > (-1*maxRecentPaneSize) ) ) {
-            stopClick = true; 
+            stopClickRecent = true; 
             $('#latest-kills ul').animate({ left: pos }, recentSlideDelay, function() {
-                stopClick = false;
+                stopClickRecent = false;
             });
         }
     });
 
     // media viewer buttons click to scroll through different video/streams
     $(document).on('click touchstart', '.scroll-button-media', function() {
-        var numOfMediaItems  = $("#media-pane ul li").length;
-        var mediaSlideDelay  = 350;
-        var mediaSlideWidth  = 900;
-        var maxMediaPaneSize = numOfMediaItems * mediaSlideWidth;
+        if( stopClickMedia ) { return; }
 
-        if( stopClick ) { return; }
+        if ( !userClicked ) {
+            userClicked = true;
+            autoSliding = false;
 
-        var pos = $('#media-pane ul').css("left").replace("px", "");
+            if ( mediaAutoSliderId ) {
+                clearInterval(mediaAutoSliderId);
+            }
+        }
+
+        mediaSliderPosition = $('#media-pane ul').css("left").replace("px", "");
         var direction;
 
         if ( $(this).hasClass('left') ) {
-            direction = 'left';
-            pos       = parseInt(pos) + mediaSlideWidth;
-        } else if ( $(this).hasClass('right') ) {
-            direction = 'right';
-            pos       = parseInt(pos) - mediaSlideWidth;
+            direction           = 'left';
+            mediaSliderPosition = parseInt(mediaSliderPosition) + mediaSlideWidth;
         }
 
+        if ( $(this).hasClass('right') && (mediaSliderPosition-mediaSlideWidth) == (-1*maxMediaPaneSize) ) {
+            direction           = 'right';
+            mediaSliderPosition = 0;
+        } else if ( $(this).hasClass('right') ) {
+            direction           = 'right';
+            mediaSliderPosition = parseInt(mediaSliderPosition) - mediaSlideWidth;
+        }
+
+        scrollMediaSlider(direction, mediaSliderPosition);
+    });
+    var scrollMediaSlider = function(direction, pos) {
         if ( (direction == 'left' && parseInt(pos) <= 0) 
              || (direction == 'right' && pos > (-1*maxMediaPaneSize) ) ) {
-            stopClick = true;
+            stopClickMedia = true;
 
             var navigationNumber = -1 * (pos / mediaSlideWidth);
             $('.circle').not('.clickable.faded').addClass('clickable faded');
@@ -152,10 +175,10 @@ var NewsEventBinder = function() {
 
             // animate guild logo 
             $('.media-guild-logo').delay(mediaSlideDelay).animate({ 'margin-right': 5 }, mediaSlideDelay, function() {
-                stopClick = false;
+                stopClickMedia = false;
             });
         }
-    });
+    };
 
     // media overlay navigation button click to scroll to exact stream
     $(document).on('click touchstart', '.circle.clickable.faded', function() {
@@ -163,9 +186,18 @@ var NewsEventBinder = function() {
         var mediaSlideWidth = 900;
         var currentPosition = parseInt($('#media-pane ul').css("left").replace("px", ""));
 
-        if( stopClick ) { return; }
+        if( stopClickMedia ) { return; }
 
-        stopClick = true;
+        stopClickMedia = true;
+
+        if ( !userClicked ) {
+            userClicked = true;
+            autoSliding = false;
+
+            if ( mediaAutoSliderId ) {
+                clearInterval(mediaAutoSliderId);
+            }
+        }
 
         $('.circle').not('.clickable.faded').addClass('clickable faded');
 
@@ -194,12 +226,18 @@ var NewsEventBinder = function() {
 
         // animate guild logo 
         $('.media-guild-logo').delay(mediaSlideDelay).animate({ 'margin-right': 5 }, mediaSlideDelay, function() {
-            stopClick = false;
+            stopClickMedia = false;
         });
     });
 
     // when page loads, re-adjust guild logos on media overlay to be centered based on image height
     $(document).ready(function(){
+        numOfMediaItems     = $("#media-pane ul li").length;
+        mediaSlideDelay     = 350;
+        mediaSlideWidth     = 900;
+        maxMediaPaneSize    = numOfMediaItems * mediaSlideWidth;
+        mediaSliderPosition = $('#media-pane ul').css("left").replace("px", "");
+
         $('.media-guild-logo img, .media-guild-flag img').each(function() {
             var parentHeight = parseInt($(this).parent().parent().css('height').replace('px', ''));
             var height       = parseInt($(this).css('height').replace('px', ''));
@@ -207,5 +245,18 @@ var NewsEventBinder = function() {
 
             $(this).css('margin-top', marginTop);
         });
+
+        // automatically move slider to right until user clicks
+        if ( !userClicked && autoSliding && numOfMediaItems > 1 ) {
+            mediaAutoSliderId = setInterval(function(){
+                if ( (mediaSliderPosition-mediaSlideWidth) == (-1*maxMediaPaneSize) ) {
+                    mediaSliderPosition = 0;
+                } else {
+                    mediaSliderPosition = parseInt(mediaSliderPosition) - mediaSlideWidth;
+                }
+
+                scrollMediaSlider('right', mediaSliderPosition);
+            }, 1000*10 );
+        }
     });
 };
