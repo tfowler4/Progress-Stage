@@ -170,6 +170,8 @@ var NewsEventBinder = function() {
                 $('.media-guild-logo').fadeToggle(mediaSlideDelay, function() {
                     $('.media-guild-logo').css('margin-right', '500px');
                     $('.media-guild-logo').css('display', 'block');
+
+                    $('.media-guild-flag img, media-guild-logo img').css('margin-top', '0px');
                 })
             }
 
@@ -230,14 +232,9 @@ var NewsEventBinder = function() {
         });
     });
 
-    // when page loads, re-adjust guild logos on media overlay to be centered based on image height
+    // when page finishes loading
     $(document).ready(function(){
-        numOfMediaItems     = $("#media-pane ul li").length;
-        mediaSlideDelay     = 350;
-        mediaSlideWidth     = 900;
-        maxMediaPaneSize    = numOfMediaItems * mediaSlideWidth;
-        mediaSliderPosition = $('#media-pane ul').css("left").replace("px", "");
-
+        // when page loads, re-adjust guild logos on media overlay to be centered based on image height
         $('.media-guild-logo img, .media-guild-flag img').each(function() {
             var parentHeight = parseInt($(this).parent().parent().css('height').replace('px', ''));
             var height       = parseInt($(this).css('height').replace('px', ''));
@@ -245,6 +242,12 @@ var NewsEventBinder = function() {
 
             $(this).css('margin-top', marginTop);
         });
+
+        numOfMediaItems     = $("#media-pane ul li").length;
+        mediaSlideDelay     = 350;
+        mediaSlideWidth     = 900;
+        maxMediaPaneSize    = numOfMediaItems * mediaSlideWidth;
+        mediaSliderPosition = $('#media-pane ul').css("left").replace("px", "");
 
         // automatically move slider to right until user clicks
         if ( !userClicked && autoSliding && numOfMediaItems > 1 ) {
