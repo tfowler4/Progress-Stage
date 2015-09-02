@@ -117,7 +117,7 @@ var NewsEventBinder = function() {
 
     // media viewer buttons click to scroll through different video/streams
     $(document).on('click touchstart', '.scroll-button-media', function() {
-        if( stopClickMedia ) { return; }
+        if( stopClickMedia || numOfMediaItems <= 1) { return; }
 
         if ( !userClicked ) {
             userClicked = true;
@@ -172,6 +172,8 @@ var NewsEventBinder = function() {
                     $('.media-guild-logo').css('display', 'block');
 
                     $('.media-guild-flag img, media-guild-logo img').css('margin-top', '0px');
+
+                    $('.media-guild-flag img').css('margin-top', '-15px');
                 })
             }
 
@@ -233,14 +235,22 @@ var NewsEventBinder = function() {
     });
 
     // when page finishes loading
-    $(document).ready(function(){
+    $(window).load(function(){
         // when page loads, re-adjust guild logos on media overlay to be centered based on image height
-        $('.media-guild-logo img, .media-guild-flag img').each(function() {
+        $('.media-guild-logo img').each(function() {
             var parentHeight = parseInt($(this).parent().parent().css('height').replace('px', ''));
             var height       = parseInt($(this).css('height').replace('px', ''));
             var marginTop    = -1 *(height - parentHeight) / 2;
 
-            $(this).css('margin-top', marginTop);
+            $(this).css('margin-top', marginTop +'px');
+        });
+
+        $('.media-guild-flag img').each(function() {
+            var parentHeight = parseInt($(this).parent().parent().css('height').replace('px', ''));
+            var height       = parseInt($(this).css('height').replace('px', ''));
+            var marginTop    = -1 *(height - parentHeight) / 2;
+
+            $(this).css('margin-top', '-15px');
         });
 
         numOfMediaItems     = $("#media-pane ul li").length;
