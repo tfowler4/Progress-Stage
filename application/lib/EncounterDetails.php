@@ -77,7 +77,8 @@ class EncounterDetails extends DetailObject {
             $this->_screenshotLink = '--';
         }
 
-        if ( !empty($params[4]) ) { $this->_videoLink        = '<a target="_blank" href="' . $params[4] . '">View</a>'; }
+        //if ( !empty($params[4]) ) { $this->_videoLink        = '<a target="_blank" href="' . $params[4] . '">View</a>'; } //id="login-activator" class="activatePopUp"
+        if ( !empty($params[4]) ) { $this->_videoLink        = '<a class="video-activator clickable" data-guild="' . $guildDetails->_guildId . '" data-encounter="' . $this->_encounterId . '">View</a>'; } 
         if ( !empty($params[6]) ) { $this->_serverRank       = $params[5]; }
         if ( !empty($params[7]) ) { $this->_regionRank       = $params[6]; }
         if ( !empty($params[8]) ) { $this->_worldRank        = $params[7]; }

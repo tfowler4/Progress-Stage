@@ -11,6 +11,31 @@ abstract class Model {
      * constructor
      */
     public function __construct() {
+        switch(Post::get('request')) {
+            case 'form':
+            case 'search':
+                $html = Template::getPopupForm(Post::get('formId'));
+                echo $html;
+                die;
+                break;
+            case 'spreadsheet':
+                $html = Template::getSpreadsheet(Post::get('dungeon'));
+                echo $html;
+                die;
+                break;
+            case 'encounterList':
+                $html = Template::getEncounterDropdownListHtml(Post::get('guild'));
+                echo $html;
+                die;
+                break;
+            case 'videoList':
+                $html = Template::getVideoListHtml(Post::get('guild'), Post::get('encounter'));
+                echo $html;
+                die;
+                break;
+        }
+
+        /*
         if ( Post::get('request') == 'spreadsheet' ) {
             $html = Template::getSpreadsheet(Post::get('dungeon'));
             echo $html;
@@ -23,11 +48,16 @@ abstract class Model {
             $html = Template::getPopupForm(Post::get('formId'));
             echo $html;
             die;
-        } elseif ( Post::get('request') == 'encounterList' ) {
+        } elseif ( Post::get('request') == 'video' ) {
+            $html = Template::getPopupForm(Post::get('formId'));
+            echo $html;
+            die;
+        }  elseif ( Post::get('request') == 'encounterList' ) {
             $html = Template::getEncounterDropdownListHtml(Post::get('guild'));
             echo $html;
             die;
         }
+        */
     }
 
     /**

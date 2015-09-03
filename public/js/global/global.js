@@ -92,6 +92,34 @@ var GlobalEventBinder = function() {
         });
     }
 
+    // on user clicking 'View' for videos to fetch all videos for that encounter/guild
+    $(document).on('click touchstart', '.video-activator', function() {
+        $(".overlay").fadeToggle('fast');
+
+        var currentPageUrl = document.URL;
+        var guildId        = $(this).attr('data-guild');
+        var encounterId    = $(this).attr('data-encounter');
+
+        // ajax call to retrieve new video list html
+         $.ajax({
+            url: currentPageUrl,
+            type: 'POST',
+            data: { request: 'videoList', guild: guildId, encounter: encounterId},
+            success: function(data) {
+                var activeDiv = $('#popup-wrapper');
+
+                activeDiv.toggleClass('centered');
+                activeDiv.fadeToggle('fast');
+                activeDiv.html(data);
+                activePopup = activeDiv;
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            }
+        });
+    });
+
     // bind searchGuilds event to textbox submit and image click to display guild search results
     var searchGuilds = function(event) {
         event.preventDefault();
@@ -165,6 +193,7 @@ var GlobalEventBinder = function() {
         });
 
         if ( $('#' + popupId) != undefined ) {
+            console.log('popupId: ' +popupId);
             activePopup = $('#' + popupId);
 
             $('#' + popupId).toggleClass('centered');

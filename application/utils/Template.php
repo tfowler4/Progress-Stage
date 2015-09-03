@@ -469,6 +469,57 @@ class Template {
     }
 
     /**
+     * get html table for videos of a specific encounter/guild
+     * 
+     * @param  string $guildId [ id of a guild ]
+     * 
+     * @return string [ html string containing select dropdown with encounters ]
+     */
+    public static function getVideoListHtml($guildId, $encounterId) {
+        $html = '';
+
+        $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
+        $guildDetails     = CommonDataContainer::$guildArray[$guildId];
+
+        $dbh        = DbFactory::getDbh();
+        $videoArray = array();
+        $tableHeader = array(
+            '#'       => 'video_id',
+            'Channel' => 'channel',
+            'Notes'   => 'notes'
+            );
+
+        $query = $dbh->prepare(sprintf(
+            "SELECT *
+               FROM %s
+              WHERE guild_id = %d
+                AND encounter_id = %d", 
+                    DbFactory::TABLE_VIDEOS, 
+                    $guildId,
+                    $encounterId
+                ));
+        $query->execute();
+
+        while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
+            $videoArray[$row['video_id']] = $row;
+        }
+
+        $html .= '<div class="vertical-separator"></div>';
+        $html .= '<div class="table-wrapper">';
+        $html .= '<table class="listing">';
+        $html .= '<thead>';
+        $html .= '</thead>';
+        $html .= '<tbody>';
+        $html .= self::drawSubTitleTableRow($tableHeader, $guildDetails->_name . ' ' . $encounterDetails->_name . ' Kill Videos');
+        $html .= self::drawSubHeaderTableRow($tableHeader);
+        $html .= '</tbody>';
+        $html .= '</table>';
+        $html .= '</div>';
+
+        return $html;
+    }
+
+    /**
      * draw header top level menu item
      * 
      * @param  string  $modelName   [ name of active model ]

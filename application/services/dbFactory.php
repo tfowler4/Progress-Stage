@@ -21,6 +21,7 @@ class DbFactory {
     const TABLE_SYSTEMS      = 'rank_system_table';
     const TABLE_LOGGING      = 'log_table';
     const TABLE_TWITCH       = 'twitch_table';
+    const TABLE_VIDEOS       = 'video_table';
 
     public static function init() {
         self::$_dbh = self::getDbh();
