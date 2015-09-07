@@ -15,6 +15,7 @@ class PushStageToWebServer {
     const REMOTE_LOCATION = '/public_html/' . DOMAIN;
 
     static public function init() {
+        Logger::log('INFO', 'Starting Push Stage To Web Server...', 'dev');
         self::$_connection = ftp_connect(FTP_HOST);
         self::$_login      = ftp_login(self::$_connection, FTP_USER, FTP_PASSWORD);
 
@@ -28,6 +29,7 @@ class PushStageToWebServer {
         if ( file_exists(ABSOLUTE_PATH) ) {
             self::searchDirectory(ABSOLUTE_PATH);
         }
+        Logger::log('INFO', 'Push Stage To Web Server Completed!', 'dev');
         ftp_close(self::$_connection);
     }
 
@@ -85,7 +87,7 @@ class PushStageToWebServer {
         }
         // Display message if upload errors out
         if ($upload != FTP_FINISHED) {
-            echo 'Error Uploading: ' . $localFile . '<br>';
+            Logger::log('ERROR', 'Unable to upload file: ' . $localFile, 'dev');
             exit;
         }
     }

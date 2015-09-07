@@ -9,6 +9,8 @@ class ImportCurrentBackupFileToDB {
     const LOCAL_PATH = ABSOLUTE_PATH . '/temp';
 
 	static public function init() {
+        Logger::log('INFO', 'Starting Import Current Backup File to Database...', 'dev');
+
 		$dateYear  = date('Y');
         $dateMonth = date('n')."-".date('M');
         $dateDay   = date('d');
@@ -43,10 +45,10 @@ class ImportCurrentBackupFileToDB {
 
         switch($msg) {
             case 0:
-                echo 'SUCCESS: Import Completed!';
+                Logger::log('INFO', 'Import Current Backup File to Database Completed!', 'dev');
                 break;
             case 1:
-                echo 'ERROR: Import Failed!';
+                Logger::log('ERROR', 'Unable to import backup file: ' . $file, 'dev');
                 break;
         }
     }
@@ -60,7 +62,7 @@ class ImportCurrentBackupFileToDB {
         $localFile = str_replace(self::$_serverBackupPath, self::LOCAL_PATH, $file);
 
         if ( !ftp_get($connection, $localFile, $file, FTP_BINARY) ) {
-            echo 'Error Downloading: ' . $file . '<br>';
+            Logger::log('ERROR', 'Unable to download file: ' . $file, 'dev');
             exit;
         }
         return $localFile;
@@ -69,7 +71,7 @@ class ImportCurrentBackupFileToDB {
 	// To get lastest backup file from web server
 	static public function getCurrentBackupFile($connection, $path) {
         if (DOMAIN == 'stage') {
-            echo 'ERROR: Please execute script from the correct domain!';
+            Logger::log('ERROR', 'Failed to execute script in current domain: ' . DOMAIN, 'dev');
             exit;
         }
 
