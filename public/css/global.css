@@ -677,3 +677,51 @@ img {
     width: 300px;
     margin: auto;
 }
+
+/* form video link inputs */
+.video-link-input {
+    width: 100px !important;
+    height: 26px;
+    line-height: 26px;
+    background-color: #CCCCCC;
+    border: 0px solid transparent;
+    padding: 0px 3px 0px 3px;
+}
+
+/* form video link labels */
+.video-link-label {
+    width: 30px;
+    height: 26px;
+    line-height: 26px;
+    background-color:red;
+}
+
+/* set element width */
+.width-100 {
+    min-width: 100px !important;
+    width: 100px !important;
+}
+
+/* set element width */
+.width-125 {
+    min-width: 125px !important;
+    width: 125px !important;
+}
+
+/* set element width */
+.width-150 {
+    min-width: 150px !important;
+    width: 150px !important;
+}
+
+/* set element width */
+.width-175 {
+    min-width: 175px !important;
+    width: 175px !important;
+}
+
+/* set element width */
+.width-200 {
+    min-width: 200px !important;
+    width: 200px !important;
+}

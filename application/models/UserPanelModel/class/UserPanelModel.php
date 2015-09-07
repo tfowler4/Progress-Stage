@@ -347,7 +347,7 @@ class UserPanelModel extends Model {
     private function _editGuild() {
         $this->_formFields->region = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
-        DBObjects::_editGuild($this->_formFields, $this->_guildDetails);
+        DBObjects::editGuild($this->_formFields, $this->_guildDetails);
         if ( !empty($this->_formFields->guildLogo['tmp_name']) ) { $this->_assignGuildLogo($this->_guildDetails->_guildId); }
     }
 
@@ -357,7 +357,7 @@ class UserPanelModel extends Model {
      * @return void
      */
     private function _removeGuild() {
-        DBObjects::_removeGuild($this->_formFields);
+        DBObjects::removeGuild($this->_formFields);
 
         // Guild is a child of a parent guild, update parent's info
         if ( !empty($this->_guildDetails->_parent) ) {
@@ -386,7 +386,7 @@ class UserPanelModel extends Model {
                  $childForm = new stdClass();
                  $childForm->guildId = $guildId;
 
-                 DBObjects::_removeGuild($childForm);
+                 DBObjects::removeGuild($childForm);
                  $this->_removeGuildLogo($childForm->guildId);
             }
         }
@@ -402,7 +402,7 @@ class UserPanelModel extends Model {
     private function _addGuild() {
         $this->_formFields->region = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
-        DBObjects::_addGuild($this->_formFields);
+        DBObjects::addGuild($this->_formFields);
         $this->_assignGuildLogo(DBObjects::$insertId);
     }
 
@@ -486,7 +486,7 @@ class UserPanelModel extends Model {
     private function _removeKill() {
         $progressionString = $this->_removeKillFromProgressionString($this->_guildDetails->_progression);
 
-        DBObjects::_removeKill($this->_formFields, $progressionString);
+        DBObjects::removeKill($this->_formFields, $progressionString);
         $this->_removeScreenshot($this->_formFields->guildId, $this->_formFields->encounter);
     }
 
@@ -499,7 +499,7 @@ class UserPanelModel extends Model {
         $progressionString = $this->_removeKillFromProgressionString($this->_guildDetails->_progression);
         $progressionString = $this->_generateProgressionString($progressionString);
 
-        DBObjects::_editKill($this->_formFields, $progressionString);
+        DBObjects::editKill($this->_formFields, $progressionString);
 
         if ( Functions::validateImage($this->_formFields->screenshot) ) {
             $imagePath = ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter;
@@ -520,7 +520,7 @@ class UserPanelModel extends Model {
     private function _addKill() {
         $progressionString = $this->_generateProgressionString($this->_guildDetails->_progression);
 
-        DBObjects::_addKill($this->_formFields, $progressionString);
+        DBObjects::addKill($this->_formFields, $progressionString);
 
         if ( Functions::validateImage($this->_formFields->screenshot) ) {
             $imagePath = ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter;

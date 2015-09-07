@@ -148,9 +148,6 @@
                         <td>
                             <select id="user-form-popup-encounter" name="quick-encounter">
                                 <option value="">Select Encounter</option>
-                                <!--<?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails): ?>
-                                    <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . ' - ' . $encounterDetails->_encounterName; ?></option>
-                                <?php endforeach; ?>-->
                             </select>
                         </td>
                      </tr>
@@ -218,10 +215,23 @@
                         <td><input id="user-form-popup-screenshot" type="file" name="quick-screenshot"></td>
                     </tr>
                     <tr>
-                        <th>Video Links (Use ";" to separate links)</th>
+                        <th>Kill Videos</th>
                     </tr>
                     <tr>
-                        <td><input id="user-form-popup-video" type="text" name="quick-video" class="required"></td>
+                        <td>
+                            <a class="new-video-link" href="#">Add New Video</a>
+                            <!--<div>
+                                Video #1<br>
+                                <div>
+                                    <label class="video-link-label">Title: </label>
+                                    <input id="user-form-popup-video" type="text" name="quick-video-link" />
+                                </div>
+                                <div>
+                                    <label class="video-link-label">URL: </label>
+                                    <input id="user-form-popup-video" type="text" name="quick-video-link" />
+                                </div>
+                            </div>-->
+                        </td>
                      </tr>
                 </tbody>
                 <tfoot>

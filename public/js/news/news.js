@@ -254,6 +254,9 @@ var NewsEventBinder = function() {
         });
 
         numOfMediaItems     = $("#media-pane ul li").length;
+
+        if ( numOfMediaItems == 0 ) { return; }
+
         mediaSlideDelay     = 350;
         mediaSlideWidth     = 900;
         maxMediaPaneSize    = numOfMediaItems * mediaSlideWidth;

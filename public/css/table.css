@@ -342,13 +342,14 @@
     font-weight: bold;
     text-align: right;
     padding-right: 10px;
+    vertical-align: middle;
 }
 
 /* form table body cell content */
 .form-table tbody tr td {
     height: 30px;
     line-height: 30px;
-    font-size: 12px;
+    font-size: 14px;
     text-align: left;
 }
 
@@ -362,8 +363,7 @@
 
 /* form table text/password inputs */
 .form-table input[type=text], input[type=password] {
-    min-width: 250px;
-    width: 100%;
+    min-width: 200px;
     height: 26px;
     line-height: 26px;
     background-color: #CCCCCC;

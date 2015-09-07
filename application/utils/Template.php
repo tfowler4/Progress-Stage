@@ -484,9 +484,11 @@ class Template {
         $dbh        = DbFactory::getDbh();
         $videoArray = array();
         $tableHeader = array(
-            '#'       => 'video_id',
-            'Channel' => 'channel',
-            'Notes'   => 'notes'
+            '#'       => '_videoId',
+            'Channel' => '_channel',
+            'Notes'   => '_notes',
+            'URL'     => '_url',
+            'Action'  => '_videoLink'
             );
 
         $query = $dbh->prepare(sprintf(
@@ -501,7 +503,7 @@ class Template {
         $query->execute();
 
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
-            $videoArray[$row['video_id']] = $row;
+            $videoArray[$row['video_id']] = new VideoDetails($row);
         }
 
         $html .= '<div class="vertical-separator"></div>';
@@ -510,8 +512,16 @@ class Template {
         $html .= '<thead>';
         $html .= '</thead>';
         $html .= '<tbody>';
-        $html .= self::drawSubTitleTableRow($tableHeader, $guildDetails->_name . ' ' . $encounterDetails->_name . ' Kill Videos');
+        $html .= self::drawSubTitleTableRow($tableHeader, $guildDetails->_name . ' :: ' . $encounterDetails->_name . ' Kill Videos');
         $html .= self::drawSubHeaderTableRow($tableHeader);
+
+        if ( !empty($videoArray) ) {
+            foreach( $videoArray as $videoId => $videoDetails ) {
+                $html .= self::drawBodyTableRow($tableHeader, $videoDetails);
+            }
+        } else {
+            $html .= self::drawEmptyGuildTableRow($tableHeader, 'No videos found.');
+        }
         $html .= '</tbody>';
         $html .= '</table>';
         $html .= '</div>';

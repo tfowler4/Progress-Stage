@@ -249,6 +249,29 @@ var GlobalEventBinder = function() {
         });
     });
 
+    $(document).on('click touchstart', '.new-video-link', function(event) {
+        event.preventDefault();
+
+        var parentElement          = $(this).parent();
+        var numOfVideoLinkElements = parentElement.find('.video-link-wrapper').length;
+        var videoLinkNum           = numOfVideoLinkElements + 1;
+
+        if ( numOfVideoLinkElements == 5 ) { return; }
+
+        var html  = '<div class="video-link-wrapper">';
+            html += 'Video #' + videoLinkNum + '<br>';
+            html += '<div>'
+            html += '<label class="video-link-label">Title: </label>';
+            html += '<input id="user-form-popup-video" type="text" name="quick-video-link" class="width-150" />';
+            html += '</div>';
+            html += '<div>';
+            html += '<label class="video-link-label">URL: </label>';
+            html += '<input id="user-form-popup-video" type="text" name="quick-video-link" class="width-200" />';
+            html += '</div>';
+            html += '</div>';
+            parentElement.append(html);
+    });
+
     // help keep popup menu centered if window gets resized
     $(window).resize(function() {
         $('.centered').css({
