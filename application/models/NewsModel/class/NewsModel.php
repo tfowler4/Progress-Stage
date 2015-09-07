@@ -333,16 +333,6 @@ class NewsModel extends Model {
     private function _getNewsArticle($articleTitle) {
         $dbh = DbFactory::getDbh();
 
-        echo sprintf(
-            "SELECT *
-               FROM %s
-              WHERE published = 1
-                AND title LIKE LOWER('%s')
-              LIMIT 1", 
-                    DbFactory::TABLE_NEWS, 
-                    $articleTitle
-                );
-
         $query = $dbh->prepare(sprintf(
             "SELECT *
                FROM %s
