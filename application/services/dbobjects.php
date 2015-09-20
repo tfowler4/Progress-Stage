@@ -235,6 +235,20 @@ class DBObjects {
             );
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
         self::_execute('guild_id');
+
+        $datetime = $date . ' ' . $time;
+
+        self::$_sqlString = sprintf(
+            "INSERT INTO %s
+            (guild_id, encounter_id, datetime)
+            values('%s','%s','%s')",
+             DbFactory::TABLE_KILLS,
+             $fields->guildId,
+             $fields->encounter,
+             $datetime
+            );
+        Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
+        self::_execute();
     }
 
     /**
