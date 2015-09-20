@@ -64,7 +64,9 @@ class QuickSubmissionModel extends Model {
         $this->_formFields->dateHour   = Post::get('quick-hour');
         $this->_formFields->dateMinute = Post::get('quick-minute');
         $this->_formFields->screenshot = Post::get('quick-screenshot');
-        $this->_formFields->video      = Post::get('quick-video');
+        $this->_formFields->videoTitle = Post::get('video-link-title');
+        $this->_formFields->videoUrl   = Post::get('video-link-url');
+        $this->_formFields->videoType  = Post::get('video-link-type');
 
         if ( !empty($this->_formFields->guildId) &&
              !empty($this->_formFields->encounter) &&

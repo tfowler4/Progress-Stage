@@ -34,6 +34,8 @@ class EncounterDetails extends DetailObject {
     protected $_screenshot;
     protected $_screenshotLink = '--';
     protected $_video;
+    protected $_hasVideo;
+    protected $_videos = array();
     protected $_videoLink = '--';
     protected $_worldRank;
     protected $_regionRank;
@@ -65,6 +67,11 @@ class EncounterDetails extends DetailObject {
         $this->_year           = Functions::formatDate($params[1], 'Y');
         $this->_screenshot     = $guildDetails->_guildId . '-' . $this->_encounterId;
         $this->_video          = $params[4];
+        $this->_hasVideos      = $params[4];
+
+       // if ( $this->_hasVideos ) {
+            $this->_videos = $this->getEncounterVideos($this->_encounterId, $guildDetails->_guildId);
+        //}
 
         // Add Encounter Specific details from Encounter Class for faster reference
         $this->_encounterName = Functions::generateInternalHyperlink('standings', CommonDataContainer::$encounterArray[$this->_encounterId], 'world', CommonDataContainer::$encounterArray[$this->_encounterId]->_encounterName, '');
@@ -137,5 +144,27 @@ class EncounterDetails extends DetailObject {
         if ( $currentPoints == 0 ) { 
             $this->_pointDiff = '--'; 
         }
+    }
+
+    public function getEncounterVideos($encounterId, $guildId) {
+        $dbh        = DbFactory::getDbh();
+        $videoArray = array();
+
+        $query = $dbh->prepare(sprintf(
+            "SELECT *
+               FROM %s
+              WHERE guild_id = %d
+                AND encounter_id = %d", 
+                    DbFactory::TABLE_VIDEOS, 
+                    $guildId,
+                    $encounterId
+                ));
+        $query->execute();
+
+        while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
+            $videoArray[$row['video_id']] = new VideoDetails($row);
+        }
+
+        return $videoArray;
     }
 }

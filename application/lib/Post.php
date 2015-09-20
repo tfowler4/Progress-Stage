@@ -15,7 +15,11 @@ class Post {
         $value = '';
 
         if ( isset($_POST[$key]) ) {
-            $value = trim($_POST[$key]);
+            if ( is_string($_POST[$key]) ) {
+                $_POST[$key] = trim ($_POST[$key]);
+            }
+
+            $value = $_POST[$key];
         } elseif ( isset($_FILES[$key]) ) {
             $value = $_FILES[$key];
         }

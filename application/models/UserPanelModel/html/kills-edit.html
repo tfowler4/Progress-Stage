@@ -81,8 +81,34 @@
                     <td><input id="user-form-screenshot" type="file" name="userpanel-screenshot"></td>
                 </tr>
                 <tr>
-                    <th>Video Links (Use ";" to separate links)</th>
-                    <td><input id="user-form-video" type="text" name="userpanel-video" value="<?php if (!empty($data->_encounterDetails->_video) ): ?><?php echo $data->_encounterDetails->_video; ?><?php endif; ?>"></td>
+                    <th>Kill Videos</th>
+                    <td>
+                        <div class="video-link-container">
+                            <?php $videoNum = 1; foreach( $data->_encounterDetails->_videos as $videoId => $videoDetails ): ?>
+                                <div class="video-link-wrapper">
+                                    Video # <?php echo $videoNum; ?><br>
+                                    <input type="hidden" name="video-link-id[]" value="<?php echo $videoId; ?>" />
+                                    <div>
+                                        <label class="video-link-label">Notes: </label>
+                                        <input id="user-form-video-title-<?php echo $videoNum; ?>" type="text" name="video-link-title[]" class="width-200" value="<?php echo $videoDetails->_notes; ?>" />
+                                    </div>
+                                    <div>
+                                        <label class="video-link-label">URL: </label>
+                                        <input id="user-form-video-url-<?php echo $videoNum; ?>" type="text" name="video-link-url[]" class="width-200" value="<?php echo $videoDetails->_url; ?>" />
+                                    </div>
+                                    <div>
+                                        <label class="video-link-label">Type: </label>
+                                        <select id="user-form-video-type-<?php echo $videoNum; ?>" name="video-link-type[]">
+                                            <option value="0" <?php if ( $videoDetails->_type == '0'): ?>selected<?php endif; ?>>General Kill</option>
+                                            <option value="1" <?php if ( $videoDetails->_type == '1'): ?>selected<?php endif; ?>>Encounter Guide</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <?php $videoNum++; ?>
+                            <?php endforeach;?>
+                        </div>
+                        <a class="new-video-link" href="#">Add New Video</a>
+                    </td>
                  </tr>
             </tbody>
             <tfoot>

@@ -690,10 +690,12 @@ img {
 
 /* form video link labels */
 .video-link-label {
-    width: 30px;
+    display: inline-block;
+    width: 50px;
     height: 26px;
     line-height: 26px;
-    background-color:red;
+    text-align: right;
+    padding: 0px 4px 0px 0px;
 }
 
 /* set element width */
@@ -724,4 +726,34 @@ img {
 .width-200 {
     min-width: 200px !important;
     width: 200px !important;
+}
+
+/* set element height */
+.height-100 {
+    min-height: 100px !important;
+    height: 100px !important;
+}
+
+/* set element height */
+.height-125 {
+    min-height: 125px !important;
+    height: 125px !important;
+}
+
+/* set element height */
+.height-150 {
+    min-height: 150px !important;
+    height: 150px !important;
+}
+
+/* set element height */
+.height-175 {
+    min-height: 175px !important;
+    height: 175px !important;
+}
+
+/* set element height */
+.height-200 {
+    min-height: 200px !important;
+    height: 200px !important;
 }

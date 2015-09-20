@@ -42,4 +42,8 @@ class KillSubmissionFormFields {
     public $dateMinute;
     public $screenshot;
     public $video;
+    public $videoId;
+    public $videoTitle;
+    public $videoUrl;
+    public $videoType;
 }

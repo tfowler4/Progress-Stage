@@ -209,6 +209,7 @@ class DBObjects {
     public static function addKill($fields = null, $sql) {
         Logger::log('INFO', '***Preparing to add Kill: ' . $fields->encounter . ' for Guild: ' . $fields->guildId . '***');
 
+        // sql for updating guild progression string
         self::$_sqlString = sprintf(
             "UPDATE %s
                 SET progression ='%s'
@@ -224,6 +225,7 @@ class DBObjects {
         $time      = $fields->dateHour . ':' . $fields->dateMinute;
         $strtotime = strtotime($date . ' ' . $time);
 
+        // sql for inserting kill into recent activity
         self::$_sqlString = sprintf(
             "INSERT INTO %s
             (guild_id, encounter_id, strtotime)
@@ -235,6 +237,41 @@ class DBObjects {
             );
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
         self::_execute('guild_id');
+
+        if ( isset($fields->videoUrl) && count($fields->videoUrl) > 0 ) {
+            $numOfVideos = count($fields->videoUrl);
+
+            for ( $count = 0; $count < $numOfVideos; $count++ ) {
+                $videoUrlSqlString   = $fields->videoUrl[$count];
+                $videoTitleSqlString = $fields->videoTitle[$count];
+                $videoTypeSqlString  = $fields->videoType[$count];
+
+                // if url is empty, do not insert into database so returning
+                // if url is not a valid url
+                if ( empty($videoUrlSqlString) || !filter_var($videoUrlSqlString, FILTER_VALIDATE_URL) === false ) {
+                    return;
+                }
+
+                if ( empty($videoTitleSqlString) ) {
+                    $videoTitleSqlString = 'General Kill Video';
+                }
+
+                // sql for inserting kill videos
+                self::$_sqlString = sprintf(
+                    "INSERT INTO %s
+                    (guild_id, encounter_id, url, type, notes)
+                    values('%s','%s','%s','%s','%s')",
+                     DbFactory::TABLE_VIDEOS,
+                     $fields->guildId,
+                     $fields->encounter,
+                     $videoUrlSqlString,
+                     $videoTypeSqlString,
+                     $videoTitleSqlString
+                    );
+                Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
+                self::_execute('guild_id');
+            }
+        }
     }
 
     /**
@@ -275,6 +312,92 @@ class DBObjects {
             );
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
         self::_execute();
+
+        // updating existing videos
+        if ( isset($fields->videoId) && count($fields->videoId) > 0 ) {
+            $numOfVideos = count($fields->videoId);
+
+            //foreach ( $fields->videoId as $videoId ) {
+            for ( $count = 0; $count < $numOfVideos; $count++ ) {
+                $videoUrlSqlString   = $fields->videoUrl[$count];
+                $videoTitleSqlString = $fields->videoTitle[$count];
+                $videoTypeSqlString  = $fields->videoType[$count];
+                $videoId             = $fields->videoId[$count];
+
+                // if url is empty, do not insert into database so returning
+                // if url is not a valid url
+                if ( empty($videoUrlSqlString) || !filter_var($videoUrlSqlString, FILTER_VALIDATE_URL) === false ) {
+                    return;
+                }
+
+                if ( empty($videoTitleSqlString) ) {
+                    $videoTitleSqlString = 'General Kill Video';
+                }
+
+                // sql for updating kill videos based on id
+                self::$_sqlString = sprintf(
+                    "UPDATE %s
+                        SET url='%s',
+                            type='%s',
+                            notes='%s'
+                      WHERE video_id='%s'",
+                     DbFactory::TABLE_VIDEOS,
+                     $videoUrlSqlString,
+                     $videoTypeSqlString,
+                     $videoTitleSqlString,
+                     $videoId
+                    );
+                Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
+                self::_execute('guild_id');
+
+                unset($fields->videoUrl[$count]);
+                unset($fields->videoTitle[$count]);
+                unset($fields->videoType[$count]);
+                unset($fields->videoId[$count]);
+            }
+        }
+
+        // add any videos that may be left
+        if ( isset($fields->videoUrl) && count($fields->videoUrl) > 0 ) {
+            // reset array to correct values if an update had to be perform prior to videos
+            $fields->videoUrl   = array_values($fields->videoUrl);
+            $fields->videoTitle = array_values($fields->videoTitle);
+            $fields->videoType  = array_values($fields->videoType);
+            $fields->videoId    = array_values($fields->videoId);
+
+            $numOfVideos = count($fields->videoUrl);
+
+            for ( $count = 0; $count < $numOfVideos; $count++ ) {
+                $videoUrlSqlString   = $fields->videoUrl[$count];
+                $videoTitleSqlString = $fields->videoTitle[$count];
+                $videoTypeSqlString  = $fields->videoType[$count];
+
+                // if url is empty, do not insert into database so returning
+                // if url is not a valid url
+                if ( empty($videoUrlSqlString) || !filter_var($videoUrlSqlString, FILTER_VALIDATE_URL) === false ) {
+                    return;
+                }
+
+                if ( empty($videoTitleSqlString) ) {
+                    $videoTitleSqlString = 'General Kill Video';
+                }
+
+                // sql for inserting kill videos
+                self::$_sqlString = sprintf(
+                    "INSERT INTO %s
+                    (guild_id, encounter_id, url, type, notes)
+                    values('%s','%s','%s','%s','%s')",
+                     DbFactory::TABLE_VIDEOS,
+                     $fields->guildId,
+                     $fields->encounter,
+                     $videoUrlSqlString,
+                     $videoTypeSqlString,
+                     $videoTitleSqlString
+                    );
+                Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
+                self::_execute('guild_id');
+            }
+        }
     }
 
     /**

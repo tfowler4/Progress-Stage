@@ -33,9 +33,6 @@
                             <td>
                                 <select id="user-form-encounter" name="quick-encounter">
                                     <option value>Select Encounter</option>
-                                    <!--<?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails): ?>
-                                        <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . '-' . $encounterDetails->_encounterName; ?></option>
-                                    <?php endforeach; ?>-->
                                 </select>
                             </td>
                          </tr>
@@ -99,8 +96,11 @@
                             <td><input id="user-form-screenshot" type="file" name="quick-screenshot"></td>
                         </tr>
                         <tr>
-                            <th>Video Links (Use ";" to separate links)</th>
-                            <td><input id="user-form-video" type="text" name="quick-video" class="required"></td>
+                            <th>Kill Videos</th>
+                            <td>
+                                <div class="video-link-container"></div>
+                                <a class="new-video-link" href="#">Add New Video</a>
+                            </td>
                          </tr>
                     </tbody>
                     <tfoot>

@@ -13,4 +13,7 @@ class QuickSubmissionFormFields {
     public $dateMinute;
     public $screenshot;
     public $video;
+    public $videoTitle;
+    public $videoUrl;
+    public $videoType;
 }

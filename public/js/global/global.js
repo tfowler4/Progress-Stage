@@ -249,27 +249,53 @@ var GlobalEventBinder = function() {
         });
     });
 
+    // on click of "Add New Video" text link, a new 
     $(document).on('click touchstart', '.new-video-link', function(event) {
         event.preventDefault();
 
-        var parentElement          = $(this).parent();
-        var numOfVideoLinkElements = parentElement.find('.video-link-wrapper').length;
+        var videoLinkContainer     = $(this).parent().find('.video-link-container');
+        var numOfVideoLinkElements = videoLinkContainer.find('.video-link-wrapper').length;
         var videoLinkNum           = numOfVideoLinkElements + 1;
 
-        if ( numOfVideoLinkElements == 5 ) { return; }
+        // maximum number of video links is 10 currently
+        if ( numOfVideoLinkElements == 10 ) { return; }
+
+        // if previous video url is empty, do not add a new pane
+        if ( videoLinkNum > 1 ) {
+            var previousNum = videoLinkNum - 1;
+            var previousUrl = $('#user-form-video-url-' + previousNum).val();
+
+            // loop through all previous url/title text fields to see if any are empty before adding a new video link
+            for ( var linkNum = previousNum; previousNum > 0; previousNum-- ) {
+                var previousTitle = $('#user-form-video-title-' + linkNum).val();
+                var previousUrl = $('#user-form-video-url-' + linkNum).val();
+
+                if ( previousUrl == '' || previousTitle == '' ) {
+                    return;
+                }
+            }
+        }
 
         var html  = '<div class="video-link-wrapper">';
             html += 'Video #' + videoLinkNum + '<br>';
-            html += '<div>'
-            html += '<label class="video-link-label">Title: </label>';
-            html += '<input id="user-form-popup-video" type="text" name="quick-video-link" class="width-150" />';
+            html += '<div>';
+            html += '<label class="video-link-label">Notes: </label>';
+            html += '<input id="user-form-video-title-' + videoLinkNum + '" type="text" name="video-link-title[]" class="width-200" />';
             html += '</div>';
             html += '<div>';
             html += '<label class="video-link-label">URL: </label>';
-            html += '<input id="user-form-popup-video" type="text" name="quick-video-link" class="width-200" />';
+            html += '<input id="user-form-video-url-' + videoLinkNum + '" type="text" name="video-link-url[]" class="width-200" />';
+            html += '</div>';
+            html += '<div>';
+            html += '<label class="video-link-label">Type: </label>';
+            html += '<select id="user-form-video-type-' + videoLinkNum + '" name="video-link-type[]">';
+            html += '<option value="0">General Kill</option>';
+            html += '<option value="1">Encounter Guide</option>';
+            html += '</select>';
             html += '</div>';
             html += '</div>';
-            parentElement.append(html);
+
+        videoLinkContainer.append(html);
     });
 
     // help keep popup menu centered if window gets resized
