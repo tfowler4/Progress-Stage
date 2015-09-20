@@ -22,6 +22,7 @@ class DbFactory {
     const TABLE_LOGGING      = 'log_table';
     const TABLE_TWITCH       = 'twitch_table';
     const TABLE_VIDEOS       = 'video_table';
+    const TABLE_KILLS        = 'encounterkills_table';
 
     public static function init() {
         self::$_dbh = self::getDbh();
