@@ -33,8 +33,8 @@
                 </table>
             </div>
 
-            <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModel::USER_EMAIL,'<div class="option-footer">Change Email Address</div>', true); ?>
-            <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModel::USER_PASSWORD,'<div class="option-footer">Change Password</div>', true); ?>
+            <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModelUser::USER_EMAIL,'<div class="option-footer">Change Email Address</div>', true); ?>
+            <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModelUser::USER_PASSWORD,'<div class="option-footer">Change Password</div>', true); ?>
         </div>
 
         <?php foreach ( $data->_userGuilds as $guildId => $guildDetails ): ?>
@@ -102,10 +102,10 @@
                         </tfoot>
                     </table>
 
-                    <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModel::GUILD_EDIT . '/' . $guildDetails->_guildId,'<div class="option-footer">Edit Guild Details</div>', true); ?>
-                    <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModel::KILLS_ADD . '/' . $guildDetails->_guildId,'<div class="option-footer">Add/Edit Kill Submissions</div>', true); ?>
-                    <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModel::GUILD_RAID_TEAM . '/' . $guildDetails->_guildId,'<div class="option-footer">Add Raid Team</div>', true); ?>
-                    <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModel::GUILD_REMOVE . '/' . $guildDetails->_guildId,'<div class="option-footer">Remove Guild</div>', true); ?>
+                    <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModelGuild::GUILD_EDIT . '/' . $guildDetails->_guildId,'<div class="option-footer">Edit Guild Details</div>', true); ?>
+                    <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModelKill::KILLS_ADD . '/' . $guildDetails->_guildId,'<div class="option-footer">Add/Edit Kill Submissions</div>', true); ?>
+                    <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModelGuild::GUILD_RAID_TEAM . '/' . $guildDetails->_guildId,'<div class="option-footer">Add Raid Team</div>', true); ?>
+                    <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModelGuild::GUILD_REMOVE . '/' . $guildDetails->_guildId,'<div class="option-footer">Remove Guild</div>', true); ?>
                 </div>
 
                 <?php foreach( $data->_raidTeams[$guildDetails->_guildId] as $guildId => $guildDetails ): ?>
@@ -163,9 +163,9 @@
                             </tfoot>
                         </table>
 
-                        <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModel::GUILD_EDIT . '/' . $guildDetails->_guildId,'<div class="option-footer">Edit Raid Team Details</div>', true); ?>
-                        <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModel::KILLS_ADD . '/' . $guildDetails->_guildId,'<div class="option-footer">Add/Edit Kill Submissions</div>', true); ?>
-                        <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModel::GUILD_REMOVE . '/' . $guildDetails->_guildId,'<div class="option-footer">Remove Raid Team</div>', true); ?>
+                        <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModelGuild::GUILD_EDIT . '/' . $guildDetails->_guildId,'<div class="option-footer">Edit Raid Team Details</div>', true); ?>
+                        <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModelKill::KILLS_ADD . '/' . $guildDetails->_guildId,'<div class="option-footer">Add/Edit Kill Submissions</div>', true); ?>
+                        <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, UserPanelModelGuild::GUILD_REMOVE . '/' . $guildDetails->_guildId,'<div class="option-footer">Remove Raid Team</div>', true); ?>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -173,7 +173,7 @@
 
         <?php for ( $i = $data->_numOfGuilds; $i < UserPanelModel::MAX_GUILDS; $i++ ): ?>
             <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, 
-                                                        UserPanelModel::GUILD_ADD,
+                                                        UserPanelModelGuild::GUILD_ADD,
                                                         '<div class="option-container guild new">
                                                          <div class="option-title">Guild Management</div>
                                                          <div class="option-content new">Add New Guild</div>

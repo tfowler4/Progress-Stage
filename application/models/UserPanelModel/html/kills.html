@@ -26,7 +26,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach( UserPanelModel::GUILD_PROFILE as $header => $key ): ?>
+                            <?php foreach( UserPanelModelGuild::GUILD_PROFILE as $header => $key ): ?>
                                 <tr>
                                     <th><?php echo $header; ?></th>
                                     <td><?php echo $data->_guildDetails->$key; ?></td>

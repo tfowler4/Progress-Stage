@@ -10,9 +10,9 @@
         <?php endif; ?>
 
         <div id="main-block">
-            <?php if ( $data->_action == UserPanelModel::USER_EMAIL ): ?>
+            <?php if ( $data->_action == UserPanelModelUser::USER_EMAIL ): ?>
                 <div id="form-table-wrapper">
-                    <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModel::USER_EMAIL,'', false); ?>" autocomplete="off">
+                    <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModelUser::USER_EMAIL,'', false); ?>" autocomplete="off">
                         <table class="form-table standard">
                             <thead>
                                 <tr>
@@ -41,9 +41,9 @@
                         </table>
                     </form>
                 </div>
-            <?php elseif ( $data->_action == UserPanelModel::USER_PASSWORD ): ?>
+            <?php elseif ( $data->_action == UserPanelModelUser::USER_PASSWORD ): ?>
                 <div id="form-table-wrapper">
-                    <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModel::USER_PASSWORD,'', false); ?>" autocomplete="off">
+                    <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModelUser::USER_PASSWORD,'', false); ?>" autocomplete="off">
                         <table class="form-table standard">
                             <thead>
                                 <tr>
