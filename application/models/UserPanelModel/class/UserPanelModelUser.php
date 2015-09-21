@@ -1,12 +1,17 @@
 <?php
 class UserPanelModelUser extends UserPanelModel {
+    protected $_action;
+    protected $_formFields;
+    protected $_dialogOptions;
     protected $_userDetails;
 
     const USER_EMAIL      = 'email';
     const USER_PASSWORD   = 'password';
 
-    public function __construct($userDetails) {
+    public function __construct($action, $formFields, $userDetails) {
         $this->_userDetails = $userDetails;
+        $this->_action      = $action;
+        $this->_formFields  = $formFields;
 
         if ( Post::formActive() ) {
             $this->_processUserForm();
@@ -25,8 +30,6 @@ class UserPanelModelUser extends UserPanelModel {
                         
                         break;
                 }
-
-                header('Location: ' . $pathToCP);
             }
         }
     }
@@ -63,6 +66,11 @@ class UserPanelModelUser extends UserPanelModel {
      */
     private function _updateEmail() {
         DBObjects::editUserEmail($this->_formFields);
+
+        $this->_userDetails = $this->_getUpdatedUserDetails($this->_userDetails->_userId);
+
+        $this->_dialogOptions['title']   = 'Success';
+        $this->_dialogOptions['message'] = 'You have successfully updated your email address!';
     }
 
     /**
@@ -74,6 +82,9 @@ class UserPanelModelUser extends UserPanelModel {
         $this->_formFields->newPassword = $this->_encryptPasscode($this->_formFields->newPassword);
 
         DBObjects::editUserPassword($this->_formFields);
+
+        $this->_dialogOptions['title']   = 'Success';
+        $this->_dialogOptions['message'] = 'You have successfully updated your password!';
     }
 
     /**

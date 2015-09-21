@@ -3,8 +3,8 @@
     <div id="body-content">
         <div class="vertical-separator"></div>
 
-        <?php if ( !empty($data->_dialogOptions) ): ?>
-            <?php echo Functions::showDialogWindow($data->_dialogOptions); ?>
+        <?php if ( !empty($data->_currentPanel->_dialogOptions) ): ?>
+            <?php echo Functions::showDialogWindow($data->_currentPanel->_dialogOptions); ?>
 
             <div class="vertical-separator"></div>
         <?php endif; ?>
@@ -22,7 +22,7 @@
                             <tbody>
                                 <tr>
                                     <th>Current Email Address</th>
-                                    <td><?php echo $data->_userDetails->_emailAddress; ?></td>
+                                    <td><?php echo $data->_currentPanel->_userDetails->_emailAddress; ?></td>
                                 </tr>
                                 <tr>
                                     <th>New Email Address</th>
@@ -32,7 +32,7 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="2">
-                                        <input id="userpanel-user-id" type="hidden" name='userpanel-user-id' value="<?php echo $data->_userDetails->_userId; ?>">
+                                        <input id="userpanel-user-id" type="hidden" name="userpanel-user-id" value="<?php echo $data->_userDetails->_userId; ?>">
                                         <input id="userpanel-active" type="hidden" name='active' value="Active">
                                         <input id="userpanel-submit" type="submit" value="Submit">
                                     </td>
@@ -85,18 +85,18 @@
                     <thead>
                         <tr>
                             <th colspan="2">
-                                <?php echo $data->_userDetails->_userName; ?>
+                                <?php echo $data->_currentPanel->_userDetails->_userName; ?>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th>Email Address</th>
-                            <td><?php echo $data->_userDetails->_emailAddress; ?></td>
+                            <td><?php echo $data->_currentPanel->_userDetails->_emailAddress; ?></td>
                         </tr>
                         <tr>
                             <th>Date Created</th>
-                            <td><?php echo Functions::formatDate($data->_userDetails->_dateCreated, 'm-d-Y'); ?></td>
+                            <td><?php echo Functions::formatDate($data->_currentPanel->_userDetails->_dateCreated, 'm-d-Y'); ?></td>
                         </tr>
                     </tbody>
                     <tfoot>

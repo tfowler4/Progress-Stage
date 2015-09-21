@@ -50,15 +50,15 @@ class UserPanelModel extends Model {
         switch($this->subModule) {
             case self::SUB_GUILD:
                 $this->_formFields   = new GuildFormFields();
-                $this->_currentPanel = new UserPanelModelGuild($this->_guildDetails);
+                $this->_currentPanel = new UserPanelModelGuild($this->_action, $this->_formFields, $this->_guildDetails);
                 break;
             case self::SUB_USER:
                 $this->_formFields   = new UserFormFields();
-                $this->_currentPanel = new UserPanelModelUser($this->_userDetails);
+                $this->_currentPanel = new UserPanelModelUser($this->_action, $this->_formFields, $this->_userDetails);
                 break;
             case self::SUB_KILLS:
                 $this->_formFields   = new KillSubmissionFormFields();
-                $this->_currentPanel = new UserPanelModelKill($this->_guildDetails);
+                $this->_currentPanel = new UserPanelModelKill($this->_action, $this->_formFields, $this->_guildDetails);
                 break;
         }
     }

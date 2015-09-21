@@ -1,5 +1,8 @@
 <?php
 class UserPanelModelKill extends UserPanelModel {
+    protected $_action;
+    protected $_formFields;
+    protected $_dialogOptions;
     protected $_guildDetails;
     protected $_encounterDetails;
     protected $_encounterScreenshot;
@@ -20,8 +23,10 @@ class UserPanelModelKill extends UserPanelModel {
             'Options'        => '_options'
         );
 
-    public function __construct($guildDetails) {
+    public function __construct($action, $formFields, $guildDetails) {
         $this->_guildDetails = $guildDetails;
+        $this->_action       = $action;
+        $this->_formFields   = $formFields;
 
         $this->mergeOptionsToEncounters();
 
@@ -41,7 +46,7 @@ class UserPanelModelKill extends UserPanelModel {
                         break;
                 }
 
-                header('Location: ' . $pathToCP);
+                //header('Location: ' . $pathToCP);
             }
         }
     }

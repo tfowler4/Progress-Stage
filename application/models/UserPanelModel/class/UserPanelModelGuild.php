@@ -1,5 +1,8 @@
 <?php
 class UserPanelModelGuild extends UserPanelModel {
+    protected $_action;
+    protected $_formFields;
+    protected $_dialogOptions;
     protected $_guildDetails;
 
     const GUILD_ADD       = 'add';
@@ -21,9 +24,10 @@ class UserPanelModelGuild extends UserPanelModel {
             'Status'          => '_active'
         );
 
-    public function __construct($guildDetails) {
+    public function __construct($action, $formFields, $guildDetails) {
         $this->_guildDetails = $guildDetails;
-        
+        $this->_action       = $action;
+        $this->_formFields   = $formFields;
 
         if ( Post::formActive() ) {
             $this->_processGuildForm();
@@ -44,7 +48,7 @@ class UserPanelModelGuild extends UserPanelModel {
                         break;
                 }
 
-                header('Location: ' . $pathToCP);
+                //header('Location: ' . $pathToCP);
             }
         }
     }
