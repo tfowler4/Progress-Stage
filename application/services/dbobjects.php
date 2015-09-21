@@ -240,6 +240,7 @@ class DBObjects {
 
         $datetime = $date . ' ' . $time;
 
+        // sql for inserting kill into encounterkills_table
         self::$_sqlString = sprintf(
             "INSERT INTO %s
             (guild_id, encounter_id, datetime)
