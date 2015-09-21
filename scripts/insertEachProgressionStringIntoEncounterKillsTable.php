@@ -17,6 +17,7 @@ class InsertEachProgressionStringIntoEncounterKillsTable {
                         "INSERT INTO %s
                         (guild_id,
                         encounter_id,
+                        datetime,
                         date,
                         time,
                         time_zone,
@@ -26,10 +27,11 @@ class InsertEachProgressionStringIntoEncounterKillsTable {
                         region_rank,
                         world_rank,
                         country_rank)
-                        values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+                        values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
                         DbFactory::TABLE_KILLS,
                         $encounterDetails->_guildId,
                         $encounterDetails->_encounterId,
+                        $encounterDetails->_date . ' ' . $encounterDetails->_time,
                         $encounterDetails->_date,
                         $encounterDetails->_time,
                         $encounterDetails->_timezone,
@@ -57,20 +59,22 @@ class InsertEachProgressionStringIntoEncounterKillsTable {
                 } else {
                     $query = $dbh->prepare(sprintf(
                         "INSERT INTO %s
-                        (guild_id, 
-                        encounter_id, 
+                        (guild_id,
+                        encounter_id,
+                        datetime,
                         date,
-                        time, 
-                        time_zone, 
+                        time,
+                        time_zone,
                         server,
                         server_rank,
                         region_rank,
                         world_rank,
                         country_rank)
-                        values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+                        values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
                         DbFactory::TABLE_KILLS,
                         $encounterDetails->_guildId,
                         $encounterDetails->_encounterId,
+                        $encounterDetails->_date . ' ' . $encounterDetails->_time,
                         $encounterDetails->_date,
                         $encounterDetails->_time,
                         $encounterDetails->_timezone,
