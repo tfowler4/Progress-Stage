@@ -69,8 +69,7 @@ class UserPanelModelUser extends UserPanelModel {
 
         $this->_userDetails = $this->_getUpdatedUserDetails($this->_userDetails->_userId);
 
-        $this->_dialogOptions['title']   = 'Success';
-        $this->_dialogOptions['message'] = 'You have successfully updated your email address!';
+        $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully updated your email address!');
     }
 
     /**
@@ -83,8 +82,7 @@ class UserPanelModelUser extends UserPanelModel {
 
         DBObjects::editUserPassword($this->_formFields);
 
-        $this->_dialogOptions['title']   = 'Success';
-        $this->_dialogOptions['message'] = 'You have successfully updated your password!';
+        $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully updated your password!');
     }
 
     /**

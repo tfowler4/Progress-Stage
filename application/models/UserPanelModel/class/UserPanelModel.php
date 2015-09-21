@@ -13,9 +13,6 @@ class UserPanelModel extends Model {
 
     public $subModule;
 
-    const MAX_GUILDS      = 3;
-    const MAX_RAID_TEAMS  = 3;
-
     const SUB_GUILD = 'guild';
     const SUB_USER  = 'user';
     const SUB_KILLS = 'kills';
@@ -45,12 +42,10 @@ class UserPanelModel extends Model {
             }
         }
 
-        $pathToCP = HOST_NAME . '/userpanel';
-
         switch($this->subModule) {
             case self::SUB_GUILD:
                 $this->_formFields   = new GuildFormFields();
-                $this->_currentPanel = new UserPanelModelGuild($this->_action, $this->_formFields, $this->_guildDetails);
+                $this->_currentPanel = new UserPanelModelGuild($this->_action, $this->_formFields, $this->_guildDetails, $this->_userDetails, $this->_userGuilds, $this->_raidTeams);
                 break;
             case self::SUB_USER:
                 $this->_formFields   = new UserFormFields();
@@ -58,7 +53,7 @@ class UserPanelModel extends Model {
                 break;
             case self::SUB_KILLS:
                 $this->_formFields   = new KillSubmissionFormFields();
-                $this->_currentPanel = new UserPanelModelKill($this->_action, $this->_formFields, $this->_guildDetails);
+                $this->_currentPanel = new UserPanelModelKill($this->_action, $this->_formFields, $this->_guildDetails, $this->_encounterDetails);
                 break;
         }
     }
@@ -90,6 +85,67 @@ class UserPanelModel extends Model {
     }
 
     /**
+     * get updated guild details after submitting update form successfully
+     * 
+     * @param  integer $guildId [ id of guild ]
+     * 
+     * @return User [ user data object ]
+     */
+    protected function _getUpdatedGuildDetails($guildId) {
+        $dbh = DbFactory::getDbh();
+
+        $query = $dbh->prepare(sprintf(
+            "SELECT *
+               FROM %s
+              WHERE guild_id='%s'",
+             DbFactory::TABLE_GUILDS,
+             $guildId
+             ));
+        $query->execute();
+
+        while ( $guild = $query->fetch(PDO::FETCH_ASSOC) ) {
+            $guildDetails = new GuildDetails($guild);
+
+            if ( isset($guildDetails) ) {
+                $guildDetails->generateEncounterDetails('');
+            }
+            return $guildDetails;
+        }
+    }
+
+    /**
+     * get updated encounter details after submitting update form successfully
+     * 
+     * @param  integer $guildId [ id of guild ]
+     * 
+     * @return User [ user data object ]
+     */
+    protected function _getUpdatedEncounterDetails($guildId, $encounterId) {
+        $dbh = DbFactory::getDbh();
+        $guildDetails;
+
+        $query = $dbh->prepare(sprintf(
+            "SELECT *
+               FROM %s
+              WHERE guild_id='%s'",
+             DbFactory::TABLE_GUILDS,
+             $guildId
+             ));
+        $query->execute();
+
+        while ( $guild = $query->fetch(PDO::FETCH_ASSOC) ) {
+            $guildDetails = new GuildDetails($guild);
+            break;
+        }
+
+        if ( isset($guildDetails) ) {
+            $guildDetails->generateEncounterDetails('');
+        }
+
+        return $guildDetails->_encounterDetails->$encounterId;
+    }
+
+    /**
      * get child raid teams of a guild
      * 
      * @param  integer      $guildId      [ id of guild ]
@@ -118,6 +174,8 @@ class UserPanelModel extends Model {
      * @return GuildDetails $guildDetails [ guild details object ]
      */
     protected function _getCorrectGuild($guildId) {
+        if ( !isset(CommonDataContainer::$guildArray[$guildId]) ) { return null; }
+
         $guildDetails = CommonDataContainer::$guildArray[$guildId];
 
         if ( !empty($guildDetails) && $guildDetails->_creatorId == $this->_userDetails->_userId ) {

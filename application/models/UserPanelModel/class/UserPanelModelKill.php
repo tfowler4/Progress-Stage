@@ -23,12 +23,11 @@ class UserPanelModelKill extends UserPanelModel {
             'Options'        => '_options'
         );
 
-    public function __construct($action, $formFields, $guildDetails) {
-        $this->_guildDetails = $guildDetails;
-        $this->_action       = $action;
-        $this->_formFields   = $formFields;
-
-        $this->mergeOptionsToEncounters();
+    public function __construct($action, $formFields, $guildDetails, $encounterDetails) {
+        $this->_guildDetails     = $guildDetails;
+        $this->_encounterDetails = $encounterDetails;
+        $this->_action           = $action;
+        $this->_formFields       = $formFields;
 
         if ( Post::formActive() ) {
             $this->_processKillForm();
@@ -45,10 +44,10 @@ class UserPanelModelKill extends UserPanelModel {
                         $this->_editKill();
                         break;
                 }
-
-                //header('Location: ' . $pathToCP);
             }
         }
+
+        $this->mergeOptionsToEncounters();
     }
 
     /**
@@ -99,7 +98,11 @@ class UserPanelModelKill extends UserPanelModel {
         $progressionString = $this->_removeKillFromProgressionString($this->_guildDetails->_progression);
 
         DBObjects::removeKill($this->_formFields, $progressionString);
+        DBObjects::removeVideos($this->_formFields->guildId, $this->_formFields->encounter);
+
         $this->_removeScreenshot($this->_formFields->guildId, $this->_formFields->encounter);
+
+        $this->_dialogOptions = array('title' => 'Success', 'message' => 'Your kill has been removed successfully!');
     }
 
     /**
@@ -121,7 +124,13 @@ class UserPanelModelKill extends UserPanelModel {
             }
 
             move_uploaded_file($this->_formFields->screenshot['tmp_name'], $imagePath);
+
+            $this->_guildDetails = $this->_getUpdatedGuildDetails($this->_guildDetails->_guildId);
         }
+
+        $this->_encounterDetails = $this->_getUpdatedEncounterDetails($this->_guildDetails->_guildId, $this->_encounterDetails->_encounterId);
+
+        $this->_dialogOptions = array('title' => 'Success', 'message' => 'Your kill has been updated successfully!');
     }
 
     /**
@@ -143,6 +152,10 @@ class UserPanelModelKill extends UserPanelModel {
 
             move_uploaded_file($this->_formFields->screenshot['tmp_name'], $imagePath);
         }
+
+        $this->_guildDetails = $this->_getUpdatedGuildDetails($this->_guildDetails->_guildId);
+
+        $this->_dialogOptions = array('title' => 'Success', 'message' => 'Your kill has been submitted successfully! Standings and Rankings will be updated accordingly!');
     }
 
     /**

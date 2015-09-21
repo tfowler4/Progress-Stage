@@ -11,6 +11,7 @@ class VideoDetails extends DataObject {
     //protected $_channel;
     protected $_url;
     protected $_videoLink;
+    protected $_type;
 
     /**
      * constructor
@@ -23,5 +24,6 @@ class VideoDetails extends DataObject {
         //$this->_channel     = $params['channel'];
         $this->_url         = $params['url'];
         $this->_videoLink   = '<a target="_blank" href="' . $this->_url . '">View</a>';
+        $this->_type        = $params['type'];
     }
 }

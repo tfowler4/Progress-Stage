@@ -252,7 +252,7 @@ class DBObjects {
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
         self::_execute();
 
-        if ( isset($fields->videoUrl) && count($fields->videoUrl) > 0 ) {
+        if ( isset($fields->videoUrl) && !empty($fields->videoUrl) ) {
             $numOfVideos = count($fields->videoUrl);
 
             for ( $count = 0; $count < $numOfVideos; $count++ ) {
@@ -328,7 +328,7 @@ class DBObjects {
         self::_execute();
 
         // updating existing videos
-        if ( isset($fields->videoId) && count($fields->videoId) > 0 ) {
+        if ( isset($fields->videoId) && !empty($fields->videoId) ) {
             $numOfVideos = count($fields->videoId);
 
             //foreach ( $fields->videoId as $videoId ) {
@@ -372,7 +372,7 @@ class DBObjects {
         }
 
         // add any videos that may be left
-        if ( isset($fields->videoUrl) && count($fields->videoUrl) > 0 ) {
+        if ( isset($fields->videoUrl) && !empty($fields->videoUrl) ) {
             // reset array to correct values if an update had to be perform prior to videos
             $fields->videoUrl   = array_values($fields->videoUrl);
             $fields->videoTitle = array_values($fields->videoTitle);
@@ -433,6 +433,30 @@ class DBObjects {
              $sql,
              $fields->guildId
              );
+        Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
+        self::_execute();
+    }
+
+    /**
+     * generate sql string to remove all kill videos from an encounter from database
+     * 
+     * @param object $fields [ strings to display in log ]
+     * @param string $sql    [ progression column string ]
+     *
+     * @return void
+     */
+    public static function removeVideos($guildId, $encounterId) {
+        Logger::log('INFO', '***Preparing to remove Kill Videos from encounter: ' . $encounterId . ' for Guild: ' . $guildId . '***');
+
+        self::$_sqlString = sprintf(
+            "DELETE
+               FROM %s
+              WHERE guild_id='%s'
+                AND encounter_id='%s'",
+             DbFactory::TABLE_VIDEOS,
+             $guildId,
+             $encounterId
+            );
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
         self::_execute();
     }

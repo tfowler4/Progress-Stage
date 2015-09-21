@@ -171,7 +171,7 @@
             </div>
         <?php endforeach; ?>
 
-        <?php for ( $i = $data->_numOfGuilds; $i < UserPanelModel::MAX_GUILDS; $i++ ): ?>
+        <?php for ( $i = $data->_numOfGuilds; $i < UserPanelModelGuild::MAX_GUILDS; $i++ ): ?>
             <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_GUILD, 
                                                         UserPanelModelGuild::GUILD_ADD,
                                                         '<div class="option-container guild new">

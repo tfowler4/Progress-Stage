@@ -4,11 +4,17 @@ class UserPanelModelGuild extends UserPanelModel {
     protected $_formFields;
     protected $_dialogOptions;
     protected $_guildDetails;
+    protected $_userDetails;
+    protected $_userGuilds;
+    protected $_raidTeams;
 
     const GUILD_ADD       = 'add';
     const GUILD_EDIT      = 'edit';
     const GUILD_RAID_TEAM = 'raid-team';
     const GUILD_REMOVE    = 'remove';
+
+    const MAX_GUILDS      = 3;
+    const MAX_RAID_TEAMS  = 3;
 
     const GUILD_PROFILE = array(
             'Date Created'    => '_dateCreated',
@@ -21,13 +27,16 @@ class UserPanelModelGuild extends UserPanelModel {
             'World Firsts'    => '_worldFirst',
             'Region Firsts'   => '_regionFirst',
             'Server Firsts'   => '_serverFirst',
-            'Status'          => '_active'
+            'Status'          => '_activeStatus'
         );
 
-    public function __construct($action, $formFields, $guildDetails) {
+    public function __construct($action, $formFields, $guildDetails, $userDetails, $userGuilds, $raidTeams) {
         $this->_guildDetails = $guildDetails;
+        $this->_userDetails  = $userDetails;
+        $this->_userGuilds   = $userGuilds;
         $this->_action       = $action;
         $this->_formFields   = $formFields;
+        $this->_raidTeams    = $raidTeams;
 
         if ( Post::formActive() ) {
             $this->_processGuildForm();
@@ -47,8 +56,6 @@ class UserPanelModelGuild extends UserPanelModel {
                         $this->_addRaidTeam();
                         break;
                 }
-
-                //header('Location: ' . $pathToCP);
             }
         }
     }
@@ -89,10 +96,16 @@ class UserPanelModelGuild extends UserPanelModel {
      * @return void
      */
     private function _editGuild() {
+        if ( !isset($this->_guildDetails) || $this->_guildDetails == null ) { header('Location: ' . HOST_NAME . '/userpanel'); die(); }
+
         $this->_formFields->region = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
         DBObjects::editGuild($this->_formFields, $this->_guildDetails);
         if ( !empty($this->_formFields->guildLogo['tmp_name']) ) { $this->_assignGuildLogo($this->_guildDetails->_guildId); }
+
+        $this->_guildDetails = $this->_getUpdatedGuildDetails($this->_guildDetails->_guildId);
+
+        $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully updated your guild details!');
     }
 
     /**
@@ -101,10 +114,12 @@ class UserPanelModelGuild extends UserPanelModel {
      * @return void
      */
     private function _removeGuild() {
+        if ( !isset($this->_guildDetails) || $this->_guildDetails == null ) { header('Location: ' . HOST_NAME . '/userpanel');  die(); }
+
         DBObjects::removeGuild($this->_formFields);
 
         // Guild is a child of a parent guild, update parent's info
-        if ( !empty($this->_guildDetails->_parent) ) {
+        if ( !empty($this->_guildDetails->_parent) && $this->_guildDetails->_parent != '0' ) {
             $parentId    = $this->_guildDetails->_parent;
             $parentGuild = CommonDataContainer::$guildArray[$parentId];
 
@@ -118,7 +133,7 @@ class UserPanelModelGuild extends UserPanelModel {
 
             $sqlChild = '';
 
-            if ( !empty($childrenIdArray[$guildId]) ) {
+            if ( !empty($childrenIdArray) ) {
                 $sqlChild = implode("||", $childrenIdArray);
             }
 
@@ -136,6 +151,10 @@ class UserPanelModelGuild extends UserPanelModel {
         }
 
         $this->_removeGuildLogo($this->_formFields->guildId);
+
+        $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully removed the guild ' . $this->_guildDetails->_name . '!');
+
+        unset($this->_guildDetails);
     }
 
     /**
@@ -144,10 +163,14 @@ class UserPanelModelGuild extends UserPanelModel {
      * @return void
      */
     private function _addGuild() {
+        if ( count($this->_userGuilds) >= self::MAX_GUILDS ) { header('Location: ' . HOST_NAME . '/userpanel'); die(); }
+
         $this->_formFields->region = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
         DBObjects::addGuild($this->_formFields);
         $this->_assignGuildLogo(DBObjects::$insertId);
+
+        $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully created a new guild!');
     }
 
     /**
@@ -156,10 +179,16 @@ class UserPanelModelGuild extends UserPanelModel {
      * @return void
      */
     private function _addRaidTeam() {
+        $guildId = $this->_guildDetails->_guildId;
+
+        if ( count($this->_raidTeams[$guildId]) >= self::MAX_RAID_TEAMS ) { header('Location: ' . HOST_NAME . '/userpanel'); die(); }
+
         $this->_formFields->region = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
         DBObjects::addChildGuild($this->_formFields, $this->_userDetails->_userId, $this->_guildDetails);
         $this->_copyParentGuildLogo($this->_guildDetails->_guildId, DBObjects::$insertId);
+
+        $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully added a new raid team!');
     }
 
     /**

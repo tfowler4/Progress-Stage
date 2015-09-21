@@ -37,7 +37,7 @@ class QuickSubmissionModel extends Model {
                     if ( $this->_validScreenshot ) { // Submit the data
                         $this->processForm();
 
-                        $this->_dialogOptions = array('title' => 'Success', 'message' => 'You kill has been submitted successfully! Standings and Rankings will be updated accordingly!');
+                        $this->_dialogOptions = array('title' => 'Success', 'message' => 'Your kill has been submitted successfully! Standings and Rankings will be updated accordingly!');
                     } else {
                         $this->_dialogOptions = array('title' => 'Error', 'message' => 'All kill submissions require a valid screenshot. Please submit your kill with one!');
                     }

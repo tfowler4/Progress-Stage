@@ -1,5 +1,5 @@
 <div id="form-table-wrapper">
-    <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModelKill::KILLS_EDIT . '/' . $data->_guildDetails->_guildId,'', false); ?>" autocomplete="off" enctype="multipart/form-data">
+    <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModelKill::KILLS_EDIT . '/' . $data->_guildDetails->_guildId . '/' . $data->_encounterDetails->_encounterId,'', false); ?>" autocomplete="off" enctype="multipart/form-data">
         <table class="form-table standard">
             <thead>
                 <tr>
@@ -18,7 +18,7 @@
                     <th>Encounter</th>
                     <td>
                         <input id="user-form-encounter" name="userpanel-encounter" type="hidden" value="<?php echo $data->_encounterDetails->_encounterId; ?>">
-                        <?php echo CommonDataContainer::$encounterArray[$data->_encounterDetails->_encounterId]->_encounterName; ?>
+                        <?php echo $data->_encounterDetails->_encounterName; ?>
                     </td>
                  </tr>
                 <tr>
