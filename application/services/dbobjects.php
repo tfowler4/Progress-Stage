@@ -243,12 +243,14 @@ class DBObjects {
         // sql for inserting kill into encounterkills_table
         self::$_sqlString = sprintf(
             "INSERT INTO %s
-            (guild_id, encounter_id, datetime)
-            values('%s','%s','%s')",
+            (guild_id, encounter_id, datetime, date, time)
+            values('%s','%s','%s','%s','%s')",
              DbFactory::TABLE_KILLS,
              $fields->guildId,
              $fields->encounter,
-             $datetime
+             $datetime,
+             $date,
+             $time
             );
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
         self::_execute();
