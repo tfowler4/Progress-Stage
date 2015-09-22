@@ -11,6 +11,8 @@ class EncounterDetails extends DetailObject {
     protected $_encounterName;
     protected $_encounterId;
     protected $_dungeon;
+    protected $_dungeonId;
+    protected $_raidSize;
     protected $_tier;
     protected $_server;
     protected $_serverLink;
@@ -76,7 +78,9 @@ class EncounterDetails extends DetailObject {
         // Add Encounter Specific details from Encounter Class for faster reference
         $this->_encounterName = Functions::generateInternalHyperlink('standings', CommonDataContainer::$encounterArray[$this->_encounterId], 'world', CommonDataContainer::$encounterArray[$this->_encounterId]->_encounterName, '');
         $this->_dungeon       = CommonDataContainer::$encounterArray[$this->_encounterId]->_dungeon;
+        $this->_dungeonId     = CommonDataContainer::$encounterArray[$this->_encounterId]->_dungeonId;
         $this->_tier          = CommonDataContainer::$encounterArray[$this->_encounterId]->_tier;
+        $this->_raidSize      = CommonDataContainer::$encounterArray[$this->_encounterId]->_raidSize;
 
         if ( file_exists(strtolower(ABS_FOLD_KILLSHOTS . $guildDetails->_guildId . '-' . $this->_encounterId)) ) {
             $this->_screenshotLink = '<a href="' . FOLD_KILLSHOTS . $guildDetails->_guildId . '-' . $this->_encounterId  . '" rel="lightbox[\'kill_shots\']">View</a>';
