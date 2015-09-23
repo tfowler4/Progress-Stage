@@ -27,7 +27,7 @@ class GuildModel extends Model {
             'World Firsts'    => '_worldFirst',
             'Region Firsts'   => '_regionFirst',
             'Server Firsts'   => '_serverFirst',
-            'Status'          => '_active'
+            'Status'          => '_activeStatus'
         );
 
     const PANE_NAVIGATION = array(
@@ -75,7 +75,6 @@ class GuildModel extends Model {
         if ( isset($params[1]) && $params[1] == 'sig' ) {
             $paramsArray = array_slice($params, 2);
 
-            //include 'GuildSignature.php';
             $guildSig = new GuildSignature($paramsArray);
             die;
         }
@@ -99,8 +98,7 @@ class GuildModel extends Model {
         $this->_guildDetails = $this->_getGuildDetails();
         if ( empty($this->_guildDetails) ) { Functions::sendTo404(); }
 
-        $this->_guildDetails->generateEncounterDetails('');
-        $this->_guildDetails->generateRankDetails('encounters');
+        $this->_getAllGuildDetails();
         $this->_activityArray    = $this->_getActivityTimeline();
         $this->_latestScreenshot = Template::getScreenshot($this->_guildDetails, $this->_guildDetails->_recentEncounterDetails, true);
 
@@ -294,6 +292,43 @@ class GuildModel extends Model {
         $returnArray['serverRank']    = $this->_guildDetails->_server . ' ' . Functions::convertToOrdinal($activityDetails->_serverRank);
 
         return $returnArray;
+    }
+
+    /**
+     * generate all encounter standings and rankings information
+     *      * 
+     * @return void
+     */
+    public function _getAllGuildDetails() {
+        $this->_guildDetails->generateRankDetails('encounters');
+
+        $dbh       = DbFactory::getDbh();
+        $dataArray = array();
+
+        $query = $dbh->prepare(sprintf(
+            "SELECT *
+               FROM %s
+              WHERE guild_id=%d", 
+                    DbFactory::TABLE_KILLS, 
+                    $this->_guildDetails->_guildId
+                ));
+        $query->execute();
+
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $encounterId         = $row['encounter_id'];
+            $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
+            $dungeonId           = $encounterDetails->_dungeonId;
+            $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
+            $tierId              = $dungeonDetails->_tier;
+            $tierDetails         = CommonDataContainer::$tierArray[$tierId];
+
+            $arr = $this->_guildDetails->_progression;
+            $arr['dungeon'][$dungeonId][$encounterId] = $row;
+            $arr['encounter'][$encounterId] = $row;
+            $this->_guildDetails->_progression = $arr;
+        }
+
+        $this->_guildDetails->generateEncounterDetails('');
     }
 
     /**

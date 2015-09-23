@@ -36,9 +36,75 @@ class GuildDirectoryModel extends Model {
 
         $this->title = self::PAGE_TITLE;
 
+        //DBFactory::getAllEncounterKills();
+        $this->_getRecentActivityForAllGuilds();
+        $this->_getFirstsForAllGuilds();
+
         $this->_guildListing   = $this->_getListing();
         $this->_newGuildsArray = $this->_getNewestGuilds();
         $this->_detailsPane    = $this->_getGuildData();
+    }
+
+    /**
+     * run query to get last completed encounter by guilds
+     * 
+     * @return void
+     */
+    private function _getRecentActivityForAllGuilds() {
+        $dbh       = DbFactory::getDbh();
+        $query = $dbh->query(sprintf(
+            "SELECT *
+               FROM ( SELECT *
+                        FROM %s
+                    ORDER BY datetime DESC ) as tmp_table
+           GROUP BY guild_id",
+            DBFactory::TABLE_KILLS
+            ));
+        $query->execute();
+
+        while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
+            $guildId      = $row['guild_id'];
+            $encounterId  = $row['encounter_id'];
+            $guildDetails = CommonDataContainer::$guildArray[$guildId];
+
+            $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
+            $dungeonId           = $encounterDetails->_dungeonId;
+            $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
+            $tierId              = $dungeonDetails->_tier;
+
+            $encounter = new EncounterDetails($row, $guildDetails, $dungeonDetails);
+            $guildDetails->_recentActivity = $encounter->_encounterName . ' @ ' . $encounter->_datetime;
+        }
+    }
+
+    /**
+     * run query to get all server/region/world/country firsts for guilds
+     * 
+     * @return void
+     */
+    private function _getFirstsForAllGuilds() {
+        $dbh       = DbFactory::getDbh();
+        $query = $dbh->query(sprintf(
+            "SELECT *, 
+               SUM(IF(server_rank = 1, 1,0)) AS server_firsts,
+               SUM(IF(region_rank = 1, 1,0)) AS region_firsts,
+               SUM(IF(world_rank = 1, 1,0)) AS world_firsts,
+               SUM(IF(country_rank = 1, 1,0)) AS country_firsts
+               FROM %s
+               GROUP BY guild_id",
+            DBFactory::TABLE_KILLS
+            ));
+        $query->execute();
+
+        while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
+            $guildId      = $row['guild_id'];
+            $guildDetails = CommonDataContainer::$guildArray[$guildId];
+
+            $guildDetails->_worldFirst   = $row['world_firsts'];
+            $guildDetails->_regionFirst  = $row['region_firsts'];
+            $guildDetails->_serverFirst  = $row['world_firsts'];
+            $guildDetails->_countryFirst = $row['country_firsts'];
+        }
     }
 
     /**

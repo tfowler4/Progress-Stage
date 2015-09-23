@@ -111,9 +111,10 @@ class QuickSubmissionModel extends Model {
      */
     public function processForm() {
         $dbh               = DbFactory::getDbh();
-        $progressionString = $this->generateProgressionString($this->_guildDetails->_progression);
+        //$progressionString = $this->generateProgressionString($this->_guildDetails->_progression);
+        //DBObjects::addKill($this->_formFields, $progressionString);
 
-        DBObjects::addKill($this->_formFields, $progressionString);
+        DBObjects::addKill($this->_formFields);
 
         if ( Functions::validateImage($this->_formFields->screenshot) ) {
             $imagePath = strtolower(ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter);

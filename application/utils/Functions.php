@@ -812,6 +812,44 @@ class Functions {
 
         return number_format($pointDiff, 2, '.', ',');
     }
+
+    /**
+     * generate all encounter standings and rankings information
+     *      * 
+     * @return void
+     */
+    public static function getAllGuildDetails($guildDetails) {
+        $dbh = DbFactory::getDbh();
+
+        $guildDetails->generateRankDetails('encounters');
+
+        $query = $dbh->prepare(sprintf(
+            "SELECT *
+               FROM %s
+              WHERE guild_id=%d", 
+                    DbFactory::TABLE_KILLS, 
+                    $guildDetails->_guildId
+                ));
+        $query->execute();
+
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $encounterId         = $row['encounter_id'];
+            $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
+            $dungeonId           = $encounterDetails->_dungeonId;
+            $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
+            $tierId              = $dungeonDetails->_tier;
+            $tierDetails         = CommonDataContainer::$tierArray[$tierId];
+
+            $arr = $guildDetails->_progression;
+            $arr['dungeon'][$dungeonId][$encounterId] = $row;
+            $arr['encounter'][$encounterId] = $row;
+            $guildDetails->_progression = $arr;
+        }
+
+        $guildDetails->generateEncounterDetails('');
+
+        return $guildDetails;
+    }
 }
 
 Functions::init();

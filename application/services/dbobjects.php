@@ -206,10 +206,11 @@ class DBObjects {
      *
      * @return void
      */
-    public static function addKill($fields = null, $sql) {
+    public static function addKill($fields = null) {
         Logger::log('INFO', '***Preparing to add Kill: ' . $fields->encounter . ' for Guild: ' . $fields->guildId . '***');
 
         // sql for updating guild progression string
+        /*
         self::$_sqlString = sprintf(
             "UPDATE %s
                 SET progression ='%s'
@@ -220,9 +221,11 @@ class DBObjects {
              );
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
         self::_execute();
+        */
 
         $date      = $fields->dateYear . '-' . $fields->dateMonth . '-' . $fields->dateDay;
         $time      = $fields->dateHour . ':' . $fields->dateMinute;
+        $datetime  = $date . ' ' . $time;
         $strtotime = strtotime($date . ' ' . $time);
 
         // sql for inserting kill into recent activity
@@ -238,19 +241,26 @@ class DBObjects {
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
         self::_execute('guild_id');
 
-        $datetime = $date . ' ' . $time;
+        $guildDetails     = CommonDataContainer::$guildArray[$fields->guildId];
+        $encounterDetails = CommonDataContainer::$encounterArray[$fields->encounter];
 
         // sql for inserting kill into encounterkills_table
         self::$_sqlString = sprintf(
             "INSERT INTO %s
-            (guild_id, encounter_id, datetime, date, time)
-            values('%s','%s','%s','%s','%s')",
+            (guild_id, encounter_id, dungeon_id, tier, raid_size, datetime, date, time, time_zone, server, videos)
+            values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
              DbFactory::TABLE_KILLS,
              $fields->guildId,
              $fields->encounter,
+             $encounterDetails->_dungeonId,
+             $encounterDetails->_tier,
+             $encounterDetails->_raidSize,
              $datetime,
              $date,
-             $time
+             $time,
+             'SST',
+             $guildDetails->_server,
+             0
             );
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
         self::_execute();
@@ -287,6 +297,19 @@ class DBObjects {
                     );
                 Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
                 self::_execute('guild_id');
+
+                // sql for updating kill table with new video number
+                self::$_sqlString = sprintf(
+                    "UPDATE %s
+                        SET videos = videos + 1
+                      WHERE guild_id='%s'
+                        AND encounter_id='%s'",
+                     DbFactory::TABLE_KILLS,
+                     $fields->guildId,
+                     $fields->encounter
+                     );
+                Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
+                self::_execute();
             }
         }
     }
@@ -299,9 +322,10 @@ class DBObjects {
      *
      * @return void
      */
-    public static function editKill($fields = null, $sql) {
+    public static function editKill($fields = null) {
         Logger::log('INFO', '***Preparing to edit Kill: ' . $fields->encounter . ' for Guild: ' . $fields->guildId . '***');
 
+        /*
         self::$_sqlString = sprintf(
             "UPDATE %s
                 SET progression ='%s'
@@ -312,11 +336,14 @@ class DBObjects {
              );
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
         self::_execute();
+        */
 
         $date      = $fields->dateYear . '-' . $fields->dateMonth . '-' . $fields->dateDay;
         $time      = $fields->dateHour . ':' . $fields->dateMinute;
+        $datetime  = $date . ' ' . $time;
         $strtotime = strtotime($date . ' ' . $time);
 
+        // sql for updating kill in recent_raid_table
         self::$_sqlString = sprintf(
             "UPDATE %s
                 SET strtotime='%s'
@@ -327,6 +354,28 @@ class DBObjects {
              $fields->guildId,
              $fields->encounter
             );
+        Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
+        self::_execute();
+
+        // sql for updating kill into encounterkills_table
+        self::$_sqlString = sprintf(
+            "UPDATE %s
+                SET datetime='%s',
+                    date='%s',
+                    time='%s',
+                    server_rank=0,
+                    region_rank=0,
+                    world_rank=0,
+                    country_rank=0
+              WHERE guild_id='%s'
+                AND encounter_id='%s'",
+             DbFactory::TABLE_KILLS,
+             $datetime,
+             $date,
+             $time,
+             $fields->guildId,
+             $fields->encounter
+             );
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
         self::_execute();
 
@@ -380,7 +429,6 @@ class DBObjects {
             $fields->videoUrl   = array_values($fields->videoUrl);
             $fields->videoTitle = array_values($fields->videoTitle);
             $fields->videoType  = array_values($fields->videoType);
-            $fields->videoId    = array_values($fields->videoId);
 
             $numOfVideos = count($fields->videoUrl);
 
@@ -413,6 +461,19 @@ class DBObjects {
                     );
                 Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
                 self::_execute('guild_id');
+
+                // sql for updating kill table with new video number
+                self::$_sqlString = sprintf(
+                    "UPDATE %s
+                        SET videos = videos + 1
+                      WHERE guild_id='%s'
+                        AND encounter_id='%s'",
+                     DbFactory::TABLE_KILLS,
+                     $fields->guildId,
+                     $fields->encounter
+                     );
+                Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
+                self::_execute();
             }
         }
     }
@@ -425,9 +486,10 @@ class DBObjects {
      *
      * @return void
      */
-    public static function removeKill($fields = null, $sql) {
+    public static function removeKill($fields = null) {
         Logger::log('INFO', '***Preparing to remove Kill: ' . $fields->encounter . ' for Guild: ' . $fields->guildId . '***');
 
+        /*
         self::$_sqlString = sprintf(
             "UPDATE %s
                 SET progression ='%s'
@@ -436,6 +498,19 @@ class DBObjects {
              $sql,
              $fields->guildId
              );
+        Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
+        self::_execute();
+        */
+
+        self::$_sqlString = sprintf(
+            "DELETE
+               FROM %s
+              WHERE guild_id='%s'
+                AND encounter_id='%s'",
+             DbFactory::TABLE_KILLS,
+             $fields->guildId,
+             $fields->encounter
+            );
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
         self::_execute();
     }

@@ -95,9 +95,10 @@ class UserPanelModelKill extends UserPanelModel {
      * @return void
      */
     private function _removeKill() {
-        $progressionString = $this->_removeKillFromProgressionString($this->_guildDetails->_progression);
+        //$progressionString = $this->_removeKillFromProgressionString($this->_guildDetails->_progression);
+        //DBObjects::removeKill($this->_formFields, $progressionString);
 
-        DBObjects::removeKill($this->_formFields, $progressionString);
+        DBObjects::removeKill($this->_formFields);
         DBObjects::removeVideos($this->_formFields->guildId, $this->_formFields->encounter);
 
         $this->_removeScreenshot($this->_formFields->guildId, $this->_formFields->encounter);
@@ -111,10 +112,11 @@ class UserPanelModelKill extends UserPanelModel {
      * @return void
      */
     private function _editKill() {
-        $progressionString = $this->_removeKillFromProgressionString($this->_guildDetails->_progression);
-        $progressionString = $this->_generateProgressionString($progressionString);
+        //$progressionString = $this->_removeKillFromProgressionString($this->_guildDetails->_progression);
+        //$progressionString = $this->_generateProgressionString($progressionString);
+        //DBObjects::editKill($this->_formFields, $progressionString);
 
-        DBObjects::editKill($this->_formFields, $progressionString);
+        DBObjects::editKill($this->_formFields);
 
         if ( Functions::validateImage($this->_formFields->screenshot) ) {
             $imagePath = ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter;
@@ -139,9 +141,10 @@ class UserPanelModelKill extends UserPanelModel {
      * @return void
      */
     private function _addKill() {
-        $progressionString = $this->_generateProgressionString($this->_guildDetails->_progression);
+        //$progressionString = $this->_generateProgressionString($this->_guildDetails->_progression);
+        //DBObjects::addKill($this->_formFields, $progressionString);
 
-        DBObjects::addKill($this->_formFields, $progressionString);
+        DBObjects::addKill($this->_formFields);
 
         if ( Functions::validateImage($this->_formFields->screenshot) ) {
             $imagePath = ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter;

@@ -35,7 +35,6 @@ class EncounterDetails extends DetailObject {
     protected $_timeDiff;
     protected $_screenshot;
     protected $_screenshotLink = '--';
-    protected $_video;
     protected $_hasVideo;
     protected $_videos = array();
     protected $_videoLink = '--';
@@ -53,27 +52,29 @@ class EncounterDetails extends DetailObject {
      * constructor
      */
     public function __construct(&$params, &$guildDetails, &$dungeonDetails) {
-        $this->_encounterId    = $params[0];
-        $this->_killServer     = (!empty($params[9]) ? $params[9] : $guildDetails->_server);
+        $this->_encounterId    = $params['encounter_id'];
+        $this->_killServer     = (!empty($params['server']) ? $params['server'] : $guildDetails->_server);
         $this->_killServerLink = $guildDetails->_serverLink;
-        $this->_date           = $params[1];
-        $this->_time           = $params[2];
-        $this->_datetime       = Functions::formatDate($params[1] . ' ' . $params[2], 'm/d/Y H:i');
-        $this->_shorttime      = Functions::formatDate($params[1] . ' ' . $params[2], 'm/d H:i');
-        $this->_strtotime      = strtotime($params[1] . ' ' . $params[2]);
-        $this->_timezone       = (!empty($params[3]) ? $params[3] : 'SST'); //Standard Server Time
-        $this->_hour           = Functions::formatDate($params[2], 'h');
-        $this->_minute         = Functions::formatDate($params[2], 'i');
-        $this->_month          = Functions::formatDate($params[1], 'm');
-        $this->_day            = Functions::formatDate($params[1], 'd');
-        $this->_year           = Functions::formatDate($params[1], 'Y');
+        $this->_date           = $params['date'];
+        $this->_time           = $params['time'];
+        $this->_datetime       = Functions::formatDate($this->_date . ' ' . $this->_time, 'm/d/Y H:i');
+        $this->_shorttime      = Functions::formatDate($this->_date . ' ' . $this->_time, 'm/d H:i');
+        $this->_strtotime      = strtotime($this->_date . ' ' . $this->_time);
+        $this->_timezone       = (!empty($params['time_zone']) ? $params['time_zone'] : 'SST'); //Standard Server Time
+        $this->_hour           = Functions::formatDate($this->_time, 'h');
+        $this->_minute         = Functions::formatDate($this->_time, 'i');
+        $this->_month          = Functions::formatDate($this->_date, 'm');
+        $this->_day            = Functions::formatDate($this->_date, 'd');
+        $this->_year           = Functions::formatDate($this->_date, 'Y');
         $this->_screenshot     = $guildDetails->_guildId . '-' . $this->_encounterId;
-        $this->_video          = $params[4];
-        $this->_hasVideos      = $params[4];
 
-       // if ( $this->_hasVideos ) {
-            $this->_videos = $this->getEncounterVideos($this->_encounterId, $guildDetails->_guildId);
-        //}
+        if ( isset($params['videos']) && $params['videos'] > 0 ) {
+            $this->_hasVideos = true;
+            $this->_videos    = $this->getEncounterVideos($this->_encounterId, $guildDetails->_guildId);
+            $this->_videoLink = '<a class="video-activator clickable" data-guild="' . $guildDetails->_guildId . '" data-encounter="' . $this->_encounterId . '">View</a>';
+        } else {
+
+        }
 
         // Add Encounter Specific details from Encounter Class for faster reference
         $this->_encounterName = Functions::generateInternalHyperlink('standings', CommonDataContainer::$encounterArray[$this->_encounterId], 'world', CommonDataContainer::$encounterArray[$this->_encounterId]->_encounterName, '');
@@ -89,16 +90,17 @@ class EncounterDetails extends DetailObject {
         }
 
         //if ( !empty($params[4]) ) { $this->_videoLink        = '<a target="_blank" href="' . $params[4] . '">View</a>'; } //id="login-activator" class="activatePopUp"
-        if ( !empty($params[4]) ) { $this->_videoLink        = '<a class="video-activator clickable" data-guild="' . $guildDetails->_guildId . '" data-encounter="' . $this->_encounterId . '">View</a>'; } 
-        if ( !empty($params[6]) ) { $this->_serverRank       = $params[5]; }
-        if ( !empty($params[7]) ) { $this->_regionRank       = $params[6]; }
-        if ( !empty($params[8]) ) { $this->_worldRank        = $params[7]; }
-        if ( !empty($params[8]) ) { $this->_countryRank      = $params[8]; }
-        if ( !empty($params[6]) ) { $this->_serverRankImage  = Functions::getRankMedal($params[5]); }
-        if ( !empty($params[7]) ) { $this->_regionRankImage  = Functions::getRankMedal($params[6]); }
-        if ( !empty($params[8]) ) { $this->_worldRankImage   = Functions::getRankMedal($params[7]); }
-        if ( !empty($params[8]) ) { $this->_countryRankImage = Functions::getRankMedal($params[8]); }
-    
+        //if ( !empty($params[4]) ) { $this->_videoLink        = '<a class="video-activator clickable" data-guild="' . $guildDetails->_guildId . '" data-encounter="' . $this->_encounterId . '">View</a>'; } 
+        
+        $this->_serverRank       = $params['server_rank'];
+        $this->_regionRank       = $params['region_rank'];
+        $this->_worldRank        = $params['world_rank'];
+        $this->_countryRank      = $params['country_rank'];
+        $this->_serverRankImage  = Functions::getRankMedal($this->_serverRank);
+        $this->_regionRankImage  = Functions::getRankMedal($this->_regionRank);
+        $this->_worldRankImage   = Functions::getRankMedal($this->_worldRank);
+        $this->_countryRankImage = Functions::getRankMedal($this->_countryRank);
+
         // Apply EU Time Diff
         if ( $guildDetails->_region == 'EU' && $dungeonDetails->_euTimeDiff > 0 ) {
             $this->_strtotime = strtotime("-".($dungeonDetails->_euTimeDiff + (7*60)) . ' minutes', $this->_strtotime);

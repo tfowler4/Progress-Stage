@@ -116,6 +116,8 @@ class Listings extends DataObject {
             $this->_identifier  = $this->_dataDetails->_encounterId;
             $this->_title       = $this->_dataDetails->_encounterName;
 
+            DBFactory::getEncounterKills('encounter', $this->_identifier);
+
             if ( empty($this->_dataDetails) ) { return null; }
 
             $this->_encounterDetails = $this->_dataDetails;
@@ -126,6 +128,8 @@ class Listings extends DataObject {
             $this->_dataDetails = Functions::getDungeonByName($this->_dungeon);
             $this->_identifier  = $this->_dataDetails->_dungeonId;
             $this->_title       = $this->_dataDetails->_name;
+
+            DBFactory::getEncounterKills('dungeon', $this->_identifier);
 
             if ( empty($this->_dataDetails) ) { return null; }
 
@@ -140,6 +144,8 @@ class Listings extends DataObject {
                 $this->_standingsId = $this->_dataDetails->_dungeonId;
                 $this->_rankingId   = '_' . strtolower($systemId);
                 $this->title        = $this->_dataDetails->_name;
+
+                DBFactory::getEncounterKills('dungeon', $this->_standingsId);
             }
         } elseif ( !empty($this->_tier) ) {
             $this->_dataType    = '_tierDetails';
@@ -198,7 +204,13 @@ class Listings extends DataObject {
                         }
                     }
                 }
+
+                //echo ' Load Time Individ: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.<br>'; 
             }
+
+            //echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
+            //echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.<br>'; 
+            //exit;
         } elseif ( $this->_listType == 'rankings' ) {
             foreach ( $this->_guildArray as $guildId => $guildDetails ) {
                 $guildDetails->generateEncounterDetails('dungeon', $this->_standingsId);
@@ -209,7 +221,12 @@ class Listings extends DataObject {
                 $points = $guildDetails->{$this->_dataType}->{$this->_identifier}->{$this->_rankingId}->_points;
 
                 $sortArray[$guildId] = $points;
+
+                //echo ' Load Time Individ: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.<br>'; 
             }
+
+            //echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
+            //echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.<br>'; 
         }
 
         return $sortArray;

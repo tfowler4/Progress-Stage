@@ -107,8 +107,9 @@ class UserPanelModel extends Model {
             $guildDetails = new GuildDetails($guild);
 
             if ( isset($guildDetails) ) {
-                $guildDetails->generateEncounterDetails('');
+                $guildDetails = Functions::getAllGuildDetails($guildDetails);
             }
+
             return $guildDetails;
         }
     }
@@ -139,7 +140,7 @@ class UserPanelModel extends Model {
         }
 
         if ( isset($guildDetails) ) {
-            $guildDetails->generateEncounterDetails('');
+            $guildDetails = Functions::getAllGuildDetails($guildDetails);
         }
 
         return $guildDetails->_encounterDetails->$encounterId;
@@ -183,7 +184,7 @@ class UserPanelModel extends Model {
         }
 
         if ( isset($guildDetails) ) {
-            $guildDetails->generateEncounterDetails('');
+            $guildDetails = Functions::getAllGuildDetails($guildDetails);
         }
 
         return $guildDetails;
@@ -210,7 +211,8 @@ class UserPanelModel extends Model {
         $query->execute();
 
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
-            $guildArray[$row['guild_id']] = new GuildDetails($row);
+            $guildDetails                 = new GuildDetails($row);
+            $guildArray[$row['guild_id']] = $guildDetails;
 
             $this->_raidTeams[$row['guild_id']] = $this->_getRaidTeams($row['guild_id'], $guildArray[$row['guild_id']]);
             $this->_numOfGuilds++;

@@ -22,6 +22,7 @@ class CommonDataContainer {
     public static $hoursArray;
     public static $minutesArray;
     public static $timezonesArray;
+    public static $encounterKillsArray;
 
     /**
      * initialize

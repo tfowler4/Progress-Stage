@@ -455,7 +455,7 @@ class Template {
      */
     public static function getEncounterDropdownListHtml($guildId) {
         $guildDetails = CommonDataContainer::$guildArray[$guildId];
-        $guildDetails->generateEncounterDetails('');
+        $guildDetails = Functions::getAllGuildDetails($guildDetails);
 
         $html = '';
 
@@ -485,7 +485,6 @@ class Template {
         $videoArray = array();
         $tableHeader = array(
             '#'       => '_videoId',
-            'Channel' => '_channel',
             'Notes'   => '_notes',
             'URL'     => '_url',
             'Action'  => '_videoLink'

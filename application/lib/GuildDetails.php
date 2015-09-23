@@ -35,7 +35,7 @@ class GuildDetails extends DetailObject {
     protected $_socialNetworks;
 
     // Ranking Properties
-    protected $_progression;
+    protected $_progression = array();
     protected $_rankTier;
     protected $_rankSize;
     protected $_rankDungeon;
@@ -56,6 +56,7 @@ class GuildDetails extends DetailObject {
     protected $_video;
     protected $_strtotime;
     protected $_isEncounterDetailsSet;
+    protected $_isDungeonDetailsSet;
 
     // Merged Standings Properties
     protected $_recentActivity;
@@ -70,6 +71,7 @@ class GuildDetails extends DetailObject {
     protected $_worldFirst = 0;
     protected $_regionFirst = 0;
     protected $_serverFirst = 0;
+    protected $_countryFirst = 0;
 
     // Merged Rankings Properties
     protected $_rank;
@@ -105,7 +107,7 @@ class GuildDetails extends DetailObject {
         $this->_parent           = $params['parent'];
         $this->_child            = $params['child'];
         $this->_schedule         = $params['schedule'];
-        $this->_progression      = $params['progression'];
+        //$this->_progression      = $params['progression'];
         $this->_rankTier         = $params['rank_tier'];
         $this->_rankSize         = $params['rank_size'];
         $this->_rankDungeon      = $params['rank_dungeon'];
@@ -151,6 +153,7 @@ class GuildDetails extends DetailObject {
 
         // set default standings detail info
         $this->_dungeonDetails = $this->generateDungeonDetails();
+        $this->_encounterDetails = new stdClass();
 
         // TODO: Add Tier/Raid Size/Tier Raid Size content
         //$this->_tierDetails         = $this->generateTierDetails();
@@ -281,78 +284,89 @@ class GuildDetails extends DetailObject {
         
         return $property;
     }
-    
-    public function generateEncounterDetails($dataType, $dataId = null) {
-        $property = new stdClass();
 
-        if ( !empty((array)$this->_encounterDetails) ) {
-            $property = $this->_encounterDetails;
-        }
+    /**
+     * assign database kill details to encounter object
+     * 
+     * @param  array $killDetails [ kill details in key/value format ]
+     * 
+     * @return void
+     */
+    public function assignEncounterDetails($killDetails) {
+        $encounterId         = $killDetails['encounter_id'];
+        $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
+        $dungeonId           = $encounterDetails->_dungeonId;
+        $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
+        $tierId              = $dungeonDetails->_tier;
+        $tierDetails         = CommonDataContainer::$tierArray[$tierId];
+        $encounter           = new EncounterDetails($killDetails, $this, $dungeonDetails);
+
+        $this->_encounterDetails->$encounterId  = $encounter;
+
+        //$this->updateCompletedCount($dungeonDetails, $encounterDetails->_type, $this); // Increase Complete / Standing
+        $this->updateCompletedCount($dungeonDetails, $encounterDetails->_type, $this->_dungeonDetails->$dungeonId); // Increase Dungeon Complete / Standing
         
-        if ( isset($this->_progression) && !empty($this->_progression) ) {
-            $progressionArr = explode("~~", $this->_progression);
+        $this->updateRecentActivity($encounter, $encounterDetails, 'self', ''); // Recent Encounter / Time
+        $this->updateRecentActivity($encounter, $encounterDetails, 'dungeon', $dungeonId); // Recent Dungeon Encounter / Time
 
-            $numOfProgression = count($progressionArr);
-            for ( $count = 0; $count < $numOfProgression; $count++ ) {
-                $progressionDetails  = explode('||', $progressionArr[$count]);
-                $encounterId         = $progressionDetails[0];
-                $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
-                $dungeonId           = $encounterDetails->_dungeonId;
-                $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
-                $tierId              = $dungeonDetails->_tier;
-                $tierDetails         = CommonDataContainer::$tierArray[$tierId];
+        // Set World/Region/Server First
+        if ( $encounter->_serverRank == 1 ) {
+            $this->updateFirstCount('server', $encounterDetails->_type, $this);
+            $this->updateFirstCount('server', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
+        }
 
-                $totalNumOfEncounters    = count(CommonDataContainer::$encounterArray);
-                $totalNumOfSpcEncounters = count(CommonDataContainer::$encounterArray);
+        if ( $encounter->_regionRank == 1 ) {
+            $this->updateFirstCount('region', $encounterDetails->_type, $this);
+            $this->updateFirstCount('region', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
+        }
 
-                // Create EncounterDetails Object
-                if ( ($dataType == 'encounter' && $encounterId != $dataId)
-                || isset($this->_isEncounterDetailsSet[$encounterId]) ) { continue; }
+        if ( $encounter->_worldRank == 1 ) {
+            $this->updateFirstCount('world', $encounterDetails->_type, $this);
+            $this->updateFirstCount('world', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
+        }
 
-                if ( ($dataType == 'dungeon' && $dungeonId != $dataId)
-                || isset($this->_isEncounterDetailsSet[$encounterId]) ) { continue; }
+        $this->_isEncounterDetailsSet[$encounterId] = true;
+        $this->_isDungeonDetailsSet[$dungeonId]     = true;
+    }
 
-                // Do not process if encounterDetails already exist
-                if ( !isset($this->_isEncounterDetailsSet[$encounterId]) ) {
-                    $encounter              = new EncounterDetails($progressionDetails, $this, $dungeonDetails);
-                    $property->$encounterId = $encounter;
+    /**
+     * create encounter objects to assign the encounterDetails property
+     * 
+     * @param  string $dataType [ specify which ranking details to generate ex. encounters ]
+     * @param  string $dataId   [ specify the id for a specific dungeon/encounter ]
+     * 
+     * @return void
+     */
+    public function generateEncounterDetails($dataType, $dataId = null) {
+        if ( $dataType == 'encounter' && isset($this->_isEncounterDetailsSet[$dataId]) ) { return; }
 
-                    //$this->updateCompletedCount($dungeonDetails, $encounterDetails->_type, $this); // Increase Complete / Standing
-                    $this->updateCompletedCount($dungeonDetails, $encounterDetails->_type, $this->_dungeonDetails->$dungeonId); // Increase Dungeon Complete / Standing
-                    
-                    $this->updateRecentActivity($encounter, $encounterDetails, 'self', ''); // Recent Encounter / Time
-                    $this->updateRecentActivity($encounter, $encounterDetails, 'dungeon', $dungeonId); // Recent Dungeon Encounter / Time
+        if ( $dataType == 'dungeon' && isset($this->_isDungeonDetailsSet[$dataId]) ) { return; }
 
-                    // Set World/Region/Server First
-                    if ( $encounter->_serverRank == 1 ) {
-                        $this->updateFirstCount('server', $encounterDetails->_type, $this);
-                        $this->updateFirstCount('server', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
-                    }
+        $encountersArray = array();
 
-                    if ( $encounter->_regionRank == 1 ) {
-                        $this->updateFirstCount('region', $encounterDetails->_type, $this);
-                        $this->updateFirstCount('region', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
-                    }
-
-                    if ( $encounter->_worldRank == 1 ) {
-                        $this->updateFirstCount('world', $encounterDetails->_type, $this);
-                        $this->updateFirstCount('world', $encounterDetails->_type, $this->_dungeonDetails->$dungeonId);
-                    }
-
-                    $this->_isEncounterDetailsSet[$encounterId] = true;
-                } else {
-                    continue;
-                }
-
-                if ( $dataType == 'encounter' && $encounterId == $dataId ) {
-                    $this->_encounterDetails = $property;
+        switch ( $dataType ) {
+            case 'encounter':
+                if ( isset($this->_progression[$dataType][$dataId]) ) {
+                    $this->assignEncounterDetails($this->_progression[$dataType][$dataId]);
 
                     return;
                 }
-            }
+                break;
+            case 'dungeon':
+                if ( isset($this->_progression[$dataType][$dataId]) ) {
+                    $encountersArray = $this->_progression['dungeon'][$dataId];
+                }
+                break;
+            case '':
+                if ( isset($this->_progression['encounter']) ) {
+                    $encountersArray = $this->_progression['encounter'];
+                }
+                break;
         }
 
-        $this->_encounterDetails = $property;
+        foreach( $encountersArray as $encounterId => $killDetails ) {
+            $this->assignEncounterDetails($killDetails);
+        }
     }
 
     /**

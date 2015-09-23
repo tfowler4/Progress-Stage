@@ -216,7 +216,76 @@ class DbFactory {
     }
 
     /**
-     * get a databasehandler
+     * get a list of all encounter kills from database
+     * 
+     * @return void
+     */
+    public static function getAllEncounterKills() {
+        $query = self::$_dbh->query(sprintf(
+            "SELECT *
+               FROM %s",
+            self::TABLE_KILLS
+            ));
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $guildId             = $row['guild_id'];
+            $encounterId         = $row['encounter_id'];
+            $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
+            $dungeonId           = $encounterDetails->_dungeonId;
+            $guildDetails        = CommonDataContainer::$guildArray[$guildId];
+
+            $arr = $guildDetails->_progression;
+            $arr['dungeon'][$dungeonId][$encounterId] = $row;
+            $arr['encounter'][$encounterId] = $row;
+            $guildDetails->_progression = $arr;
+        }
+    }
+
+    /**
+     * get a list of specific encounter kills from database depending on parameters
+     *
+     * @param  string $dataType [ specify which ranking details to generate ex. encounters ]
+     * @param  string $dataId   [ specify the id for a specific dungeon/encounter ]
+     * 
+     * @return void
+     */
+    public static function getEncounterKills($dataType, $dataId) {
+        $sqlString = '';
+
+        switch ($dataType) {
+            case 'dungeon':
+                $sqlString = 'dungeon_id ="' . $dataId . '"';
+                break;
+            case 'encounter':
+                $sqlString = 'encounter_id ="' . $dataId . '"';
+                break;
+        }
+
+        $query = self::$_dbh->query(sprintf(
+            "SELECT *
+               FROM %s
+              WHERE %s",
+            self::TABLE_KILLS,
+            $sqlString
+            ));
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $guildId             = $row['guild_id'];
+            $encounterId         = $row['encounter_id'];
+            $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
+            $dungeonId           = $encounterDetails->_dungeonId;
+            $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
+            $tierId              = $dungeonDetails->_tier;
+            $tierDetails         = CommonDataContainer::$tierArray[$tierId];
+            $guildDetails        = CommonDataContainer::$guildArray[$guildId];
+
+            $arr = $guildDetails->_progression;
+            $arr['dungeon'][$dungeonId][$encounterId] = $row;
+            $arr['encounter'][$encounterId] = $row;
+            $guildDetails->_progression = $arr;
+        }
+    }
+
+    /**
+     * get a database handler
      * 
      * @return Db [ database handler ]
      */
