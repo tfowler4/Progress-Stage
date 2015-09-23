@@ -4,10 +4,9 @@
  * submit kills without logging in page
  */
 class QuickSubmissionModel extends Model {
-    protected $_validSubmission      = false;
-    protected $_validEncounter       = false;
-    protected $_validScreenshot      = false;
-    protected $_finalEncounterExists = false;
+    protected $_validSubmission = false;
+    protected $_validEncounter  = false;
+    protected $_validScreenshot = false;
     protected $_guildId;
     protected $_encounterId;
     protected $_guildDetails;
@@ -33,20 +32,14 @@ class QuickSubmissionModel extends Model {
                 $this->_encounterExists = $this->validateEncounter();
 
                 if ( $this->_encounterExists ) { // Ensures a valid screenshot is submitted
-                    $this->_finalEncounterExists = $this->validateFinalEncounter();
+                    $this->_validScreenshot = Functions::validateImage($this->_formFields->screenshot);
 
-                    if ( $this->_finalEncounterExists ) { // Ensures guild already has final encounter submitted
-                        $this->_validScreenshot = Functions::validateImage($this->_formFields->screenshot);
+                    if ( $this->_validScreenshot ) { // Submit the data
+                        $this->processForm();
 
-                        if ( $this->_validScreenshot ) { // Submit the data
-                            $this->processForm();
-
-                            $this->_dialogOptions = array('title' => 'Success', 'message' => 'Your kill has been submitted successfully! Standings and Rankings will be updated accordingly!');
-                        } else {
-                            $this->_dialogOptions = array('title' => 'Error', 'message' => 'All kill submissions require a valid screenshot. Please submit your kill with one!');
-                        }
+                        $this->_dialogOptions = array('title' => 'Success', 'message' => 'Your kill has been submitted successfully! Standings and Rankings will be updated accordingly!');
                     } else {
-                        $this->_dialogOptions = array('title' => 'Error', 'message' => 'Please submit all encounters before the final encounter!');
+                        $this->_dialogOptions = array('title' => 'Error', 'message' => 'All kill submissions require a valid screenshot. Please submit your kill with one!');
                     }
                 } else {
                     $this->_dialogOptions = array('title' => 'Error', 'message' => 'Please choose a valid encounter! (The encounter you selected may have already been submitted)');
@@ -99,24 +92,16 @@ class QuickSubmissionModel extends Model {
      * @return boolean [ true if submission is valid ]
      */
     public function validateEncounter() {
-        return !isset($this->_guildDetails->_encounterDetails->{$this->_encounterId});
-    }
-
-    /**
-     * validate if final encounter exists
-     * 
-     * @return boolean [ true if final encounter exists]
-     */
-    public function validateFinalEncounter() {
         $encounterDetails = CommonDataContainer::$encounterArray[$this->_encounterId];
-        $dungeonDetails   = CommonDataContainer::$dungeonArray[$encounterDetails->_dungeonId];
-        $finalEncounterId = $dungeonDetails->_finalEncounterId;
 
-        if ( isset($this->_guildDetails->_encounterDetails->finalEncounterId) ) {
-            $this->_finalEncounterExists = true;
+        if ( !empty($encounterDetails->_reqEncounter) ) {
+            $reqEncounterId = $encounterDetails->_reqEncounter;
+            if ( !isset($this->_guildDetails->_encounterDetails->$reqEncounterId) ) {
+                return true;
+            }
+            exit;
         }
-
-        return $this->_finalEncounterExists;
+        return !isset($this->_guildDetails->_encounterDetails->{$this->_encounterId});
     }
 
     /**
