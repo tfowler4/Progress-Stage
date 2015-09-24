@@ -34,7 +34,7 @@ class DBObjects {
     /**
      * generate sql string to add a new guild to database
      * 
-     * @param object $fields [ strings to display in log ]
+     * @param object $fields [ form fields object ]
      *
      * @return void
      */
@@ -65,7 +65,7 @@ class DBObjects {
     /**
      * generate sql string to add a new raid team for guild to database
      *
-     * @param object $fields        [ strings to display in log ]
+     * @param object $fields        [ form fields object ]
      * @param string $userId        [ userId to be set as creator ]
      * @param string $parentDetails [ parent guild details object ]
      *
@@ -120,7 +120,7 @@ class DBObjects {
     /**
      * generate sql string to edit guild in database
      *
-     * @param object $fields       [ strings to display in log ]
+     * @param object $fields       [ form fields object ]
      * @param string $guildDetails [ guild details object ]
      *
      * @return void
@@ -159,7 +159,7 @@ class DBObjects {
     /**
      * generate sql string to remove a guild from database
      * 
-     * @param object $fields [ strings to display in log ]
+     * @param object $fields [ form fields object ]
      *
      * @return void
      */
@@ -201,27 +201,12 @@ class DBObjects {
     /**
      * generate sql string to add a kill to a guild from database
      * 
-     * @param object $fields [ strings to display in log ]
-     * @param string $sql    [ progression column string ]
+     * @param object $fields [ form fields object ]
      *
      * @return void
      */
     public static function addKill($fields = null) {
         Logger::log('INFO', '***Preparing to add Kill: ' . $fields->encounter . ' for Guild: ' . $fields->guildId . '***');
-
-        // sql for updating guild progression string
-        /*
-        self::$_sqlString = sprintf(
-            "UPDATE %s
-                SET progression ='%s'
-              WHERE guild_id='%s'",
-             DbFactory::TABLE_GUILDS,
-             $sql,
-             $fields->guildId
-             );
-        Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
-        self::_execute();
-        */
 
         $date      = $fields->dateYear . '-' . $fields->dateMonth . '-' . $fields->dateDay;
         $time      = $fields->dateHour . ':' . $fields->dateMinute;
@@ -269,47 +254,7 @@ class DBObjects {
             $numOfVideos = count($fields->videoUrl);
 
             for ( $count = 0; $count < $numOfVideos; $count++ ) {
-                $videoUrlSqlString   = $fields->videoUrl[$count];
-                $videoTitleSqlString = $fields->videoTitle[$count];
-                $videoTypeSqlString  = $fields->videoType[$count];
-
-                // if url is empty, do not insert into database so returning
-                // if url is not a valid url
-                if ( empty($videoUrlSqlString) || !filter_var($videoUrlSqlString, FILTER_VALIDATE_URL) === false ) {
-                    return;
-                }
-
-                if ( empty($videoTitleSqlString) ) {
-                    $videoTitleSqlString = 'General Kill Video';
-                }
-
-                // sql for inserting kill videos
-                self::$_sqlString = sprintf(
-                    "INSERT INTO %s
-                    (guild_id, encounter_id, url, type, notes)
-                    values('%s','%s','%s','%s','%s')",
-                     DbFactory::TABLE_VIDEOS,
-                     $fields->guildId,
-                     $fields->encounter,
-                     $videoUrlSqlString,
-                     $videoTypeSqlString,
-                     $videoTitleSqlString
-                    );
-                Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
-                self::_execute('guild_id');
-
-                // sql for updating kill table with new video number
-                self::$_sqlString = sprintf(
-                    "UPDATE %s
-                        SET videos = videos + 1
-                      WHERE guild_id='%s'
-                        AND encounter_id='%s'",
-                     DbFactory::TABLE_KILLS,
-                     $fields->guildId,
-                     $fields->encounter
-                     );
-                Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
-                self::_execute();
+                self::addKillVideo($fields, $count);
             }
         }
     }
@@ -317,26 +262,12 @@ class DBObjects {
     /**
      * generate sql string to edit a kill to a guild from database
      * 
-     * @param object $fields [ strings to display in log ]
-     * @param string $sql    [ progression column string ]
+     * @param object $fields [ form fields object ]
      *
      * @return void
      */
     public static function editKill($fields = null) {
         Logger::log('INFO', '***Preparing to edit Kill: ' . $fields->encounter . ' for Guild: ' . $fields->guildId . '***');
-
-        /*
-        self::$_sqlString = sprintf(
-            "UPDATE %s
-                SET progression ='%s'
-              WHERE guild_id='%s'",
-             DbFactory::TABLE_GUILDS,
-             $sql,
-             $fields->guildId
-             );
-        Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
-        self::_execute();
-        */
 
         $date      = $fields->dateYear . '-' . $fields->dateMonth . '-' . $fields->dateDay;
         $time      = $fields->dateHour . ':' . $fields->dateMinute;
@@ -383,38 +314,8 @@ class DBObjects {
         if ( isset($fields->videoId) && !empty($fields->videoId) ) {
             $numOfVideos = count($fields->videoId);
 
-            //foreach ( $fields->videoId as $videoId ) {
             for ( $count = 0; $count < $numOfVideos; $count++ ) {
-                $videoUrlSqlString   = $fields->videoUrl[$count];
-                $videoTitleSqlString = $fields->videoTitle[$count];
-                $videoTypeSqlString  = $fields->videoType[$count];
-                $videoId             = $fields->videoId[$count];
-
-                // if url is empty, do not insert into database so returning
-                // if url is not a valid url
-                if ( empty($videoUrlSqlString) || !filter_var($videoUrlSqlString, FILTER_VALIDATE_URL) === false ) {
-                    return;
-                }
-
-                if ( empty($videoTitleSqlString) ) {
-                    $videoTitleSqlString = 'General Kill Video';
-                }
-
-                // sql for updating kill videos based on id
-                self::$_sqlString = sprintf(
-                    "UPDATE %s
-                        SET url='%s',
-                            type='%s',
-                            notes='%s'
-                      WHERE video_id='%s'",
-                     DbFactory::TABLE_VIDEOS,
-                     $videoUrlSqlString,
-                     $videoTypeSqlString,
-                     $videoTitleSqlString,
-                     $videoId
-                    );
-                Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
-                self::_execute('guild_id');
+                self::editKillVideo($fields, $count);
 
                 unset($fields->videoUrl[$count]);
                 unset($fields->videoTitle[$count]);
@@ -433,47 +334,7 @@ class DBObjects {
             $numOfVideos = count($fields->videoUrl);
 
             for ( $count = 0; $count < $numOfVideos; $count++ ) {
-                $videoUrlSqlString   = $fields->videoUrl[$count];
-                $videoTitleSqlString = $fields->videoTitle[$count];
-                $videoTypeSqlString  = $fields->videoType[$count];
-
-                // if url is empty, do not insert into database so returning
-                // if url is not a valid url
-                if ( empty($videoUrlSqlString) || !filter_var($videoUrlSqlString, FILTER_VALIDATE_URL) === false ) {
-                    return;
-                }
-
-                if ( empty($videoTitleSqlString) ) {
-                    $videoTitleSqlString = 'General Kill Video';
-                }
-
-                // sql for inserting kill videos
-                self::$_sqlString = sprintf(
-                    "INSERT INTO %s
-                    (guild_id, encounter_id, url, type, notes)
-                    values('%s','%s','%s','%s','%s')",
-                     DbFactory::TABLE_VIDEOS,
-                     $fields->guildId,
-                     $fields->encounter,
-                     $videoUrlSqlString,
-                     $videoTypeSqlString,
-                     $videoTitleSqlString
-                    );
-                Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
-                self::_execute('guild_id');
-
-                // sql for updating kill table with new video number
-                self::$_sqlString = sprintf(
-                    "UPDATE %s
-                        SET videos = videos + 1
-                      WHERE guild_id='%s'
-                        AND encounter_id='%s'",
-                     DbFactory::TABLE_KILLS,
-                     $fields->guildId,
-                     $fields->encounter
-                     );
-                Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
-                self::_execute();
+                self::addKillVideo($fields, $count);
             }
         }
     }
@@ -481,26 +342,12 @@ class DBObjects {
     /**
      * generate sql string to remove a kill from a guild from database
      * 
-     * @param object $fields [ strings to display in log ]
-     * @param string $sql    [ progression column string ]
+     * @param object $fields [ form fields object ]
      *
      * @return void
      */
     public static function removeKill($fields = null) {
         Logger::log('INFO', '***Preparing to remove Kill: ' . $fields->encounter . ' for Guild: ' . $fields->guildId . '***');
-
-        /*
-        self::$_sqlString = sprintf(
-            "UPDATE %s
-                SET progression ='%s'
-              WHERE guild_id='%s'",
-             DbFactory::TABLE_GUILDS,
-             $sql,
-             $fields->guildId
-             );
-        Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
-        self::_execute();
-        */
 
         self::$_sqlString = sprintf(
             "DELETE
@@ -513,17 +360,110 @@ class DBObjects {
             );
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
         self::_execute();
+
+        self::removeKillVideos($fields->guildId, $fields->encounter);
+    }
+
+    /**
+     * generate sql string to add kill video to database
+     * 
+     * @param object  $fields [ form fields object ]
+     * @param integer $index  [ index for array location ]
+     *
+     * @return void
+     */
+    public static function addKillVideo($fields, $index) {
+        $videoUrlSqlString   = $fields->videoUrl[$index];
+        $videoTitleSqlString = $fields->videoTitle[$index];
+        $videoTypeSqlString  = $fields->videoType[$index];
+
+        // if url is empty, do not insert into database so returning
+        // if url is not a valid url
+        if ( empty($videoUrlSqlString) || filter_var($videoUrlSqlString, FILTER_VALIDATE_URL) === false ) {
+            return;
+        }
+
+        if ( empty($videoTitleSqlString) ) {
+            $videoTitleSqlString = 'General Kill Video';
+        }
+
+        // sql for inserting kill videos
+        self::$_sqlString = sprintf(
+            "INSERT INTO %s
+            (guild_id, encounter_id, url, type, notes)
+            values('%s','%s','%s','%s','%s')",
+             DbFactory::TABLE_VIDEOS,
+             $fields->guildId,
+             $fields->encounter,
+             $videoUrlSqlString,
+             $videoTypeSqlString,
+             $videoTitleSqlString
+            );
+        Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
+        self::_execute('guild_id');
+
+        // sql for updating kill table with new video number
+        self::$_sqlString = sprintf(
+            "UPDATE %s
+                SET videos = videos + 1
+              WHERE guild_id='%s'
+                AND encounter_id='%s'",
+             DbFactory::TABLE_KILLS,
+             $fields->guildId,
+             $fields->encounter
+             );
+        Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
+        self::_execute();
+    }
+
+    /**
+     * generate sql string to edit kill video to database
+     * 
+     * @param object  $fields [ form fields object ]
+     * @param integer $index  [ index for array location ]
+     *
+     * @return void
+     */
+    public static function editKillVideo($fields, $index) {
+        $videoUrlSqlString   = $fields->videoUrl[$index];
+        $videoTitleSqlString = $fields->videoTitle[$index];
+        $videoTypeSqlString  = $fields->videoType[$index];
+        $videoId             = $fields->videoId[$index];
+
+        if ( empty($videoUrlSqlString) || filter_var($videoUrlSqlString, FILTER_VALIDATE_URL) === false ) {
+            return;
+        }
+
+        if ( empty($videoTitleSqlString) ) {
+            $videoTitleSqlString = 'General Kill Video';
+        }
+
+        // sql for updating kill videos based on id
+        self::$_sqlString = sprintf(
+            "UPDATE %s
+                SET url='%s',
+                    type='%s',
+                    notes='%s'
+              WHERE video_id='%s'",
+             DbFactory::TABLE_VIDEOS,
+             $videoUrlSqlString,
+             $videoTypeSqlString,
+             $videoTitleSqlString,
+             $videoId
+            );
+        Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
+        self::_execute('guild_id');
     }
 
     /**
      * generate sql string to remove all kill videos from an encounter from database
      * 
-     * @param object $fields [ strings to display in log ]
-     * @param string $sql    [ progression column string ]
+     * @param integer $guildId     [ id of guild ]
+     * @param integer $encounterId [ id of encounter ]
      *
      * @return void
      */
-    public static function removeVideos($guildId, $encounterId) {
+    public static function removeKillVideos($guildId, $encounterId) {
         Logger::log('INFO', '***Preparing to remove Kill Videos from encounter: ' . $encounterId . ' for Guild: ' . $guildId . '***');
 
         self::$_sqlString = sprintf(
@@ -542,7 +482,7 @@ class DBObjects {
     /**
      * generate sql string to add a new user to database
      * 
-     * @param object $fields [ strings to display in log ]
+     * @param object $fields [ form fields object ]
      *
      * @return void
      */
@@ -566,7 +506,7 @@ class DBObjects {
     /**
      * generate sql string to edit user's email in database
      * 
-     * @param object $fields [ strings to display in log ]
+     * @param object $fields [ form fields object ]
      *
      * @return void
      */
@@ -588,7 +528,7 @@ class DBObjects {
     /**
      * generate sql string to edit user's password in database
      * 
-     * @param object $fields [ strings to display in log ]
+     * @param object $fields [ form fields object ]
      *
      * @return void
      */

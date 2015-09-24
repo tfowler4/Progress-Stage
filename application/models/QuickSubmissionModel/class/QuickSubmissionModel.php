@@ -111,8 +111,6 @@ class QuickSubmissionModel extends Model {
      */
     public function processForm() {
         $dbh               = DbFactory::getDbh();
-        //$progressionString = $this->generateProgressionString($this->_guildDetails->_progression);
-        //DBObjects::addKill($this->_formFields, $progressionString);
 
         DBObjects::addKill($this->_formFields);
 

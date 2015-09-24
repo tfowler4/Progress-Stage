@@ -468,6 +468,8 @@ class UpdateAllPointRankings extends Script {
     }
 
     public static function generateGuildEncounterDetails() {
+        DbFactory::getAllEncounterKills();
+
         foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
             $guildDetails->generateEncounterDetails('');
         }

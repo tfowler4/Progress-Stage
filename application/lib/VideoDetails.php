@@ -22,7 +22,8 @@ class VideoDetails extends DataObject {
         $this->_notes       = $params['notes'];
         $this->_url         = $params['url'];
 
-        if ( !strpos($this->_url, 'http://') ) {
+        // add http:// if it is missing from the url
+        if (!preg_match("~^(?:f|ht)tps?://~i", $this->_url)) {
             $this->_url = 'http://' . $this->_url;
         }
 

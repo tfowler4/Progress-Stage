@@ -18,6 +18,8 @@ class UpdateEncounterStandings extends Script {
     }
 
     public static function getAllEncounterKills() {
+        DbFactory::getAllEncounterKills();
+
         // Loop through all guilds
         foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
             $guildDetails->generateEncounterDetails('');
@@ -80,19 +82,25 @@ class UpdateEncounterStandings extends Script {
 
             // Loop through all guild encounters
             foreach ( $guildDetails->_encounterDetails as $encounterId => $encounterDetails ) {
-                // Set Insert String
-                $insertString = Functions::generateDBInsertString($insertString, $encounterDetails, $guildId);
+                // sql for updating kill into encounterkills_table
+                $query = self::$_dbh->query(sprintf(
+                    "UPDATE %s
+                        SET server_rank=%d,
+                            region_rank=%d,
+                            world_rank=%d,
+                            country_rank=%d
+                      WHERE guild_id='%s'
+                        AND encounter_id='%s'",
+                     DbFactory::TABLE_KILLS,
+                     $encounterDetails->_serverRank,
+                     $encounterDetails->_regionRank,
+                     $encounterDetails->_worldRank,
+                     $encounterDetails->_countryRank,
+                     $guildId,
+                     $encounterId
+                     ));
+                $query->execute();
             }
-
-            // Update Guild Progression String
-            $query = self::$_dbh->query(sprintf(
-                "UPDATE guild_table
-                    SET progression = '%s'
-                  WHERE guild_id = '%s'",
-                $insertString,
-                $guildId
-                ));
-            $query->execute();
         }
     }
 }

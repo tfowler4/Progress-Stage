@@ -484,7 +484,6 @@ class Template {
         $dbh        = DbFactory::getDbh();
         $videoArray = array();
         $tableHeader = array(
-            '#'       => '_videoId',
             'Notes'   => '_notes',
             'URL'     => '_url',
             'Action'  => '_videoLink'
