@@ -90,7 +90,7 @@ class UserPanelModelKill extends UserPanelModel {
     }
 
     /**
-     * remove kill from guild progression string in database
+     * remove kill from encounterkills table in database
      * 
      * @return void
      */
@@ -103,7 +103,7 @@ class UserPanelModelKill extends UserPanelModel {
     }
 
     /**
-     * edit kill from guild progression in database
+     * edit kill from encounterkills table in database
      * 
      * @return void
      */
@@ -128,7 +128,7 @@ class UserPanelModelKill extends UserPanelModel {
     }
 
     /**
-     * add kill from guild progression in database
+     * add kill from encounterkills table in database
      * 
      * @return void
      */
@@ -161,49 +161,6 @@ class UserPanelModelKill extends UserPanelModel {
         if ( file_exists($imagePath) ) {
             unlink($imagePath);
         }
-    }
-
-    /**
-     * remove kill from guild progression string
-     *
-     * @param  string $progressionString [ kill progression string ]
-     * 
-     * @return void
-     */
-    private function _removeKillFromProgressionString($progressionString) {
-        $newProgressionString = '';
-
-        if ( !empty($progressionString) ) {
-            $progressionArray = explode("~~", $progressionString);
-
-            $numOfProgression = count($progressionArray);
-            for ( $count = 0; $count < $numOfProgression; $count++ ) {
-                $progressionDetails = explode("||", $progressionArray[$count]);
-                $encounterId        = $progressionDetails[0];
-
-                if ( $encounterId == $this->_formFields->encounter ) {
-                    unset($progressionArray[$count]);
-
-                    $newProgressionString = implode("~~", $progressionArray);
-                    break;
-                }
-            }
-        }
-
-        return $newProgressionString;
-    }
-
-    /**
-     * generate database upload string for progression column in guild table
-     *
-     * @param  string $progressionString [ kill progression string ]
-     * 
-     * @return string [ progression string ]
-     */
-    private function _generateProgressionString($progressionString) {
-        $insertString = Functions::generateDBInsertString($progressionString, $this->_formFields, $this->_guildDetails->_guildId);
-
-        return $insertString;
     }
 
     /**

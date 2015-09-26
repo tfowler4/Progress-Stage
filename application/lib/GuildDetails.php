@@ -33,9 +33,9 @@ class GuildDetails extends DetailObject {
     protected $_schedule;
     protected $_guildType;
     protected $_socialNetworks;
+    protected $_progression = array();
 
     // Ranking Properties
-    protected $_progression = array();
     protected $_rankTier;
     protected $_rankSize;
     protected $_rankDungeon;
@@ -107,7 +107,6 @@ class GuildDetails extends DetailObject {
         $this->_parent           = $params['parent'];
         $this->_child            = $params['child'];
         $this->_schedule         = $params['schedule'];
-        //$this->_progression      = $params['progression'];
         $this->_rankTier         = $params['rank_tier'];
         $this->_rankSize         = $params['rank_size'];
         $this->_rankDungeon      = $params['rank_dungeon'];

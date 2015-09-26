@@ -107,7 +107,6 @@ class RegisterModel extends Model {
         $query = $dbh->prepare(sprintf(
             "SELECT *
                FROM %s
-              WHERE progression != ''
            ORDER BY date_created DESC
               LIMIT 10", 
             DbFactory::TABLE_GUILDS

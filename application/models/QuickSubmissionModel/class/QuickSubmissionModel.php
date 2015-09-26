@@ -124,17 +124,4 @@ class QuickSubmissionModel extends Model {
             move_uploaded_file($this->_formFields->screenshot['tmp_name'], $imagePath);
         }
     }
-
-    /**
-     * generate guild database progression string
-     * 
-     * @param  string $progressionString [ current progression string ]
-     * 
-     * @return string [ progression insert string ]
-     */
-    public function generateProgressionString($progressionString) {
-        $insertString = Functions::generateDBInsertString($progressionString, $this->_formFields, $this->_guildId);
-
-        return $insertString;
-    }
 }
