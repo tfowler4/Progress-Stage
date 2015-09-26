@@ -863,7 +863,13 @@ class AdministratorModel extends Model {
         $returnArray = array();
 
         $query = $this->_dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT news_id,
+                    title,
+                    content,
+                    date_added,
+                    added_by,
+                    published,
+                    type
                FROM %s
                ORDER BY date_added DESC", 
                     DbFactory::TABLE_NEWS

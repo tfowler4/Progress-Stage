@@ -89,7 +89,14 @@ class ResetModel extends Model {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT user_id,
+                    username,
+                    email,
+                    passcode,
+                    active,
+                    date_joined,
+                    confirmcode,
+                    admin
                FROM %s
               WHERE confirmcode='%s'",
              DbFactory::TABLE_USERS,
@@ -148,7 +155,14 @@ class ResetModel extends Model {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT user_id,
+                    username,
+                    email,
+                    passcode,
+                    active,
+                    date_joined,
+                    confirmcode,
+                    admin
                FROM %s
               WHERE %s='%s'",
              DbFactory::TABLE_USERS,

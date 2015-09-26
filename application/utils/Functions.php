@@ -735,7 +735,22 @@ class Functions {
         $guildDetails->generateRankDetails('encounters');
 
         $query = $dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT kill_id,
+                    guild_id,
+                    encounter_id,
+                    dungeon_id,
+                    tier,
+                    raid_size,
+                    datetime,
+                    date,
+                    time,
+                    time_zone,
+                    server,
+                    videos,
+                    server_rank,
+                    region_rank,
+                    world_rank,
+                    country_rank
                FROM %s
               WHERE guild_id=%d", 
                     DbFactory::TABLE_KILLS, 

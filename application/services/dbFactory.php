@@ -26,7 +26,7 @@ class DbFactory {
 
     public static function init() {
         self::$_dbh = self::getDbh();
-        self::_getTwitchChannels();
+        //self::_getTwitchChannels();
         self::_getCountries();
         self::_getServers();
         self::_getRegions();
@@ -47,7 +47,12 @@ class DbFactory {
      */
     private static function _getServers() {
         $query = self::$_dbh->query(sprintf(
-            "SELECT *
+            "SELECT server_id,
+                    name,
+                    country,
+                    region,
+                    type,
+                    type2
                FROM %s
            ORDER BY region ASC, name ASC",
             self::TABLE_SERVERS
@@ -62,7 +67,11 @@ class DbFactory {
      */
     private static function _getRegions() {
         $query = self::$_dbh->query(sprintf(
-            "SELECT *
+            "SELECT region_id,
+                    abbreviation,
+                    full,
+                    style,
+                    num_of_servers
                FROM %s
            ORDER BY abbreviation DESC",
              self::TABLE_REGIONS
@@ -77,7 +86,16 @@ class DbFactory {
      */
     private static function _getTiers() {
         $query = self::$_dbh->query(sprintf(
-            "SELECT *
+            "SELECT tier_id,
+                    tier,
+                    alt_tier,
+                    date_start,
+                    date_end,
+                    title,
+                    alt_title,
+                    encounters,
+                    special_encounters,
+                    dungeons
                FROM %s
            ORDER BY tier DESC",
             self::TABLE_TIERS
@@ -118,7 +136,17 @@ class DbFactory {
      */
     private static function _getDungeons() {
         $query = self::$_dbh->query(sprintf(
-            "SELECT *
+            "SELECT dungeon_id,
+                    name,
+                    abbreviation,
+                    tier,
+                    players,
+                    mobs,
+                    special_encounters,
+                    final_encounter,
+                    date_launch,
+                    dungeon_type,
+                    eu_diff
                FROM %s
            ORDER BY players DESC, dungeon_id DESC",
             self::TABLE_DUNGEONS
@@ -133,7 +161,18 @@ class DbFactory {
      */
     private static function _getEncounters() {
         $query = self::$_dbh->query(sprintf(
-            "SELECT *
+            "SELECT encounter_id,
+                    name,
+                    dungeon,
+                    dungeon_id,
+                    players,
+                    tier,
+                    mob_type,
+                    encounter_name,
+                    encounter_short_name,
+                    date_launch,
+                    mob_order,
+                    req_encounter
                FROM %s
            ORDER BY tier DESC, dungeon DESC, mob_order ASC",
             self::TABLE_ENCOUNTERS
@@ -148,7 +187,9 @@ class DbFactory {
      */
     private static function _getCountries() {
         $query = self::$_dbh->query(sprintf(
-            "SELECT *
+            "SELECT country_id,
+                    name,
+                    region
                FROM %s
            ORDER BY name ASC",
             self::TABLE_COUNTRIES
@@ -163,7 +204,8 @@ class DbFactory {
      */
     private static function _getFactions() {
         $query = self::$_dbh->query(sprintf(
-            "SELECT *
+            "SELECT faction_id, 
+                    name
                FROM %s
            ORDER BY faction_id DESC",
             self::TABLE_FACTIONS
@@ -178,7 +220,31 @@ class DbFactory {
      */
     private static function _getGuilds() {
         $query = self::$_dbh->query(sprintf(
-            "SELECT *
+            "SELECT guild_id,
+                    name,
+                    date_created,
+                    leader,
+                    website,
+                    guild_type,
+                    schedule,
+                    facebook,
+                    twitter,
+                    google,
+                    faction,
+                    region,
+                    country,
+                    server,
+                    active,
+                    type,
+                    creator_id,
+                    parent,
+                    child,
+                    rank_tier,
+                    rank_size,
+                    rank_dungeon,
+                    rank_encounter,
+                    rank_tier_size,
+                    rank_overall
                FROM %s
            ORDER BY name ASC",
             self::TABLE_GUILDS
@@ -193,7 +259,12 @@ class DbFactory {
      */
     private static function _getRankSystems() {
         $query = self::$_dbh->query(sprintf(
-            "SELECT *
+            "SELECT system_id,
+                    identifier,
+                    name,
+                    abbreviation,
+                    base_value,
+                    final_value
                FROM %s
            ORDER BY system_id ASC",
             self::TABLE_SYSTEMS
@@ -208,7 +279,12 @@ class DbFactory {
      */
     private static function _getTwitchChannels() {
         $query = self::$_dbh->query(sprintf(
-            "SELECT *
+            "SELECT twitch_num,
+                    twitch_id,
+                    twitch_url,
+                    guild_id,
+                    active,
+                    viewers
                FROM %s",
             self::TABLE_TWITCH
             ));
@@ -222,7 +298,22 @@ class DbFactory {
      */
     public static function getAllEncounterKills() {
         $query = self::$_dbh->query(sprintf(
-            "SELECT *
+            "SELECT kill_id,
+                    guild_id,
+                    encounter_id,
+                    dungeon_id,
+                    tier,
+                    raid_size,
+                    datetime,
+                    date,
+                    time,
+                    time_zone,
+                    server,
+                    videos,
+                    server_rank,
+                    region_rank,
+                    world_rank,
+                    country_rank
                FROM %s",
             self::TABLE_KILLS
             ));
@@ -261,7 +352,22 @@ class DbFactory {
         }
 
         $query = self::$_dbh->query(sprintf(
-            "SELECT *
+            "SELECT kill_id,
+                    guild_id,
+                    encounter_id,
+                    dungeon_id,
+                    tier,
+                    raid_size,
+                    datetime,
+                    date,
+                    time,
+                    time_zone,
+                    server,
+                    videos,
+                    server_rank,
+                    region_rank,
+                    world_rank,
+                    country_rank
                FROM %s
               WHERE %s",
             self::TABLE_KILLS,

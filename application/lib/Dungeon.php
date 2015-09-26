@@ -14,7 +14,6 @@ class Dungeon extends DataObject {
     protected $_euTimeDiffTitle;
     protected $_finalEncounterId;
     protected $_dateLaunch;
-    protected $_color;
     protected $_type;
     protected $_numOfEncounters;
     protected $_numOfSpecialEncounters;
@@ -42,7 +41,6 @@ class Dungeon extends DataObject {
         $this->_dateLaunch             = Functions::formatDate($params['date_launch'], 'F d Y');
         $this->_euTimeDiff             = $params['eu_diff'];
         $this->_euTimeDiffTitle        = Functions::convertToHoursMins($params['eu_diff']);
-        $this->_color                  = $params['color'];
         $this->_type                   = $params['dungeon_type'];
         $this->_encounters             = $this->_getEncounters($this->_dungeonId);
         $this->_firstDungeonClear      = 'N/A';

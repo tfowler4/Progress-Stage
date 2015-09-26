@@ -49,7 +49,14 @@ class LoginModel extends Model {
         $encryptedPassword = $this->_encryptPasscode($this->_formFields->password);
 
         $query = $dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT user_id,
+                    username,
+                    email,
+                    passcode,
+                    active,
+                    date_joined,
+                    confirmcode,
+                    admin
                FROM %s
               WHERE username='%s'
                 AND passcode='%s'",

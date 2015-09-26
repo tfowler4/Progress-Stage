@@ -69,7 +69,14 @@ class UserPanelModel extends Model {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT user_id,
+                    username,
+                    email,
+                    passcode,
+                    active,
+                    date_joined,
+                    confirmcode,
+                    admin
                FROM %s
               WHERE user_id='%s'",
              DbFactory::TABLE_USERS,
@@ -95,7 +102,31 @@ class UserPanelModel extends Model {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT guild_id,
+                    name,
+                    date_created,
+                    leader,
+                    website,
+                    guild_type,
+                    schedule,
+                    facebook,
+                    twitter,
+                    google,
+                    faction,
+                    region,
+                    country,
+                    server,
+                    active,
+                    type,
+                    creator_id,
+                    parent,
+                    child,
+                    rank_tier,
+                    rank_size,
+                    rank_dungeon,
+                    rank_encounter,
+                    rank_tier_size,
+                    rank_overall
                FROM %s
               WHERE guild_id='%s'",
              DbFactory::TABLE_GUILDS,
@@ -126,7 +157,31 @@ class UserPanelModel extends Model {
         $guildDetails;
 
         $query = $dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT guild_id,
+                    name,
+                    date_created,
+                    leader,
+                    website,
+                    guild_type,
+                    schedule,
+                    facebook,
+                    twitter,
+                    google,
+                    faction,
+                    region,
+                    country,
+                    server,
+                    active,
+                    type,
+                    creator_id,
+                    parent,
+                    child,
+                    rank_tier,
+                    rank_size,
+                    rank_dungeon,
+                    rank_encounter,
+                    rank_tier_size,
+                    rank_overall
                FROM %s
               WHERE guild_id='%s'",
              DbFactory::TABLE_GUILDS,
@@ -202,7 +257,31 @@ class UserPanelModel extends Model {
         $guildArray = array();
 
         $query = $dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT guild_id,
+                    name,
+                    date_created,
+                    leader,
+                    website,
+                    guild_type,
+                    schedule,
+                    facebook,
+                    twitter,
+                    google,
+                    faction,
+                    region,
+                    country,
+                    server,
+                    active,
+                    type,
+                    creator_id,
+                    parent,
+                    child,
+                    rank_tier,
+                    rank_size,
+                    rank_dungeon,
+                    rank_encounter,
+                    rank_tier_size,
+                    rank_overall
                FROM %s
               WHERE creator_id='%s'
                 AND type='0'", 

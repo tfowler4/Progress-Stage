@@ -105,7 +105,31 @@ class RegisterModel extends Model {
         $dataArray  = array();
 
         $query = $dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT guild_id,
+                    name,
+                    date_created,
+                    leader,
+                    website,
+                    guild_type,
+                    schedule,
+                    facebook,
+                    twitter,
+                    google,
+                    faction,
+                    region,
+                    country,
+                    server,
+                    active,
+                    type,
+                    creator_id,
+                    parent,
+                    child,
+                    rank_tier,
+                    rank_size,
+                    rank_dungeon,
+                    rank_encounter,
+                    rank_tier_size,
+                    rank_overall
                FROM %s
            ORDER BY date_created DESC
               LIMIT 10", 
@@ -133,7 +157,14 @@ class RegisterModel extends Model {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT user_id,
+                    username,
+                    email,
+                    passcode,
+                    active,
+                    date_joined,
+                    confirmcode,
+                    admin
                FROM %s
               WHERE user_id='%s'",
              DbFactory::TABLE_USERS,

@@ -36,7 +36,6 @@ class GuildDirectoryModel extends Model {
 
         $this->title = self::PAGE_TITLE;
 
-        //DBFactory::getAllEncounterKills();
         $this->_getRecentActivityForAllGuilds();
         $this->_getFirstsForAllGuilds();
 
@@ -51,10 +50,40 @@ class GuildDirectoryModel extends Model {
      * @return void
      */
     private function _getRecentActivityForAllGuilds() {
-        $dbh       = DbFactory::getDbh();
+        $dbh   = DbFactory::getDbh();
         $query = $dbh->query(sprintf(
-            "SELECT *
-               FROM ( SELECT *
+            "SELECT kill_id,
+                    guild_id,
+                    encounter_id,
+                    dungeon_id,
+                    tier,
+                    raid_size,
+                    datetime,
+                    date,
+                    time,
+                    time_zone,
+                    server,
+                    videos,
+                    server_rank,
+                    region_rank,
+                    world_rank,
+                    country_rank
+               FROM ( SELECT kill_id,
+                             guild_id,
+                             encounter_id,
+                             dungeon_id,
+                             tier,
+                             raid_size,
+                             datetime,
+                             date,
+                             time,
+                             time_zone,
+                             server,
+                             videos,
+                             server_rank,
+                             region_rank,
+                             world_rank,
+                             country_rank
                         FROM %s
                     ORDER BY datetime DESC ) as tmp_table
            GROUP BY guild_id",
@@ -85,7 +114,7 @@ class GuildDirectoryModel extends Model {
     private function _getFirstsForAllGuilds() {
         $dbh       = DbFactory::getDbh();
         $query = $dbh->query(sprintf(
-            "SELECT *, 
+            "SELECT guild_id, 
                SUM(IF(server_rank = 1, 1,0)) AS server_firsts,
                SUM(IF(region_rank = 1, 1,0)) AS region_firsts,
                SUM(IF(world_rank = 1, 1,0)) AS world_firsts,

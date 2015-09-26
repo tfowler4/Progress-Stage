@@ -157,7 +157,12 @@ class EncounterDetails extends DetailObject {
         $videoArray = array();
 
         $query = $dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT video_id,
+                    guild_id,
+                    encounter_id,
+                    url,
+                    type,
+                    notes
                FROM %s
               WHERE guild_id = %d
                 AND encounter_id = %d", 

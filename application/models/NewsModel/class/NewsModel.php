@@ -44,21 +44,8 @@ class NewsModel extends Model {
         $this->_videoLinks     = $this->_getLiveVideos(self::STREAM_CHANNELS);
         $this->_newsArticles   = $this->_getArticles($this->_article, self::LIMIT_NEWS);
         $this->_guildStandings = $this->_getStandings(self::STANDINGS_DISPLAY, self::LIMIT_GUILD_STANDINGS);
-
-        //echo ' <br>After Standings<br>';
-        //echo ' Memory Usage News Model: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
-        //echo ' Load Time News Model: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.<br>'; 
-        //exit;
         $this->_guildRankings  = $this->_getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
-        //echo ' <br>After Rankings<br>';
-        //echo ' Memory Usage News Model: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
-        //echo ' Load Time News Model: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.<br>'; 
-        //exit;
         $this->_recentRaids    = $this->_getRecentRaids(self::LIMIT_RECENT_RAIDS);
-        //echo ' <br>After Recent Raids<br>';
-        //echo ' Memory Usage News Model: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
-        //echo ' Load Time News Model: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.<br>'; 
-        //exit;
     }
 
     /**
@@ -274,7 +261,12 @@ class NewsModel extends Model {
         $dataArray = array();
 
         $query = $dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT activity_id,
+                    encounter_id,
+                    guild_id,
+                    date_added,
+                    strtotime,
+                    update_rank
                FROM %s
            ORDER BY strtotime DESC
               LIMIT %s", 
@@ -324,9 +316,15 @@ class NewsModel extends Model {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
-            "SELECT * 
+            "SELECT news_id,
+                    title,
+                    content,
+                    date_added,
+                    added_by,
+                    published,
+                    type
                FROM %s
-              WHERE published = 1 
+              WHERE published = 1
            ORDER BY date_added DESC
               LIMIT %s", 
                     DbFactory::TABLE_NEWS,
@@ -347,7 +345,13 @@ class NewsModel extends Model {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT news_id,
+                    title,
+                    content,
+                    date_added,
+                    added_by,
+                    published,
+                    type
                FROM %s
               WHERE published = 1
                 AND title LIKE LOWER('%s')
@@ -371,7 +375,12 @@ class NewsModel extends Model {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
-            "SELECT *
+            "SELECT twitch_num,
+                    twitch_id,
+                    twitch_url,
+                    guild_id,
+                    active,
+                    viewers
                FROM %s
               WHERE active = 1
               ORDER BY viewers ASC

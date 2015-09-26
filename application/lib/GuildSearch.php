@@ -22,7 +22,31 @@ class GuildSearch {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->prepare(sprintf(
-            "SELECT * 
+            "SELECT guild_id,
+                    name,
+                    date_created,
+                    leader,
+                    website,
+                    guild_type,
+                    schedule,
+                    facebook,
+                    twitter,
+                    google,
+                    faction,
+                    region,
+                    country,
+                    server,
+                    active,
+                    type,
+                    creator_id,
+                    parent,
+                    child,
+                    rank_tier,
+                    rank_size,
+                    rank_dungeon,
+                    rank_encounter,
+                    rank_tier_size,
+                    rank_overall
                FROM %s
               WHERE name LIKE '%s' 
            ORDER BY name DESC", 
