@@ -46,6 +46,12 @@ class FormValidator {
             case 'login':
                 self::_validateLoginForm($formFields);
                 break;
+            case 'reset':
+                self::_validateResetForm($formFields);
+                break;
+            case 'reset-confirm':
+                self::_validateResetConfirmForm($formFields);
+                break;
         }
     }
 
@@ -55,6 +61,13 @@ class FormValidator {
         }
     }
 
+    /**
+     * add new raid team form validation
+     * 
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
     protected static function _validateAddRaidTeamForm($formFields) {
         // required fields
         if ( empty($formFields->guildName) ) { self::$isFormInvalid = true; self::$invalidField = 'Guild Name'; self::_returnInvalidField(); }
@@ -74,6 +87,13 @@ class FormValidator {
         }
     }
 
+    /**
+     * remove guild form validation
+     * 
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
     protected static function _validateRemoveGuildForm($formFields) {
         // required fields
         if ( empty($formFields->guildId) ) { self::$isFormInvalid = true; self::$invalidField = 'Guild'; self::_returnInvalidField(); }
@@ -90,6 +110,13 @@ class FormValidator {
         }
     }
 
+    /**
+     * edit guild details form validation
+     * 
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
     protected static function _validateEditGuildForm($formFields) {
         // required fields
         if ( empty($formFields->guildName) ) { self::$isFormInvalid = true; self::$invalidField = 'Guild Name'; self::_returnInvalidField(); }
@@ -131,6 +158,13 @@ class FormValidator {
         }
     }
 
+    /**
+     * add new guild form validation
+     * 
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
     protected static function _validateAddGuildForm($formFields) {
         // required fields
         if ( empty($formFields->guildName) ) { self::$isFormInvalid = true; self::$invalidField = 'Guild Name'; self::_returnInvalidField(); }
@@ -182,7 +216,7 @@ class FormValidator {
         // validate old password
         if ( self::encryptPasscode($formFields->oldPassword) != $_SESSION['userDetails']->_encrypedPassword ) {
             self::$isFormInvalid = true;
-            self::_setMessage('Password', 'Password fields must match.');
+            self::_setMessage('Password', 'Current password is incorrect. Please try again.');
             self::$invalidField = 'Password';
             return;
         }
@@ -197,6 +231,13 @@ class FormValidator {
         }
     }
 
+    /**
+     * update user email form validation
+     * 
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
     protected static function _validateUserEmailForm($formFields) {
         // required fields
         if ( empty($formFields->userId) ) { self::$isFormInvalid = true; self::$invalidField = 'User'; self::_returnInvalidField(); }
@@ -215,6 +256,13 @@ class FormValidator {
         }
     }
 
+    /**
+     * remove guild kill form validation
+     * 
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
     protected static function _validateRemoveKillForm($formFields) {
         // required fields
         if ( empty($formFields->guildId) ) {    self::$isFormInvalid = true; self::$invalidField = 'Guild'; self::_returnInvalidField(); }
@@ -232,6 +280,13 @@ class FormValidator {
         }
     }
 
+    /**
+     * edit guild kill form validation
+     * 
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
     protected static function _validateEditKillForm($formFields) {
         // required fields
         if ( empty($formFields->guildId) ) {    self::$isFormInvalid = true; self::$invalidField = 'Guild'; self::_returnInvalidField(); }
@@ -263,6 +318,13 @@ class FormValidator {
         }
     }
 
+    /**
+     * add new guild kill form validation
+     * 
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
     protected static function _validateAddKillForm($formFields) {
         // required fields
         if ( empty($formFields->guildId) ) {    self::$isFormInvalid = true; self::$invalidField = 'Guild'; self::_returnInvalidField(); }
@@ -297,6 +359,153 @@ class FormValidator {
         $isScreenshotInvalid = self::_validateScreenshot($formFields->screenshot);
         if ( $isScreenshotInvalid ) {
             self::$isFormInvalid = true;
+            return;
+        }
+    }
+
+    /**
+     * reset password confirmation form validation
+     * 
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
+    protected static function _validateResetConfirmForm($formFields) {
+        // required fields
+        if ( empty($formFields->newPassword) ) {       self::$isFormInvalid = true; self::$invalidField = 'New Password'; self::_returnInvalidField(); }
+        if ( empty($formFields->retypeNewPassword) ) { self::$isFormInvalid = true; self::$invalidField = 'Retype New Password'; self::_returnInvalidField(); }
+
+        // if form is invalid after empty fields check, post message of that field
+        if ( self::$isFormInvalid ) {
+            self::_setMessage(self::$invalidField);
+            return;
+        }
+
+        // validate new password
+        $isPasswordInvalid = self::_validatePassword($formFields->newPassword, $formFields->retypeNewPassword);
+
+        if ( $isPasswordInvalid ) {
+            self::$isFormInvalid = true;
+            self::$invalidField = 'Password';
+            return;
+        }
+    }
+
+    /**
+     * reset password form validation
+     * 
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
+    protected static function _validateResetForm($formFields) {
+        // required fields
+        if ( empty($formFields->email) ) { self::$isFormInvalid = true; self::$invalidField = 'Email'; self::_returnInvalidField(); }
+
+        // if form is invalid after empty fields check, post message of that field
+        if ( self::$isFormInvalid ) {
+            self::_setMessage(self::$invalidField);
+            return;
+        }
+
+        // validate email
+        $isEmailInvalid = self::_validateEmail($formFields->email);
+
+        if ( $isEmailInvalid ) {
+            self::$isFormInvalid = true;
+            self::$invalidField = 'Email';
+            return;
+        }
+    }
+
+    /**
+     * login form validation
+     * 
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
+    protected static function _validateLoginForm($formFields) {
+        // required fields
+        if ( empty($formFields->username) ) { self::$isFormInvalid = true; self::$invalidField = 'Username/Email'; self::_returnInvalidField(); }
+        if ( empty($formFields->password) ) { self::$isFormInvalid = true; self::$invalidField = 'Password'; self::_returnInvalidField(); }
+
+        // if form is invalid after empty fields check, post message of that field
+        if ( self::$isFormInvalid ) {
+            self::_setMessage(self::$invalidField);
+            return;
+        }
+    }
+
+    /**
+     * register form validation
+     * 
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
+    protected static function _validateRegisterForm($formFields) {
+        // required fields
+        if ( empty($formFields->username) ) {       self::$isFormInvalid = true; self::$invalidField = 'Username'; self::_returnInvalidField(); }
+        if ( empty($formFields->email) ) {          self::$isFormInvalid = true; self::$invalidField = 'Email Address'; self::_returnInvalidField(); }
+        if ( empty($formFields->password) ) {       self::$isFormInvalid = true; self::$invalidField = 'Password'; self::_returnInvalidField(); }
+        if ( empty($formFields->retypePassword) ) { self::$isFormInvalid = true; self::$invalidField = 'Retype Password'; self::_returnInvalidField(); }
+        if ( empty($formFields->guildName) ) {      self::$isFormInvalid = true; self::$invalidField = 'Guild Name'; self::_returnInvalidField(); }
+        if ( empty($formFields->faction) ) {        self::$isFormInvalid = true; self::$invalidField = 'Faction'; self::_returnInvalidField(); }
+        if ( empty($formFields->server) ) {         self::$isFormInvalid = true; self::$invalidField = 'Server'; self::_returnInvalidField(); }
+        if ( empty($formFields->country) ) {        self::$isFormInvalid = true; self::$invalidField = 'Country'; self::_returnInvalidField(); }
+        if ( empty($formFields->isImportant) ) {    self::$isFormInvalid = true; self::$invalidField = 'Terms of Service'; self::_returnInvalidField(); }
+
+        // if form is invalid after empty fields check, post message of that field
+        if ( self::$isFormInvalid ) {
+            self::_setMessage(self::$invalidField);
+            return;
+        }
+
+        // validate email
+        $isEmailInvalid = self::_validateEmail($formFields->email);
+
+        if ( $isEmailInvalid ) {
+            self::$isFormInvalid = true;
+            self::$invalidField = 'Email';
+            return;
+        }
+
+        // validate password
+        $isPasswordInvalid = self::_validatePassword($formFields->password, $formFields->retypePassword);
+
+        if ( $isPasswordInvalid ) {
+            self::$isFormInvalid = true;
+            self::$invalidField = 'Password';
+            return;
+        }
+    }
+
+    /**
+     * contact us form validation
+     * 
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
+    protected static function _validateContactUsForm($formFields) {
+        // required fields
+        if ( empty($formFields->email) ) {    self::$isFormInvalid = true; self::$invalidField = 'Email'; self::_returnInvalidField(); }
+        if ( empty($formFields->message) ) {  self::$isFormInvalid = true; self::$invalidField = 'Message'; self::_returnInvalidField(); }
+        if ( empty($formFields->feedback) ) { self::$isFormInvalid = true; self::$invalidField = 'Feedback Type'; self::_returnInvalidField(); }
+
+        // if form is invalid after empty fields check, post message of that field
+        if ( self::$isFormInvalid ) {
+            self::_setMessage(self::$invalidField);
+            return;
+        }
+
+        // validate email
+        $isEmailInvalid = self::_validateEmail($formFields->email);
+
+        if ( $isEmailInvalid ) {
+            self::$isFormInvalid = true;
+            self::$invalidField = 'Email';
             return;
         }
     }
@@ -409,6 +618,13 @@ class FormValidator {
         return $isEncounterInvalid;
     }
 
+    /**
+     * website url validation
+     * 
+     * @param  string $url [ website url ]
+     * 
+     * @return boolean [ true if website url does not validate ]
+     */
     protected static function _validateWebsiteLink($url) {
         $isWebsiteInvalid = false;
 
@@ -423,6 +639,13 @@ class FormValidator {
         return $isWebsiteInvalid;
     }
 
+    /**
+     * guild details validation
+     * 
+     * @param  integer $guildId [ id of guild ]
+     * 
+     * @return boolean [ true if guild does not exist ]
+     */
     protected static function _validateGuild($guildId) {
         $isGuildInvalid = false;
 
@@ -434,6 +657,14 @@ class FormValidator {
         return $isGuildInvalid;
     }
 
+    /**
+     * guild creation validation
+     * 
+     * @param  string $name [ name of guild ]
+     * @param  string $server [ guild server ]
+     * 
+     * @return boolean [ true if guild already exists on server ]
+     */
     protected static function _validateGuildExists($name, $server) {
         $isGuildInvalid = false;
         $dbh            = DbFactory::getDbh();
@@ -459,77 +690,13 @@ class FormValidator {
         return $isGuildInvalid;
     }
 
-    protected static function _validateLoginForm($formFields) {
-        // required fields
-        if ( empty($formFields->username) ) { self::$isFormInvalid = true; self::$invalidField = 'Username/Email'; self::_returnInvalidField(); }
-        if ( empty($formFields->password) ) { self::$isFormInvalid = true; self::$invalidField = 'Password'; self::_returnInvalidField(); }
-
-        // if form is invalid after empty fields check, post message of that field
-        if ( self::$isFormInvalid ) {
-            self::_setMessage(self::$invalidField);
-            return;
-        }
-    }
-
-    protected static function _validateRegisterForm($formFields) {
-        // required fields
-        if ( empty($formFields->username) ) {       self::$isFormInvalid = true; self::$invalidField = 'Username'; self::_returnInvalidField(); }
-        if ( empty($formFields->email) ) {          self::$isFormInvalid = true; self::$invalidField = 'Email Address'; self::_returnInvalidField(); }
-        if ( empty($formFields->password) ) {       self::$isFormInvalid = true; self::$invalidField = 'Password'; self::_returnInvalidField(); }
-        if ( empty($formFields->retypePassword) ) { self::$isFormInvalid = true; self::$invalidField = 'Retype Password'; self::_returnInvalidField(); }
-        if ( empty($formFields->guildName) ) {      self::$isFormInvalid = true; self::$invalidField = 'Guild Name'; self::_returnInvalidField(); }
-        if ( empty($formFields->faction) ) {        self::$isFormInvalid = true; self::$invalidField = 'Faction'; self::_returnInvalidField(); }
-        if ( empty($formFields->server) ) {         self::$isFormInvalid = true; self::$invalidField = 'Server'; self::_returnInvalidField(); }
-        if ( empty($formFields->country) ) {        self::$isFormInvalid = true; self::$invalidField = 'Country'; self::_returnInvalidField(); }
-        if ( empty($formFields->isImportant) ) {    self::$isFormInvalid = true; self::$invalidField = 'Terms of Service'; self::_returnInvalidField(); }
-
-        // if form is invalid after empty fields check, post message of that field
-        if ( self::$isFormInvalid ) {
-            self::_setMessage(self::$invalidField);
-            return;
-        }
-
-        // validate email
-        $isEmailInvalid = self::_validateEmail($formFields->email);
-
-        if ( $isEmailInvalid ) {
-            self::$isFormInvalid = true;
-            self::$invalidField = 'Email';
-            return;
-        }
-
-        // validate password
-        $isPasswordInvalid = self::_validatePassword($formFields->password, $formFields->retypePassword);
-
-        if ( $isPasswordInvalid ) {
-            self::$isFormInvalid = true;
-            self::$invalidField = 'Password';
-            return;
-        }
-    }
-
-    protected static function _validateContactUsForm($formFields) {
-        // required fields
-        if ( empty($formFields->email) ) {    self::$isFormInvalid = true; self::$invalidField = 'Email'; self::_returnInvalidField(); }
-        if ( empty($formFields->message) ) {  self::$isFormInvalid = true; self::$invalidField = 'Message'; self::_returnInvalidField(); }
-        if ( empty($formFields->feedback) ) { self::$isFormInvalid = true; self::$invalidField = 'Feedback Type'; self::_returnInvalidField(); }
-
-        // if form is invalid after empty fields check, post message of that field
-        if ( self::$isFormInvalid ) {
-            self::_setMessage(self::$invalidField);
-            return;
-        }
-
-        // validate email
-        $isEmailInvalid = self::_validateEmail($formFields->email);
-
-        if ( $isEmailInvalid ) {
-            self::$isFormInvalid = true;
-            self::$invalidField = 'Email';
-            return;
-        }
-    }
-
+    /**
+     * email address validation
+     * 
+     * @param  string $email [ email address ]
+     * 
+     * @return boolean [ true if passwords do not validate ]
+     */
     protected static function _validateEmail($email) {
         $isEmailInvalid = false;
 
@@ -544,6 +711,14 @@ class FormValidator {
         return $isEmailInvalid;
     }
 
+    /**
+     * password validation
+     * 
+     * @param  string $password       [ password entry one ]
+     * @param  string $reTypePassword [ password entry two ]
+     * 
+     * @return boolean [ true if passwords do not validate ]
+     */
     protected static function _validatePassword($password, $reTypePassword) {
         // check if passwords match
         $doPasswordsMatch = true;
@@ -588,6 +763,12 @@ class FormValidator {
         return $encryptedPasscode;
     }
 
+    /**
+     * set dialog message 
+     * 
+     * @param string $field   [ form field name ]
+     * @param string $message [ dialog message ]
+     */
     protected static function _setMessage($field, $message = '') {
         if ( empty(self::$message) ) {
             if ( empty($message) ) {

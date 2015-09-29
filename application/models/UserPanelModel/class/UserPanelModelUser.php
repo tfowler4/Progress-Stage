@@ -12,6 +12,9 @@ class UserPanelModelUser extends UserPanelModel {
     const USER_EMAIL    = 'email';
     const USER_PASSWORD = 'password';
 
+    /**
+     * constructor
+     */
     public function __construct($action, $formFields, $userDetails) {
         $this->_userDetails = $userDetails;
         $this->_action      = $action;
@@ -77,7 +80,7 @@ class UserPanelModelUser extends UserPanelModel {
      * @return void
      */
     private function _updatePassword() {
-        $this->_formFields->newPassword = $this->_encryptPasscode($this->_formFields->newPassword);
+        $this->_formFields->newPassword = FormValidator::encryptPasscode($this->_formFields->newPassword);
 
         DBObjects::editUserPassword($this->_formFields);
 

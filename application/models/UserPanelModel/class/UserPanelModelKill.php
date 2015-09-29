@@ -69,7 +69,7 @@ class UserPanelModelKill extends UserPanelModel {
     }
 
     /**
-     * process submitted kill submitted form
+     * populate form fields object with form values
      * 
      * @return void
      */

@@ -40,9 +40,9 @@ class QuickSubmissionModel extends Model {
     }
 
     /**
-     * validate submitted quick submission form for invalid submission
+     * populate form fields object with form values
      * 
-     * @return boolean [ true if submission is valid ]
+     * @return void
      */
     protected function _populateFormFields() {
         $this->_formFields->guildId    = Post::get('quick-guild');

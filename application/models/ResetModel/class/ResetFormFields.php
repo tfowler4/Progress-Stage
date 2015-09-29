@@ -4,7 +4,6 @@
  * reset password form
  */
 class ResetFormFields {
-    public $username;
     public $email;
 }
 

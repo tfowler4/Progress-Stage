@@ -12,7 +12,7 @@
 
         <?php if ( $data->_action == 'complete'): ?>
             <div id="form-table-wrapper">
-                <form method="POST" action="<?php echo PAGE_RESET_PASSWORD . ResetModel::SUB_COMPLETE; ?>" autocomplete="off">
+                <form method="POST" action="<?php echo PAGE_RESET_PASSWORD . ResetModel::SUB_COMPLETE . '/' . $data->_confirmCode; ?>" autocomplete="off">
                     <table class="form-table">
                         <thead>
                             <tr>
@@ -22,11 +22,11 @@
                         <tbody>
                             <tr>
                                 <th>New Password</th>
-                                <td><input id="reset-password" type="text" name="reset-password"></td>
+                                <td><input id="reset-password" type="password" name="reset-password"></td>
                             </tr>
                             <tr>
                                 <th>Confirm Password</th>
-                                <td><input id="reset-password-confirm" type="text" name="reset-password-confirm"></td>
+                                <td><input id="reset-password-confirm" type="password" name="reset-password-confirm"></td>
                             </tr>
                         </tbody>
                         <tfoot>
@@ -51,14 +51,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th>Username</th>
-                                <td><input id="reset-username" type="text" name="reset-username"></td>
-                            </tr>
-                            <tr>
-                                <th></th>
-                                <td>- OR - </td>
-                            </tr>
                             <tr>
                                 <th>Email Address</th>
                                 <td><input id="reset-email" type="text" name="reset-email"></td>

@@ -39,7 +39,7 @@ class RegisterModel extends Model {
     }
 
     /**
-     * get registration type by determining if specific fields were completed
+     * populate form fields object with form values
      * 
      * @return void
      */
@@ -74,7 +74,7 @@ class RegisterModel extends Model {
     /**
      * get the newest guilds registered
      * 
-     * @return array [ array of guildd ]
+     * @return array [ array of guild ]
      */
     private function _getNewestGuilds() {
         $dbh        = DbFactory::getDbh();
@@ -123,7 +123,7 @@ class RegisterModel extends Model {
     /**
      * register user to website and redirect to user panel page
      * 
-     * @return return void
+     * @return void
      */
     private function _registerUser() {
         $this->_formFields->password = FormValidator::encryptPasscode($this->_formFields->password);
@@ -161,7 +161,7 @@ class RegisterModel extends Model {
     /**
      * register guild to website
      * 
-     * @return return void
+     * @return void
      */
     private function _registerGuild() {
         $this->_formFields->region = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;

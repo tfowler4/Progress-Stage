@@ -4,8 +4,6 @@
  * login to the website page
  */
 class LoginModel extends Model {
-    protected $_validSubmission = false;
-    protected $_sucessfulSubmission = false;
     protected $_formFields;
     protected $_dialogOptions;
 
@@ -41,9 +39,9 @@ class LoginModel extends Model {
     }
 
     /**
-     * validate submitted contact us form for invalid submission
+     * populate form fields object with form values
      * 
-     * @return boolean [ true if submission is valid ]
+     * @return void
      */
     private function _populateFormFields() {
         $this->_formFields->username = Post::get('login-username');

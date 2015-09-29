@@ -34,6 +34,9 @@ class UserPanelModelGuild extends UserPanelModel {
             'Status'          => '_activeStatus'
         );
 
+    /**
+     * constructor
+     */
     public function __construct($action, $formFields, $guildDetails, $userDetails, $userGuilds, $raidTeams) {
         $this->_guildDetails = $guildDetails;
         $this->_userDetails  = $userDetails;
@@ -83,7 +86,7 @@ class UserPanelModelGuild extends UserPanelModel {
     }
 
     /**
-     * process submitted guild form
+     * populate form fields object with form values
      * 
      * @return void
      */

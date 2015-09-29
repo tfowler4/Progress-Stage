@@ -37,9 +37,9 @@ class ContactUsModel extends Model {
     }
 
     /**
-     * validate submitted contact us form for invalid submission
+     * populate form fields object with form values
      * 
-     * @return boolean [ true if submission is valid ]
+     * @return void
      */
     private function _populateFormFields() {
         $this->_formFields->email    = Post::get('contact-email');
