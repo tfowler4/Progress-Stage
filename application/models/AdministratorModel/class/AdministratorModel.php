@@ -872,7 +872,7 @@ class AdministratorModel extends Model {
         $this->_formFields->videoUrl   = Post::get('video-link-url');
         $this->_formFields->videoType  = Post::get('video-link-type');
 
-        DBObjects::addKill($this->_formFields);
+        //DBObjects::addKill($this->_formFields);
     }
     /**
      * get news article details from database
