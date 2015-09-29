@@ -5,6 +5,7 @@
  */
 class AdministratorModel extends Model {
     protected $_userDetails;
+    protected $_formFields;
     protected $_newsArticleArray = array();
     protected $_dbh;
 
@@ -79,6 +80,9 @@ class AdministratorModel extends Model {
                     break;
                 case "guild-remove":
                     $this->removeGuild();
+                    break;
+                case "kill-add":
+                    $this->addNewKill();
                     break;
                 case "article-add":
                     $this->addNewArticle();
@@ -853,6 +857,22 @@ class AdministratorModel extends Model {
             ));
         $query->execute();
         die;
+    }
+    public function addNewKill() {
+        $this->_formFields   = new AdminKillSubmissionFormFields();
+        $this->_formFields->guildId    = Post::get('create-kill-guild-name');
+        $this->_formFields->encounter  = Post::get('create-kill-encounter-name');
+        $this->_formFields->dateMonth  = Post::get('create-kill-month');
+        $this->_formFields->dateDay    = Post::get('create-kill-day');
+        $this->_formFields->dateYear   = Post::get('create-kill-year');
+        $this->_formFields->dateHour   = Post::get('create-kill-hour');
+        $this->_formFields->dateMinute = Post::get('create-kill-minute');
+        $this->_formFields->screenshot = Post::get('create-kill-screenshot');
+        $this->_formFields->videoTitle = Post::get('video-link-title');
+        $this->_formFields->videoUrl   = Post::get('video-link-url');
+        $this->_formFields->videoType  = Post::get('video-link-type');
+
+        DBObjects::addKill($this->_formFields);
     }
     /**
      * get news article details from database

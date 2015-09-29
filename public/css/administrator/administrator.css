@@ -14,7 +14,8 @@
     width: 200px;
 }
 
-.admin-select.month, .admin-select.day, .admin-select.year {
+.admin-select.month, .admin-select.day, .admin-select.year,
+.admin-select.hour, .admin-select.minute {
     max-width: 103px;
 }
 
