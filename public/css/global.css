@@ -583,6 +583,27 @@ img {
     width: 100%;
 }
 
+/* bottom logo blocks that contain company/game logos */
+.bottom-logo-block {
+    display: inline-block;
+    width: 33%;
+    vertical-align: middle;
+}
+
+/* bottom image helper */
+.bottom-logo-block span {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+/* bottom copyright container */
+#bottom-copyright {
+    width: 100%;
+    background-color: #000000;
+    padding-bottom: 5px
+}
+
 /*
     TITLE
 */
