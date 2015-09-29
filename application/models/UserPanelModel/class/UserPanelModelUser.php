@@ -1,12 +1,16 @@
 <?php
+
+/**
+ * user control panal page for user administration
+ */
 class UserPanelModelUser extends UserPanelModel {
     protected $_action;
     protected $_formFields;
     protected $_dialogOptions;
     protected $_userDetails;
 
-    const USER_EMAIL      = 'email';
-    const USER_PASSWORD   = 'password';
+    const USER_EMAIL    = 'email';
+    const USER_PASSWORD = 'password';
 
     public function __construct($action, $formFields, $userDetails) {
         $this->_userDetails = $userDetails;
@@ -14,22 +18,29 @@ class UserPanelModelUser extends UserPanelModel {
         $this->_formFields  = $formFields;
 
         if ( Post::formActive() ) {
-            $this->_processUserForm();
+            $this->_populateFormFields();
 
-            if ( $this->_validForm ) {
-                switch($this->_action) {
-                    case self::USER_EMAIL:
-                        $this->_updateEmail();
-                        break;
-                    case self::USER_PASSWORD:
-                        if ( $this->_validatePassword() ) {
-                            $this->_updatePassword();
-                        } else {
-                            $this->_dialogOptions = array('title' => 'Error', 'message' => 'Ensure your old password is correct and new password is typed correctly.');
-                        }
-                        
-                        break;
-                }
+            switch ( $this->_action ) {
+                case self::USER_EMAIL:
+                    FormValidator::validate('user-email', $this->_formFields);
+                    break;
+                case self::USER_PASSWORD:
+                    FormValidator::validate('user-password', $this->_formFields);
+                    break;
+            }
+
+            if ( FormValidator::$isFormInvalid ) {
+                $this->_dialogOptions = array('title' => 'Error', 'message' => FormValidator::$message);
+                return;
+            }
+
+            switch ( $this->_action ) {
+                case self::USER_EMAIL:
+                    $this->_updateEmail();
+                    break;
+                case self::USER_PASSWORD:
+                    $this->_updatePassword();
+                    break;
             }
         }
     }
@@ -39,24 +50,12 @@ class UserPanelModelUser extends UserPanelModel {
      * 
      * @return void
      */
-    private function _processUserForm() {
+    private function _populateFormFields() {
         $this->_formFields->userId            = Post::get('userpanel-user-id');
         $this->_formFields->email             = Post::get('userpanel-email');
         $this->_formFields->oldPassword       = Post::get('userpanel-password');
         $this->_formFields->newPassword       = Post::get('userpanel-new-password');
         $this->_formFields->retypeNewPassword = Post::get('userpanel-new-retype-password');
-
-        if ( $this->_action == self::USER_EMAIL ) {
-            if ( !empty($this->_formFields->email) ) {
-                $this->_validForm = true;
-            }
-        } else if ( $this->_action == self::USER_PASSWORD ) {
-            if ( !empty($this->_formFields->oldPassword) 
-                 && !empty($this->_formFields->newPassword) 
-                 && !empty($this->_formFields->retypeNewPassword) ) {
-                $this->_validForm = true;
-            }
-        }
     }
 
     /**
@@ -83,40 +82,5 @@ class UserPanelModelUser extends UserPanelModel {
         DBObjects::editUserPassword($this->_formFields);
 
         $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully updated your password!');
-    }
-
-    /**
-     * encrypt the submitted password
-     * 
-     * @param  string $password [ unencrypted password ]
-     * 
-     * @return string [ encrypted password ]
-     */
-    private function _encryptPasscode($password) {
-        $encryptedPasscode = sha1($password);
-
-        for ( $i = 0; $i < 5; $i++ ) {
-            $encryptedPasscode = sha1($encryptedPasscode.$i);
-        }
-
-        crypt($encryptedPasscode, '');
-
-        return $encryptedPasscode;
-    }
-
-    /**
-     * validate that both passwords match
-     * 
-     * @return boolean [ true if passwords match ]
-     */
-    private function _validatePassword() {
-        if ( $this->_encryptPasscode($this->_formFields->oldPassword) == $this->_userDetails->_encrypedPassword ) {
-            if ( ($this->_formFields->newPassword == $this->_formFields->retypeNewPassword)
-                 && strlen($this->_formFields->newPassword) >= PASSWORD_MINIMUM) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

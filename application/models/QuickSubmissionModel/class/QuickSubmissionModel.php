@@ -4,9 +4,6 @@
  * submit kills without logging in page
  */
 class QuickSubmissionModel extends Model {
-    protected $_validSubmission = false;
-    protected $_validEncounter  = false;
-    protected $_validScreenshot = false;
     protected $_guildId;
     protected $_encounterId;
     protected $_guildDetails;
@@ -25,28 +22,20 @@ class QuickSubmissionModel extends Model {
 
         $this->_formFields = new QuickSubmissionFormFields();
 
-        if ( Post::formActive() ) { // Form has required fields filled out
-            $this->_validSubmission = $this->validateForm();
-            
-            if ( $this->_validSubmission ) { // Ensures guild does not have encounter already submitted
-                $this->_encounterExists = $this->validateEncounter();
+        // submit form if one is active
+        if ( Post::formActive() ) {
+            $this->_populateFormFields();
 
-                if ( $this->_encounterExists ) { // Ensures a valid screenshot is submitted
-                    $this->_validScreenshot = Functions::validateImage($this->_formFields->screenshot);
+            FormValidator::validate('kill-add', $this->_formFields);
 
-                    if ( $this->_validScreenshot ) { // Submit the data
-                        $this->processForm();
-
-                        $this->_dialogOptions = array('title' => 'Success', 'message' => 'Your kill has been submitted successfully! Standings and Rankings will be updated accordingly!');
-                    } else {
-                        $this->_dialogOptions = array('title' => 'Error', 'message' => 'All kill submissions require a valid screenshot. Please submit your kill with one!');
-                    }
-                } else {
-                    $this->_dialogOptions = array('title' => 'Error', 'message' => 'Please choose a valid encounter! (The encounter you selected may have already been submitted)');
-                }
-            } else {
-                $this->_dialogOptions = array('title' => 'Error', 'message' => 'Make sure you have a valid Guild, Encounter, and Screenshot selected before proceeding!');
+            if ( FormValidator::$isFormInvalid ) {
+                $this->_dialogOptions = array('title' => 'Error', 'message' => FormValidator::$message);
+                return;
             }
+
+            $this->_processKillSubmission();
+
+            $this->_dialogOptions = array('title' => 'Success', 'message' => 'Your kill has been submitted successfully! Standings and Rankings will be updated accordingly!');
         }
     }
 
@@ -55,7 +44,7 @@ class QuickSubmissionModel extends Model {
      * 
      * @return boolean [ true if submission is valid ]
      */
-    public function validateForm() {
+    protected function _populateFormFields() {
         $this->_formFields->guildId    = Post::get('quick-guild');
         $this->_formFields->encounter  = Post::get('quick-encounter');
         $this->_formFields->dateMonth  = Post::get('quick-month');
@@ -67,41 +56,6 @@ class QuickSubmissionModel extends Model {
         $this->_formFields->videoTitle = Post::get('video-link-title');
         $this->_formFields->videoUrl   = Post::get('video-link-url');
         $this->_formFields->videoType  = Post::get('video-link-type');
-
-        if ( !empty($this->_formFields->guildId) &&
-             !empty($this->_formFields->encounter) &&
-             !empty($this->_formFields->dateMonth) &&
-             !empty($this->_formFields->dateDay) &&
-             !empty($this->_formFields->dateYear) &&
-             !empty($this->_formFields->dateHour) &&
-             !empty($this->_formFields->dateMinute) &&
-             !empty($this->_formFields->screenshot)
-             ) {
-                $this->_guildId         = $this->_formFields->guildId;
-                $this->_encounterId     = $this->_formFields->encounter;
-                $this->_guildDetails    = CommonDataContainer::$guildArray[$this->_guildId];
-                $this->_validSubmission = true;
-        }
-
-        return $this->_validSubmission;
-    }
-
-    /**
-     * validate encounter if it already exists
-     * 
-     * @return boolean [ true if submission is valid ]
-     */
-    public function validateEncounter() {
-        $encounterDetails = CommonDataContainer::$encounterArray[$this->_encounterId];
-
-        if ( !empty($encounterDetails->_reqEncounter) ) {
-            $reqEncounterId = $encounterDetails->_reqEncounter;
-            if ( !isset($this->_guildDetails->_encounterDetails->$reqEncounterId) ) {
-                return true;
-            }
-            exit;
-        }
-        return !isset($this->_guildDetails->_encounterDetails->{$this->_encounterId});
     }
 
     /**
@@ -109,19 +63,17 @@ class QuickSubmissionModel extends Model {
      * 
      * @return void
      */
-    public function processForm() {
-        $dbh               = DbFactory::getDbh();
+    protected function _processKillSubmission() {
+        $dbh = DbFactory::getDbh();
 
         DBObjects::addKill($this->_formFields);
 
-        if ( Functions::validateImage($this->_formFields->screenshot) ) {
-            $imagePath = strtolower(ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter);
+        $imagePath = strtolower(ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter);
 
-            if ( file_exists($imagePath) ) {
-                unlink($imagePath);
-            }
-
-            move_uploaded_file($this->_formFields->screenshot['tmp_name'], $imagePath);
+        if ( file_exists($imagePath) ) {
+            unlink($imagePath);
         }
+
+        move_uploaded_file($this->_formFields->screenshot['tmp_name'], $imagePath);
     }
 }

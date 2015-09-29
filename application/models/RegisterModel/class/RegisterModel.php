@@ -6,7 +6,6 @@
 class RegisterModel extends Model {
     protected $_newestGuilds;
     protected $_formFields;
-    protected $_registerType;
     protected $_dialogOptions;
 
     const PASSWORD_MINIMUM = 3;
@@ -22,17 +21,21 @@ class RegisterModel extends Model {
 
         $this->_formFields = new RegisterFormFields();
 
-        if ( Post::formActive() ) { 
-            $this->_getRegistrationType();
-
-            if ( !empty($this->_registerType) ) { 
-                $this->_processForm($this->_registerType);
-            } else {
-                $this->_dialogOptions = array('title' => 'Error', 'message' => 'Please fill out the form!');
-            }
-        }
-
         $this->_newestGuilds = $this->_getNewestGuilds();
+
+        // submit form if one is active
+        if ( Post::formActive() ) {
+            $this->_populateFormFields();
+
+            FormValidator::validate('register', $this->_formFields);
+
+            if ( FormValidator::$isFormInvalid ) {
+                $this->_dialogOptions = array('title' => 'Error', 'message' => FormValidator::$message);
+                return;
+            }
+
+            $this->_processRegistration();
+        }
     }
 
     /**
@@ -40,7 +43,7 @@ class RegisterModel extends Model {
      * 
      * @return void
      */
-    private function _getRegistrationType() {
+    private function _populateFormFields() {
         $this->_formFields->username       = Post::get('register-username');
         $this->_formFields->email          = Post::get('register-email');
         $this->_formFields->password       = Post::get('register-password');
@@ -56,24 +59,6 @@ class RegisterModel extends Model {
         $this->_formFields->google         = Post::get('register-google');
         $this->_formFields->guildLogo      = Post::get('register-guild-logo');
         $this->_formFields->isImportant    = Post::get('register-required-tos');
-
-        if ( !empty($this->_formFields->username) 
-             && !empty($this->_formFields->email)
-             && !empty($this->_formFields->password)
-             && !empty($this->_formFields->retypePassword)
-             && $this->_formFields->isImportant == 'on'
-             && ($this->_formFields->password ==$this->_formFields->retypePassword ) ) {
-                $this->_registerType = 'user';
-        }
-
-        if ( $this->_registerType == 'user' 
-             && !empty($this->_formFields->guildName)
-             && !empty($this->_formFields->faction)
-             && !empty($this->_formFields->server) 
-             && !empty($this->_formFields->country)
-             && $this->_formFields->isImportant == 'on' ) {
-                $this->_registerType = 'guild';
-        }
     }
 
     /**
@@ -81,18 +66,9 @@ class RegisterModel extends Model {
      * 
      * @return void
      */
-    private function _processForm($registerType) {
-        switch($registerType) {
-            case 'user':
-                $this->_registerUser();
-                break;
-            case 'guild':
-                $this->_registerUser();
-                $this->_registerGuild();
-                break;
-            default:
-                break;
-        }
+    private function _processRegistration() {
+        $this->_registerUser();
+        $this->_registerGuild();
     }
 
     /**
@@ -150,7 +126,7 @@ class RegisterModel extends Model {
      * @return return void
      */
     private function _registerUser() {
-        $this->_formFields->password = $this->_encryptPasscode($this->_formFields->password);
+        $this->_formFields->password = FormValidator::encryptPasscode($this->_formFields->password);
 
         DBObjects::addUser($this->_formFields);
 
@@ -210,24 +186,5 @@ class RegisterModel extends Model {
         } else {
             copy($defaultImagePath, $imagePath);
         }
-    }
-
-    /**
-     * encrypt the submitted password
-     * 
-     * @param  string $password [ unencrypted password ]
-     * 
-     * @return string [ encrypted password ]
-     */
-    private function _encryptPasscode($password) {
-        $encryptedPasscode = sha1($password);
-
-        for ( $i = 0; $i < 5; $i++ ) {
-            $encryptedPasscode = sha1($encryptedPasscode.$i);
-        }
-
-        crypt($encryptedPasscode, '');
-
-        return $encryptedPasscode;
     }
 }

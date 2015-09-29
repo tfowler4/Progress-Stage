@@ -1,15 +1,18 @@
 <?php
+
+/**
+ * user control panal page for kills
+ */
 class UserPanelModelKill extends UserPanelModel {
     protected $_action;
     protected $_formFields;
     protected $_dialogOptions;
     protected $_guildDetails;
     protected $_encounterDetails;
-    protected $_encounterScreenshot;
 
-    const KILLS_ADD       = 'add';
-    const KILLS_REMOVE    = 'remove';
-    const KILLS_EDIT      = 'edit';
+    const KILLS_ADD    = 'add';
+    const KILLS_REMOVE = 'remove';
+    const KILLS_EDIT   = 'edit';
 
     const TABLE_HEADER_PROGRESSION = array(
             'Encounter'      => '_encounterName',
@@ -30,20 +33,35 @@ class UserPanelModelKill extends UserPanelModel {
         $this->_formFields       = $formFields;
 
         if ( Post::formActive() ) {
-            $this->_processKillForm();
+            $this->_populateFormFields();
 
-            if ( $this->_validForm ) {
-                switch($this->_action) {
-                    case self::KILLS_ADD:
-                        $this->_addKill();
-                        break;
-                    case self::KILLS_REMOVE:
-                        $this->_removeKill();
-                        break;
-                    case self::KILLS_EDIT:
-                        $this->_editKill();
-                        break;
-                }
+            switch ( $this->_action ) {
+                case self::KILLS_ADD:
+                    FormValidator::validate('kill-add', $this->_formFields);
+                    break;
+                case self::KILLS_REMOVE:
+                    FormValidator::validate('kill-remove', $this->_formFields);
+                    break;
+                case self::KILLS_EDIT:
+                    FormValidator::validate('kill-edit', $this->_formFields);
+                    break;
+            }
+
+            if ( FormValidator::$isFormInvalid ) {
+                $this->_dialogOptions = array('title' => 'Error', 'message' => FormValidator::$message);
+                return;
+            }
+
+            switch ( $this->_action ) {
+                case self::KILLS_ADD:
+                    $this->_addKill();
+                    break;
+                case self::KILLS_REMOVE:
+                    $this->_removeKill();
+                    break;
+                case self::KILLS_EDIT:
+                    $this->_editKill();
+                    break;
             }
         }
 
@@ -55,7 +73,7 @@ class UserPanelModelKill extends UserPanelModel {
      * 
      * @return void
      */
-    private function _processKillForm() {
+    private function _populateFormFields() {
         $this->_formFields->guildId    = Post::get('userpanel-guild');
         $this->_formFields->encounter  = Post::get('userpanel-encounter');
         $this->_formFields->dateMonth  = Post::get('userpanel-month');
@@ -69,24 +87,6 @@ class UserPanelModelKill extends UserPanelModel {
         $this->_formFields->videoTitle = Post::get('video-link-title');
         $this->_formFields->videoUrl   = Post::get('video-link-url');
         $this->_formFields->videoType  = Post::get('video-link-type');
-
-        if ( !empty($this->_formFields->guildId)
-             && !empty($this->_formFields->encounter) 
-             && !empty($this->_formFields->dateMonth) 
-             && !empty($this->_formFields->dateDay) 
-             && !empty($this->_formFields->dateYear) 
-             && !empty($this->_formFields->dateHour) 
-             && !empty($this->_formFields->dateMinute) 
-             && !empty($this->_formFields->screenshot) ) {
-                $this->_validForm = true;
-        }
-
-        if ( $this->_action == self::KILLS_REMOVE ) {
-            if ( !empty($this->_formFields->guildId)
-                 && !empty($this->_formFields->encounter ) ) {
-                    $this->_validForm = true;
-            }
-        }
     }
 
     /**
@@ -110,7 +110,7 @@ class UserPanelModelKill extends UserPanelModel {
     private function _editKill() {
         DBObjects::editKill($this->_formFields);
 
-        if ( Functions::validateImage($this->_formFields->screenshot) ) {
+        if ( !empty($this->_formFields->screenshot['tmp_name']) ) {
             $imagePath = ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter;
 
             if ( file_exists($imagePath) ) {
@@ -135,7 +135,7 @@ class UserPanelModelKill extends UserPanelModel {
     private function _addKill() {
         DBObjects::addKill($this->_formFields);
 
-        if ( Functions::validateImage($this->_formFields->screenshot) ) {
+        if ( !empty($this->_formFields->screenshot['tmp_name']) ) {
             $imagePath = ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter;
 
             if ( file_exists($imagePath) ) {

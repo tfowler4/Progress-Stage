@@ -16,7 +16,7 @@ class Post {
 
         if ( isset($_POST[$key]) ) {
             if ( is_string($_POST[$key]) ) {
-                $_POST[$key] = trim ($_POST[$key]);
+                $_POST[$key] = trim($_POST[$key]);
             }
 
             $value = $_POST[$key];

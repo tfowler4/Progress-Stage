@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * user control panal page for guild administration
+ */
 class UserPanelModelGuild extends UserPanelModel {
     protected $_action;
     protected $_formFields;
@@ -39,23 +43,41 @@ class UserPanelModelGuild extends UserPanelModel {
         $this->_raidTeams    = $raidTeams;
 
         if ( Post::formActive() ) {
-            $this->_processGuildForm();
+            $this->_populateFormFields();
 
-            if ( $this->_validForm ) {
-                switch($this->_action) {
-                    case self::GUILD_ADD:
-                        $this->_addGuild();
-                        break;
-                    case self::GUILD_REMOVE:
-                        $this->_removeGuild();
-                        break;
-                    case self::GUILD_EDIT:
-                        $this->_editGuild();
-                        break;
-                    case self::GUILD_RAID_TEAM:
-                        $this->_addRaidTeam();
-                        break;
-                }
+            switch($this->_action) {
+                case self::GUILD_ADD:
+                    FormValidator::validate('guild-add', $this->_formFields);
+                    break;
+                case self::GUILD_REMOVE:
+                    FormValidator::validate('guild-remove', $this->_formFields);
+                    break;
+                case self::GUILD_EDIT:
+                    FormValidator::validate('guild-edit', $this->_formFields);
+                    break;
+                case self::GUILD_RAID_TEAM:
+                    FormValidator::validate('guild-add-raid-team', $this->_formFields);
+                    break;
+            }
+
+            if ( FormValidator::$isFormInvalid ) {
+                $this->_dialogOptions = array('title' => 'Error', 'message' => FormValidator::$message);
+                return;
+            }
+
+            switch($this->_action) {
+                case self::GUILD_ADD:
+                    $this->_addGuild();
+                    break;
+                case self::GUILD_REMOVE:
+                    $this->_removeGuild();
+                    break;
+                case self::GUILD_EDIT:
+                    $this->_editGuild();
+                    break;
+                case self::GUILD_RAID_TEAM:
+                    $this->_addRaidTeam();
+                    break;
             }
         }
     }
@@ -65,7 +87,7 @@ class UserPanelModelGuild extends UserPanelModel {
      * 
      * @return void
      */
-    private function _processGuildForm() {
+    private function _populateFormFields() {
         $this->_formFields->guildId     = Post::get('userpanel-guild-id');
         $this->_formFields->guildName   = Post::get('userpanel-guild-name');
         $this->_formFields->faction     = Post::get('userpanel-faction');
@@ -77,17 +99,6 @@ class UserPanelModelGuild extends UserPanelModel {
         $this->_formFields->twitter     = Post::get('userpanel-twitter');
         $this->_formFields->google      = Post::get('userpanel-google');
         $this->_formFields->guildLogo   = Post::get('userpanel-guild-logo');
-
-        if ( ($this->_action == self::GUILD_ADD 
-             || $this->_action == self::GUILD_EDIT
-             || $this->_action == self::GUILD_RAID_TEAM) && !empty($this->_formFields->guildName)
-             && !empty($this->_formFields->faction)
-             && !empty($this->_formFields->server) 
-             && !empty($this->_formFields->country) ) {
-                $this->_validForm = true;
-        } elseif ( $this->_action == self::GUILD_REMOVE && !empty($this->_formFields->guildId ) ) {
-            $this->_validForm = true;
-        }
     }
 
     /**

@@ -458,6 +458,7 @@ class Template {
         $guildDetails = Functions::getAllGuildDetails($guildDetails);
 
         $html = '';
+        $html .= '<option value="">Select Encounter</option>';
 
         foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails) {
             if( !isset($guildDetails->_encounterDetails->$encounterId) ) {

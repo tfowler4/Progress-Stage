@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * user control panal page
+ */
 class UserPanelModel extends Model {
     protected $_userDetails;
     protected $_userGuilds;

@@ -21,32 +21,48 @@ class LoginModel extends Model {
 
         $this->_formFields = new LoginFormFields();
 
-        if ( Post::formActive() ) { // Form has required fields filled out
-            $this->_validSubmission = $this->_validateForm();
+        // submit form if one is active
+        if ( Post::formActive() ) {
+            $this->_populateFormFields();
 
-            if ( $this->_validSubmission ) { // Ensures guild does not have encounter already submitted
-                $this->_sucessfulSubmission = $this->_processForm();
+            FormValidator::validate('login', $this->_formFields);
 
-                if ( $this->_sucessfulSubmission ) { // If successful login, redirect
-                    $pathToCP = HOST_NAME . '/userpanel';
-                    header('Location: ' . $pathToCP);
-                }
-            } else {
-                $this->_dialogOptions = array('title' => 'Error', 'message' => 'Invalid Username/Password Combo! Please try again!');
+            if ( FormValidator::$isFormInvalid ) {
+                $this->_dialogOptions = array('title' => 'Error', 'message' => FormValidator::$message);
+                return;
             }
-        } else {
-            $this->_dialogOptions = array('title' => 'Error', 'message' => 'Empty forms are no good! Please try again!');
+
+            $this->_processLogin();
+
+            $pathToCP = HOST_NAME . '/userpanel';
+            header('Location: ' . $pathToCP);
+            die();
         }
     }
 
     /**
-     * process submitted contact us form
+     * validate submitted contact us form for invalid submission
      * 
-     * @return boolean [ true if email was sent successfully ]
+     * @return boolean [ true if submission is valid ]
      */
-    private function _processForm() {
+    private function _populateFormFields() {
+        $this->_formFields->username = Post::get('login-username');
+        $this->_formFields->password = Post::get('login-password');
+    }
+
+    /**
+     * process submitted login form
+     * 
+     */
+    private function _processLogin() {
         $dbh               = DbFactory::getDbh();
-        $encryptedPassword = $this->_encryptPasscode($this->_formFields->password);
+        $encryptedPassword = FormValidator::encryptPasscode($this->_formFields->password);
+        $loginSelector     = 'username';
+
+        // check if the user is using an email and change loginSelector
+        if ( filter_var($this->_formFields->username, FILTER_VALIDATE_EMAIL) !== false ) {
+            $loginSelector = 'email';
+        }
 
         $query = $dbh->prepare(sprintf(
             "SELECT user_id,
@@ -58,9 +74,10 @@ class LoginModel extends Model {
                     confirmcode,
                     admin
                FROM %s
-              WHERE username='%s'
+              WHERE %s='%s'
                 AND passcode='%s'",
              DbFactory::TABLE_USERS,
+             $loginSelector,
              $this->_formFields->username,
              $encryptedPassword
              ));
@@ -70,44 +87,6 @@ class LoginModel extends Model {
             $_SESSION['userId']      = $dbh->lastInsertId('user_id');
             $_SESSION['logged']      = 'yes';
             $_SESSION['userDetails'] = new User($user);
-            $this->_sucessfulSubmission   = true;
         }
-
-        return $this->_sucessfulSubmission;
-    }
-
-    /**
-     * validate submitted contact us form for invalid submission
-     * 
-     * @return boolean [ true if submission is valid ]
-     */
-    private function _validateForm() {
-        $this->_formFields->username = Post::get('login-username');
-        $this->_formFields->password = Post::get('login-password');
-
-        if ( !empty($this->_formFields->username) && !empty($this->_formFields->password) ) {
-            $this->_validSubmission = true;
-        }
-
-        return $this->_validSubmission;
-    }
-
-    /**
-     * encrypt the submitted password
-     * 
-     * @param  string $password [ unencrypted password ]
-     * 
-     * @return string [ encrypted password ]
-     */
-    private function _encryptPasscode($password) {
-        $encryptedPasscode = sha1($password);
-
-        for ( $i = 0; $i < 5; $i++ ) {
-            $encryptedPasscode = sha1($encryptedPasscode.$i);
-        }
-
-        crypt($encryptedPasscode, '');
-
-        return $encryptedPasscode;
     }
 }

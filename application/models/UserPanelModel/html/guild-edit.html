@@ -19,7 +19,10 @@
             <tbody>
                 <tr>
                     <th>Guild Name</th>
-                    <td><input id="user-form-guild-name" type="hidden" name="userpanel-guild-name" value="<?php echo $data->_guildDetails->_name; ?>"><?php echo $data->_guildDetails->_name; ?></td>
+                    <td>
+                        <input type="hidden" name="userpanel-guild-id" value="<?php echo $data->_guildDetails->_guildId; ?>">
+                        <input id="user-form-guild-name" type="hidden" name="userpanel-guild-name" value="<?php echo $data->_guildDetails->_name; ?>"><?php echo $data->_guildDetails->_name; ?>
+                    </td>
                 </tr>
                 <tr>
                     <th>Faction</th>
