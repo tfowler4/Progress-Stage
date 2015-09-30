@@ -318,16 +318,18 @@ class DbFactory {
             self::TABLE_KILLS
             ));
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-            $guildId             = $row['guild_id'];
-            $encounterId         = $row['encounter_id'];
-            $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
-            $dungeonId           = $encounterDetails->_dungeonId;
-            $guildDetails        = CommonDataContainer::$guildArray[$guildId];
+            $guildId          = $row['guild_id'];
+            $encounterId      = $row['encounter_id'];
+            $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
+            $dungeonId        = $encounterDetails->_dungeonId;
 
-            $arr = $guildDetails->_progression;
-            $arr['dungeon'][$dungeonId][$encounterId] = $row;
-            $arr['encounter'][$encounterId] = $row;
-            $guildDetails->_progression = $arr;
+            if ( isset(CommonDataContainer::$guildArray[$guildId]) ) {
+                $guildDetails                             = CommonDataContainer::$guildArray[$guildId];
+                $arr                                      = $guildDetails->_progression;
+                $arr['dungeon'][$dungeonId][$encounterId] = $row;
+                $arr['encounter'][$encounterId]           = $row;
+                $guildDetails->_progression               = $arr;
+            }
         }
     }
 
@@ -374,19 +376,21 @@ class DbFactory {
             $sqlString
             ));
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-            $guildId             = $row['guild_id'];
-            $encounterId         = $row['encounter_id'];
-            $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
-            $dungeonId           = $encounterDetails->_dungeonId;
-            $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
-            $tierId              = $dungeonDetails->_tier;
-            $tierDetails         = CommonDataContainer::$tierArray[$tierId];
-            $guildDetails        = CommonDataContainer::$guildArray[$guildId];
+            $guildId          = $row['guild_id'];
+            $encounterId      = $row['encounter_id'];
+            $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
+            $dungeonId        = $encounterDetails->_dungeonId;
+            $dungeonDetails   = CommonDataContainer::$dungeonArray[$dungeonId];
+            $tierId           = $dungeonDetails->_tier;
+            $tierDetails      = CommonDataContainer::$tierArray[$tierId];
 
-            $arr = $guildDetails->_progression;
-            $arr['dungeon'][$dungeonId][$encounterId] = $row;
-            $arr['encounter'][$encounterId] = $row;
-            $guildDetails->_progression = $arr;
+            if ( isset(CommonDataContainer::$guildArray[$guildId]) ) {
+                $guildDetails                             = CommonDataContainer::$guildArray[$guildId];
+                $arr                                      = $guildDetails->_progression;
+                $arr['dungeon'][$dungeonId][$encounterId] = $row;
+                $arr['encounter'][$encounterId]           = $row;
+                $guildDetails->_progression               = $arr;
+            } 
         }
     }
 

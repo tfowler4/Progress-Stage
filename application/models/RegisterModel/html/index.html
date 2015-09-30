@@ -2,17 +2,17 @@
     <div id="body-content">
         <div class="vertical-separator"></div>
 
-        <?php if ( !empty($data->_dialogOptions) ): ?>
-            <?php echo Functions::showDialogWindow($data->_dialogOptions); ?>
-
-            <div class="vertical-separator"></div>
-        <?php endif; ?>
-
         <?php echo Advertisement::getLeaderboardAd(); ?>
 
         <div class="vertical-separator"></div>
 
         <div id="main-block">
+            <?php if ( !empty($data->_dialogOptions) ): ?>
+                <?php echo Functions::showDialogWindow($data->_dialogOptions); ?>
+
+                <div class="vertical-separator"></div>
+            <?php endif; ?>
+
             <div id="faction-logo-preview-wrapper">
                 <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
                     <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">

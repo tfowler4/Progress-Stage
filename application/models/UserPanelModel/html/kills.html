@@ -3,13 +3,13 @@
     <div id="body-content">
         <div class="vertical-separator"></div>
 
-        <?php if ( !empty($data->_currentPanel->_dialogOptions) ): ?>
-            <?php echo Functions::showDialogWindow($data->_currentPanel->_dialogOptions); ?>
-
-            <div class="vertical-separator"></div>
-        <?php endif; ?>
-
         <div id="main-block">
+            <?php if ( !empty($data->_currentPanel->_dialogOptions) ): ?>
+                <?php echo Functions::showDialogWindow($data->_currentPanel->_dialogOptions); ?>
+
+                <div class="vertical-separator"></div>
+            <?php endif; ?>
+
             <?php $data->getHTML($data->_currentPanel); ?>
         </div>
 

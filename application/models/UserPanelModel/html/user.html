@@ -3,13 +3,13 @@
     <div id="body-content">
         <div class="vertical-separator"></div>
 
-        <?php if ( !empty($data->_currentPanel->_dialogOptions) ): ?>
-            <?php echo Functions::showDialogWindow($data->_currentPanel->_dialogOptions); ?>
-
-            <div class="vertical-separator"></div>
-        <?php endif; ?>
-
         <div id="main-block">
+            <?php if ( !empty($data->_currentPanel->_dialogOptions) ): ?>
+                <?php echo Functions::showDialogWindow($data->_currentPanel->_dialogOptions); ?>
+
+                <div class="vertical-separator"></div>
+            <?php endif; ?>
+
             <?php if ( $data->_action == UserPanelModelUser::USER_EMAIL ): ?>
                 <div id="form-table-wrapper">
                     <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModelUser::USER_EMAIL,'', false); ?>" autocomplete="off">
