@@ -8,6 +8,14 @@ class FormValidator {
     public static $invalidField;
     public static $message = '';
 
+    /**
+     * calls for specific form validation function
+     *
+     * @param  string $formName   [ name of form ]
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
     public static function validate($formName, $formFields) {
         switch ($formName) {
             case 'register':
@@ -55,6 +63,11 @@ class FormValidator {
         }
     }
 
+    /**
+     * sets invalid field in the message
+     * 
+     * @return void
+     */
     protected static function _returnInvalidField() {
         if ( empty(self::$message) ) {
             self::_setMessage(self::$invalidField);
@@ -203,6 +216,13 @@ class FormValidator {
         }
     }
 
+    /**
+     * update user password form validation
+     * 
+     * @param  object $formFields [ form fields object ]
+     * 
+     * @return void
+     */
     protected static function _validateUserPasswordForm($formFields) {
         // required fields
         if ( empty($formFields->userId) ) {            self::$isFormInvalid = true; self::$invalidField = 'User'; self::_returnInvalidField(); }
@@ -277,6 +297,69 @@ class FormValidator {
         if ( $isGuildInvalid ) {
             self::$isFormInvalid = true;
             return;
+        }
+
+        // check if encounter has any encounters dependant
+        $dbh              = DbFactory::getDbh();
+        $encounterDetails = CommonDataContainer::$encounterArray[$formFields->encounter];
+
+        $query = $dbh->prepare(sprintf(
+            "SELECT encounter_id,
+                    name,
+                    dungeon,
+                    dungeon_id,
+                    players,
+                    tier,
+                    mob_type,
+                    encounter_name,
+                    encounter_short_name,
+                    date_launch,
+                    mob_order,
+                    req_encounter
+               FROM %s
+              WHERE req_encounter=%d", 
+                    DbFactory::TABLE_ENCOUNTERS,
+                    $formFields->encounter
+                ));
+        $query->execute();
+
+        if ( $query->rowCount() > 0 ) {
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $dependentEncounterId      = $row['encounter_id'];
+                $dependentEncounterDetails = CommonDataContainer::$encounterArray[$dependentEncounterId];
+
+                $query = $dbh->prepare(sprintf(
+                    "SELECT kill_id,
+                            guild_id,
+                            encounter_id,
+                            dungeon_id,
+                            tier,
+                            raid_size,
+                            datetime,
+                            date,
+                            time,
+                            time_zone,
+                            server,
+                            videos,
+                            server_rank,
+                            region_rank,
+                            world_rank,
+                            country_rank
+                       FROM %s
+                      WHERE guild_id=%d
+                        AND encounter_id=%d", 
+                            DbFactory::TABLE_KILLS, 
+                            $formFields->guildId,
+                            $dependentEncounterId
+                        ));
+                $query->execute();
+
+                if ( $query->rowCount() > 0 ) {
+                    self::_setMessage('Encounter', $dependentEncounterDetails->_name .' encounter is dependent on the encounter you are attempting to remove. Please remove the ' . $encounterDetails->_name . ' encounter first.');
+                    self::$isFormInvalid = true;
+                    return;
+                }
+            }
         }
     }
 
@@ -354,6 +437,8 @@ class FormValidator {
             self::$isFormInvalid = true;
             return;
         }
+
+        // validate if encounter has special requirements
 
         // validate screenshot
         $isScreenshotInvalid = self::_validateScreenshot($formFields->screenshot);
@@ -608,11 +693,46 @@ class FormValidator {
                 ));
         $query->execute();
 
-        $count = $query->rowCount();
-
         if ( $query->rowCount() > 0 ) {
             $isEncounterInvalid = true;
             self::_setMessage('Encounter', $encounterDetails->_name .' encounter has already been submitted for this guild, please select another encounter.');
+        }
+
+        // check if encounter has any required encounters
+        if ( !empty($encounterDetails->_reqEncounter) || $encounterDetails->_reqEncounter > 0 ) {
+            $reqEncounterId      = $encounterDetails->_reqEncounter;
+            $reqEncounterDetails = CommonDataContainer::$encounterArray[$reqEncounterId];
+
+            $query = $dbh->prepare(sprintf(
+                "SELECT kill_id,
+                        guild_id,
+                        encounter_id,
+                        dungeon_id,
+                        tier,
+                        raid_size,
+                        datetime,
+                        date,
+                        time,
+                        time_zone,
+                        server,
+                        videos,
+                        server_rank,
+                        region_rank,
+                        world_rank,
+                        country_rank
+                   FROM %s
+                  WHERE guild_id=%d
+                    AND encounter_id=%d", 
+                        DbFactory::TABLE_KILLS, 
+                        $guildId,
+                        $reqEncounterId
+                    ));
+            $query->execute();
+
+            if ( $query->rowCount() == 0 ) {
+                $isEncounterInvalid = true;
+                self::_setMessage('Encounter', $reqEncounterDetails->_name .' is required before submitting this encounter.');
+            }
         }
 
         return $isEncounterInvalid;
@@ -679,8 +799,6 @@ class FormValidator {
                     $server
                 ));
         $query->execute();
-
-        $count = $query->rowCount();
 
         if ( $query->rowCount() > 0 ) {
             $isGuildInvalid = true;
