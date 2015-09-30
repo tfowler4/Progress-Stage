@@ -98,3 +98,16 @@
 .option-content table tfoot tr th {
     text-align: center;
 }
+
+#navigation-bar {
+    font-size: 13px;
+    text-align: left;
+    padding: 5px;
+    border: 1px solid #C0C0C0;
+    border-radius: 3px;
+    background-color: #D3D3D3;
+}
+
+#navigation-bar li {
+    display: inline-block;
+}

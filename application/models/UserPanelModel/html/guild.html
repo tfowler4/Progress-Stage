@@ -3,6 +3,30 @@
     <div id="body-content">
         <div class="vertical-separator"></div>
 
+        <div id="navigation-bar">
+            <ul>
+                <li><?php echo Functions::generateInternalHyperlink('userpanel', '', '', 'Control Panel Home', ''); ?></li>
+                <li>>>></li>
+                <?php if ( $data->_currentPanel->_action == UserPanelModelGuild::GUILD_EDIT): ?>
+                    <li><?php echo 'Guild Administration (' . $data->_currentPanel->_guildDetails->_name . ')'; ?></li>
+                    <li>>>></li>
+                    <li>Edit Guild Details</li>
+                <?php elseif ( $data->_currentPanel->_action == UserPanelModelGuild::GUILD_ADD ): ?>
+                    <li>Create New Guild</li>
+                <?php elseif ( $data->_currentPanel->_action == UserPanelModelGuild::GUILD_REMOVE ): ?>
+                    <li><?php echo 'Guild Administration (' . $data->_currentPanel->_guildDetails->_name . ')'; ?></li>
+                    <li>>>></li>
+                    <li>Remove Guild</li>
+                <?php elseif ( $data->_currentPanel->_action == UserPanelModelGuild::GUILD_RAID_TEAM ): ?>
+                    <li><?php echo 'Guild Administration (' . $data->_currentPanel->_guildDetails->_name . ')'; ?></li>
+                    <li>>>></li>
+                    <li>Add Raid Team</li>
+                <?php endif; ?>
+            </ul>
+        </div>
+
+        <div class="vertical-separator"></div>
+
         <div id="main-block">
             <?php if ( !empty($data->_currentPanel->_dialogOptions) ): ?>
                 <?php echo Functions::showDialogWindow($data->_currentPanel->_dialogOptions); ?>

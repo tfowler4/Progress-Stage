@@ -3,6 +3,22 @@
     <div id="body-content">
         <div class="vertical-separator"></div>
 
+        <div id="navigation-bar">
+            <ul>
+                <li><?php echo Functions::generateInternalHyperlink('userpanel', '', '', 'Control Panel Home', ''); ?></li>
+                <li>>>></li>
+                <li>User Administration</li>
+                <li>>>></li>
+                <?php if ( $data->_action == UserPanelModelUser::USER_EMAIL ): ?>
+                    <li>Update Email</li>
+                <?php elseif ( $data->_action == UserPanelModelUser::USER_PASSWORD ): ?>
+                    <li>Update Password</li>
+                <?php endif; ?>
+            </ul>
+        </div>
+
+        <div class="vertical-separator"></div>
+
         <div id="main-block">
             <?php if ( !empty($data->_currentPanel->_dialogOptions) ): ?>
                 <?php echo Functions::showDialogWindow($data->_currentPanel->_dialogOptions); ?>
