@@ -53,7 +53,7 @@ class UpdateAllPointRankings extends Script {
             self::createDungeonInsertStrings();
 
             Logger::log('INFO', 'Updating Recent Raid Table', 'dev');
-            self::updateRecentRaidTable();
+            //self::updateRecentRaidTable();
         }
 
         Logger::log('INFO', 'Update All Point Rankings Completed!', 'dev');
@@ -215,7 +215,7 @@ class UpdateAllPointRankings extends Script {
         $server         = $guildDetails->_server;
         $region         = $guildDetails->_region;
         $country        = $guildDetails->_country;
-        $identifier     = $dungeonId . '_' . $rankSystem;
+        $identifier     = '_' . strtolower($rankSystem);
         $trendDetails   = array();
 
         $newWorldRank   = $rankDetails['world'];
@@ -223,8 +223,8 @@ class UpdateAllPointRankings extends Script {
         $newRegionRank  = $rankDetails['region'][$region];
         $newCountryRank = $rankDetails['country'][$country];
 
-        if ( isset($guildDetails->_rankDetails->_rankDungeons->$identifier) ) {
-            $rankValues = $guildDetails->_rankDetails->_rankDungeons->$identifier;
+        if ( isset($guildDetails->_dungeonDetails->$dungeonId->$identifier) ) {
+            $rankValues = $guildDetails->_dungeonDetails->$dungeonId->$identifier;
 
             $currentWorldRank   = $rankValues->_rank->_world;
             $currentServerRank  = $rankValues->_rank->_server;
@@ -260,9 +260,6 @@ class UpdateAllPointRankings extends Script {
             $trendDetails['prev-rank']['region'][$region]   = $currentRegionRank;
             $trendDetails['prev-rank']['country'][$country] = $newCountryRank;
         } else {
-            if ( $guildDetails->_name == 'Drow' && $dungeonDetails->_name == 'The Datascape 20' ) {
-                echo "Ranking Details DO NOT Exist<br>";
-            }
             // Rank is New
             $trendDetails['trend']['world']             = 'NEW';
             $trendDetails['trend']['server'][$server]   = 'NEW';
@@ -486,7 +483,6 @@ class UpdateAllPointRankings extends Script {
            GROUP BY encounter_id",
              DbFactory::TABLE_RECENT_RAIDS
             ));
-
         $query->execute();
 
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { 
