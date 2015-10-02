@@ -460,7 +460,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Guild Name</th>
                                     </tr>
                                     <tr>
                                         <td>
@@ -645,11 +645,11 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Guild Name</th>
                                     </tr>
                                     <tr>
                                         <td>
-                                        <select class="admin-select guild kill-edit" name="select-guild">
+                                        <select class="admin-select guild kill-edit" name="edit-kill-guild-name">
                                             <option value="">Select Guild</option>
                                             <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
                                                 <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
@@ -669,18 +669,17 @@
 
                 <div class="option-container">
                     <div class="option-title">Remove Existing Guild Kill</div>
-                    <form class="admin-form kill edit" id="form-kill-edit" method="POST" action="<?php echo PAGE_ADMIN; ?>">
-                        <div class="option-content kill edit">
+                        <div class="option-content kill remove">
                             <table>
                                 <thead>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Guild Name</th>
                                     </tr>
                                     <tr>
                                         <td>
-                                        <select class="admin-select guild kill-remove" name="select-guild">
+                                        <select class="admin-select kill remove" name="remove-kill-guild-id">
                                             <option value="">Select Guild</option>
                                             <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
                                                 <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
@@ -692,10 +691,10 @@
                                 <tfoot>
                                 </tfoot>
                             </table>
+                            <div id="admin-remove-kill-listing"></div>
                         </div>
                         <div class="vertical-separator"></div>
-                        <div class="option-footer"><input class="admin-submit kill remove" id="admin-submit-kill-remove" type="submit" value="Remove Kill" /></div>
-                    </form>
+                        <div class="option-footer"></div>
                 </div>
             </div>
 

@@ -105,6 +105,26 @@ var Administrator = function() {
         });
     });
 
+    // Display guild details from drop down selection
+    $(document).on('change', '.admin-select.kill.remove', function() {
+        var guildId = $(this).val();
+        currentPageUrl  = document.URL;
+
+        $.ajax({
+            type:    'POST',
+            url:     currentPageUrl,
+            data:    {request: 'kill-remove-listing', guild:guildId},
+            encode:  true,
+            success: function(data) {
+                activeDiv = $('#admin-remove-kill-listing');
+                activeDiv.html(data);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    });
+
     // Display article details from drop down selection
     $(document).on('change', '.admin-select.article.edit', function() {
         var articleId = $(this).val();
