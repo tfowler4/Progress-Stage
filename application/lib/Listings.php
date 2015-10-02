@@ -73,6 +73,10 @@ class Listings extends DataObject {
                 if ( !empty($serverDetails) ) { $this->_serverDetails = $serverDetails;
                 } else { $this->_serverDetails = Functions::getServerByName($this->_server); }
 
+                if ( !isset($this->_serverDetails) ) {
+                    Functions::sendTo404();
+                }
+
                 $this->_serverDetails->getGuilds();
                 $this->_guildArray = $this->_serverDetails->_guilds;
 
@@ -84,6 +88,13 @@ class Listings extends DataObject {
                 if ( isset($params[2]) ) { $this->_dungeon = $params[2]; }
 
                 break;
+        }
+
+        if ( $this->_view != 'world'
+          && $this->_view != 'region'
+          && $this->_view != 'server'
+          && $this->_view != 'country' ) {
+            Functions::sendTo404();
         }
 
         $this->_getDataDetails($this->_tier, $this->_dungeon, $this->_encounter);
@@ -113,6 +124,9 @@ class Listings extends DataObject {
         if ( !empty($this->_encounter) ) {
             $this->_dataType    = '_encounterDetails'; 
             $this->_dataDetails = Functions::getEncounterByName($this->_encounter, $this->_dungeon);
+
+             if ( !isset($this->_dataDetails->_encounterId) ) { Functions::sendTo404(); }
+
             $this->_identifier  = $this->_dataDetails->_encounterId;
             $this->_title       = $this->_dataDetails->_encounterName;
 
@@ -126,6 +140,9 @@ class Listings extends DataObject {
         } elseif ( !empty($this->_dungeon) ) {
             $this->_dataType    = '_dungeonDetails';
             $this->_dataDetails = Functions::getDungeonByName($this->_dungeon);
+
+            if ( !isset($this->_dataDetails->_dungeonId) ) { Functions::sendTo404(); }
+
             $this->_identifier  = $this->_dataDetails->_dungeonId;
             $this->_title       = $this->_dataDetails->_name;
 
@@ -138,6 +155,9 @@ class Listings extends DataObject {
 
             if ( $this->_listType == 'rankings' ) {
                 $systemDetails = Functions::getRankSystemByName($this->_rankType);
+
+                if ( !isset($systemDetails) ) { Functions::sendTo404(); }
+
                 $systemId      = $systemDetails->_abbreviation;
 
                 $this->_standingsType = '_dungeonDetails';
@@ -150,6 +170,9 @@ class Listings extends DataObject {
         } elseif ( !empty($this->_tier) ) {
             $this->_dataType    = '_tierDetails';
             $this->_dataDetails = Functions::getTierByName($this->_tier);
+
+            if ( !isset($this->_dataDetails->_tier) ) { Functions::sendTo404(); }
+
             $this->_identifier  = $this->_dataDetails->_tier;
 
             if ( empty($this->_dataDetails) ) { return null; }
@@ -204,13 +227,7 @@ class Listings extends DataObject {
                         }
                     }
                 }
-
-                //echo ' Load Time Individ: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.<br>'; 
             }
-
-            //echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
-            //echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.<br>'; 
-            //exit;
         } elseif ( $this->_listType == 'rankings' ) {
             foreach ( $this->_guildArray as $guildId => $guildDetails ) {
                 $guildDetails->generateEncounterDetails('dungeon', $this->_standingsId);
@@ -221,12 +238,7 @@ class Listings extends DataObject {
                 $points = $guildDetails->{$this->_dataType}->{$this->_identifier}->{$this->_rankingId}->_points;
 
                 $sortArray[$guildId] = $points;
-
-                //echo ' Load Time Individ: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.<br>'; 
             }
-
-            //echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
-            //echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.<br>'; 
         }
 
         return $sortArray;
@@ -240,7 +252,6 @@ class Listings extends DataObject {
     private function _addGuildToListArray(&$guildDetails, &$temporaryGuildArray, &$completionTimeArray, &$rankArray) {
         $guildId = $guildDetails->_guildId;
 
-        //$guildDetails->getTimeDiff($completionTimeArray, $guildDetails->_strtotime);
         $guildDetails->_rank = $rankArray;
 
         $temporaryGuildArray[$guildId] = $guildDetails;
@@ -351,15 +362,11 @@ class Listings extends DataObject {
                     case 'world':
                         if ( !isset($pointDiffArray['world']) ) { $pointDiffArray['world'] = 0; }
 
-                        //$guildDetails->getPointDiff($pointDiffArray['world'], $guildDetails->_points);
-
                         $sortGuildArray['world'][$guildId] = $guildDetails;
                         $pointDiffArray['world']           = $guildDetails->_points;
                         break;
                     case 'region':
                         if ( !isset($pointDiffArray['region'][$region]) ) { $pointDiffArray['region'][$region] = 0; }
-
-                        //$guildDetails->getPointDiff($pointDiffArray['region'][$region], $guildDetails->_points);
 
                         $sortGuildArray['region'][$region][$guildId] = $guildDetails;
                         $pointDiffArray['region'][$region] = $guildDetails->_points;
@@ -367,15 +374,11 @@ class Listings extends DataObject {
                     case 'server':
                         if ( !isset($pointDiffArray['server'][$server]) ) { $pointDiffArray['server'][$server] = 0; }
 
-                        //$guildDetails->getPointDiff($pointDiffArray['server'][$server], $guildDetails->_points);
-
                         $sortGuildArray['server'][$server][$guildId] = $guildDetails;
                         $pointDiffArray['server'][$server] = $guildDetails->_points;
                         break;
                     case 'country':
                         if ( !isset($pointDiffArray['country'][$country]) ) { $pointDiffArray['country'][$country] = 0; }
-
-                        //$guildDetails->getPointDiff($pointDiffArray['country'][$country], $guildDetails->_points);
 
                         $sortGuildArray['country'][$country][$guildId]  = $guildDetails;
                         $pointDiffArray['country'][$country] = $guildDetails->_points;

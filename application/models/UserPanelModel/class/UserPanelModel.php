@@ -32,6 +32,9 @@ class UserPanelModel extends Model {
         $this->title = self::PAGE_TITLE;
 
         $this->_userDetails = $_SESSION['userDetails'];
+
+        if ( !isset($this->_userDetails) ) { Functions::sendTo404(); }
+
         $this->_userDetails = $this->_getUpdatedUserDetails($this->_userDetails->_userId);
         $this->_userGuilds  = $this->_getUserGuilds($this->_userDetails->_userId);
 
@@ -360,9 +363,7 @@ class UserPanelModel extends Model {
         if ( file_exists($htmlFilePath) ) {
             include $htmlFilePath;
         } else {
-            header('Location: ' . HOST_NAME);
-            die;
+            Functions::sendTo404();
         }
-        
     }
 }

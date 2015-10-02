@@ -35,6 +35,8 @@ class WeeklyRaidingReport extends Script {
     }
 
     public static function getPastWeekEncounters() {
+        DbFactory::getAllEncounterKills();
+
         foreach ( CommonDataContainer::$guildArray as $guildId  => $guildDetails ) {
             $guildDetails->generateEncounterDetails('');
 
@@ -85,29 +87,6 @@ class WeeklyRaidingReport extends Script {
             self::$reportArticle->content .= '</ul>';
             
         }
-    }
-
-    public static function displayArticle() {
-        echo '<html>';
-            foreach( glob('../public/css/*.css' ) as $fileName) {
-                echo '<link rel="stylesheet" type="text/css" href="' . $fileName . '">';
-            }
-
-            echo '<div style="width:1000px;">';
-                echo '<div id="articles-wrapper">';
-                    echo '<div class="article">';
-                        echo '<div class="article-header">';
-                            echo '<div>' . self::$reportArticle->title . '</div>';
-                            echo '<span>Posted by: ' . self::$reportArticle->postedBy . ' @ ' . self::$reportArticle->date . '</span>';
-                        echo '</div>';
-                        echo '<div class="article-content">';
-                            echo '<p>' . self::$reportArticle->content . '</p>';
-                        echo '</div>';
-                    echo '</div>';
-                    echo '<div class="vertical-separator"></div>';
-                echo '</div>';
-            echo '</div>';
-        echo '</html>';
     }
 
     public static function addArticleToDatabase() {
