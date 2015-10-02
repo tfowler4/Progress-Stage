@@ -223,6 +223,7 @@ class Listings extends DataObject {
                         if ( isset($guildDetails->_encounterDetails->$finalEncounterId) ) {
                             $totalComplete = CommonDataContainer::$dungeonArray[$this->_identifier]->_numOfEncounters;
 
+                            unset($sortArray[$progressionDetails->_complete][$guildId]);
                             $sortArray[$totalComplete][$guildId] = $progressionDetails->_recentTime;
                         }
                     }

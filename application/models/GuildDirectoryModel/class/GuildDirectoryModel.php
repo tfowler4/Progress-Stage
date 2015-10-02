@@ -94,15 +94,18 @@ class GuildDirectoryModel extends Model {
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
             $guildId      = $row['guild_id'];
             $encounterId  = $row['encounter_id'];
-            $guildDetails = CommonDataContainer::$guildArray[$guildId];
 
-            $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
-            $dungeonId           = $encounterDetails->_dungeonId;
-            $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
-            $tierId              = $dungeonDetails->_tier;
+            if ( isset(CommonDataContainer::$guildArray[$guildId]) ) {
+                $guildDetails = CommonDataContainer::$guildArray[$guildId];
 
-            $encounter = new EncounterDetails($row, $guildDetails, $dungeonDetails);
-            $guildDetails->_recentActivity = $encounter->_encounterName . ' @ ' . $encounter->_datetime;
+                $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
+                $dungeonId           = $encounterDetails->_dungeonId;
+                $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
+                $tierId              = $dungeonDetails->_tier;
+
+                $encounter = new EncounterDetails($row, $guildDetails, $dungeonDetails);
+                $guildDetails->_recentActivity = $encounter->_encounterName . ' @ ' . $encounter->_datetime;
+            }
         }
     }
 
@@ -126,13 +129,16 @@ class GuildDirectoryModel extends Model {
         $query->execute();
 
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
-            $guildId      = $row['guild_id'];
-            $guildDetails = CommonDataContainer::$guildArray[$guildId];
+            $guildId = $row['guild_id'];
 
-            $guildDetails->_worldFirst   = $row['world_firsts'];
-            $guildDetails->_regionFirst  = $row['region_firsts'];
-            $guildDetails->_serverFirst  = $row['world_firsts'];
-            $guildDetails->_countryFirst = $row['country_firsts'];
+            if ( isset(CommonDataContainer::$guildArray[$guildId]) ) {
+                $guildDetails = CommonDataContainer::$guildArray[$guildId];
+
+                $guildDetails->_worldFirst   = $row['world_firsts'];
+                $guildDetails->_regionFirst  = $row['region_firsts'];
+                $guildDetails->_serverFirst  = $row['world_firsts'];
+                $guildDetails->_countryFirst = $row['country_firsts'];
+            }
         }
     }
 
