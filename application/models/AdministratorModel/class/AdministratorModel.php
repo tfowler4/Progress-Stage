@@ -4,6 +4,7 @@
  * encounters, guild, and news articles
  */
 class AdministratorModel extends Model {
+    protected $_guildDetails;
     protected $_userDetails;
     protected $_formFields;
     protected $_newsArticleArray = array();
@@ -83,6 +84,12 @@ class AdministratorModel extends Model {
                     break;
                 case "kill-add":
                     $this->addNewKill();
+                    break;
+                case "kill-remove-listing":
+                    $this->removeKillGuildDropDown($_POST['guild']);
+                    break;
+                case "kill-remove":
+                    $this->removeKill();
                     break;
                 case "utility-run":
                     $this->runUtilityScript();
@@ -861,6 +868,11 @@ class AdministratorModel extends Model {
         $query->execute();
         die;
     }
+    /**
+     * insert new kill details in encounterkills_table
+     *
+     * @return void
+     */
     public function addNewKill() {
         $this->_formFields   = new AdminKillSubmissionFormFields();
         $this->_formFields->guildId    = Post::get('create-kill-guild-name');
@@ -876,6 +888,73 @@ class AdministratorModel extends Model {
         $this->_formFields->videoType  = Post::get('video-link-type');
 
         //DBObjects::addKill($this->_formFields);
+    }
+    /**
+     * create html to prepare form and display guild and encounter name
+     * 
+     * @param  GuildDetails $guildDetails [ guild details object ]
+     * 
+     * @return string                     [ return html containing specified dungeon details ]
+     */
+    public function removeKillHtml($guildDetails) {
+        $html = '';
+        $html .= '<form class="admin-form kill remove" id="form-kill-remove" method="POST" action="' . PAGE_ADMIN . '">';
+        $html .= '<table class="admin-remove-kill-listing">';
+        $html .= '<tr><td><input hidden type="text" name="remove-kill-guild-id" value="' . $guildDetails->_guildId . '"/></td></tr>';
+        $html .= '<tr><th>Encounter Name</th></tr>';
+        $html .= '<tr><td><select name="remove-kill-encounter-id">';
+        $html .= '<option value="">Select Encounter</option>';
+            foreach ( (array)$guildDetails->_encounterDetails as $encounterId => $encounterDetails ):
+                if ( isset($encounterDetails->_encounterId) ):
+                    $html .= '<option value="' . $encounterDetails->_encounterId . '">' . $encounterDetails->_dungeon . '-' . $encounterDetails->_encounterName . '</option>';
+                endif;
+            endforeach;
+        $html .= '</select></td></tr>';
+        $html .= '</table>';
+        $html .= '<div class="vertical-separator"></div>';
+        $html .= '<input id="admin-submit-kill-remove" type="submit" value="Remove" />';
+        $html .='</form>';
+
+        return $html;
+    }
+    /**
+     * To get guild details from selected id
+     * 
+     * @param  string $guildId [ id of a specific guild ]
+     * 
+     * @return void
+     */
+    public function removeKillGuildDropDown($guildId) {
+        $html = '';
+        $guildDetails = CommonDataContainer::$guildArray[$guildId];
+
+        $this->getAllGuildDetails($guildDetails);
+
+        $html = $this->removeKillHtml($guildDetails);
+
+        echo $html;
+        die;
+    }
+    /**
+     * delete from encounterkills_table by specified id
+     * 
+     * @return void
+     */
+    public function removeKill() {
+        $guildId     = Post::get('remove-kill-guild-id');
+        $encounterId = Post::get('remove-kill-encounter-id');
+
+        $query = $this->_dbh->prepare(sprintf(
+            "DELETE 
+               FROM %s
+              WHERE guild_id = '%s' and
+              encounter_id = '%s'",
+            DbFactory::TABLE_KILLS,
+            $guildId,
+            $encounterId
+            ));
+        $query->execute();
+        die;
     }
     /**
      * run selected utility script
@@ -978,7 +1057,7 @@ class AdministratorModel extends Model {
         $html .= '</form>';
         $html .= '<div class="vertical-separator"></div>';
         $html .= '<form class="admin-form news remove" id="form-article-remove" method="POST" action="' . PAGE_ADMIN . '">';
-        $html .= '<input hidden type="text" name="edit-article-id" value="' . $articleId . '"/>';
+        $html .= '<input hidden type="text" name="remove-article-id" value="' . $articleId . '"/>';
         $html .= '<input id="admin-submit-article-remove" type="submit" value="Remove" />';
         $html .= '</form>';
 
@@ -1034,7 +1113,7 @@ class AdministratorModel extends Model {
      * @return void
      */
     public function removeArticle() {
-        $articleId = POST::get('edit-article-id');
+        $articleId = POST::get('remove-article-id');
 
         $query = $this->_dbh->prepare(sprintf(
             "DELETE 
@@ -1045,6 +1124,57 @@ class AdministratorModel extends Model {
             ));
         $query->execute();
         die;
+    }
+    /**
+     * generate all encounter standings and rankings information
+     * 
+     * @return void
+     */
+    public function getAllGuildDetails($guildDetails) {
+        $guildDetails->generateRankDetails('encounters');
+
+        $dbh       = DbFactory::getDbh();
+        $dataArray = array();
+
+        $query = $dbh->prepare(sprintf(
+            "SELECT kill_id,
+                    guild_id,
+                    encounter_id,
+                    dungeon_id,
+                    tier,
+                    raid_size,
+                    datetime,
+                    date,
+                    time,
+                    time_zone,
+                    server,
+                    videos,
+                    server_rank,
+                    region_rank,
+                    world_rank,
+                    country_rank
+               FROM %s
+              WHERE guild_id=%d", 
+                    DbFactory::TABLE_KILLS, 
+                    $guildDetails->_guildId
+                ));
+        $query->execute();
+
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $encounterId         = $row['encounter_id'];
+            $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
+            $dungeonId           = $encounterDetails->_dungeonId;
+            $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
+            $tierId              = $dungeonDetails->_tier;
+            $tierDetails         = CommonDataContainer::$tierArray[$tierId];
+
+            $arr = $guildDetails->_progression;
+            $arr['dungeon'][$dungeonId][$encounterId] = $row;
+            $arr['encounter'][$encounterId] = $row;
+            $guildDetails->_progression = $arr;
+        }
+
+        $guildDetails->generateEncounterDetails('');
     }
 }
 
