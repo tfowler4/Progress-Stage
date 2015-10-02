@@ -1,0 +1,30 @@
+<div id="form-table-wrapper">
+    <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModelUser::USER_EMAIL,'', false); ?>" autocomplete="off">
+        <table class="form-table standard">
+            <thead>
+                <tr>
+                    <th colspan="2">Change Email Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Current Email Address</th>
+                    <td><?php echo $data->_userDetails->_emailAddress; ?></td>
+                </tr>
+                <tr>
+                    <th>New Email Address</th>
+                    <td><input id="userpanel-email" type="text" name="userpanel-email"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">
+                        <input id="userpanel-user-id" type="hidden" name="userpanel-user-id" value="<?php echo $data->_userDetails->_userId; ?>">
+                        <input id="userpanel-active" type="hidden" name='active' value="Active">
+                        <input id="userpanel-submit" type="submit" value="Submit">
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>

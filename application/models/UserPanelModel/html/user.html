@@ -7,7 +7,10 @@
             <ul>
                 <li><?php echo Functions::generateInternalHyperlink('userpanel', '', '', 'Control Panel Home', ''); ?></li>
                 <li>>>></li>
-                <li>User Administration</li>
+                <li><?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, 
+                                                                '',
+                                                                'Account Administration',
+                                                                true); ?></li>
                 <li>>>></li>
                 <?php if ( $data->_action == UserPanelModelUser::USER_EMAIL ): ?>
                     <li>Update Email</li>
@@ -26,71 +29,14 @@
                 <div class="vertical-separator"></div>
             <?php endif; ?>
 
-            <?php if ( $data->_action == UserPanelModelUser::USER_EMAIL ): ?>
-                <div id="form-table-wrapper">
-                    <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModelUser::USER_EMAIL,'', false); ?>" autocomplete="off">
-                        <table class="form-table standard">
-                            <thead>
-                                <tr>
-                                    <th colspan="2">Change Email Address</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>Current Email Address</th>
-                                    <td><?php echo $data->_currentPanel->_userDetails->_emailAddress; ?></td>
-                                </tr>
-                                <tr>
-                                    <th>New Email Address</th>
-                                    <td><input id="userpanel-email" type="text" name="userpanel-email"></td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="2">
-                                        <input id="userpanel-user-id" type="hidden" name="userpanel-user-id" value="<?php echo $data->_userDetails->_userId; ?>">
-                                        <input id="userpanel-active" type="hidden" name='active' value="Active">
-                                        <input id="userpanel-submit" type="submit" value="Submit">
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </form>
-                </div>
-            <?php elseif ( $data->_action == UserPanelModelUser::USER_PASSWORD ): ?>
-                <div id="form-table-wrapper">
-                    <form method="POST" action="<?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModelUser::USER_PASSWORD,'', false); ?>" autocomplete="off">
-                        <table class="form-table standard">
-                            <thead>
-                                <tr>
-                                    <th colspan="2">Change Password</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>Current Password</th>
-                                    <td><input id="userpanel-old-password" type="password" name="userpanel-password"></td>
-                                </tr>
-                                <tr>
-                                    <th>New Password</th>
-                                    <td><input id="userpanel-new-password" type="password" name="userpanel-new-password"></td>
-                                </tr>
-                                <tr>
-                                    <th>Retype New Password</th>
-                                    <td><input id="userpanel-new-retype-password" type="password" name="userpanel-new-retype-password"></td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="2">
-                                        <input id="userpanel-user-id" type="hidden" name='userpanel-user-id' value="<?php echo $data->_userDetails->_userId; ?>">
-                                        <input id="userpanel-active" type="hidden" name='active' value="Active">
-                                        <input id="userpanel-submit" type="submit" value="Submit">
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </form>
+            <?php if ( $data->_action == UserPanelModelUser::USER_EMAIL || $data->_action == UserPanelModelUser::USER_PASSWORD ): ?>
+                <?php $data->getHTML($data->_currentPanel); ?>
+            <?php else: ?>
+                <div class="option-container user">
+                    <div class="option-title">Actions</div>
+
+                    <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModelUser::USER_EMAIL,'<div class="option-footer">Change Email Address</div>', true); ?>
+                    <?php echo $data->generateInternalHyperlink(UserPanelModel::SUB_USER, UserPanelModelUser::USER_PASSWORD,'<div class="option-footer">Change Password</div>', true); ?>
                 </div>
             <?php endif; ?>
         </div>

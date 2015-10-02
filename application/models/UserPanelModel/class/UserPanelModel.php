@@ -48,6 +48,15 @@ class UserPanelModel extends Model {
 
         switch($this->subModule) {
             case self::SUB_GUILD:
+                if ( is_numeric($this->_action) ) {
+                    $this->_guildDetails = $this->_getCorrectGuild($this->_action);
+                }
+
+                if ( $this->_guildDetails == null ) {
+                    header('Location: ' . HOST_NAME);
+                    die;
+                }
+
                 $this->_formFields   = new GuildFormFields();
                 $this->_currentPanel = new UserPanelModelGuild($this->_action, $this->_formFields, $this->_guildDetails, $this->_userDetails, $this->_userGuilds, $this->_raidTeams);
                 break;
@@ -56,6 +65,11 @@ class UserPanelModel extends Model {
                 $this->_currentPanel = new UserPanelModelUser($this->_action, $this->_formFields, $this->_userDetails);
                 break;
             case self::SUB_KILLS:
+                if ( $this->_guildDetails == null ) {
+                    header('Location: ' . HOST_NAME);
+                    die;
+                }
+
                 $this->_formFields   = new KillSubmissionFormFields();
                 $this->_currentPanel = new UserPanelModelKill($this->_action, $this->_formFields, $this->_guildDetails, $this->_encounterDetails);
                 break;
@@ -335,7 +349,20 @@ class UserPanelModel extends Model {
      * @return void
      */
     public function getHTML($data) {
-        $htmlFile = $this->subModule . '-' . $this->_action . '.html';
-        include ABSOLUTE_PATH . '/application/models/UserPanelModel/html/' . $htmlFile;
+        $fileName = $this->subModule;
+
+        if ( !empty($this->_action) ) {
+            $fileName .= '-' . $this->_action;
+        }
+
+        $htmlFilePath = ABSOLUTE_PATH . '/application/models/UserPanelModel/html/' . $fileName . '.html';
+
+        if ( file_exists($htmlFilePath) ) {
+            include $htmlFilePath;
+        } else {
+            header('Location: ' . HOST_NAME);
+            die;
+        }
+        
     }
 }
