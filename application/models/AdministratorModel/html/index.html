@@ -35,7 +35,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input class="admin-select tier name" name="create-tier-alt-number" />
+                                            <input class="admin-textbox tier name" name="create-tier-alt-number" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -43,7 +43,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input class="admin-select tier name" name="create-tier-name" />
+                                            <input class="admin-textbox tier name" name="create-tier-name" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -424,6 +424,7 @@
                                     <tr>
                                         <td>
                                             <select class="admin-select server" name="create-guild-server">
+                                                <option value="">Select Server</option>
                                                 <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails ): ?>
                                                     <option value="<?php echo $serverId; ?>"><?php echo $serverDetails->_region . ' - ' . $serverDetails->_name; ?></option>
                                                 <?php endforeach; ?>
@@ -436,6 +437,7 @@
                                     <tr>
                                         <td>
                                         <select class="admin-select country" name="create-guild-country">
+                                            <option value="">Select Country</option>
                                             <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails ): ?>
                                                 <option value="<?php echo $countryId; ?>"><?php echo $countryDetails->_name; ?></option>
                                             <?php endforeach; ?>
@@ -635,7 +637,7 @@
                 </div>
 
                 <div class="option-container">
-                    <div class="option-title">Edit/Remove Guild Kill</div>
+                    <div class="option-title">Edit Guild Kill</div>
                     <form class="admin-form kill edit" id="form-kill-edit" method="POST" action="<?php echo PAGE_ADMIN; ?>">
                         <div class="option-content kill edit">
                             <table>
@@ -648,6 +650,7 @@
                                     <tr>
                                         <td>
                                         <select class="admin-select guild kill-edit" name="select-guild">
+                                            <option value="">Select Guild</option>
                                             <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
                                                 <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
                                             <?php endforeach; ?>
@@ -663,6 +666,37 @@
                         <div class="option-footer"></div>
                      </form>
                 </div>
+
+                <div class="option-container">
+                    <div class="option-title">Remove Existing Guild Kill</div>
+                    <form class="admin-form kill edit" id="form-kill-edit" method="POST" action="<?php echo PAGE_ADMIN; ?>">
+                        <div class="option-content kill edit">
+                            <table>
+                                <thead>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Name</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                        <select class="admin-select guild kill-remove" name="select-guild">
+                                            <option value="">Select Guild</option>
+                                            <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
+                                                <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="vertical-separator"></div>
+                        <div class="option-footer"><input class="admin-submit kill remove" id="admin-submit-kill-remove" type="submit" value="Remove Kill" /></div>
+                    </form>
+                </div>
             </div>
 
             <div class="clear"></div>
@@ -676,23 +710,30 @@
 
                 <div class="option-container">
                     <div class="option-title">Run Utility Script</div>
-                    <form class="admin-form kill edit" id="form-utility-run" method="POST" action="<?php echo PAGE_ADMIN; ?>">
+                    <form class="admin-form utility run" id="form-utility-run" method="POST" action="<?php echo PAGE_ADMIN; ?>">
                         <div class="option-content kill edit">
                             <table>
                                 <thead>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Script Name</th>
                                     </tr>
                                     <tr>
                                         <td>
-                                        <select class="admin-select utility" name="select-utility">
+                                        <select class="admin-select utility" name="utility-run-script-name">
+                                            <option value="">Select Script</option>
                                             <?php foreach(glob("scripts/*") as $filename): ?>
                                                     <option value="<?php echo str_replace('scripts/', '', $filename); ?>"><?php echo str_replace('scripts/', '', $filename); ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Parameter</th>
+                                    </tr>
+                                    <tr>
+                                        <td><input class="admin-textbox utility parameter" name="utility-run-paramater"></td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
@@ -700,7 +741,7 @@
                             </table>
                          </div>
                         <div class="vertical-separator"></div>
-                        <div class="option-footer"><input class="admin-submit guild remove" id="admin-submit-utility" type="submit" value="Run Script" /></div>
+                        <div class="option-footer"><input class="admin-submit utility run" id="admin-submit-utility" type="submit" value="Run Script" /></div>
                      </form>
                 </div>
 
@@ -748,11 +789,12 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Article Name</th>
                                     </tr>
                                     <tr>
                                         <td>
                                         <select class="admin-select article edit" name="select-article">
+                                            <option value="">Select Article</option>
                                             <?php foreach( $data->getNewsArticle() as $newsId => $newsArticle ): ?>
                                                 <option value="<?php echo $newsId; ?>"><?php echo $newsArticle->date . ' - ' . $newsArticle->title; ?></option>
                                             <?php endforeach; ?>

@@ -84,6 +84,9 @@ class AdministratorModel extends Model {
                 case "kill-add":
                     $this->addNewKill();
                     break;
+                case "utility-run":
+                    $this->runUtilityScript();
+                    break;
                 case "article-add":
                     $this->addNewArticle();
                     break;
@@ -873,6 +876,22 @@ class AdministratorModel extends Model {
         $this->_formFields->videoType  = Post::get('video-link-type');
 
         //DBObjects::addKill($this->_formFields);
+    }
+    /**
+     * run selected utility script
+     * 
+     * @return void
+     */
+    public function runUtilityScript() {
+        $scriptName = Post::get('utility-run-script-name');
+        $parameter = Post::get('utility-run-paramater');
+
+        $command = FOLD_INDEX . 'scripts/' . $scriptName;
+
+        if ( !empty($parameter) ) {
+            $command .= '?' . $parameter;
+        }
+        header('Location: ' . $command);
     }
     /**
      * get news article details from database
