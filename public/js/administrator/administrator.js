@@ -17,7 +17,7 @@ var Administrator = function() {
             data:    formData,
             encode:  true,
             success: function(data) {
-                //console.log(data);
+                console.log(data);
             },
             error:  function(data) {
                 console.log('ERROR');
@@ -113,7 +113,7 @@ var Administrator = function() {
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
-            data:    {request: 'kill-remove-listing', guild:guildId},
+            data:    {request: 'kill-remove-listing', 'remove-kill-guild-id':guildId},
             encode:  true,
             success: function(data) {
                 activeDiv = $('#admin-remove-kill-listing');
