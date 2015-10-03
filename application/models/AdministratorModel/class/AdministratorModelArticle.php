@@ -78,7 +78,7 @@ class AdministratorModelArticle {
         $html .= '<tr><th>Author</th></tr>';
         $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-article-author" value="' . $newsArticle->postedBy . '"/></td></tr>';
         $html .= '<tr><th>Content</th></tr>';
-        $html .= '<tr><td><textarea class="admin-textarea" name="edit-article-content" style="height:225px; text-align:left;"">' . $newsArticle->content . '</textarea></td></tr>';
+        $html .= '<tr><td><textarea id="edit-article" class="admin-textarea" name="edit-article-content" style="height:225px; text-align:left;"">' . $newsArticle->content . '</textarea></td></tr>';
         $html .= '</tbody>';
         $html .= '</table>';
         $html .= '<div class="vertical-separator"></div>';
@@ -126,8 +126,7 @@ class AdministratorModelArticle {
         } else {
             $html = '';
 
-            $newsArticleArray = $this->getNewsArticle();
-            $newsArticle      = $newsArticleArray[$articleId];
+            $newsArticle = $this->getNewsArticle($articleId);
 
             $html = $this->editArticleHtml($newsArticle, $articleId);
             echo $html;
@@ -153,5 +152,32 @@ class AdministratorModelArticle {
             ));
         $query->execute();
         die;
+    }
+
+    /**
+     * get specific news article query
+     * 
+     * @param  string $articleTitle [ title of news article ]
+     * 
+     * @return PDObject [ pdo database object ]
+     */
+    public function getNewsArticle($articleId) {
+        $query = $this->_dbh->prepare(sprintf(
+            "SELECT news_id,
+                    title,
+                    content,
+                    date_added,
+                    added_by,
+                    published,
+                    type
+               FROM %s
+              WHERE published = 1
+                AND news_id = %d", 
+                    DbFactory::TABLE_NEWS, 
+                    $articleId
+                ));
+        $query->execute();
+
+        return new Article($query->fetch());
     }
 }

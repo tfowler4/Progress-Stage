@@ -24,8 +24,6 @@ var Administrator = function() {
 
         formData.append('request', id);
 
-        console.log(formData);
-
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
@@ -147,6 +145,8 @@ var Administrator = function() {
         var articleId = $(this).val();
         currentPageUrl  = document.URL;
 
+        tinyMCE.execCommand('mceRemoveEditor', false, 'edit-article'); 
+
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
@@ -155,6 +155,8 @@ var Administrator = function() {
             success: function(data) {
                 activeDiv = $('#admin-article-listing');
                 activeDiv.html(data);
+
+                tinyMCE.execCommand('mceAddEditor', false, 'edit-article'); 
             },
             error: function(data) {
                 console.log(data);

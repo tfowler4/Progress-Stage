@@ -20,7 +20,7 @@ class AdministratorModelKill {
                     $this->addNewKill();
                     break;
                 case "remove":
-                    $this->removeKill(Post::get('remove-kill-guild-id'));
+                    $this->removeKill(Post::get('guild-id'));
                     break;
             }
         } else {
@@ -100,7 +100,7 @@ class AdministratorModelKill {
     public function removeKill($guildId) {
         // if the submit field is present, remove kill data
         if ( Post::get('submit') ) {
-            $guildId     = Post::get('remove-kill-guild-id');
+            $guildId     = Post::get('guild-id');
             $encounterId = Post::get('remove-kill-encounter-id');
 
             $query = $this->_dbh->prepare(sprintf(
@@ -113,8 +113,15 @@ class AdministratorModelKill {
                 $encounterId
                 ));
             $query->execute();
+
+            $imagePath = ABS_FOLD_KILLSHOTS . $guildId . '-' . $encounterId;
+
+            if ( file_exists($imagePath) ) {
+                unlink($imagePath);
+            }
         } else {
             $html = '';
+
             $guildDetails = CommonDataContainer::$guildArray[$guildId];
 
             $this->getAllGuildDetails($guildDetails);
