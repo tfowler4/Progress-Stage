@@ -18,3 +18,16 @@ class AdminKillSubmissionFormFields {
     public $videoUrl;
     public $videoType;
 }
+
+/**
+ * tier submission form
+ */
+class AdminTierFormFields {
+    public $tierId;
+    public $tierNumber;
+    public $altTier;
+    public $tierName;
+    public $altName;
+    public $startDate;
+    public $endDate;
+}

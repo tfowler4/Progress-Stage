@@ -26,9 +26,9 @@ class AdministratorModelEncounter {
                     $this->removeEncounter();
                     break;
             }
-        } else {
-            die;
         }
+
+        die;
     }
 
     /**
@@ -58,13 +58,13 @@ class AdministratorModelEncounter {
             $dungeonName,
             $dungeonId,
             $tierNumber
-            ));
+        ));
         $createEncounterquery->execute();
 
         $updateDungeonQuery = $this->_dbh->prepare(sprintf(
             "UPDATE %s
-            SET mobs = '%s'
-            WHERE dungeon_id = '%s'",
+                SET mobs = '%s'
+              WHERE dungeon_id = '%s'",
             DbFactory::TABLE_DUNGEONS,
             $newDungeonEncounterCount,
             $dungeonId
@@ -73,14 +73,13 @@ class AdministratorModelEncounter {
 
         $updateTierQuery = $this->_dbh->prepare(sprintf(
             "UPDATE %s
-            SET encounters = '%s'
-            WHERE tier_id = '%s'",
+                SET encounters = '%s'
+              WHERE tier_id = '%s'",
             DbFactory::TABLE_TIERS,
             $newTierEncounterCount,
             $tierId
         ));
         $updateTierQuery->execute();
-        die;
     }
 
     /**
@@ -88,7 +87,7 @@ class AdministratorModelEncounter {
      * 
      * @param  EncounterDetails $encounterDetails [ encounter details object ]
      * 
-     * @return string                             [ return html containing specified dungeon details ]
+     * @return string [ return html containing specified dungeon details ]
      */
     public function editEncounterHtml($encounterDetails) {
         $launchDate = explode('-', $encounterDetails->_dateLaunch);
@@ -169,13 +168,13 @@ class AdministratorModelEncounter {
 
             $query = $this->_dbh->prepare(sprintf(
                 "UPDATE %s
-                SET name = '%s', 
-                    dungeon = '%s', 
-                    encounter_name = '%s', 
-                    encounter_short_name = '%s', 
-                    date_launch = '%s', 
-                    mob_order = '%s'
-                WHERE encounter_id = '%s'",
+                    SET name = '%s', 
+                        dungeon = '%s', 
+                        encounter_name = '%s', 
+                        encounter_short_name = '%s', 
+                        date_launch = '%s', 
+                        mob_order = '%s'
+                  WHERE encounter_id = '%s'",
                 DbFactory::TABLE_ENCOUNTERS,
                 $encounter,
                 $dungeon,
@@ -184,7 +183,7 @@ class AdministratorModelEncounter {
                 $launchDate,
                 $encounterOrder,
                 $encounterId
-                ));
+            ));
             $query->execute();
         } else {
             $html             = '';
@@ -194,8 +193,6 @@ class AdministratorModelEncounter {
 
             echo $html;
         }
-
-        die;
     }
 
     /**
@@ -206,8 +203,7 @@ class AdministratorModelEncounter {
     public function removeEncounter() {
         $encounterId = Post::get('remove-encounter-id');
 
-        $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
-
+        $encounterDetails         = CommonDataContainer::$encounterArray[$encounterId];
         $dungeonDetails           = CommonDataContainer::$dungeonArray[$encounterDetails->_dungeonId];
         $dungeonId                = $dungeonDetails->_dungeonId;
         $newDungeonEncounterCount = $dungeonDetails->_numOfEncounters - 1;
@@ -222,13 +218,13 @@ class AdministratorModelEncounter {
               WHERE encounter_id = '%s'",
             DbFactory::TABLE_ENCOUNTERS,
             $encounterId
-            ));
+        ));
         $deleteEncounterQuery->execute();
 
         $updateDungeonQuery = $this->_dbh->prepare(sprintf(
             "UPDATE %s
-            SET mobs = '%s'
-            WHERE dungeon_id = '%s'",
+                SET mobs = '%s'
+              WHERE dungeon_id = '%s'",
             DbFactory::TABLE_DUNGEONS,
             $newDungeonEncounterCount,
             $dungeonId
@@ -237,13 +233,12 @@ class AdministratorModelEncounter {
 
         $updateTierQuery = $this->_dbh->prepare(sprintf(
             "UPDATE %s
-            SET encounters = '%s'
-            WHERE tier_id = '%s'",
+                SET encounters = '%s'
+              WHERE tier_id = '%s'",
             DbFactory::TABLE_TIERS,
             $newTierEncounterCount,
             $tierId
         ));
         $updateTierQuery->execute();
-        die;
     }
 }

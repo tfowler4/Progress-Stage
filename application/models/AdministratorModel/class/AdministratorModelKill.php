@@ -26,9 +26,9 @@ class AdministratorModelKill {
                     $this->removeKill(Post::get('guild-id'));
                     break;
             }
-        } else {
-            die;
         }
+
+        die;
     }
 
     /**
@@ -61,8 +61,6 @@ class AdministratorModelKill {
 
             move_uploaded_file($this->_formFields->screenshot['tmp_name'], $imagePath);
         }
-
-        die;
     }
 
     /**
@@ -70,7 +68,7 @@ class AdministratorModelKill {
      * 
      * @param  GuildDetails $guildDetails [ guild details object ]
      * 
-     * @return string                     [ return html containing specified dungeon details ]
+     * @return string [ return html containing specified dungeon details ]
      */
     public function editKillSelectHtml($guildDetails) {
         $html = '';
@@ -97,7 +95,7 @@ class AdministratorModelKill {
      * 
      * @param  EncounterDetails $encounterDetails [ encounter details object ]
      * 
-     * @return string                     [ return html containing specified dungeon details ]
+     * @return string [ return html containing specified dungeon details ]
      */
     public function editKillDetailsHtml($encounterDetails) {
         $videoArray = $encounterDetails['videos'];
@@ -194,16 +192,16 @@ class AdministratorModelKill {
 
             $query = $this->_dbh->prepare(sprintf(
                 "UPDATE %s
-                SET date = '%s', 
-                    time = '%s'
-                WHERE guild_id = '%s' and
-                encounter_id = '%s'",
+                    SET date = '%s', 
+                        time = '%s'
+                  WHERE guild_id = '%s'
+                    AND encounter_id = '%s'",
                 DbFactory::TABLE_KILLS,
                 $date,
                 $time,
                 $guildId,
                 $encounterId
-                ));
+            ));
             $query->execute();
         } elseif ( !Post::get('edit-kill-encounter-id') ) {
             $html = $this->editKillSelectHtml($guildDetails);
@@ -216,8 +214,6 @@ class AdministratorModelKill {
 
             echo $html;
         }
-
-        die;
     }
 
     /**
@@ -225,7 +221,7 @@ class AdministratorModelKill {
      * 
      * @param  GuildDetails $guildDetails [ guild details object ]
      * 
-     * @return string                     [ return html containing specified dungeon details ]
+     * @return string [ return html containing specified dungeon details ]
      */
     public function removeKillHtml($guildDetails) {
         $html = '';
@@ -264,12 +260,12 @@ class AdministratorModelKill {
             $query = $this->_dbh->prepare(sprintf(
                 "DELETE 
                    FROM %s
-                  WHERE guild_id = '%s' and
-                  encounter_id = '%s'",
+                  WHERE guild_id = '%s'
+                    AND encounter_id = '%s'",
                 DbFactory::TABLE_KILLS,
                 $guildId,
                 $encounterId
-                ));
+            ));
             $query->execute();
 
             $imagePath = ABS_FOLD_KILLSHOTS . $guildId . '-' . $encounterId;
@@ -278,8 +274,7 @@ class AdministratorModelKill {
                 unlink($imagePath);
             }
         } else {
-            $html = '';
-
+            $html         = '';
             $guildDetails = CommonDataContainer::$guildArray[$guildId];
 
             $this->getAllGuildDetails($guildDetails);
@@ -288,8 +283,6 @@ class AdministratorModelKill {
 
             echo $html;
         }
-
-        die;
     }
 
     /**
@@ -322,9 +315,9 @@ class AdministratorModelKill {
                     country_rank
                FROM %s
               WHERE guild_id=%d", 
-                    DbFactory::TABLE_KILLS, 
-                    $guildDetails->_guildId
-                ));
+            DbFactory::TABLE_KILLS, 
+            $guildDetails->_guildId
+        ));
         $query->execute();
 
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -348,7 +341,6 @@ class AdministratorModelKill {
      * To get encounter kill details
      * 
      * @param  string $guildId     [ id of a specific guild ]
-     * 
      * @param  string $encounterId [ id of a specific encounter ]
      * 
      * @return void
@@ -370,7 +362,7 @@ class AdministratorModelKill {
                 DbFactory::TABLE_VIDEOS,
                 $guildId,
                 $encounterId
-                ));
+            ));
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $videoId = $row['video_id'];
                 $videoArray[$videoId] = $row;
@@ -388,13 +380,12 @@ class AdministratorModelKill {
                 DbFactory::TABLE_KILLS,
                 $guildId,
                 $encounterId
-                ));
+            ));
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $row['videos'] = $videoArray;
                 $html = $this->editKillDetailsHtml($row);
             }
 
         echo $html;
-        die;
     }
 }

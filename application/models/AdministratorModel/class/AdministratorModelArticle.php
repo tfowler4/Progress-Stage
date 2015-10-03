@@ -26,9 +26,9 @@ class AdministratorModelArticle {
                     $this->removeArticle();
                     break;
             }
-        } else {
-            die;
         }
+
+        die;
     }
 
     /**
@@ -51,17 +51,15 @@ class AdministratorModelArticle {
             $author
             ));
         $query->execute();
-        die;
     }
 
     /**
      * create html to prepare form and display all necessary news article details
      * 
      * @param  Article $newsArticle [ article object ]
-     *
-     * @param  string $articleId    [ id of specific article]
+     * @param  string  $articleId   [ id of specific article]
      * 
-     * @return string               [ return html containing specified dungeon details ]
+     * @return string [ return html containing specified dungeon details ]
      */
     public function editArticleHtml($newsArticle, $articleId) {
         $html = '';
@@ -112,10 +110,10 @@ class AdministratorModelArticle {
 
             $query = $this->_dbh->prepare(sprintf(
                 "UPDATE %s
-                SET title = '%s', 
-                    content = '%s',  
-                    added_by = '%s'
-                WHERE news_id = '%s'",
+                    SET title = '%s', 
+                        content = '%s',  
+                        added_by = '%s'
+                  WHERE news_id = '%s'",
                 DbFactory::TABLE_NEWS,
                 $title,
                 $content,
@@ -131,8 +129,6 @@ class AdministratorModelArticle {
             $html = $this->editArticleHtml($newsArticle, $articleId);
             echo $html;
         }
-
-        die;
     }
 
     /**
@@ -151,7 +147,6 @@ class AdministratorModelArticle {
             $articleId
             ));
         $query->execute();
-        die;
     }
 
     /**
@@ -159,7 +154,7 @@ class AdministratorModelArticle {
      * 
      * @param  string $articleTitle [ title of news article ]
      * 
-     * @return PDObject [ pdo database object ]
+     * @return Article [ article object ]
      */
     public function getNewsArticle($articleId) {
         $query = $this->_dbh->prepare(sprintf(

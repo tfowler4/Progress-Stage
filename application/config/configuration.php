@@ -11,7 +11,7 @@ date_default_timezone_set('America/Los_Angeles');
 // Supported Games
 define('GAME_RIFT',     'Rift');
 define('GAME_WILDSTAR', 'WildStar');
-define('GAME_NAME_1',   GAME_WILDSTAR);
+define('GAME_NAME_1',   GAME_RIFT);
 define('LIVE',          0);
 
 // setting HOST_NAME

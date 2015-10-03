@@ -68,7 +68,7 @@ var Administrator = function() {
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
-            data:    {request: 'tier-edit', tier:tierId},
+            data:    {request: 'tier-edit', 'adminpanel-tier':tierId},
             encode:  true,
             success: function(data) {
                 activeDiv = $('#admin-tier-listing');

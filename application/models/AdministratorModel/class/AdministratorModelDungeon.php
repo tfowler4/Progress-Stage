@@ -26,9 +26,9 @@ class AdministratorModelDungeon {
                     $this->removeDungeon();
                     break;
             }
-        } else {
-            die;
         }
+
+        die;
     }
 
     /**
@@ -53,19 +53,18 @@ class AdministratorModelDungeon {
             $dungeon,
             $tier,
             $numOfMobs
-            ));
+        ));
         $createDungeonQuery->execute();
 
         $updateTierQuery = $this->_dbh->prepare(sprintf(
             "UPDATE %s
-            SET dungeons = '%s'
-            WHERE tier_id = '%s'",
+                SET dungeons = '%s'
+              WHERE tier_id = '%s'",
             DbFactory::TABLE_TIERS,
             $newDungeonCount,
             $tierId
         ));
         $updateTierQuery->execute();
-        die;
     }
 
     /**
@@ -73,7 +72,7 @@ class AdministratorModelDungeon {
      * 
      * @param  DungeonDetails $dungeonDetails [ dungeon details object ]
      * 
-     * @return string                         [ return html containing specified dungeon details ]
+     * @return string [ return html containing specified dungeon details ]
      */
     public function editDungeonHtml($dungeonDetails) {
         $raidSize    = array(10, 20);
@@ -184,14 +183,14 @@ class AdministratorModelDungeon {
 
             $query = $this->_dbh->prepare(sprintf(
                 "UPDATE %s
-                SET name = '%s', 
-                    abbreviation = '%s', 
-                    tier = '%s', 
-                    players = '%s', 
-                    date_launch = '%s', 
-                    dungeon_type = '%s', 
-                    eu_diff = '%s'
-                WHERE dungeon_id = '%s'",
+                    SET name = '%s', 
+                        abbreviation = '%s', 
+                        tier = '%s', 
+                        players = '%s', 
+                        date_launch = '%s', 
+                        dungeon_type = '%s', 
+                        eu_diff = '%s'
+                  WHERE dungeon_id = '%s'",
                 DbFactory::TABLE_DUNGEONS,
                 $dungeon,
                 $abbreviation,
@@ -201,7 +200,7 @@ class AdministratorModelDungeon {
                 $dungeonType,
                 $euTimeDiff,
                 $dungeonId
-                ));
+            ));
             $query->execute();
         } else {
             $html           = '';
@@ -211,8 +210,6 @@ class AdministratorModelDungeon {
 
             echo $html;
         }
-
-        die;
     }
 
     /**
@@ -221,8 +218,7 @@ class AdministratorModelDungeon {
      * @return void
      */
     public function removeDungeon() {
-        $dungeonId = Post::get('remove-dungeon-id');
-
+        $dungeonId       = Post::get('remove-dungeon-id');
         $dungeonDetails  = CommonDataContainer::$dungeonArray[$dungeonId];
         $tierDetails     = CommonDataContainer::$tierArray[$dungeonDetails->_tier];
         $tierId          = $tierDetails->_tierId;
@@ -234,18 +230,17 @@ class AdministratorModelDungeon {
               WHERE dungeon_id = '%s'",
             DbFactory::TABLE_DUNGEONS,
             $dungeonId
-            ));
+        ));
         $deleteDungeonQuery->execute();
 
         $updateTierQuery = $this->_dbh->prepare(sprintf(
             "UPDATE %s
-            SET dungeons = '%s'
-            WHERE tier_id = '%s'",
+                SET dungeons = '%s'
+              WHERE tier_id = '%s'",
             DbFactory::TABLE_TIERS,
             $newDungeonCount,
             $tierId
         ));
         $updateTierQuery->execute();
-        die;
     }
 }

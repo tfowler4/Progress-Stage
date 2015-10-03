@@ -6,6 +6,7 @@
 class AdministratorModelTier {
     protected $_action;
     protected $_dbh;
+    protected $_formFields;
 
     /**
      * constructor
@@ -14,21 +15,33 @@ class AdministratorModelTier {
         $this->_action = $action;
         $this->_dbh    = $dbh;
 
-        if ( Post::get('tier') || Post::get('submit') ) {
+        if ( Post::get('adminpanel-tier') || Post::get('submit') ) {
             switch ($this->_action) {
                 case "add":
                     $this->addNewTier();
                     break;
                 case "edit":
-                    $this->editTier(Post::get('tier'));
+                    $this->editTier(Post::get('adminpanel-tier'));
                     break;
                 case "remove":
                     $this->removeTier();
                     break;
             }
-        } else {
-            die;
         }
+
+        die;
+    }
+
+    public function populateFormFields() {
+        $this->_formFields = new AdminTierFormFields();
+
+        $this->_formFields->tierId     = Post::get('adminpanel-tier-id');
+        $this->_formFields->tierNumber = Post::get('adminpanel-tier');
+        $this->_formFields->altTier    = Post::get('adminpanel-tier-alt-number');
+        $this->_formFields->tierName   = Post::get('adminpanel-tier-name');
+        $this->_formFields->altName    = Post::get('adminpanel-tier-alt-name');
+        $this->_formFields->startDate  = Post::get('adminpanel-tier-start-year') . '-' . Post::get('adminpanel-tier-start-month') . '-' . Post::get('adminpanel-tier-start-day');
+        $this->_formFields->endDate    = Post::get('adminpanel-tier-end-year') . '-' . Post::get('adminpanel-tier-end-month') . '-' . Post::get('adminpanel-tier-end-day');
     }
 
     /**
@@ -37,26 +50,20 @@ class AdministratorModelTier {
      * @return void
      */
     public function addNewTier() {
-        $tier      = Post::get('create-tier-number');
-        $altTier   = Post::get('create-tier-alt-number');
-        $tierName  = Post::get('create-tier-name');
-        $altName   = Post::get('create-tier-alt-name');
-        $startDate = Post::get('create-tier-year') . '-' . Post::get('create-tier-month') . '-' . Post::get('create-tier-day');
+        $this->populateFormFields();
 
         $query = $this->_dbh->prepare(sprintf(
             "INSERT INTO %s
             (tier, title, alt_tier, alt_title, date_start)
             values('%s', '%s', '%s', '%s', '%s')",
             DbFactory::TABLE_TIERS,
-            $tier,
-            $tierName,
-            $altTier,
-            $altName,
-            $startDate
+            $this->_formFields->tierNumber,
+            $this->_formFields->tierName,
+            $this->_formFields->altTier,
+            $this->_formFields->altName,
+            $this->_formFields->startDate
             ));
         $query->execute();
-
-        die;
     }
 
     /**
@@ -64,7 +71,7 @@ class AdministratorModelTier {
      * 
      * @param  TierDetails $tierDetails [ tier details object ]
      * 
-     * @return string                   [ return html containing specified tier details ]
+     * @return string [ return html containing specified tier details ]
      */
     public function editTierHtml($tierDetails) {
         $startDate = explode(' ', $tierDetails->_dateStart);
@@ -76,17 +83,17 @@ class AdministratorModelTier {
         $html .= '<thead>';
         $html .= '</thead>';
         $html .= '<tbody>';
-        $html .= '<tr><td><input hidden type="text" name="edit-tier-id" value="' . $tierDetails->_tierId . '"/></td></tr>';
+        $html .= '<tr><td><input hidden type="text" name="adminpanel-tier-id" value="' . $tierDetails->_tierId . '"/></td></tr>';
         $html .= '<tr><th>Tier Number</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-tier-number" value="' . $tierDetails->_tier . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-tier" value="' . $tierDetails->_tier . '"/></td></tr>';
         $html .= '<tr><th>Alt Tier Number</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-tier-alt-number" value="' . $tierDetails->_altTier . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-tier-alt-number" value="' . $tierDetails->_altTier . '"/></td></tr>';
         $html .= '<tr><th>Tier Name</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-tier-name" value="' . $tierDetails->_name . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-tier-name" value="' . $tierDetails->_name . '"/></td></tr>';
         $html .= '<tr><th>Alt Tier Name</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-tier-alt-name" value="' . $tierDetails->_altTitle . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-tier-alt-name" value="' . $tierDetails->_altTitle . '"/></td></tr>';
         $html .= '<tr><th>Start Date</th></tr>';
-        $html .= '<tr><td><select class="admin-select month" name="edit-tier-start-month">';
+        $html .= '<tr><td><select class="admin-select month" name="adminpanel-tier-start-month">';
             foreach( CommonDataContainer::$monthsArray as $month => $monthValue):
                 if ( $month == date('m', strtotime($tierDetails->_dateStart)) ):
                     $html .= '<option value="' . $month . '" selected>' . $monthValue . '</option>';
@@ -95,7 +102,7 @@ class AdministratorModelTier {
                 endif;
             endforeach;
         $html .= '</select>';
-        $html .= '<select class="admin-select day" name="edit-tier-start-day">';
+        $html .= '<select class="admin-select day" name="adminpanel-tier-start-day">';
             foreach( CommonDataContainer::$daysArray as $day => $dayValue):
                 if ( $day == $startDate[1] ):
                     $html .= '<option value="' . $day . '" selected>' . $dayValue . '</option>';
@@ -104,7 +111,7 @@ class AdministratorModelTier {
                 endif;
             endforeach;
         $html .= '</select>';
-        $html .= '<select class="admin-select year" name="edit-tier-start-year">';
+        $html .= '<select class="admin-select year" name="adminpanel-tier-start-year">';
             foreach( CommonDataContainer::$yearsArray as $year => $yearValue):
                 if ( $year == $startDate[2] ):
                     $html .= '<option value="' . $year . '" selected>' . $yearValue . '</option>';
@@ -114,7 +121,7 @@ class AdministratorModelTier {
             endforeach;
         $html .= '</select></td></tr>';
         $html .= '<tr><th>End Date</th></tr>';
-        $html .= '<tr><td><select class="admin-select month" name="edit-tier-end-month">';
+        $html .= '<tr><td><select class="admin-select month" name="adminpanel-tier-end-month">';
             foreach( CommonDataContainer::$monthsArray as $month => $monthValue):
                 if ( ($tierDetails->_dateEnd != 'Currently Active') && ($month == date('m', strtotime($tierDetails->_dateEnd))) ):
                     $html .= '<option value="' . $month . '" selected>' . $monthValue . '</option>';
@@ -162,17 +169,11 @@ class AdministratorModelTier {
     public function editTier($tierId) {
         // if the submit field is present, update tier data
         if ( Post::get('submit') ) {
-            $tierId    = Post::get('edit-tier-id');
-            $tier      = Post::get('edit-tier-number');
-            $altTier   = Post::get('edit-tier-alt-number');
-            $startDate = Post::get('edit-tier-start-year') . '-' . Post::get('edit-tier-start-month') . '-' . Post::get('edit-tier-start-day');
-            $endDate   = Post::get('edit-tier-end-year') . '-' . Post::get('edit-tier-end-month') . '-' . Post::get('edit-tier-end-day');
-            $tierName  = Post::get('edit-tier-name');
-            $altName   = Post::get('edit-tier-alt-name');
+            $this->populateFormFields();
 
             // If date is 2011-01-01, set to 0000-00-00
-            if ( $endDate == '2011-01-01' ) {
-                $endDate = '0000-00-00';
+            if ( $this->_formFields->endDate == '2011-01-01' ) {
+                $this->_formFields->endDate = '0000-00-00';
             }
 
             $query = $this->_dbh->prepare(sprintf(
@@ -185,25 +186,24 @@ class AdministratorModelTier {
                         alt_title = '%s'
                   WHERE tier_id = '%s'",
                 DbFactory::TABLE_TIERS,
-                $tier,
-                $altTier,
-                $startDate,
-                $endDate,
-                $tierName,
-                $altName,
-                $tierId
+                $this->_formFields->tierNumber,
+                $this->_formFields->altTier,
+                $this->_formFields->startDate,
+                $this->_formFields->endDate,
+                $this->_formFields->tierName,
+                $this->_formFields->altName,
+                $this->_formFields->tierId
                 ));
             $query->execute();
         } else {
             $html        = '';
+
             $tierDetails = CommonDataContainer::$tierArray[$tierId];
 
             $html = $this->editTierHtml($tierDetails);
 
             echo $html;
         }
-
-        die;
     }
 
     /**
@@ -212,16 +212,15 @@ class AdministratorModelTier {
      * @return void
      */
     public function removeTier() {
-        $tierId = Post::get('remove-tier-id');
+        $this->populateFormFields();
 
         $query = $this->_dbh->prepare(sprintf(
             "DELETE 
                FROM %s
               WHERE tier_id = '%s'",
             DbFactory::TABLE_TIERS,
-            $tierId
-            ));
+            $this->_formFields->tierNumber
+        ));
         $query->execute();
-        die;
     }
 }

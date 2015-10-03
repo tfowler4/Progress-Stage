@@ -35,6 +35,7 @@ class AdministratorModelUtility {
         if ( !empty($parameter) ) {
             $command .= '?' . $parameter;
         }
+
         header('Location: ' . $command);
     }
 }

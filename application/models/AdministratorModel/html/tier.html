@@ -17,8 +17,8 @@
                         </tr>
                          <tr>
                             <td>
-                                <select class="admin-select tier number" name="create-tier-number">
-                                    <option value="<?php echo (LATEST_TIER+1); ?>"><?php echo (LATEST_TIER+1); ?></option>
+                                <select class="admin-select tier number" name="adminpanel-tier">
+                                    <option value="<?php echo (reset(CommonDataContainer::$tierArray)->_tier+1); ?>"><?php echo (reset(CommonDataContainer::$tierArray)->_tier+1); ?></option>
                                 </select>
                             </td>
                         </tr>
@@ -27,7 +27,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <input class="admin-textbox tier name" name="create-tier-alt-number" />
+                                <input class="admin-textbox tier name" name="adminpanel-tier-alt-number" />
                             </td>
                         </tr>
                         <tr>
@@ -35,14 +35,14 @@
                         </tr>
                         <tr>
                             <td>
-                                <input class="admin-textbox tier name" name="create-tier-name" />
+                                <input class="admin-textbox tier name" name="adminpanel-tier-name" />
                             </td>
                         </tr>
                         <tr>
                             <th>Alt Tier Name</th>
                         </tr>
                             <td>
-                                <input class="admin-textbox" type="text" name="create-tier-alt-name" />
+                                <input class="admin-textbox" type="text" name="adminpanel-tier-alt-name" />
                             </td>
                         <tr>
                         </tr>
@@ -51,7 +51,7 @@
                         </tr>
                         <tr>
                             <td>
-                            <select class="admin-select month" name="create-tier-month">
+                            <select class="admin-select month" name="adminpanel-tier-start-month">
                                 <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
                                     <?php if ( $month == date('m') ): ?> 
                                         <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
@@ -60,7 +60,7 @@
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                             </select>
-                            <select class="admin-select day" name="create-tier-day">
+                            <select class="admin-select day" name="adminpanel-tier-start-day">
                                 <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
                                     <?php if ( $day == date('d') ): ?> 
                                         <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
@@ -69,7 +69,7 @@
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                             </select>
-                            <select class="admin-select year" name="create-tier-year">
+                            <select class="admin-select year" name="adminpanel-tier-start-year">
                                 <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
                                     <?php if ( $year == date('Y') ): ?> 
                                         <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
@@ -102,7 +102,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <select class="admin-select tier edit" name="edit-tier-name">
+                                <select class="admin-select tier edit" name="adminpanel-tier">
                                     <option value="">Select Tier</option>
                                     <?php foreach( CommonDataContainer::$tierArray as $tierId => $tierDetails ): ?>
                                         <option value="<?php echo $tierId; ?>"><?php echo $tierId . ' - ' . $tierDetails->_name; ?></option>
@@ -133,7 +133,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <select class="admin-select tier" name="remove-tier-id">
+                                <select class="admin-select tier" name="adminpanel-tier">
                                     <option value="">Select Tier</option>
                                     <?php foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ): ?>
                                         <option value="<?php echo $tierDetails->_tierId; ?>"><?php echo $tier . ' - ' . $tierDetails->_name; ?></option>
