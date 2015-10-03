@@ -226,13 +226,19 @@ img {
     width: 15px;
 }
 
-/* guild logo for top guild container */
+/* top guild logo container */
 .top-guild-logo {
     height: 275px;
     width: 275px;
     line-height: 275px;
     border: 1px solid #C0C0C0;
     border-radius: 3px;
+}
+
+/* guild logo for top guild container */
+.top-guild-logo img {
+    max-height: 275px;
+    max-width: 275px;
 }
 
 /* guild name text for top guild container */
