@@ -1,6 +1,25 @@
 <?php
 
 /**
+ * guild & raid team add/edit form
+ */
+class AdminGuildFormFields {
+    public $guildId;
+    public $guildName;
+    public $faction;
+    public $server;
+    public $region;
+    public $country;
+    public $guildLeader;
+    public $website;
+    public $facebook;
+    public $twitter;
+    public $google;
+    public $guildLogo;
+    public $active;
+}
+
+/**
  * kill submission form
  */
 class AdminKillSubmissionFormFields {
