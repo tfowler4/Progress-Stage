@@ -14,7 +14,7 @@ class AdministratorModelKill {
         $this->_action = $action;
         $this->_dbh    = $dbh;
 
-        if ( Post::get('remove-kill-guild-id') || Post::get('submit') ) {
+        if ( Post::get('guild-id') || Post::get('submit') ) {
             switch ($this->_action) {
                 case "add":
                     $this->addNewKill();
@@ -35,19 +35,31 @@ class AdministratorModelKill {
      */
     public function addNewKill() {
         $this->_formFields   = new AdminKillSubmissionFormFields();
-        $this->_formFields->guildId    = Post::get('create-kill-guild-name');
+        $this->_formFields->guildId    = Post::get('guild-id');
         $this->_formFields->encounter  = Post::get('create-kill-encounter-name');
         $this->_formFields->dateMonth  = Post::get('create-kill-month');
         $this->_formFields->dateDay    = Post::get('create-kill-day');
         $this->_formFields->dateYear   = Post::get('create-kill-year');
         $this->_formFields->dateHour   = Post::get('create-kill-hour');
         $this->_formFields->dateMinute = Post::get('create-kill-minute');
-        $this->_formFields->screenshot = Post::get('create-kill-screenshot');
+        $this->_formFields->screenshot = Post::get('screenshot');
         $this->_formFields->videoTitle = Post::get('video-link-title');
         $this->_formFields->videoUrl   = Post::get('video-link-url');
         $this->_formFields->videoType  = Post::get('video-link-type');
 
-        //DBObjects::addKill($this->_formFields);
+        DBObjects::addKill($this->_formFields);
+
+        if ( !empty($this->_formFields->screenshot['tmp_name']) ) {
+            $imagePath = ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter;
+
+            if ( file_exists($imagePath) ) {
+                unlink($imagePath);
+            }
+
+            move_uploaded_file($this->_formFields->screenshot['tmp_name'], $imagePath);
+        }
+
+        die;
     }
 
     /**
@@ -61,7 +73,7 @@ class AdministratorModelKill {
         $html = '';
         $html .= '<form class="admin-form kill remove" id="form-kill-remove" method="POST" action="' . PAGE_ADMIN . '">';
         $html .= '<table class="admin-remove-kill-listing">';
-        $html .= '<tr><td><input hidden type="text" name="remove-kill-guild-id" value="' . $guildDetails->_guildId . '"/></td></tr>';
+        $html .= '<tr><td><input hidden type="text" name="guild-id" value="' . $guildDetails->_guildId . '"/></td></tr>';
         $html .= '<tr><th>Encounter Name</th></tr>';
         $html .= '<tr><td><select name="remove-kill-encounter-id">';
         $html .= '<option value="">Select Encounter</option>';

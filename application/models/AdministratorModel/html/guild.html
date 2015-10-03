@@ -128,7 +128,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <select class="admin-select guild add kill" name="create-kill-guild-name">
+                                <select class="admin-select guild add kill" name="guild-id">
                                     <option value="">Select Guild</option>
                                     <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
                                         <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
@@ -214,7 +214,7 @@
                             <th>Screenshot</th>
                         </tr>
                         <tr>
-                            <td><input id="screenshot" type="file" name="create-kill-screenshot"></td>
+                            <td><input type="file" name="screenshot"></td>
                         </tr>
                         <tr>
                             <th>Kill Videos</th>
@@ -248,7 +248,7 @@
                         </tr>
                         <tr>
                             <td>
-                            <select class="admin-select guild kill-edit" name="edit-kill-guild-name">
+                            <select class="admin-select guild kill-edit" name="guild-id">
                                 <option value="">Select Guild</option>
                                 <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
                                     <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
@@ -278,7 +278,7 @@
                         </tr>
                         <tr>
                             <td>
-                            <select class="admin-select kill remove" name="remove-kill-guild-id">
+                            <select class="admin-select kill remove" name="guild-id">
                                 <option value="">Select Guild</option>
                                 <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
                                     <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>

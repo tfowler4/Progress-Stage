@@ -6,16 +6,33 @@ var Administrator = function() {
     $(document).on('submit', '.admin-form', function(event) {
         event.preventDefault();
 
+        var formData = new FormData();
+
         var form       = $(this).closest('form');
         var id         = $(this).prop('id').replace('form-', '');
-        var formData   = $(this).serialize() + '&request=' + id;
         currentPageUrl = document.URL;
+
+        var data = $(this).serializeArray();
+        $.each(data, function(key, input) {
+            formData.append(input.name, input.value);
+        });
+
+        if ( form.find("input[name=screenshot]").length > 0 ) {
+            var screenshot = form.find("input[name=screenshot]")[0].files[0];
+            formData.append('screenshot', screenshot);
+        }
+
+        formData.append('request', id);
+
+        console.log(formData);
 
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
             data:    formData,
             encode:  true,
+            contentType: false,
+            processData: false,
             success: function(data) {
                 console.log(data);
             },
@@ -113,7 +130,7 @@ var Administrator = function() {
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
-            data:    {request: 'kill-remove-listing', 'remove-kill-guild-id':guildId},
+            data:    {request: 'kill-remove-listing', 'guild-id':guildId},
             encode:  true,
             success: function(data) {
                 activeDiv = $('#admin-remove-kill-listing');

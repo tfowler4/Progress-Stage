@@ -34,30 +34,6 @@ abstract class Model {
                 die;
                 break;
         }
-
-        /*
-        if ( Post::get('request') == 'spreadsheet' ) {
-            $html = Template::getSpreadsheet(Post::get('dungeon'));
-            echo $html;
-            die;
-        } elseif ( Post::get('request') == 'form' ) {
-            $html = Template::getPopupForm(Post::get('formId'));
-            echo $html;
-            die;
-        } elseif ( Post::get('request') == 'search' ) {
-            $html = Template::getPopupForm(Post::get('formId'));
-            echo $html;
-            die;
-        } elseif ( Post::get('request') == 'video' ) {
-            $html = Template::getPopupForm(Post::get('formId'));
-            echo $html;
-            die;
-        }  elseif ( Post::get('request') == 'encounterList' ) {
-            $html = Template::getEncounterDropdownListHtml(Post::get('guild'));
-            echo $html;
-            die;
-        }
-        */
     }
 
     /**
