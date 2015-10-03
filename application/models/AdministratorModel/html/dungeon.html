@@ -1,0 +1,111 @@
+<span id="dungeon-anchor" class="anchor"></span>
+<div id="pane-dungeon">
+    <div id="dungeon-title" class="pane-title">Dungeon Admin</div>
+
+    <div class="vertical-separator"></div>
+
+    <div class="option-container">
+        <div class="option-title">Create Dungeon</div>
+        <form class="admin-form dungeon" id="form-dungeon-add" method="POST" action="<?php echo PAGE_ADMIN; ?>">
+            <div class="option-content">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Dungeon Name</th>
+                        </tr>
+                        <tr>
+                            <td><input class="admin-textbox" type="text" name="create-dungeon-name" /></td>
+                        </tr>
+                        <tr>
+                            <th>Tier Name</th>
+                        </tr>
+                         <tr>
+                            <td>
+                                <select class="admin-select tier name" name="create-dungeon-tier-name">
+                                    <?php foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ): ?>
+                                        <option value="<?php echo $tierDetails->_tier; ?>"><?php echo $tier . ' - ' . $tierDetails->_name; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Number of Mobs</th>
+                        </tr>
+                         <tr>
+                            <td>
+                                <input class="admin-select mobs number" name="create-dungeon-number-of-mobs" />
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="vertical-separator"></div>
+            <div class="option-footer"><input class="admin-submit dungeon" id="admin-submit-dungeon" type="submit" value="Add Dungeon" /></div>
+        </form>
+    </div>
+
+    <div class="option-container">
+        <div class="option-title">Edit Dungeon Details</div>
+            <div class="option-content">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Dungeon Name</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select class="admin-select dungeon edit" name="select-dungeon">
+                                    <option value="">Select Dungeon</option>
+                                    <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
+                                        <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+                <div id="admin-dungeon-listing"></div>
+            </div>
+            <div class="vertical-separator"></div>
+            <div class="option-footer"></div>
+    </div>
+
+    <div class="option-container">
+        <div class="option-title">Remove Existing Dungeon</div>
+        <form class="admin-form dungeon remove" id="form-dungeon-remove" method="POST" action="<?php echo PAGE_ADMIN; ?>">
+            <div class="option-content">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Dungeon Name</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select class="admin-select dungeon" name="remove-dungeon-id">
+                                    <option value="">Select Dungeon</option>
+                                    <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
+                                        <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="vertical-separator"></div>
+            <div class="option-footer"><input class="admin-submit dungeon remove" id="admin-submit-dungeon-remove" type="submit" value="Remove Dungeon" /></div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+<span id="site-anchor" class="anchor"></span>
+<div id="pane-site">
+    <div id="site-admin" class="pane-title">Site Admin</div>
+
+    <div class="vertical-separator"></div>
+
+    <div class="option-container">
+        <div class="option-title">Run Utility Script</div>
+        <form class="admin-form utility run" id="form-utility-run" method="POST" action="<?php echo PAGE_ADMIN; ?>">
+            <div class="option-content kill edit">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Script Name</th>
+                        </tr>
+                        <tr>
+                            <td>
+                            <select class="admin-select utility" name="utility-run-script-name">
+                                <option value="">Select Script</option>
+                                <?php foreach(glob("scripts/*") as $filename): ?>
+                                        <option value="<?php echo str_replace('scripts/', '', $filename); ?>"><?php echo str_replace('scripts/', '', $filename); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Parameter</th>
+                        </tr>
+                        <tr>
+                            <td><input class="admin-textbox utility parameter" name="utility-run-paramater"></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+             </div>
+            <div class="vertical-separator"></div>
+            <div class="option-footer"><input class="admin-submit utility run" id="admin-submit-utility" type="submit" value="Run Script" /></div>
+         </form>
+    </div>
+
+    <div class="option-container">
+        <div class="option-title">Add News Article</div>
+        <form class="admin-form news add" id="form-article-add" method="POST" action="<?php echo PAGE_ADMIN; ?>">
+            <div class="option-content">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Article Title</th>
+                        </tr>
+                         <tr>
+                            <td><input class="admin-textbox" type="text" name="create-article-title" /></td>
+                        </tr>
+                        <tr>
+                            <th>Author</th>
+                        </tr>
+                         <tr>
+                            <td><input class="admin-textbox" type="text" name="create-article-author" /></td>
+                        </tr>
+                        <tr>
+                            <th>Content</th>
+                        </tr>
+                         <tr>
+                            <td><textarea name='create-article-content' style='height:225px; text-align:left;'></textarea></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+             </div>
+            <div class="vertical-separator"></div>
+            <div class="option-footer"><input class="admin-submit add article" id="admin-submit-article-add" type="submit" value="Add Article" /></div>
+         </form>
+    </div>
+
+    <div class="option-container">
+        <div class="option-title">Edit/Remove News Article</div>
+            <div class="option-content">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Article Name</th>
+                        </tr>
+                        <tr>
+                            <td>
+                            <select class="admin-select article edit" name="select-article">
+                                <option value="">Select Article</option>
+                                <?php foreach( $data->getNewsArticle() as $newsId => $newsArticle ): ?>
+                                    <option value="<?php echo $newsId; ?>"><?php echo $newsArticle->date . ' - ' . $newsArticle->title; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+                <div id="admin-article-listing"></div>
+             </div>
+            <div class="vertical-separator"></div>
+            <div class="option-footer"></div>
+    </div>
+</div>

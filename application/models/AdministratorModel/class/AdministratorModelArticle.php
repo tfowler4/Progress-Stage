@@ -154,36 +154,4 @@ class AdministratorModelArticle {
         $query->execute();
         die;
     }
-
-    /**
-     * get news article details from database
-     * 
-     * @return array [ return an array of article details object ]
-     */
-    public function getNewsArticle() {
-        $returnArray = array();
-
-        $query = $this->_dbh->prepare(sprintf(
-            "SELECT news_id,
-                    title,
-                    content,
-                    date_added,
-                    added_by,
-                    published,
-                    type
-               FROM %s
-               ORDER BY date_added DESC", 
-                    DbFactory::TABLE_NEWS
-                ));
-        $query->execute();
-
-        while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
-            $newsId               = $row['news_id'];
-            $row['date_added']    = Functions::formatDate($row['date_added'], 'm-d-Y H:i');
-            $article              = new Article($row);
-            $returnArray[$newsId] = $article;
-        }
-
-        return $returnArray;
-    }
 }

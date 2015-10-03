@@ -1,0 +1,117 @@
+<span id="encounter-anchor" class="anchor"></span>
+<div id="pane-encounter">
+    <div id="encounter-title" class="pane-title">Encounter Admin</div>
+
+    <div class="vertical-separator"></div>
+
+    <div class="option-container">
+        <div class="option-title">Create Encounter</div>
+        <form class="admin-form encounter" id="form-encounter-add" method="POST" action="<?php echo PAGE_ADMIN; ?>">
+            <div class="option-content">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Encounter Name</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input class="admin-textbox" type="text" name="create-encounter-name" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Dungeon Name</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select class="admin-select dungeon" name="create-encounter-dungeon-id">
+                                    <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
+                                        <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Tier Name</th>
+                        </tr>
+                         <tr>
+                            <td>
+                                <select class="admin-select tier name" name="create-encounter-tier-number">
+                                    <?php foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ): ?>
+                                        <option value="<?php echo $tierDetails->_tier; ?>"><?php echo $tier . ' - ' . $tierDetails->_name; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="vertical-separator"></div>
+            <div class="option-footer"><input class="admin-submit encounter" id="admin-submit-encounter" type="submit" value="Add Encounter" /></div>
+        </form>
+    </div>
+
+    <div class="option-container">
+        <div class="option-title">Edit Encounter Details</div>
+            <div class="option-content">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Encounter</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select class="admin-select encounter edit" name="edit-encounter-id">
+                                    <option value="">Select Encounter</option>
+                                    <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ): ?>
+                                        <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . ' - ' . $encounterDetails->_name; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+                <div id="admin-encounter-listing"></div>
+            </div>
+            <div class="vertical-separator"></div>
+            <div class="option-footer"></div>
+    </div>
+
+    <div class="option-container">
+        <div class="option-title">Remove Existing Encounter</div>
+        <form class="admin-form encounter remove" id="form-encounter-remove" method="POST" action="<?php echo PAGE_ADMIN; ?>">
+            <div class="option-content">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Encounter Name</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select class="admin-select encounter" name="remove-encounter-id">
+                                    <option value="">Select Encounter</option>
+                                    <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ): ?>
+                                        <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . ' - ' . $encounterDetails->_name; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="vertical-separator"></div>
+            <div class="option-footer"><input class="admin-submit encounter remove" id="admin-submit-encounter-remove" type="submit" value="Remove Encounter" /></div>
+        </form>
+    </div>
+</div>
