@@ -121,6 +121,49 @@ var Administrator = function() {
     });
 
     // Display guild details from drop down selection
+    $(document).on('change', '#admin-select-edit-kill', function() {
+        var guildId = $(this).val();
+        currentPageUrl  = document.URL;
+
+        $.ajax({
+            type:    'POST',
+            url:     currentPageUrl,
+            data:    {request: 'kill-edit-listing', 'guild-id':guildId},
+            encode:  true,
+            success: function(data) {
+                activeDiv = $('#admin-edit-kill-guild-listing');
+                activeDiv.html(data);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    });
+
+    // Display encounter details from drop down selection
+    $(document).on('change', '#kill-edit-encounter', function() {
+        var encounterId = $(this).val();
+        currentPageUrl  = document.URL;
+
+        var form    = $(this).closest('form');
+        var guildId = form.find("input[name=guild-id]").val();
+
+        $.ajax({
+            type:    'POST',
+            url:     currentPageUrl,
+            data:    {request: 'kill-edit-listing', 'guild-id':guildId, 'edit-kill-encounter-id':encounterId},
+            encode:  true,
+            success: function(data) {
+                activeDiv = $('#admin-edit-kill-encounter-listing');
+                activeDiv.html(data);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    });
+
+    // Display guild details from drop down selection
     $(document).on('change', '.admin-select.kill.remove', function() {
         var guildId = $(this).val();
         currentPageUrl  = document.URL;

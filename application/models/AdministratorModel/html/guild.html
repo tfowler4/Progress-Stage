@@ -237,7 +237,6 @@
 
     <div class="option-container">
         <div class="option-title">Edit Guild Kill</div>
-        <form class="admin-form kill edit" id="form-kill-edit" method="POST" action="<?php echo PAGE_ADMIN; ?>">
             <div class="option-content kill edit">
                 <table>
                     <thead>
@@ -248,7 +247,7 @@
                         </tr>
                         <tr>
                             <td>
-                            <select class="admin-select guild kill-edit" name="guild-id">
+                            <select id="admin-select-edit-kill" name="guild-id">
                                 <option value="">Select Guild</option>
                                 <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
                                     <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
@@ -260,10 +259,11 @@
                     <tfoot>
                     </tfoot>
                 </table>
+                <div id="admin-edit-kill-guild-listing"></div>
+                <div id="admin-edit-kill-encounter-listing"></div>
              </div>
             <div class="vertical-separator"></div>
             <div class="option-footer"></div>
-         </form>
     </div>
 
     <div class="option-container">

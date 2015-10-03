@@ -19,6 +19,9 @@ class AdministratorModelKill {
                 case "add":
                     $this->addNewKill();
                     break;
+                case "edit":
+                    $this->editKill(Post::get('guild-id'));
+                    break;
                 case "remove":
                     $this->removeKill(Post::get('guild-id'));
                     break;
@@ -57,6 +60,161 @@ class AdministratorModelKill {
             }
 
             move_uploaded_file($this->_formFields->screenshot['tmp_name'], $imagePath);
+        }
+
+        die;
+    }
+
+    /**
+     * create html to prepare form and display guild and encounter name
+     * 
+     * @param  GuildDetails $guildDetails [ guild details object ]
+     * 
+     * @return string                     [ return html containing specified dungeon details ]
+     */
+    public function editKillSelectHtml($guildDetails) {
+        $html = '';
+        $html .= '<form class="admin-form kill edit" id="form-kill-edit" method="POST" action="' . PAGE_ADMIN . '">';
+        $html .= '<table class="admin-edit-kill-listing">';
+        $html .= '<input hidden type="text" id="edit-kill-guild-id" name="guild-id" value="' . $guildDetails->_guildId . '"/>';
+        $html .= '<tr><th>Encounter Name</th></tr>';
+        $html .= '<tr><td><select id="kill-edit-encounter" name="edit-kill-encounter-id">';
+        $html .= '<option value="">Select Encounter</option>';
+            foreach ( (array)$guildDetails->_encounterDetails as $encounterId => $encounterDetails ):
+                if ( isset($encounterDetails->_encounterId) ):
+                    $html .= '<option value="' . $encounterDetails->_encounterId . '">' . $encounterDetails->_dungeon . '-' . $encounterDetails->_encounterName . '</option>';
+                endif;
+            endforeach;
+        $html .= '</select></td></tr>';
+        $html .= '</table>';
+        $html .='</form>';
+
+        return $html;
+    }
+
+    /**
+     * create html to prepare form and display guild encounter kill details
+     * 
+     * @param  EncounterDetails $encounterDetails [ encounter details object ]
+     * 
+     * @return string                     [ return html containing specified dungeon details ]
+     */
+    public function editKillDetailsHtml($encounterDetails) {
+        $videoArray = $encounterDetails['videos'];
+
+        $date = explode('-', $encounterDetails['date']);
+        $time = explode(':', $encounterDetails['time']);
+
+        $html = '';
+        $html .= '<form class="admin-form kill edit" id="form-kill-edit-details" method="POST" action="' . PAGE_ADMIN . '">';
+        $html .= '<table class="admin-edit-kill-listing">';
+        $html .= '<input hidden type="text" id="edit-kill-guild-id" name="guild-id" value="' . $encounterDetails['guild_id'] . '"/>';
+        $html .= '<input hidden type="text" id="edit-kill-guild-id" name="edit-kill-encounter-id" value="' . $encounterDetails['encounter_id'] . '"/>';
+        $html .= '<tr><th>Date</th></tr>';
+        $html .= '<tr><td><select class="admin-select month" name="edit-kill-month">';
+            foreach( CommonDataContainer::$monthsArray as $month => $monthValue):
+                if ( $month == $date[1] ):
+                    $html .= '<option value="' . $month . '" selected>' . $monthValue . '</option>';
+                else:
+                    $html .='<option value="' . $month . '">' . $monthValue . '</option>';
+                endif;
+            endforeach;
+        $html .= '</select>';
+        $html .= '<select class="admin-select day" name="edit-kill-day">';
+            foreach( CommonDataContainer::$daysArray as $day => $dayValue):
+                if ( $day == $date[2] ):
+                    $html .= '<option value="' . $day . '" selected>' . $dayValue . '</option>';
+                else:
+                    $html .='<option value="' . $day . '">' . $dayValue . '</option>';
+                endif;
+            endforeach;
+        $html .= '</select>';
+        $html .= '<select class="admin-select year" name="edit-kill-year">';
+            foreach( CommonDataContainer::$yearsArray as $year => $yearValue):
+                if ( $year == $date[0] ):
+                    $html .= '<option value="' . $year . '" selected>' . $yearValue . '</option>';
+                else:
+                    $html .= '<option value="' . $year . '">' . $yearValue . '</option>';
+                endif;
+            endforeach;
+        $html .= '</select></td></tr>';
+        $html .= '<tr><th>Time</th></tr>';
+        $html .= '<tr><td><select class="admin-select hour" name="edit-kill-hour">';
+            foreach( CommonDataContainer::$hoursArray as $hour => $hourValue):
+                if ( $hour == $time[0] ):
+                    $html .= '<option value="' .$hour . '" selected>' . $hourValue .'</option>';
+                else:
+                    $html .= '<option value="' .$hour . '">' . $hourValue .'</option>';
+                endif;
+            endforeach;
+        $html .= '</select>';
+        $html .= '<select class="admin-select minute" name="edit-kill-minute">';
+            foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue):
+                if ( $minute == $time[1] ):
+                    $html .= '<option value="' .$minute . '" selected>' .$minuteValue . '</option>';
+                else:
+                    $html .= '<option value="' .$minute . '">' .$minuteValue . '</option>';
+                endif;
+            endforeach;
+        $html .= '</select></td></tr>';
+        $html .= '<tr><th>Screenshot</th></tr>';
+        $html .= '<tr><td><input type="file" name="screenshot" /></td></tr>';
+        $html .= '<tr><th>Video</th></tr>';
+            foreach ($videoArray as $videoId => $videoDetails):
+                if ( !empty($videoDetails['url']) )
+                $html .= '<tr><td><input type="text" id="edit-kill-video-url" name="edit-kill-video-url" value="' . $videoDetails['url'] . '"/></td></tr>';
+            endforeach;
+        $html .= '</table>';
+        $html .= '<div class="vertical-separator"></div>';
+        $html .= '<input id="admin-submit-tier-edit-action" type="hidden" name="submit" value="submit" />';
+        $html .= '<input id="admin-submit-kill-edit" type="submit" value="Submit" />';
+        $html .='</form>';
+
+        return $html;
+    }
+
+    /**
+     * delete from encounterkills_table by specified id
+     * 
+     * @param string $guildId [ id of a specific guild]
+     *
+     * @return void
+     */
+    public function editKill($guildId) {
+        $guildDetails = CommonDataContainer::$guildArray[$guildId];
+        $this->getAllGuildDetails($guildDetails);
+        $html = '';
+
+        if ( Post::get('submit') ) {
+            $guildId     = Post::get('guild-id');
+            $encounterId = Post::get('edit-kill-encounter-id');
+            $date        = Post::get('edit-kill-year') . '-' . Post::get('edit-kill-month') . '-' . Post::get('edit-kill-day');
+            $time        = Post::get('edit-kill-hour') . ':' . Post::get('edit-kill-minute');
+            $videoUrl    = Post::get('edit-kill-video-url');
+
+            $query = $this->_dbh->prepare(sprintf(
+                "UPDATE %s
+                SET date = '%s', 
+                    time = '%s'
+                WHERE guild_id = '%s' and
+                encounter_id = '%s'",
+                DbFactory::TABLE_KILLS,
+                $date,
+                $time,
+                $guildId,
+                $encounterId
+                ));
+            $query->execute();
+        } elseif ( !Post::get('edit-kill-encounter-id') ) {
+            $html = $this->editKillSelectHtml($guildDetails);
+
+            echo $html;
+        } elseif ( Post::get('edit-kill-encounter-id') ) {
+            $encounterId = Post::get('edit-kill-encounter-id');
+
+            $html = $this->getEncounter($guildId, $encounterId);
+
+            echo $html;
         }
 
         die;
@@ -184,5 +342,59 @@ class AdministratorModelKill {
         }
 
         $guildDetails->generateEncounterDetails('');
+    }
+
+    /**
+     * To get encounter kill details
+     * 
+     * @param  string $guildId     [ id of a specific guild ]
+     * 
+     * @param  string $encounterId [ id of a specific encounter ]
+     * 
+     * @return void
+     */
+    public function getEncounter($guildId, $encounterId) {
+        $videoArray = array();
+        $html = '';
+
+            $query = $this->_dbh->query(sprintf(
+                "SELECT video_id,
+                        guild_id,
+                        encounter_id,
+                        url,
+                        type,
+                        notes
+                   FROM %s
+                  WHERE guild_id = '%s' and
+                  encounter_id = '%s'",
+                DbFactory::TABLE_VIDEOS,
+                $guildId,
+                $encounterId
+                ));
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $videoId = $row['video_id'];
+                $videoArray[$videoId] = $row;
+            }
+
+            $query = $this->_dbh->query(sprintf(
+                "SELECT kill_id,
+                        guild_id,
+                        encounter_id,
+                        date,
+                        time
+                   FROM %s
+                  WHERE guild_id = '%s' and
+                  encounter_id = '%s'",
+                DbFactory::TABLE_KILLS,
+                $guildId,
+                $encounterId
+                ));
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $row['videos'] = $videoArray;
+                $html = $this->editKillDetailsHtml($row);
+            }
+
+        echo $html;
+        die;
     }
 }
