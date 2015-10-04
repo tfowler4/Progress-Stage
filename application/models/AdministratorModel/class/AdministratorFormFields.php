@@ -50,3 +50,45 @@ class AdminTierFormFields {
     public $startDate;
     public $endDate;
 }
+
+/**
+ * dungeon submission form
+ */
+class AdminDungeonFormFields {
+    public $dungeonId;
+    public $dungeonName;
+    public $abbreviation;
+    public $tier;
+    public $raidSize;
+    public $launchDate;
+    public $dungeonType;
+    public $euTimeDiff;
+}
+
+/**
+ * dungeon submission form
+ */
+class AdminDungeonFormFields {
+    public $encounterId;
+    public $encounter;
+    public $dungeon;
+    public $encounterName;
+    public $encounterShortName;
+    public $launchDate;
+    public $encounterOrder;
+}
+
+/**
+ * news article submission form
+ */
+class AdminArticleFormFields {
+    public $articleId;
+    public $title;
+    public $author;
+    public $content;
+    public $dateMonth;
+    public $dateDay;
+    public $dateYear;
+    public $dateHour;
+    public $dateMinute;
+}
