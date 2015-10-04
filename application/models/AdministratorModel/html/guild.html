@@ -15,14 +15,14 @@
                          <tr>
                             <th>Guild Name</th>
                         </tr>
-                            <td><input class="admin-textbox" type="text" name="create-guild-name" /></td>
+                            <td><input class="admin-textbox" type="text" name="guild" /></td>
                         <tr>
                         <tr>
                             <th>Server</th>
                         </tr>
                         <tr>
                             <td>
-                                <select class="admin-select server" name="create-guild-server">
+                                <select class="admin-select server" name="adminpanel-server">
                                     <option value="">Select Server</option>
                                     <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails ): ?>
                                         <option value="<?php echo $serverId; ?>"><?php echo $serverDetails->_region . ' - ' . $serverDetails->_name; ?></option>
@@ -35,7 +35,7 @@
                         </tr>
                         <tr>
                             <td>
-                            <select class="admin-select country" name="create-guild-country">
+                            <select class="admin-select country" name="adminpanel-country">
                                 <option value="">Select Country</option>
                                 <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails ): ?>
                                     <option value="<?php echo $countryId; ?>"><?php echo $countryDetails->_name; ?></option>
@@ -63,7 +63,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <select class="admin-select guild edit" name="edit-guild-id">
+                                <select class="admin-select guild edit" name="adminpanel-guild-id">
                                     <option value="">Select Guild</option>
                                     <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
                                         <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
@@ -90,11 +90,11 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <th>Name</th>
+                            <th>Guild Name</th>
                         </tr>
                         <tr>
                             <td>
-                            <select class="admin-select guild" name="remove-guild-id">
+                            <select name="guild">
                                 <option value="">Select Guild</option>
                                 <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
                                     <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
