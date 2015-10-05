@@ -48,7 +48,7 @@ var Administrator = function() {
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
-            data:    {request: 'guild-edit', guild:guildId},
+            data:    {request: 'guild-edit', 'adminpanel-guild':guildId},
             encode:  true,
             success: function(data) {
                 activeDiv = $('#admin-guild-listing');
@@ -128,7 +128,7 @@ var Administrator = function() {
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
-            data:    {request: 'kill-edit-listing', 'guild-id':guildId},
+            data:    {request: 'kill-edit-listing', 'adminpanel-guild':guildId},
             encode:  true,
             success: function(data) {
                 activeDiv = $('#admin-edit-kill-guild-listing');

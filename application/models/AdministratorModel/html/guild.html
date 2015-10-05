@@ -15,7 +15,7 @@
                          <tr>
                             <th>Guild Name</th>
                         </tr>
-                            <td><input class="admin-textbox" type="text" name="guild" /></td>
+                            <td><input class="admin-textbox" type="text" name="adminpanel-guild" /></td>
                         <tr>
                         <tr>
                             <th>Server</th>
@@ -63,7 +63,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <select class="admin-select guild edit" name="adminpanel-guild-id">
+                                <select class="admin-select guild edit" name="adminpanel-guild">
                                     <option value="">Select Guild</option>
                                     <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
                                         <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
@@ -94,7 +94,7 @@
                         </tr>
                         <tr>
                             <td>
-                            <select name="guild">
+                            <select name="adminpanel-guild">
                                 <option value="">Select Guild</option>
                                 <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
                                     <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>

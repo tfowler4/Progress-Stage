@@ -6,6 +6,7 @@
 class AdministratorModelEncounter {
     protected $_action;
     protected $_dbh;
+    protected $_formFields;
 
     /**
      * constructor

@@ -6,6 +6,7 @@
 class AdministratorModelGuild {
     protected $_action;
     protected $_dbh;
+    protected $_formFields;
 
     /**
      * constructor
@@ -14,26 +15,30 @@ class AdministratorModelGuild {
         $this->_action = $action;
         $this->_dbh    = $dbh;
 
-        if ( Post::get('guild') || Post::get('submit') ) {
+        if ( Post::get('adminpanel-guild') || Post::get('submit') ) {
+            $this->populateFormFields();
+
             switch ($this->_action) {
                 case "add":
                     $this->addNewGuild();
                     break;
                 case "edit":
-                    $this->editGuild(Post::get('guild'));
+                    $this->editGuild(Post::get('adminpanel-guild'));
                     break;
                 case "remove":
                     $this->removeGuild();
                     break;
             }
-        } else {
-            die;
         }
+
+        die;
     }
 
-    public function populateFormFieds() {
+    public function populateFormFields() {
+        $this->_formFields = new AdminGuildFormFields();
+
         $this->_formFields->guildId     = Post::get('adminpanel-guild-id');
-        $this->_formFields->guildName   = Post::get('adminpanel-guild-name');
+        $this->_formFields->guild       = Post::get('adminpanel-guild');
         $this->_formFields->faction     = Post::get('adminpanel-faction');
         $this->_formFields->server      = Post::get('adminpanel-server');
         $this->_formFields->country     = Post::get('adminpanel-country');
@@ -41,7 +46,6 @@ class AdministratorModelGuild {
         $this->_formFields->website     = Post::get('adminpanel-website');
         $this->_formFields->facebook    = Post::get('adminpanel-facebook');
         $this->_formFields->twitter     = Post::get('adminpanel-twitter');
-        $this->_formFields->google      = Post::get('adminpanel-google');
         $this->_formFields->guildLogo   = Post::get('adminpanel-guild-logo');
         $this->_formFields->active      = Post::get('adminpanel-active');
     }
@@ -52,21 +56,17 @@ class AdministratorModelGuild {
      * @return void
      */
     public function addNewGuild() {
-        $guildName = Post::get('guild');
-        $server    = Post::get('adminpanel-server');
-        $country   = Post::get('adminpanel-country');
-
         $query = $this->_dbh->prepare(sprintf(
             "INSERT INTO %s
             (name, server, country)
             values('%s', '%s', '%s')",
             DbFactory::TABLE_GUILDS,
-            $guildName,
-            $server,
-            $country
-            ));
+            $this->_formFields->guild,
+            $this->_formFields->server,
+            $this->_formFields->country
+        ));
+
         $query->execute();
-        die;
     }
 
     /**
@@ -86,6 +86,8 @@ class AdministratorModelGuild {
         $html .= '<input hidden type="text" name="adminpanel-guild-id" value="' . $guildDetails->_guildId . '"/>';
         $html .= '<tr><th>Date Created</th></tr>';
         $html .= '<tr><td>' . $guildDetails->_dateCreated . '</td></tr>';
+        $html .= '<tr><th>Guild Name</th></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-guild" value="' . $guildDetails->_name . '"/></td></tr>';
         $html .= '<tr><th>Leader</th></tr>';
         $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-guild-leader" value="' . $guildDetails->_leader . '"/></td></tr>';
         $html .= '<tr><th>Website</th></tr>';
@@ -121,38 +123,26 @@ class AdministratorModelGuild {
     public function editGuild($guildId) {
         // if the submit field is present, update guild data
         if ( Post::get('submit') ) {
-            $guildId     = Post::get('adminpanel-guild-id');
-            $guildLeader = Post::get('adminpanel-guild-leader');
-            $website     = Post::get('adminpanel-website');
-            $facebook    = Post::get('adminpanel-facebook');
-            $twitter     = Post::get('adminpanel-twitter');
-            $google      = Post::get('adminpanel-google');
-            $faction     = Post::get('adminpanel-faction');
-            $server      = Post::get('adminpanel-server');
-            $active      = Post::get('adminpanel-active');
-
             $query = $this->_dbh->prepare(sprintf(
                 "UPDATE %s
                 SET leader = '%s', 
                     website = '%s',  
                     facebook = '%s',  
                     twitter = '%s',  
-                    google = '%s',  
                     faction = '%s',  
                     server = '%s',  
                     active = '%s'
                 WHERE guild_id = '%s'",
                 DbFactory::TABLE_GUILDS,
-                $guildLeader,
-                $website,
-                $facebook,
-                $twitter,
-                $google,
-                $faction,
-                $server,
-                $active,
-                $guildId
-                ));
+                $this->_formFields->guildLeader,
+                $this->_formFields->website,
+                $this->_formFields->facebook,
+                $this->_formFields->twitter,
+                $this->_formFields->faction,
+                $this->_formFields->server,
+                $this->_formFields->active,
+                $this->_formFields->guildId
+            ));
             $query->execute();
         } else {
             $html         = '';
@@ -162,8 +152,6 @@ class AdministratorModelGuild {
             
             echo $html;
         }
-
-        die;
     }
 
     /**
@@ -172,16 +160,13 @@ class AdministratorModelGuild {
      * @return void
      */
     public function removeGuild() {
-        $guildId = Post::get('guild');
-
         $query = $this->_dbh->prepare(sprintf(
             "DELETE 
                FROM %s
               WHERE guild_id = '%s'",
             DbFactory::TABLE_GUILDS,
-            $guildId
-            ));
+            $this->_formFields->guild
+        ));
         $query->execute();
-        die;
     }
 }
