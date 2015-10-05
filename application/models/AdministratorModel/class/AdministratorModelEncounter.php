@@ -14,13 +14,15 @@ class AdministratorModelEncounter {
         $this->_action = $action;
         $this->_dbh    = $dbh;
 
-        if ( Post::get('encounter') || Post::get('submit') ) {
+        if ( Post::get('adminpanel-encounter') || Post::get('submit') ) {
+            $this->populateFormFields();
+
             switch ($this->_action) {
                 case "add":
                     $this->addNewEncounter();
                     break;
                 case "edit":
-                    $this->editEncounter(Post::get('encounter'));
+                    $this->editEncounter(Post::get('adminpanel-encounter'));
                     break;
                 case "remove":
                     $this->removeEncounter();
@@ -31,22 +33,28 @@ class AdministratorModelEncounter {
         die;
     }
 
+    public function populateFormFields() {
+        $this->_formFields = new AdminEncounterFormFields();
+
+        $this->_formFields->encounterId        = Post::get('adminpanel-encounter-id');
+        $this->_formFields->encounter          = Post::get('adminpanel-encounter');
+        $this->_formFields->dungeonId          = Post::get('adminpanel-encounter-dungeon-id');
+        $this->_formFields->encounterName      = Post::get('adminpanel-encounter-display-name');
+        $this->_formFields->encounterShortName = Post::get('adminpanel-encounter-short-name');
+        $this->_formFields->launchDate         = Post::get('adminpanel-encounter-launch-year') . '-' . Post::get('adminpanel-encounter-launch-month') . '-' . Post::get('adminpanel-encounter-launch-day');
+        $this->_formFields->encounterOrder     = Post::get('adminpanel-encounter-mob-order');
+    }
+
     /**
      * insert new encounter details into the database
      *
      * @return void
      */
     public function addNewEncounter() {
-        $encounter  = Post::get('create-encounter-name');
-        $dungeonId  = Post::get('create-encounter-dungeon-id');
-        $tierNumber = Post::get('create-encounter-tier-number');
-
-        $dungeonDetails           = CommonDataContainer::$dungeonArray[$dungeonId];
-        $dungeonName              = $dungeonDetails->_name;
+        $dungeonDetails           = CommonDataContainer::$dungeonArray[$this->_formFields->dungeonId];
         $newDungeonEncounterCount = $dungeonDetails->_numOfEncounters + 1;
 
-        $tierDetails              = CommonDataContainer::$tierArray[$tierNumber];
-        $tierId                   = $tierDetails->_tierId;
+        $tierDetails              = CommonDataContainer::$tierArray[$dungeonDetails->_tier];
         $newTierEncounterCount    = $tierDetails->_numOfEncounters + 1;
 
         $createEncounterquery=$this->_dbh->prepare(sprintf(
@@ -54,10 +62,10 @@ class AdministratorModelEncounter {
             (name, dungeon, dungeon_id, tier)
             values('%s', '%s', '%s', '%s')",
             DbFactory::TABLE_ENCOUNTERS,
-            $encounter,
-            $dungeonName,
-            $dungeonId,
-            $tierNumber
+            $this->_formFields->encounter,
+            $dungeonDetails->_name,
+            $dungeonDetails->_dungeonId,
+            $dungeonDetails->_tier
         ));
         $createEncounterquery->execute();
 
@@ -67,7 +75,7 @@ class AdministratorModelEncounter {
               WHERE dungeon_id = '%s'",
             DbFactory::TABLE_DUNGEONS,
             $newDungeonEncounterCount,
-            $dungeonId
+            $dungeonDetails->_dungeonId
         ));
         $updateDungeonQuery->execute();
 
@@ -77,7 +85,7 @@ class AdministratorModelEncounter {
               WHERE tier_id = '%s'",
             DbFactory::TABLE_TIERS,
             $newTierEncounterCount,
-            $tierId
+            $tierDetails->_tierId
         ));
         $updateTierQuery->execute();
     }
@@ -98,19 +106,17 @@ class AdministratorModelEncounter {
         $html .= '<thead>';
         $html .= '</thead>';
         $html .= '<tbody>';
-        $html .= '<tr><td><input hidden type="text" name="edit-encounter-id" value="' . $encounterDetails->_encounterId . '"/></td></tr>';
+        $html .= '<tr><td><input hidden type="text" name="adminpanel-encounter-id" value="' . $encounterDetails->_encounterId . '"/></td></tr>';
         $html .= '<tr><th>Encounter Name</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-encounter-name" value="' . $encounterDetails->_name . '"/></td></tr>';
-        $html .= '<tr><th>Dungeon Name</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-encounter-dungeon-name" value="' . $encounterDetails->_dungeon . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-encounter" value="' . $encounterDetails->_name . '"/></td></tr>';
         $html .= '<tr><th>Display Name</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-encounter-display-name" value="' . $encounterDetails->_encounterName . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-encounter-display-name" value="' . $encounterDetails->_encounterName . '"/></td></tr>';
         $html .= '<tr><th>Encounter Short Name</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-encounter-short-name" value="' . $encounterDetails->_encounterShortName . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-encounter-short-name" value="' . $encounterDetails->_encounterShortName . '"/></td></tr>';
         $html .= '<tr><th>Mob Order</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-encounter-mob-order" value="' . $encounterDetails->_encounterOrder . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-encounter-mob-order" value="' . $encounterDetails->_encounterOrder . '"/></td></tr>';
         $html .= '<tr><th>Launch Date</th></tr>';
-        $html .= '<tr><td><select class="admin-select month" name="edit-encounter-launch-month">';
+        $html .= '<tr><td><select class="admin-select month" name="adminpanel-encounter-launch-month">';
             foreach( CommonDataContainer::$monthsArray as $month => $monthValue):
                 if ( $month == $launchDate[1] ):
                     $html .= '<option value="' . $month . '" selected>' . $monthValue . '</option>';
@@ -119,7 +125,7 @@ class AdministratorModelEncounter {
                 endif;
             endforeach;
         $html .= '</select>';
-        $html .= '<select class="admin-select day" name="edit-encounter-launch-day">';
+        $html .= '<select class="admin-select day" name="adminpanel-encounter-launch-day">';
             foreach( CommonDataContainer::$daysArray as $day => $dayValue):
                 if ( $day == $launchDate[2] ):
                     $html .= '<option value="' . $day . '" selected>' . $dayValue . '</option>';
@@ -128,7 +134,7 @@ class AdministratorModelEncounter {
                 endif;
             endforeach;
         $html .= '</select>';
-        $html .= '<select class="admin-select year" name="edit-encounter-launch-year">';
+        $html .= '<select class="admin-select year" name="adminpanel-encounter-launch-year">';
             foreach( CommonDataContainer::$yearsArray as $year => $yearValue):
                 if ( $year == $launchDate[0] ):
                     $html .= '<option value="' . $year . '" selected>' . $yearValue . '</option>';
@@ -158,31 +164,21 @@ class AdministratorModelEncounter {
     public function editEncounter($encounterId) {
         // if the submit field is present, update encounter data
         if ( Post::get('submit') ) {
-            $encounterId        = Post::get('edit-encounter-id');
-            $encounter          = Post::get('edit-encounter-name');
-            $dungeon            = Post::get('edit-encounter-dungeon-name');
-            $encounterName      = Post::get('edit-encounter-display-name');
-            $encounterShortName = Post::get('edit-encounter-short-name');
-            $launchDate         = Post::get('edit-encounter-launch-year') . '-' . Post::get('edit-encounter-launch-month') . '-' . Post::get('edit-encounter-launch-day');
-            $encounterOrder     = Post::get('edit-encounter-mob-order');
-
             $query = $this->_dbh->prepare(sprintf(
                 "UPDATE %s
                     SET name = '%s', 
-                        dungeon = '%s', 
                         encounter_name = '%s', 
                         encounter_short_name = '%s', 
                         date_launch = '%s', 
                         mob_order = '%s'
                   WHERE encounter_id = '%s'",
                 DbFactory::TABLE_ENCOUNTERS,
-                $encounter,
-                $dungeon,
-                $encounterName,
-                $encounterShortName,
-                $launchDate,
-                $encounterOrder,
-                $encounterId
+                $this->_formFields->encounter,
+                $this->_formFields->encounterName,
+                $this->_formFields->encounterShortName,
+                $this->_formFields->launchDate,
+                $this->_formFields->encounterOrder,
+                $this->_formFields->encounterId
             ));
             $query->execute();
         } else {
@@ -201,15 +197,11 @@ class AdministratorModelEncounter {
      * @return void
      */
     public function removeEncounter() {
-        $encounterId = Post::get('remove-encounter-id');
-
-        $encounterDetails         = CommonDataContainer::$encounterArray[$encounterId];
+        $encounterDetails         = CommonDataContainer::$encounterArray[$this->_formFields->encounter];
         $dungeonDetails           = CommonDataContainer::$dungeonArray[$encounterDetails->_dungeonId];
-        $dungeonId                = $dungeonDetails->_dungeonId;
         $newDungeonEncounterCount = $dungeonDetails->_numOfEncounters - 1;
 
         $tierDetails           = CommonDataContainer::$tierArray[$dungeonDetails->_tier];
-        $tierId                = $tierDetails->_tierId;
         $newTierEncounterCount = $tierDetails->_numOfEncounters - 1;
 
         $deleteEncounterQuery = $this->_dbh->prepare(sprintf(
@@ -217,7 +209,7 @@ class AdministratorModelEncounter {
                FROM %s
               WHERE encounter_id = '%s'",
             DbFactory::TABLE_ENCOUNTERS,
-            $encounterId
+            $this->_formFields->encounter
         ));
         $deleteEncounterQuery->execute();
 
@@ -227,7 +219,7 @@ class AdministratorModelEncounter {
               WHERE dungeon_id = '%s'",
             DbFactory::TABLE_DUNGEONS,
             $newDungeonEncounterCount,
-            $dungeonId
+            $dungeonDetails->_dungeonId
         ));
         $updateDungeonQuery->execute();
 
@@ -237,7 +229,7 @@ class AdministratorModelEncounter {
               WHERE tier_id = '%s'",
             DbFactory::TABLE_TIERS,
             $newTierEncounterCount,
-            $tierId
+            $tierDetails->_tierId
         ));
         $updateTierQuery->execute();
     }

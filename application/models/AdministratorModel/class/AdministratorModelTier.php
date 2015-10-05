@@ -16,6 +16,8 @@ class AdministratorModelTier {
         $this->_dbh    = $dbh;
 
         if ( Post::get('adminpanel-tier') || Post::get('submit') ) {
+            $this->populateFormFields();
+
             switch ($this->_action) {
                 case "add":
                     $this->addNewTier();
@@ -50,8 +52,6 @@ class AdministratorModelTier {
      * @return void
      */
     public function addNewTier() {
-        $this->populateFormFields();
-
         $query = $this->_dbh->prepare(sprintf(
             "INSERT INTO %s
             (tier, title, alt_tier, alt_title, date_start)
@@ -169,8 +169,6 @@ class AdministratorModelTier {
     public function editTier($tierId) {
         // if the submit field is present, update tier data
         if ( Post::get('submit') ) {
-            $this->populateFormFields();
-
             // If date is 2011-01-01, set to 0000-00-00
             if ( $this->_formFields->endDate == '2011-01-01' ) {
                 $this->_formFields->endDate = '0000-00-00';
@@ -212,8 +210,6 @@ class AdministratorModelTier {
      * @return void
      */
     public function removeTier() {
-        $this->populateFormFields();
-
         $query = $this->_dbh->prepare(sprintf(
             "DELETE 
                FROM %s

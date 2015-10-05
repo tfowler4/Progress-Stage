@@ -71,7 +71,7 @@ class AdminDungeonFormFields {
 class AdminEncounterFormFields {
     public $encounterId;
     public $encounter;
-    public $dungeon;
+    public $dungeonId;
     public $encounterName;
     public $encounterShortName;
     public $launchDate;

@@ -88,7 +88,7 @@ var Administrator = function() {
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
-            data:    {request: 'dungeon-edit', dungeon:dungeonId},
+            data:    {request: 'dungeon-edit', 'adminpanel-dungeon':dungeonId},
             encode:  true,
             success: function(data) {
                 activeDiv = $('#admin-dungeon-listing');
@@ -108,7 +108,7 @@ var Administrator = function() {
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
-            data:    {request: 'encounter-edit', encounter:encounterId},
+            data:    {request: 'encounter-edit', 'adminpanel-encounter':encounterId},
             encode:  true,
             success: function(data) {
                 activeDiv = $('#admin-encounter-listing');

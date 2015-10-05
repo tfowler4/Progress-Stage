@@ -17,7 +17,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <input class="admin-textbox" type="text" name="create-encounter-name" />
+                                <input class="admin-textbox" type="text" name="adminpanel-encounter" />
                             </td>
                         </tr>
                         <tr>
@@ -25,21 +25,9 @@
                         </tr>
                         <tr>
                             <td>
-                                <select class="admin-select dungeon" name="create-encounter-dungeon-id">
+                                <select class="admin-select dungeon" name="adminpanel-encounter-dungeon-id">
                                     <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
                                         <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Tier Name</th>
-                        </tr>
-                         <tr>
-                            <td>
-                                <select class="admin-select tier name" name="create-encounter-tier-number">
-                                    <?php foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ): ?>
-                                        <option value="<?php echo $tierDetails->_tier; ?>"><?php echo $tier . ' - ' . $tierDetails->_name; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </td>
@@ -66,7 +54,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <select class="admin-select encounter edit" name="edit-encounter-id">
+                                <select class="admin-select encounter edit" name="adminpanel-encounter">
                                     <option value="">Select Encounter</option>
                                     <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ): ?>
                                         <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . ' - ' . $encounterDetails->_name; ?></option>
@@ -97,7 +85,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <select class="admin-select encounter" name="remove-encounter-id">
+                                <select class="admin-select encounter" name="adminpanel-encounter">
                                     <option value="">Select Encounter</option>
                                     <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ): ?>
                                         <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . ' - ' . $encounterDetails->_name; ?></option>

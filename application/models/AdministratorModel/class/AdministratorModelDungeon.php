@@ -16,6 +16,8 @@ class AdministratorModelDungeon {
         $this->_dbh    = $dbh;
 
         if ( Post::get('adminpanel-dungeon') || Post::get('submit') ) {
+            $this->populateFormFields();
+
             switch ($this->_action) {
                 case "add":
                     $this->addNewDungeon();
@@ -51,10 +53,7 @@ class AdministratorModelDungeon {
      * @return void
      */
     public function addNewDungeon() {
-        $this->populateFormFields();
-
         $tierDetails     = CommonDataContainer::$tierArray[$this->_formFields->tier];
-        $tierId          = $tierDetails->_tierId;
         $newDungeonCount = $tierDetails->_numOfDungeons + 1;
 
         $createDungeonQuery = $this->_dbh->prepare(sprintf(
@@ -73,7 +72,7 @@ class AdministratorModelDungeon {
               WHERE tier_id = '%s'",
             DbFactory::TABLE_TIERS,
             $newDungeonCount,
-            $tierId
+            $tierDetails->_tierId
         ));
         $updateTierQuery->execute();
     }
@@ -183,8 +182,6 @@ class AdministratorModelDungeon {
     public function editDungeon($dungeonId) {
         // if the submit field is present, update dungeon data
         if ( Post::get('submit') ) {
-            $this->populateFormFields();
-
             $query = $this->_dbh->prepare(sprintf(
                 "UPDATE %s
                     SET name = '%s', 
@@ -222,11 +219,8 @@ class AdministratorModelDungeon {
      * @return void
      */
     public function removeDungeon() {
-        $this->populateFormFields();
-
         $dungeonDetails  = CommonDataContainer::$dungeonArray[$this->_formFields->dungeon];
         $tierDetails     = CommonDataContainer::$tierArray[$dungeonDetails->_tier];
-        $tierId          = $tierDetails->_tierId;
         $newDungeonCount = $tierDetails->_numOfDungeons - 1;
 
         $deleteDungeonQuery = $this->_dbh->prepare(sprintf(
@@ -244,7 +238,7 @@ class AdministratorModelDungeon {
               WHERE tier_id = '%s'",
             DbFactory::TABLE_TIERS,
             $newDungeonCount,
-            $tierId
+            $tierDetails->_tierId
         ));
         $updateTierQuery->execute();
     }
