@@ -16,26 +16,18 @@
                             <th>Dungeon Name</th>
                         </tr>
                         <tr>
-                            <td><input class="admin-textbox" type="text" name="create-dungeon-name" /></td>
+                            <td><input class="admin-textbox" type="text" name="adminpanel-dungeon" /></td>
                         </tr>
                         <tr>
                             <th>Tier Name</th>
                         </tr>
                          <tr>
                             <td>
-                                <select class="admin-select tier name" name="create-dungeon-tier-name">
+                                <select class="admin-select tier name" name="adminpanel-dungeon-tier">
                                     <?php foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ): ?>
                                         <option value="<?php echo $tierDetails->_tier; ?>"><?php echo $tier . ' - ' . $tierDetails->_name; ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Number of Mobs</th>
-                        </tr>
-                         <tr>
-                            <td>
-                                <input class="admin-select mobs number" name="create-dungeon-number-of-mobs" />
                             </td>
                         </tr>
                     </tbody>
@@ -60,7 +52,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <select class="admin-select dungeon edit" name="select-dungeon">
+                                <select class="admin-select dungeon edit" name="adminpanel-dungeon">
                                     <option value="">Select Dungeon</option>
                                     <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
                                         <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
@@ -91,7 +83,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <select class="admin-select dungeon" name="remove-dungeon-id">
+                                <select class="admin-select dungeon" name="adminpanel-dungeon">
                                     <option value="">Select Dungeon</option>
                                     <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
                                         <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>

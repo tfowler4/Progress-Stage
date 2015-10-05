@@ -56,7 +56,7 @@ class AdminTierFormFields {
  */
 class AdminDungeonFormFields {
     public $dungeonId;
-    public $dungeonName;
+    public $dungeon;
     public $abbreviation;
     public $tier;
     public $raidSize;
@@ -66,9 +66,9 @@ class AdminDungeonFormFields {
 }
 
 /**
- * dungeon submission form
+ * encounter submission form
  */
-class AdminDungeonFormFields {
+class AdminEncounterFormFields {
     public $encounterId;
     public $encounter;
     public $dungeon;

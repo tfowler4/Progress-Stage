@@ -6,6 +6,7 @@
 class AdministratorModelDungeon {
     protected $_action;
     protected $_dbh;
+    protected $_formFields;
 
     /**
      * constructor
@@ -14,13 +15,13 @@ class AdministratorModelDungeon {
         $this->_action = $action;
         $this->_dbh    = $dbh;
 
-        if ( Post::get('dungeon') || Post::get('submit') ) {
+        if ( Post::get('adminpanel-dungeon') || Post::get('submit') ) {
             switch ($this->_action) {
                 case "add":
                     $this->addNewDungeon();
                     break;
                 case "edit":
-                    $this->editDungeon(Post::get('dungeon'));
+                    $this->editDungeon(Post::get('adminpanel-dungeon'));
                     break;
                 case "remove":
                     $this->removeDungeon();
@@ -31,28 +32,38 @@ class AdministratorModelDungeon {
         die;
     }
 
+    public function populateFormFields() {
+        $this->_formFields = new AdminDungeonFormFields();
+
+        $this->_formFields->dungeonId    = Post::get('adminpanel-dungeon-id');
+        $this->_formFields->dungeon      = Post::get('adminpanel-dungeon');
+        $this->_formFields->abbreviation = Post::get('adminpanel-dungeon-abbreviation');
+        $this->_formFields->tier         = Post::get('adminpanel-dungeon-tier');
+        $this->_formFields->raidSize     = Post::get('adminpanel-dungeon-players');
+        $this->_formFields->launchDate   = Post::get('adminpanel-dungeon-launch-year') . '-' . Post::get('adminpanel-dungeon-launch-month') . '-' . Post::get('adminpanel-dungeon-launch-day');
+        $this->_formFields->dungeonType  = Post::get('adminpanel-dungeon-type');
+        $this->_formFields->euTimeDiff   = Post::get('adminpanel-dungeon-eu-diff');
+    }
+
     /**
      * insert new dungeon details into the database
      *
      * @return void
      */
     public function addNewDungeon() {
-        $dungeon   = Post::get('create-dungeon-name');
-        $tier      = Post::get('create-dungeon-tier-name');
-        $numOfMobs = Post::get('create-dungeon-number-of-mobs');
+        $this->populateFormFields();
 
-        $tierDetails     = CommonDataContainer::$tierArray[$tier];
+        $tierDetails     = CommonDataContainer::$tierArray[$this->_formFields->tier];
         $tierId          = $tierDetails->_tierId;
         $newDungeonCount = $tierDetails->_numOfDungeons + 1;
 
         $createDungeonQuery = $this->_dbh->prepare(sprintf(
             "INSERT INTO %s
-            (name, tier, mobs)
-            values('%s', '%s', '%s')",
+            (name, tier)
+            values('%s', '%s')",
             DbFactory::TABLE_DUNGEONS,
-            $dungeon,
-            $tier,
-            $numOfMobs
+            $this->_formFields->dungeon,
+            $this->_formFields->tier
         ));
         $createDungeonQuery->execute();
 
@@ -85,13 +96,13 @@ class AdministratorModelDungeon {
         $html .= '<thead>';
         $html .= '</thead>';
         $html .= '<tbody>';
-        $html .= '<tr><td><input hidden type="text" name="edit-dungeon-id" value="' . $dungeonDetails->_dungeonId . '"/></td></tr>';
+        $html .= '<tr><td><input hidden type="text" name="adminpanel-dungeon-id" value="' . $dungeonDetails->_dungeonId . '"/></td></tr>';
         $html .= '<tr><th>Dungeon Name</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-dungeon-name" value="' . $dungeonDetails->_name . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-dungeon" value="' . $dungeonDetails->_name . '"/></td></tr>';
         $html .= '<tr><th>Abbreviation</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-dungeon-abbreviation" value="' . $dungeonDetails->_abbreviation . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-dungeon-abbreviation" value="' . $dungeonDetails->_abbreviation . '"/></td></tr>';
         $html .= '<tr><th>Tier</th></tr>';
-        $html .= '<tr><td><select class="admin-select tier" name="edit-dungeon-tier-number">';
+        $html .= '<tr><td><select class="admin-select tier" name="adminpanel-dungeon-tier">';
         $html .= '<option value="">Select Tier</option>';
             foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ):
                 if ( $tier == $dungeonDetails->_tier ):
@@ -102,7 +113,7 @@ class AdministratorModelDungeon {
             endforeach;
         $html .= '</select></td></tr>';
         $html .= '<tr><th>Raid Size</th></tr>';
-        $html .= '<tr><td><select class="admin-select players" name="edit-dungeon-players">';
+        $html .= '<tr><td><select class="admin-select players" name="adminpanel-dungeon-players">';
             foreach ($raidSize as $players):
                 if ( $players == $dungeonDetails->_raidSize ):
                     $html .= '<option value="' . $players . '" selected>' . $players . '-Man</option>';
@@ -112,7 +123,7 @@ class AdministratorModelDungeon {
             endforeach;
         $html .= '</select></td></tr>';
         $html .= '<tr><th>Dungeon Type</th></tr>';
-        $html .= '<tr><td><select class="admin-select dungeon" name="edit-dungeon-type">';
+        $html .= '<tr><td><select class="admin-select dungeon" name="adminpanel-dungeon-type">';
             foreach ($dungeonType as $type => $typeValue):
                 if ( $type == $dungeonDetails->_type ):
                     $html .= '<option value="' . $type . '" selected>' . $type . ' - ' . $typeValue . '</option>';
@@ -122,9 +133,9 @@ class AdministratorModelDungeon {
             endforeach;
         $html .= '</select></td></tr>';
         $html .= '<tr><th>EU Time Difference</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-dungeon-eu-diff" value="' . $dungeonDetails->_euTimeDiff . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-dungeon-eu-diff" value="' . $dungeonDetails->_euTimeDiff . '"/></td></tr>';
         $html .= '<tr><th>Launch Date</th></tr>';
-        $html .= '<tr><td><select class="admin-select month" name="edit-dungeon-launch-month">';
+        $html .= '<tr><td><select class="admin-select month" name="adminpanel-dungeon-launch-month">';
             foreach( CommonDataContainer::$monthsArray as $month => $monthValue):
                 if ( $month == date('m', strtotime($dungeonDetails->_dateLaunch)) ):
                     $html .= '<option value="' . $month . '" selected>' . $monthValue . '</option>';
@@ -133,7 +144,7 @@ class AdministratorModelDungeon {
                 endif;
             endforeach;
         $html .= '</select>';
-        $html .= '<select class="admin-select day" name="edit-dungeon-launch-day">';
+        $html .= '<select class="admin-select day" name="adminpanel-dungeon-launch-day">';
             foreach( CommonDataContainer::$daysArray as $day => $dayValue):
                 if ( $day == $launchDate[1] ):
                     $html .= '<option value="' . $day . '" selected>' . $dayValue . '</option>';
@@ -142,7 +153,7 @@ class AdministratorModelDungeon {
                 endif;
             endforeach;
         $html .= '</select>';
-        $html .= '<select class="admin-select year" name="edit-dungeon-launch-year">';
+        $html .= '<select class="admin-select year" name="adminpanel-dungeon-launch-year">';
             foreach( CommonDataContainer::$yearsArray as $year => $yearValue):
                 if ( $year == $launchDate[2] ):
                     $html .= '<option value="' . $year . '" selected>' . $yearValue . '</option>';
@@ -172,14 +183,7 @@ class AdministratorModelDungeon {
     public function editDungeon($dungeonId) {
         // if the submit field is present, update dungeon data
         if ( Post::get('submit') ) {
-            $dungeonId    = Post::get('edit-dungeon-id');
-            $dungeon      = Post::get('edit-dungeon-name');
-            $abbreviation = Post::get('edit-dungeon-abbreviation');
-            $tier         = Post::get('edit-dungeon-tier-number');
-            $raidSize     = Post::get('edit-dungeon-players');
-            $launchDate   = Post::get('edit-dungeon-launch-year') . '-' . Post::get('edit-dungeon-launch-month') . '-' . Post::get('edit-dungeon-launch-day');
-            $dungeonType  = Post::get('edit-dungeon-type');
-            $euTimeDiff   = Post::get('edit-dungeon-eu-diff');
+            $this->populateFormFields();
 
             $query = $this->_dbh->prepare(sprintf(
                 "UPDATE %s
@@ -192,14 +196,14 @@ class AdministratorModelDungeon {
                         eu_diff = '%s'
                   WHERE dungeon_id = '%s'",
                 DbFactory::TABLE_DUNGEONS,
-                $dungeon,
-                $abbreviation,
-                $tier,
-                $raidSize,
-                $launchDate,
-                $dungeonType,
-                $euTimeDiff,
-                $dungeonId
+                $this->_formFields->dungeon,
+                $this->_formFields->abbreviation,
+                $this->_formFields->tier,
+                $this->_formFields->raidSize,
+                $this->_formFields->launchDate,
+                $this->_formFields->dungeonType,
+                $this->_formFields->euTimeDiff,
+                $this->_formFields->dungeonId
             ));
             $query->execute();
         } else {
@@ -218,8 +222,9 @@ class AdministratorModelDungeon {
      * @return void
      */
     public function removeDungeon() {
-        $dungeonId       = Post::get('remove-dungeon-id');
-        $dungeonDetails  = CommonDataContainer::$dungeonArray[$dungeonId];
+        $this->populateFormFields();
+
+        $dungeonDetails  = CommonDataContainer::$dungeonArray[$this->_formFields->dungeon];
         $tierDetails     = CommonDataContainer::$tierArray[$dungeonDetails->_tier];
         $tierId          = $tierDetails->_tierId;
         $newDungeonCount = $tierDetails->_numOfDungeons - 1;
@@ -229,7 +234,7 @@ class AdministratorModelDungeon {
                FROM %s
               WHERE dungeon_id = '%s'",
             DbFactory::TABLE_DUNGEONS,
-            $dungeonId
+            $this->_formFields->dungeon
         ));
         $deleteDungeonQuery->execute();
 
