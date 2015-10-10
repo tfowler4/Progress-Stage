@@ -43,8 +43,8 @@ class DBObjects {
 
         self::$_sqlString = sprintf(
             "INSERT INTO %s
-            (name, faction, server, region, country, leader, website, facebook, twitter, google, creator_id)
-            values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
+            (name, faction, server, region, country, leader, website, facebook, twitter, creator_id)
+            values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
             DbFactory::TABLE_GUILDS,
             $fields->guildName,
             $fields->faction,
@@ -55,7 +55,6 @@ class DBObjects {
             $fields->website,
             $fields->facebook,
             $fields->twitter,
-            $fields->google,
             $_SESSION['userId']
             );
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);
@@ -76,8 +75,8 @@ class DBObjects {
 
         self::$_sqlString = sprintf(
             "INSERT INTO %s
-            (name, faction, server, region, country, leader, website, facebook, twitter, google, creator_id, parent, type)
-            values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
+            (name, faction, server, region, country, leader, website, facebook, twitter, creator_id, parent, type)
+            values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
             DbFactory::TABLE_GUILDS,
             $fields->guildName,
             $fields->faction,
@@ -88,7 +87,6 @@ class DBObjects {
             $parentDetails->_website,
             $parentDetails->_facebook,
             $parentDetails->_twitter,
-            $parentDetails->_google,
             $userId,
             $parentDetails->_guildId,
             1
@@ -138,7 +136,7 @@ class DBObjects {
                     website = '%s',
                     facebook = '%s',
                     twitter = '%s',
-                    google = '%s'
+                    active = '%s'
               WHERE guild_id = '%s'",
             DbFactory::TABLE_GUILDS,
             $fields->faction,
@@ -149,7 +147,7 @@ class DBObjects {
             $fields->website,
             $fields->facebook,
             $fields->twitter,
-            $fields->google,
+            $fields->active,
             $guildDetails->_guildId
             );
         Logger::log('INFO', 'Preparing Query: ' . self::$_sqlString);

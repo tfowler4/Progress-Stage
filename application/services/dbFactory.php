@@ -229,7 +229,6 @@ class DbFactory {
                     schedule,
                     facebook,
                     twitter,
-                    google,
                     faction,
                     region,
                     country,

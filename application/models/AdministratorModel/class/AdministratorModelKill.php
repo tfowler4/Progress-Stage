@@ -6,6 +6,7 @@
 class AdministratorModelKill {
     protected $_action;
     protected $_dbh;
+    protected $_formFields;
 
     /**
      * constructor
@@ -14,16 +15,18 @@ class AdministratorModelKill {
         $this->_action = $action;
         $this->_dbh    = $dbh;
 
-        if ( Post::get('guild-id') || Post::get('submit') ) {
+        if ( Post::get('adminpanel-kill-guild-id') || Post::get('submit') ) {
+            $this->populateFormFields();
+
             switch ($this->_action) {
                 case "add":
                     $this->addNewKill();
                     break;
                 case "edit":
-                    $this->editKill(Post::get('guild-id'));
+                    $this->editKill(Post::get('adminpanel-kill-guild-id'));
                     break;
                 case "remove":
-                    $this->removeKill(Post::get('guild-id'));
+                    $this->removeKill(Post::get('adminpanel-kill-guild-id'));
                     break;
             }
         }
@@ -32,24 +35,34 @@ class AdministratorModelKill {
     }
 
     /**
+     * populates form field object with data from form
+     * 
+     * @return void
+     */
+    public function populateFormFields() {
+        $this->_formFields = new AdminKillFormFields();
+
+        $this->_formFields->killId     = Post::get('adminpanel-kill-id');
+        $this->_formFields->guildId    = Post::get('adminpanel-kill-guild-id');
+        $this->_formFields->encounter  = Post::get('adminpanel-kill-encounter-id');
+        $this->_formFields->dateMonth  = Post::get('adminpanel-kill-month');
+        $this->_formFields->dateDay    = Post::get('adminpanel-kill-day');
+        $this->_formFields->dateYear   = Post::get('adminpanel-kill-year');
+        $this->_formFields->dateHour   = Post::get('adminpanel-kill-hour');
+        $this->_formFields->dateMinute = Post::get('adminpanel-kill-minute');
+        $this->_formFields->screenshot = Post::get('adminpanel-screenshot');
+        $this->_formFields->videoId    = Post::get('video-link-id');
+        $this->_formFields->videoTitle = Post::get('video-link-title');
+        $this->_formFields->videoUrl   = Post::get('video-link-url');
+        $this->_formFields->videoType  = Post::get('video-link-type');
+    }
+
+    /**
      * insert new kill details in encounterkills_table
      *
      * @return void
      */
     public function addNewKill() {
-        $this->_formFields   = new AdminKillSubmissionFormFields();
-        $this->_formFields->guildId    = Post::get('guild-id');
-        $this->_formFields->encounter  = Post::get('create-kill-encounter-name');
-        $this->_formFields->dateMonth  = Post::get('create-kill-month');
-        $this->_formFields->dateDay    = Post::get('create-kill-day');
-        $this->_formFields->dateYear   = Post::get('create-kill-year');
-        $this->_formFields->dateHour   = Post::get('create-kill-hour');
-        $this->_formFields->dateMinute = Post::get('create-kill-minute');
-        $this->_formFields->screenshot = Post::get('screenshot');
-        $this->_formFields->videoTitle = Post::get('video-link-title');
-        $this->_formFields->videoUrl   = Post::get('video-link-url');
-        $this->_formFields->videoType  = Post::get('video-link-type');
-
         DBObjects::addKill($this->_formFields);
 
         if ( !empty($this->_formFields->screenshot['tmp_name']) ) {
@@ -74,9 +87,9 @@ class AdministratorModelKill {
         $html = '';
         $html .= '<form class="admin-form kill edit" id="form-kill-edit" method="POST" action="' . PAGE_ADMIN . '">';
         $html .= '<table class="admin-edit-kill-listing">';
-        $html .= '<input hidden type="text" id="edit-kill-guild-id" name="guild-id" value="' . $guildDetails->_guildId . '"/>';
+        $html .= '<input hidden type="text" id="edit-kill-guild-id" name="adminpanel-kill-guild-id" value="' . $guildDetails->_guildId . '"/>';
         $html .= '<tr><th>Encounter Name</th></tr>';
-        $html .= '<tr><td><select id="kill-edit-encounter" name="edit-kill-encounter-id">';
+        $html .= '<tr><td><select id="kill-edit-encounter" name="adminpanel-kill-encounter-id">';
         $html .= '<option value="">Select Encounter</option>';
             foreach ( (array)$guildDetails->_encounterDetails as $encounterId => $encounterDetails ):
                 if ( isset($encounterDetails->_encounterId) ):
@@ -103,65 +116,101 @@ class AdministratorModelKill {
         $date = explode('-', $encounterDetails['date']);
         $time = explode(':', $encounterDetails['time']);
 
+        $videoTypeArray      = array();
+        $videoTypeArray['0'] = 'General Kill';
+        $videoTypeArray['1'] = 'Encounter Guide';
+
         $html = '';
         $html .= '<form class="admin-form kill edit" id="form-kill-edit-details" method="POST" action="' . PAGE_ADMIN . '">';
         $html .= '<table class="admin-edit-kill-listing">';
-        $html .= '<input hidden type="text" id="edit-kill-guild-id" name="guild-id" value="' . $encounterDetails['guild_id'] . '"/>';
-        $html .= '<input hidden type="text" id="edit-kill-guild-id" name="edit-kill-encounter-id" value="' . $encounterDetails['encounter_id'] . '"/>';
+        $html .= '<input hidden type="text" id="edit-kill-id" name="adminpanel-kill-id" value="' . $encounterDetails['kill_id'] . '"/>';
+        $html .= '<input hidden type="text" id="edit-kill-guild-id" name="adminpanel-kill-guild-id" value="' . $encounterDetails['guild_id'] . '"/>';
+        $html .= '<input hidden type="text" id="edit-kill-encounter-id" name="adminpanel-kill-encounter-id" value="' . $encounterDetails['encounter_id'] . '"/>';
         $html .= '<tr><th>Date</th></tr>';
-        $html .= '<tr><td><select class="admin-select month" name="edit-kill-month">';
-            foreach( CommonDataContainer::$monthsArray as $month => $monthValue):
-                if ( $month == $date[1] ):
+        $html .= '<tr><td><select class="admin-select month" name="adminpanel-kill-month">';
+            foreach( CommonDataContainer::$monthsArray as $month => $monthValue) {
+                if ( $month == $date[1] ) {
                     $html .= '<option value="' . $month . '" selected>' . $monthValue . '</option>';
-                else:
+                } else {
                     $html .='<option value="' . $month . '">' . $monthValue . '</option>';
-                endif;
-            endforeach;
+                }
+            }
         $html .= '</select>';
-        $html .= '<select class="admin-select day" name="edit-kill-day">';
-            foreach( CommonDataContainer::$daysArray as $day => $dayValue):
-                if ( $day == $date[2] ):
+        $html .= '<select class="admin-select day" name="adminpanel-kill-day">';
+            foreach( CommonDataContainer::$daysArray as $day => $dayValue ) {
+                if ( $day == $date[2] ) {
                     $html .= '<option value="' . $day . '" selected>' . $dayValue . '</option>';
-                else:
+                } else {
                     $html .='<option value="' . $day . '">' . $dayValue . '</option>';
-                endif;
-            endforeach;
+                }
+            }
         $html .= '</select>';
-        $html .= '<select class="admin-select year" name="edit-kill-year">';
-            foreach( CommonDataContainer::$yearsArray as $year => $yearValue):
-                if ( $year == $date[0] ):
+        $html .= '<select class="admin-select year" name="adminpanel-kill-year">';
+            foreach( CommonDataContainer::$yearsArray as $year => $yearValue ) {
+                if ( $year == $date[0] ) {
                     $html .= '<option value="' . $year . '" selected>' . $yearValue . '</option>';
-                else:
+                } else {
                     $html .= '<option value="' . $year . '">' . $yearValue . '</option>';
-                endif;
-            endforeach;
+                }
+            }
         $html .= '</select></td></tr>';
         $html .= '<tr><th>Time</th></tr>';
-        $html .= '<tr><td><select class="admin-select hour" name="edit-kill-hour">';
-            foreach( CommonDataContainer::$hoursArray as $hour => $hourValue):
-                if ( $hour == $time[0] ):
+        $html .= '<tr><td><select class="admin-select hour" name="adminpanel-kill-hour">';
+            foreach( CommonDataContainer::$hoursArray as $hour => $hourValue ) {
+                if ( $hour == $time[0] ) {
                     $html .= '<option value="' .$hour . '" selected>' . $hourValue .'</option>';
-                else:
+                } else {
                     $html .= '<option value="' .$hour . '">' . $hourValue .'</option>';
-                endif;
-            endforeach;
+                }
+            }
         $html .= '</select>';
-        $html .= '<select class="admin-select minute" name="edit-kill-minute">';
-            foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue):
-                if ( $minute == $time[1] ):
+        $html .= '<select class="admin-select minute" name="adminpanel-kill-minute">';
+            foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue ) {
+                if ( $minute == $time[1] ) {
                     $html .= '<option value="' .$minute . '" selected>' .$minuteValue . '</option>';
-                else:
+                } else {
                     $html .= '<option value="' .$minute . '">' .$minuteValue . '</option>';
-                endif;
-            endforeach;
+                }
+            }
         $html .= '</select></td></tr>';
         $html .= '<tr><th>Screenshot</th></tr>';
-        $html .= '<tr><td><input type="file" name="screenshot" /></td></tr>';
-        $html .= '<tr><th>Video</th></tr>';
-            foreach ($videoArray as $videoId => $videoDetails):
-                if ( !empty($videoDetails['url']) )
-                $html .= '<tr><td><input type="text" id="edit-kill-video-url" name="edit-kill-video-url" value="' . $videoDetails['url'] . '"/></td></tr>';
-            endforeach;
+        $html .= '<tr><td><input type="file" name="adminpanel-screenshot" /></td></tr>';
+        $html .= '<tr><th>Kill Video</th></tr>';
+        $html .= '<tr><td>';
+        $html .= '<div class="video-link-container">';
+            foreach ( $videoArray as $videoId => $videoDetails ) {
+                if ( !empty($videoDetails['url']) ) {
+                    $html .= '<div class="video-link-wrapper">';
+                    $html .= 'Video #' . $videoId . '<br>';
+                    $html .= '<input  id="user-form-video-id-' . $videoId . '" type="hidden" name="video-link-id[]" value="' . $videoId . '" />';
+                    $html .= '<div>';
+                    $html .= '<label class="video-link-label">Notes: </label>';
+                    $html .= '<input id="user-form-video-title-' . $videoId . '" type="text" name="video-link-title[]" class="width-200"  value="' . $videoDetails['notes'] . '" />';
+                    $html .= '</div>';
+                    $html .= '<div>';
+                    $html .= '<label class="video-link-label">URL: </label>';
+                    $html .= '<input id="user-form-video-url-' . $videoId . '" type="text" name="video-link-url[]" class="width-200"  value="' . $videoDetails['url'] . '" />';
+                    $html .= '</div>';
+                    $html .= '<div>';
+                    $html .= '<label class="video-link-label">Type: </label>';
+                    $html .= '<select id="user-form-video-type-' . $videoId . '" name="video-link-type[]" class="width-200">';
+
+                    foreach( $videoTypeArray as $videoType => $videoTypeValue ) {
+                        if ( $videoType == $videoDetails['type'] ) {
+                            $html .= '<option value="' . $videoType . '" selected>' . $videoTypeValue . '</option>';
+                        } else {
+                            $html .= '<option value="' . $videoType . '">' . $videoTypeValue . '</option>';
+                        }
+                    }
+
+                    $html .= '</select>';
+                    $html .= '</div>';
+                    $html .= '</div>';
+                }
+            }
+        $html .= '</div>';
+        $html .= '<a class="new-video-link" href="#">Add New Video</a>';
+        $html .= '</td></tr>';
         $html .= '</table>';
         $html .= '<div class="vertical-separator"></div>';
         $html .= '<input id="admin-submit-tier-edit-action" type="hidden" name="submit" value="submit" />';
@@ -181,34 +230,29 @@ class AdministratorModelKill {
     public function editKill($guildId) {
         $guildDetails = CommonDataContainer::$guildArray[$guildId];
         $this->getAllGuildDetails($guildDetails);
+
         $html = '';
 
         if ( Post::get('submit') ) {
-            $guildId     = Post::get('guild-id');
-            $encounterId = Post::get('edit-kill-encounter-id');
-            $date        = Post::get('edit-kill-year') . '-' . Post::get('edit-kill-month') . '-' . Post::get('edit-kill-day');
-            $time        = Post::get('edit-kill-hour') . ':' . Post::get('edit-kill-minute');
-            $videoUrl    = Post::get('edit-kill-video-url');
+            DBObjects::editKill($this->_formFields);
 
-            $query = $this->_dbh->prepare(sprintf(
-                "UPDATE %s
-                    SET date = '%s', 
-                        time = '%s'
-                  WHERE guild_id = '%s'
-                    AND encounter_id = '%s'",
-                DbFactory::TABLE_KILLS,
-                $date,
-                $time,
-                $guildId,
-                $encounterId
-            ));
-            $query->execute();
-        } elseif ( !Post::get('edit-kill-encounter-id') ) {
+            if ( !empty($this->_formFields->screenshot['tmp_name']) ) {
+                $imagePath = ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter;
+
+                if ( file_exists($imagePath) ) {
+                    unlink($imagePath);
+                }
+
+                move_uploaded_file($this->_formFields->screenshot['tmp_name'], $imagePath);
+
+                $this->_guildDetails = $this->_getUpdatedGuildDetails($this->_guildDetails->_guildId);
+            }
+        } elseif ( !Post::get('adminpanel-kill-encounter-id') ) {
             $html = $this->editKillSelectHtml($guildDetails);
 
             echo $html;
-        } elseif ( Post::get('edit-kill-encounter-id') ) {
-            $encounterId = Post::get('edit-kill-encounter-id');
+        } elseif ( Post::get('adminpanel-kill-encounter-id') ) {
+            $encounterId = Post::get('adminpanel-kill-encounter-id');
 
             $html = $this->getEncounter($guildId, $encounterId);
 
@@ -227,9 +271,9 @@ class AdministratorModelKill {
         $html = '';
         $html .= '<form class="admin-form kill remove" id="form-kill-remove" method="POST" action="' . PAGE_ADMIN . '">';
         $html .= '<table class="admin-remove-kill-listing">';
-        $html .= '<tr><td><input hidden type="text" name="guild-id" value="' . $guildDetails->_guildId . '"/></td></tr>';
+        $html .= '<tr><td><input hidden type="text" name="adminpanel-kill-guild-id" value="' . $guildDetails->_guildId . '"/></td></tr>';
         $html .= '<tr><th>Encounter Name</th></tr>';
-        $html .= '<tr><td><select name="remove-kill-encounter-id">';
+        $html .= '<tr><td><select name="adminpanel-kill-encounter-id">';
         $html .= '<option value="">Select Encounter</option>';
             foreach ( (array)$guildDetails->_encounterDetails as $encounterId => $encounterDetails ):
                 if ( isset($encounterDetails->_encounterId) ):
@@ -254,28 +298,12 @@ class AdministratorModelKill {
     public function removeKill($guildId) {
         // if the submit field is present, remove kill data
         if ( Post::get('submit') ) {
-            $guildId     = Post::get('guild-id');
-            $encounterId = Post::get('remove-kill-encounter-id');
+            DBObjects::removeKill($this->_formFields);
 
-            $query = $this->_dbh->prepare(sprintf(
-                "DELETE 
-                   FROM %s
-                  WHERE guild_id = '%s'
-                    AND encounter_id = '%s'",
-                DbFactory::TABLE_KILLS,
-                $guildId,
-                $encounterId
-            ));
-            $query->execute();
-
-            $imagePath = ABS_FOLD_KILLSHOTS . $guildId . '-' . $encounterId;
-
-            if ( file_exists($imagePath) ) {
-                unlink($imagePath);
-            }
+            $this->_removeScreenshot($this->_formFields->guildId, $this->_formFields->encounter);
         } else {
             $html         = '';
-            $guildDetails = CommonDataContainer::$guildArray[$guildId];
+            $guildDetails = CommonDataContainer::$guildArray[$this->_formFields->guildId];
 
             $this->getAllGuildDetails($guildDetails);
 
@@ -357,8 +385,8 @@ class AdministratorModelKill {
                         type,
                         notes
                    FROM %s
-                  WHERE guild_id = '%s' and
-                  encounter_id = '%s'",
+                  WHERE guild_id = '%s'
+                    AND encounter_id = '%s'",
                 DbFactory::TABLE_VIDEOS,
                 $guildId,
                 $encounterId
@@ -375,8 +403,8 @@ class AdministratorModelKill {
                         date,
                         time
                    FROM %s
-                  WHERE guild_id = '%s' and
-                  encounter_id = '%s'",
+                  WHERE guild_id = '%s'
+                    AND encounter_id = '%s'",
                 DbFactory::TABLE_KILLS,
                 $guildId,
                 $encounterId
@@ -387,5 +415,18 @@ class AdministratorModelKill {
             }
 
         echo $html;
+    }
+
+    /**
+     * remove screenshot image from filesystem
+     * 
+     * @return void
+     */
+    private function _removeScreenshot($guildId, $encounterId) {
+        $imagePath = ABS_FOLD_KILLSHOTS . $guildId . '-' . $encounterId;
+
+        if ( file_exists($imagePath) ) {
+            unlink($imagePath);
+        }
     }
 }

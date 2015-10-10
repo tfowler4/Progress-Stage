@@ -21,6 +21,22 @@
                             </td>
                         </tr>
                         <tr>
+                            <th>Display Name</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input class="admin-textbox" type="text" name="adminpanel-encounter-display-name" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Encounter Short Name</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input class="admin-textbox" type="text" name="adminpanel-encounter-short-name" />
+                            </td>
+                        </tr>
+                        <tr>
                             <th>Dungeon Name</th>
                         </tr>
                         <tr>
@@ -30,6 +46,40 @@
                                         <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
                                     <?php endforeach; ?>
                                 </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Launch Date</th>
+                        </tr>
+                        <tr>
+                            <td>
+                            <select class="admin-select month" name="adminpanel-encounter-launch-month">
+                                <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
+                                    <?php if ( $month == date('m') ): ?> 
+                                        <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                            <select class="admin-select day" name="adminpanel-encounter-launch-day">
+                                <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
+                                    <?php if ( $day == date('d') ): ?> 
+                                        <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                            <select class="admin-select year" name="adminpanel-encounter-launch-year">
+                                <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
+                                    <?php if ( $year == date('Y') ): ?> 
+                                        <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
                             </td>
                         </tr>
                     </tbody>

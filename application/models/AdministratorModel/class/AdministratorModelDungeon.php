@@ -34,6 +34,11 @@ class AdministratorModelDungeon {
         die;
     }
 
+    /**
+     * populates form field object with data from form
+     * 
+     * @return void
+     */
     public function populateFormFields() {
         $this->_formFields = new AdminDungeonFormFields();
 
@@ -58,11 +63,16 @@ class AdministratorModelDungeon {
 
         $createDungeonQuery = $this->_dbh->prepare(sprintf(
             "INSERT INTO %s
-            (name, tier)
-            values('%s', '%s')",
+            (name, tier, abbreviation, players, date_launch, dungeon_type, eu_diff)
+            values('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
             DbFactory::TABLE_DUNGEONS,
             $this->_formFields->dungeon,
-            $this->_formFields->tier
+            $this->_formFields->tier,
+            $this->_formFields->abbreviation,
+            $this->_formFields->raidSize,
+            $this->_formFields->launchDate,
+            $this->_formFields->dungeonType,
+            $this->_formFields->euTimeDiff
         ));
         $createDungeonQuery->execute();
 
@@ -95,71 +105,70 @@ class AdministratorModelDungeon {
         $html .= '<thead>';
         $html .= '</thead>';
         $html .= '<tbody>';
-        $html .= '<tr><td><input hidden type="text" name="adminpanel-dungeon-id" value="' . $dungeonDetails->_dungeonId . '"/></td></tr>';
         $html .= '<tr><th>Dungeon Name</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-dungeon" value="' . $dungeonDetails->_name . '"/></td></tr>';
+        $html .= '<tr><td><input hidden type="text" name="adminpanel-dungeon-id" value="' . $dungeonDetails->_dungeonId . '"/><input class="admin-textbox" type="text" name="adminpanel-dungeon" value="' . $dungeonDetails->_name . '"/></td></tr>';
         $html .= '<tr><th>Abbreviation</th></tr>';
         $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-dungeon-abbreviation" value="' . $dungeonDetails->_abbreviation . '"/></td></tr>';
         $html .= '<tr><th>Tier</th></tr>';
         $html .= '<tr><td><select class="admin-select tier" name="adminpanel-dungeon-tier">';
         $html .= '<option value="">Select Tier</option>';
-            foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ):
-                if ( $tier == $dungeonDetails->_tier ):
+            foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ) {
+                if ( $tier == $dungeonDetails->_tier ) {
                     $html .= '<option value="' . $tierDetails->_tier . '" selected>' . $tierDetails->_tier . ' - ' . $tierDetails->_name . '</option>';
-                else:
+                } else {
                     $html .= '<option value="' . $tierDetails->_tier . '">' . $tierDetails->_tier . ' - ' . $tierDetails->_name . '</option>';
-                endif;
-            endforeach;
+                }
+            }
         $html .= '</select></td></tr>';
         $html .= '<tr><th>Raid Size</th></tr>';
         $html .= '<tr><td><select class="admin-select players" name="adminpanel-dungeon-players">';
-            foreach ($raidSize as $players):
-                if ( $players == $dungeonDetails->_raidSize ):
+            foreach ($raidSize as $players) {
+                if ( $players == $dungeonDetails->_raidSize ) {
                     $html .= '<option value="' . $players . '" selected>' . $players . '-Man</option>';
-                else:
+                } else {
                     $html .= '<option value="' . $players . '">' . $players . '-Man</option>';
-                endif;
-            endforeach;
+                }
+            }
         $html .= '</select></td></tr>';
         $html .= '<tr><th>Dungeon Type</th></tr>';
         $html .= '<tr><td><select class="admin-select dungeon" name="adminpanel-dungeon-type">';
-            foreach ($dungeonType as $type => $typeValue):
-                if ( $type == $dungeonDetails->_type ):
+            foreach ($dungeonType as $type => $typeValue) {
+                if ( $type == $dungeonDetails->_type ) {
                     $html .= '<option value="' . $type . '" selected>' . $type . ' - ' . $typeValue . '</option>';
-                else:
+                } else {
                     $html .= '<option value="' . $type . '">' . $type . ' - ' . $typeValue . '</option>';
-                endif;
-            endforeach;
+                }
+            }
         $html .= '</select></td></tr>';
         $html .= '<tr><th>EU Time Difference</th></tr>';
         $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-dungeon-eu-diff" value="' . $dungeonDetails->_euTimeDiff . '"/></td></tr>';
         $html .= '<tr><th>Launch Date</th></tr>';
         $html .= '<tr><td><select class="admin-select month" name="adminpanel-dungeon-launch-month">';
-            foreach( CommonDataContainer::$monthsArray as $month => $monthValue):
-                if ( $month == date('m', strtotime($dungeonDetails->_dateLaunch)) ):
+            foreach( CommonDataContainer::$monthsArray as $month => $monthValue) {
+                if ( $month == date('m', strtotime($dungeonDetails->_dateLaunch)) ) {
                     $html .= '<option value="' . $month . '" selected>' . $monthValue . '</option>';
-                else:
+                } else {
                     $html .='<option value="' . $month . '">' . $monthValue . '</option>';
-                endif;
-            endforeach;
+                }
+            }
         $html .= '</select>';
         $html .= '<select class="admin-select day" name="adminpanel-dungeon-launch-day">';
-            foreach( CommonDataContainer::$daysArray as $day => $dayValue):
-                if ( $day == $launchDate[1] ):
+            foreach( CommonDataContainer::$daysArray as $day => $dayValue) {
+                if ( $day == $launchDate[1] ) {
                     $html .= '<option value="' . $day . '" selected>' . $dayValue . '</option>';
-                else:
+                } else {
                     $html .='<option value="' . $day . '">' . $dayValue . '</option>';
-                endif;
-            endforeach;
+                }
+            }
         $html .= '</select>';
         $html .= '<select class="admin-select year" name="adminpanel-dungeon-launch-year">';
-            foreach( CommonDataContainer::$yearsArray as $year => $yearValue):
-                if ( $year == $launchDate[2] ):
+            foreach( CommonDataContainer::$yearsArray as $year => $yearValue) {
+                if ( $year == $launchDate[2] ){
                     $html .= '<option value="' . $year . '" selected>' . $yearValue . '</option>';
-                else:
+                } else {
                     $html .= '<option value="' . $year . '">' . $yearValue . '</option>';
-                endif;
-            endforeach;
+                }
+            }
         $html .= '</select></td></tr>';
         $html .= '</tbody>';
         $html .= '</table>';

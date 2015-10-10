@@ -34,6 +34,11 @@ class AdministratorModelEncounter {
         die;
     }
 
+    /**
+     * populates form field object with data from form
+     * 
+     * @return void
+     */
     public function populateFormFields() {
         $this->_formFields = new AdminEncounterFormFields();
 
@@ -58,18 +63,22 @@ class AdministratorModelEncounter {
         $tierDetails              = CommonDataContainer::$tierArray[$dungeonDetails->_tier];
         $newTierEncounterCount    = $tierDetails->_numOfEncounters + 1;
 
+        // create the encounter sql
         $createEncounterquery=$this->_dbh->prepare(sprintf(
             "INSERT INTO %s
-            (name, dungeon, dungeon_id, tier)
-            values('%s', '%s', '%s', '%s')",
+            (name, dungeon, dungeon_id, tier, encounter_short_name, date_launch)
+            values('%s', '%s', '%s', '%s', '%s', '%s')",
             DbFactory::TABLE_ENCOUNTERS,
             $this->_formFields->encounter,
             $dungeonDetails->_name,
             $dungeonDetails->_dungeonId,
-            $dungeonDetails->_tier
+            $dungeonDetails->_tier,
+            $this->_formFields->encounterShortName,
+            $this->_formFields->launchDate
         ));
         $createEncounterquery->execute();
 
+        // update dungeon encounter count sql
         $updateDungeonQuery = $this->_dbh->prepare(sprintf(
             "UPDATE %s
                 SET mobs = '%s'
@@ -80,6 +89,7 @@ class AdministratorModelEncounter {
         ));
         $updateDungeonQuery->execute();
 
+        // update tier encounter count sql
         $updateTierQuery = $this->_dbh->prepare(sprintf(
             "UPDATE %s
                 SET encounters = '%s'
@@ -107,9 +117,8 @@ class AdministratorModelEncounter {
         $html .= '<thead>';
         $html .= '</thead>';
         $html .= '<tbody>';
-        $html .= '<tr><td><input hidden type="text" name="adminpanel-encounter-id" value="' . $encounterDetails->_encounterId . '"/></td></tr>';
         $html .= '<tr><th>Encounter Name</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-encounter" value="' . $encounterDetails->_name . '"/></td></tr>';
+        $html .= '<tr><td><input hidden type="text" name="adminpanel-encounter-id" value="' . $encounterDetails->_encounterId . '"/><input class="admin-textbox" type="text" name="adminpanel-encounter" value="' . $encounterDetails->_name . '"/></td></tr>';
         $html .= '<tr><th>Display Name</th></tr>';
         $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-encounter-display-name" value="' . $encounterDetails->_encounterName . '"/></td></tr>';
         $html .= '<tr><th>Encounter Short Name</th></tr>';

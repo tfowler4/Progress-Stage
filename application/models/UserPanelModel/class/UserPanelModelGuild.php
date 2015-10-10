@@ -100,7 +100,6 @@ class UserPanelModelGuild extends UserPanelModel {
         $this->_formFields->website     = Post::get('userpanel-website');
         $this->_formFields->facebook    = Post::get('userpanel-facebook');
         $this->_formFields->twitter     = Post::get('userpanel-twitter');
-        $this->_formFields->google      = Post::get('userpanel-google');
         $this->_formFields->guildLogo   = Post::get('userpanel-guild-logo');
     }
 
@@ -233,7 +232,7 @@ class UserPanelModelGuild extends UserPanelModel {
      * @return void
      */
     private function _removeGuildLogo($guildId) {
-        $imagePath = ABS_FOLD_SITE_LOGOS . 'logo-' . $guildId;
+        $imagePath = ABS_FOLD_SITE_GUILD_LOGOS . 'logo-' . $guildId;
 
         if ( file_exists($imagePath) ) {
             unlink($imagePath);

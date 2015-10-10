@@ -30,6 +30,75 @@
                                 </select>
                             </td>
                         </tr>
+                        <tr>
+                            <th>Abbreviation</th>
+                        </tr>
+                         <tr>
+                            <td><input class="admin-textbox" type="text" name="adminpanel-dungeon-abbreviation" /></td>
+                        </tr>
+                        <tr>
+                            <th>Raid Size</th>
+                        </tr>
+                         <tr>
+                            <td>
+                                <select class="admin-select raid-size name" name="adminpanel-dungeon-players">
+                                    <?php foreach ( unserialize (RAID_SIZES) as $raidSize ): ?>
+                                        <option value="<?php echo $raidSize; ?>"><?php echo $raidSize . '-Man'; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Launch Date</th>
+                        </tr>
+                        <tr>
+                            <td>
+                            <select class="admin-select month" name="adminpanel-dungeon-launch-month">
+                                <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
+                                    <?php if ( $month == date('m') ): ?> 
+                                        <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                            <select class="admin-select day" name="adminpanel-dungeon-launch-day">
+                                <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
+                                    <?php if ( $day == date('d') ): ?> 
+                                        <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                            <select class="admin-select year" name="adminpanel-dungeon-launch-year">
+                                <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
+                                    <?php if ( $year == date('Y') ): ?> 
+                                        <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Dungeon Type</th>
+                        </tr>
+                         <tr>
+                            <td>
+                                <select class="admin-select type name" name="adminpanel-dungeon-type">
+                                    <option value="0">0 - Standard Dungeon</option>
+                                    <option value="1">1 - Special Dungeon (Unranked)</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>EU Time Difference</th>
+                        </tr>
+                         <tr>
+                            <td><input class="admin-textbox" type="text" name="adminpanel-eu-diff" value="0" /></td>
+                        </tr>
                     </tbody>
                     <tfoot>
                     </tfoot>

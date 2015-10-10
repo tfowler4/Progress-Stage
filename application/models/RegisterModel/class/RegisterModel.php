@@ -56,7 +56,6 @@ class RegisterModel extends Model {
         $this->_formFields->website        = Post::get('register-website');
         $this->_formFields->facebook       = Post::get('register-facebook');
         $this->_formFields->twitter        = Post::get('register-twitter');
-        $this->_formFields->google         = Post::get('register-google');
         $this->_formFields->guildLogo      = Post::get('register-guild-logo');
         $this->_formFields->isImportant    = Post::get('register-required-tos');
     }
@@ -90,7 +89,6 @@ class RegisterModel extends Model {
                     schedule,
                     facebook,
                     twitter,
-                    google,
                     faction,
                     region,
                     country,

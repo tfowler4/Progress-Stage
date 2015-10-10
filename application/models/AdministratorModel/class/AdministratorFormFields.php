@@ -5,6 +5,7 @@
  */
 class AdminGuildFormFields {
     public $guildId;
+    public $guild;
     public $guildName;
     public $faction;
     public $server;
@@ -14,7 +15,6 @@ class AdminGuildFormFields {
     public $website;
     public $facebook;
     public $twitter;
-    public $google;
     public $guildLogo;
     public $active;
 }
@@ -22,7 +22,8 @@ class AdminGuildFormFields {
 /**
  * kill submission form
  */
-class AdminKillSubmissionFormFields {
+class AdminKillFormFields {
+    public $killId;
     public $guildId;
     public $encounter;
     public $dateMonth;

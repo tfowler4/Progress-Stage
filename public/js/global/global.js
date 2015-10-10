@@ -193,7 +193,6 @@ var GlobalEventBinder = function() {
         });
 
         if ( $('#' + popupId) != undefined ) {
-            console.log('popupId: ' +popupId);
             activePopup = $('#' + popupId);
 
             $('#' + popupId).toggleClass('centered');

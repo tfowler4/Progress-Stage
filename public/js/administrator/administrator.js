@@ -17,9 +17,9 @@ var Administrator = function() {
             formData.append(input.name, input.value);
         });
 
-        if ( form.find("input[name=screenshot]").length > 0 ) {
-            var screenshot = form.find("input[name=screenshot]")[0].files[0];
-            formData.append('screenshot', screenshot);
+        if ( form.find("input[name=adminpanel-screenshot]").length > 0 ) {
+            var screenshot = form.find("input[name=adminpanel-screenshot]")[0].files[0];
+            formData.append('adminpanel-screenshot', screenshot);
         }
 
         formData.append('request', id);
@@ -128,7 +128,7 @@ var Administrator = function() {
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
-            data:    {request: 'kill-edit-listing', 'adminpanel-guild':guildId},
+            data:    {request: 'kill-edit-listing', 'adminpanel-kill-guild-id':guildId},
             encode:  true,
             success: function(data) {
                 activeDiv = $('#admin-edit-kill-guild-listing');
@@ -146,12 +146,12 @@ var Administrator = function() {
         currentPageUrl  = document.URL;
 
         var form    = $(this).closest('form');
-        var guildId = form.find("input[name=guild-id]").val();
+        var guildId = form.find("input[name=adminpanel-kill-guild-id]").val();
 
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
-            data:    {request: 'kill-edit-listing', 'guild-id':guildId, 'edit-kill-encounter-id':encounterId},
+            data:    {request: 'kill-edit-listing', 'adminpanel-kill-guild-id':guildId, 'adminpanel-kill-encounter-id':encounterId},
             encode:  true,
             success: function(data) {
                 activeDiv = $('#admin-edit-kill-encounter-listing');
@@ -171,7 +171,7 @@ var Administrator = function() {
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
-            data:    {request: 'kill-remove-listing', 'guild-id':guildId},
+            data:    {request: 'kill-remove-listing', 'adminpanel-kill-guild-id':guildId},
             encode:  true,
             success: function(data) {
                 activeDiv = $('#admin-remove-kill-listing');

@@ -34,6 +34,11 @@ class AdministratorModelTier {
         die;
     }
 
+    /**
+     * populates form field object with data from form
+     * 
+     * @return void
+     */
     public function populateFormFields() {
         $this->_formFields = new AdminTierFormFields();
 
@@ -83,14 +88,13 @@ class AdministratorModelTier {
         $html .= '<thead>';
         $html .= '</thead>';
         $html .= '<tbody>';
-        $html .= '<tr><td><input hidden type="text" name="adminpanel-tier-id" value="' . $tierDetails->_tierId . '"/></td></tr>';
-        $html .= '<tr><th>Tier Number</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-tier" value="' . $tierDetails->_tier . '"/></td></tr>';
-        $html .= '<tr><th>Alt Tier Number</th></tr>';
+        $html .= '<tr><th>Tier Number (Base Number)</th></tr>';
+        $html .= '<tr><td><input hidden type="text" name="adminpanel-tier-id" value="' . $tierDetails->_tierId . '"/><input class="admin-textbox" type="text" name="adminpanel-tier" value="' . $tierDetails->_tier . '"/></td></tr>';
+        $html .= '<tr><th>Alt Tier Number (Expansion Abbreviation + #)</th></tr>';
         $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-tier-alt-number" value="' . $tierDetails->_altTier . '"/></td></tr>';
         $html .= '<tr><th>Tier Name</th></tr>';
         $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-tier-name" value="' . $tierDetails->_name . '"/></td></tr>';
-        $html .= '<tr><th>Alt Tier Name</th></tr>';
+        $html .= '<tr><th>Alt Tier Name (Shortened Tier Name)</th></tr>';
         $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-tier-alt-name" value="' . $tierDetails->_altTitle . '"/></td></tr>';
         $html .= '<tr><th>Start Date</th></tr>';
         $html .= '<tr><td><select class="admin-select month" name="adminpanel-tier-start-month">';
