@@ -82,11 +82,10 @@ class AdministratorModelGuild {
         $html .= '<thead>';
         $html .= '</thead>';
         $html .= '<tbody>';
-        $html .= '<input hidden type="text" name="adminpanel-guild-id" value="' . $guildDetails->_guildId . '"/>';
         $html .= '<tr><th>Date Created</th></tr>';
         $html .= '<tr><td>' . $guildDetails->_dateCreated . '</td></tr>';
         $html .= '<tr><th>Guild Name</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-guild" value="' . $guildDetails->_name . '"/></td></tr>';
+        $html .= '<tr><td><input hidden type="text" name="adminpanel-guild-id" value="' . $guildDetails->_guildId . '"/><input class="admin-textbox" type="text" name="adminpanel-guild" value="' . $guildDetails->_name . '"/></td></tr>';
         $html .= '<tr><th>Leader</th></tr>';
         $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-guild-leader" value="' . $guildDetails->_leader . '"/></td></tr>';
         $html .= '<tr><th>Website</th></tr>';

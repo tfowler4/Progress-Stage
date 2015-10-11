@@ -193,7 +193,7 @@ var Administrator = function() {
         $.ajax({
             type:    'POST',
             url:     currentPageUrl,
-            data:    {request: 'article-edit', article:articleId},
+            data:    {request: 'article-edit', 'adminpanel-article':articleId},
             encode:  true,
             success: function(data) {
                 activeDiv = $('#admin-article-listing');

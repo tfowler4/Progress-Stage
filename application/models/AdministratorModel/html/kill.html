@@ -1,0 +1,187 @@
+<span id="kill-anchor" class="anchor"></span>
+<div id="pane-kill">
+    <div id="guild-title" class="pane-title">Kill Admin</div>
+
+    <div class="vertical-separator"></div>
+
+    <div class="option-container">
+        <div class="option-title">Add Guild Kill</div>
+        <form class="admin-form kill" id="form-kill-add" method="POST" action="<?php echo PAGE_ADMIN; ?>" enctype="multipart/form-data">
+            <div class="option-content">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Guild Name</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select id="user-form-guild" class="admin-select guild add kill" name="adminpanel-kill-guild-id">
+                                    <option value="">Select Guild</option>
+                                    <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
+                                        <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Encounter Name</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select id="user-form-encounter" name="adminpanel-kill-encounter-id">
+                                    <option value="">Select Encounter</option>
+                                    <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails): ?>
+                                        <?php if( !isset($data->_guildDetails->_encounterDetails->$encounterId) ): ?>
+                                            <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . '-' . $encounterDetails->_encounterName; ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Date</th>
+                        </tr>
+                        <tr>
+                            <td>
+                            <select class="admin-select month" name="adminpanel-kill-month">
+                                <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
+                                    <?php if ( $month == date('m') ): ?> 
+                                        <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                            <select class="admin-select day" name="adminpanel-kill-day">
+                                <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
+                                    <?php if ( $day == date('d') ): ?> 
+                                        <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                            <select class="admin-select year" name="adminpanel-kill-year">
+                                <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
+                                    <?php if ( $year == date('Y') ): ?> 
+                                        <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Time (H:M UTC)</th>
+                        </tr>
+                        <tr>
+                            <td>
+                            <select class="admin-select hour" name="adminpanel-kill-hour">
+                                <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
+                                    <?php if ( $hour == date('H') ): ?> 
+                                        <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $hour; ?>"><?php echo $hourValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>  
+                            <select class="admin-select minute" name="adminpanel-kill-minute">
+                                <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
+                                    <?php if ( $minute == date('i') ): ?> 
+                                        <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $minute; ?>"><?php echo $minuteValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Screenshot</th>
+                        </tr>
+                        <tr>
+                            <td><input type="file" name="adminpanel-screenshot"></td>
+                        </tr>
+                        <tr>
+                            <th>Kill Videos</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="video-link-container"></div>
+                                <a class="new-video-link" href="#">Add New Video</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="vertical-separator"></div>
+        <div class="option-footer"><input class="admin-submit kill" id="admin-submit-kill" type="submit" value="Add Kill" /></div>
+        </form>
+    </div>
+
+    <div class="option-container">
+        <div class="option-title">Edit Guild Kill</div>
+            <div class="option-content kill edit">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Guild Name</th>
+                        </tr>
+                        <tr>
+                            <td>
+                            <select id="admin-select-edit-kill" name="adminpanel-kill-guild-id">
+                                <option value="">Select Guild</option>
+                                <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
+                                    <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+                <div id="admin-edit-kill-guild-listing"></div>
+                <div id="admin-edit-kill-encounter-listing"></div>
+             </div>
+            <div class="vertical-separator"></div>
+            <div class="option-footer"></div>
+    </div>
+
+    <div class="option-container">
+        <div class="option-title">Remove Existing Guild Kill</div>
+            <div class="option-content kill remove">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Guild Name</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select class="admin-select kill remove" name="adminpanel-kill-guild-id">
+                                    <option value="">Select Guild</option>
+                                    <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
+                                        <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+                <div id="admin-remove-kill-listing"></div>
+            </div>
+            <div class="vertical-separator"></div>
+            <div class="option-footer"></div>
+    </div>
+</div>

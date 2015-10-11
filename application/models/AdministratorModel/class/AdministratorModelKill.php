@@ -87,9 +87,8 @@ class AdministratorModelKill {
         $html = '';
         $html .= '<form class="admin-form kill edit" id="form-kill-edit" method="POST" action="' . PAGE_ADMIN . '">';
         $html .= '<table class="admin-edit-kill-listing">';
-        $html .= '<input hidden type="text" id="edit-kill-guild-id" name="adminpanel-kill-guild-id" value="' . $guildDetails->_guildId . '"/>';
         $html .= '<tr><th>Encounter Name</th></tr>';
-        $html .= '<tr><td><select id="kill-edit-encounter" name="adminpanel-kill-encounter-id">';
+        $html .= '<tr><td><input hidden type="text" id="edit-kill-guild-id" name="adminpanel-kill-guild-id" value="' . $guildDetails->_guildId . '"/><select id="kill-edit-encounter" name="adminpanel-kill-encounter-id">';
         $html .= '<option value="">Select Encounter</option>';
             foreach ( (array)$guildDetails->_encounterDetails as $encounterId => $encounterDetails ):
                 if ( isset($encounterDetails->_encounterId) ):
@@ -271,9 +270,8 @@ class AdministratorModelKill {
         $html = '';
         $html .= '<form class="admin-form kill remove" id="form-kill-remove" method="POST" action="' . PAGE_ADMIN . '">';
         $html .= '<table class="admin-remove-kill-listing">';
-        $html .= '<tr><td><input hidden type="text" name="adminpanel-kill-guild-id" value="' . $guildDetails->_guildId . '"/></td></tr>';
         $html .= '<tr><th>Encounter Name</th></tr>';
-        $html .= '<tr><td><select name="adminpanel-kill-encounter-id">';
+        $html .= '<tr><td><input hidden type="text" name="adminpanel-kill-guild-id" value="' . $guildDetails->_guildId . '"/><select name="adminpanel-kill-encounter-id">';
         $html .= '<option value="">Select Encounter</option>';
             foreach ( (array)$guildDetails->_encounterDetails as $encounterId => $encounterDetails ):
                 if ( isset($encounterDetails->_encounterId) ):

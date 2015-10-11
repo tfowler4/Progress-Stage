@@ -53,19 +53,19 @@
                             <th>Article Title</th>
                         </tr>
                          <tr>
-                            <td><input class="admin-textbox" type="text" name="create-article-title" /></td>
+                            <td><input class="admin-textbox" type="text" name="adminpanel-article-title" /></td>
                         </tr>
                         <tr>
                             <th>Author</th>
                         </tr>
                          <tr>
-                            <td><input class="admin-textbox" type="text" name="create-article-author" /></td>
+                            <td><input class="admin-textbox" type="text" name="adminpanel-article-author" /></td>
                         </tr>
                         <tr>
                             <th>Content</th>
                         </tr>
                          <tr>
-                            <td><textarea id='add-article' name='create-article-content' style='height:225px; text-align:left;'></textarea></td>
+                            <td><textarea id='add-article' name='adminpanel-article' style='height:225px; text-align:left;'></textarea></td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -79,31 +79,31 @@
 
     <div class="option-container">
         <div class="option-title">Edit/Remove News Article</div>
-            <div class="option-content">
-                <table>
-                    <thead>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Article Name</th>
-                        </tr>
-                        <tr>
-                            <td>
-                            <select class="admin-select article edit" name="select-article">
-                                <option value="">Select Article</option>
-                                <?php foreach( $data->getNewsArticle() as $newsId => $newsArticle ): ?>
-                                    <option value="<?php echo $newsId; ?>"><?php echo $newsArticle->date . ' - ' . $newsArticle->title; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-                <div id="admin-article-listing"></div>
-             </div>
-            <div class="vertical-separator"></div>
-            <div class="option-footer"></div>
+        <div class="option-content">
+            <table>
+                <thead>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Article Name</th>
+                    </tr>
+                    <tr>
+                        <td>
+                        <select class="admin-select article edit" name="select-article">
+                            <option value="">Select Article</option>
+                            <?php foreach( $data->getNewsArticle() as $newsId => $newsArticle ): ?>
+                                <option value="<?php echo $newsId; ?>"><?php echo $newsArticle->date . ' - ' . $newsArticle->title; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                </tfoot>
+            </table>
+            <div id="admin-article-listing"></div>
+         </div>
+        <div class="vertical-separator"></div>
+        <div class="option-footer"></div>
     </div>
 </div>

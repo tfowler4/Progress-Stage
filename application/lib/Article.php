@@ -16,13 +16,16 @@ class Article extends DataObject {
      * constructor
      */
     public function __construct($params) {
-        $this->articleId = $params['news_id'];
         $this->title     = $params['title'];
         $this->date      = $params['date_added'];
         $this->postedBy  = $params['added_by'];
         $this->content   = $this->_parseImagesInContent($params['content']);
         $this->type      = $params['type'];
         $this->hyperlink = Functions::generateInternalHyperLink('news', $this->title, '', $this->title, 0);
+
+        if ( !empty($params['news_id']) ) {
+            $this->articleId = $params['news_id'];
+        }
     }
 
     /**

@@ -14,13 +14,13 @@ class AdministratorModelArticle {
         $this->_action = $action;
         $this->_dbh    = $dbh;
 
-        if ( Post::get('article') || Post::get('submit') ) {
+        if ( Post::get('adminpanel-article') || Post::get('submit') ) {
             switch ($this->_action) {
                 case "add":
                     $this->addNewArticle();
                     break;
                 case "edit":
-                    $this->editArticle(Post::get('article'));
+                    $this->editArticle(Post::get('adminpanel-article'));
                     break;
                 case "remove":
                     $this->removeArticle();
@@ -37,17 +37,19 @@ class AdministratorModelArticle {
      * @return void
      */
     public function addNewArticle() {
-        $title   = Post::get('create-article-title');
-        $author  = Post::get('create-article-author');
-        $content = Post::get('create-article-content');
+        $dateAdded = date('Y-m-d H:i', strtotime('now')) .':00';
+        $content   = Post::get('adminpanel-article');
+        $title     = Post::get('adminpanel-article-title');
+        $author    = Post::get('adminpanel-article-author');
 
         $query = $this->_dbh->prepare(sprintf(
             "INSERT INTO %s
-            (title, content, added_by)
-            values('%s', '%s', '%s')",
+            (title, content, date_added, added_by)
+            values('%s', '%s', '%s', '%s')",
             DbFactory::TABLE_NEWS,
             $title,
             $content,
+            $dateAdded,
             $author
             ));
         $query->execute();
@@ -68,15 +70,14 @@ class AdministratorModelArticle {
         $html .= '<thead>';
         $html .= '</thead>';
         $html .= '<tbody>';
-        $html .= '<tr><td><input hidden type="text" name="edit-article-id" value="' . $articleId . '"/></td></tr>';
         $html .= '<tr><th>Article Title</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-article-title" value="' . $newsArticle->title . '"/></td></tr>';
+        $html .= '<tr><td><input hidden type="text" name="adminpanel-article" value="' . $articleId . '"/><input class="admin-textbox" type="text" name="adminpanel-article-title" value="' . $newsArticle->title . '"/></td></tr>';
         $html .= '<tr><th>Date</th></tr>';
         $html .= '<tr><td>' . $newsArticle->date . '</td></tr>';
         $html .= '<tr><th>Author</th></tr>';
-        $html .= '<tr><td><input class="admin-textbox" type="text" name="edit-article-author" value="' . $newsArticle->postedBy . '"/></td></tr>';
+        $html .= '<tr><td><input class="admin-textbox" type="text" name="adminpanel-article-author" value="' . $newsArticle->postedBy . '"/></td></tr>';
         $html .= '<tr><th>Content</th></tr>';
-        $html .= '<tr><td><textarea id="edit-article" class="admin-textarea" name="edit-article-content" style="height:225px; text-align:left;"">' . $newsArticle->content . '</textarea></td></tr>';
+        $html .= '<tr><td><textarea id="edit-article" class="admin-textarea" name="adminpanel-article-content" style="height:225px; text-align:left;"">' . $newsArticle->content . '</textarea></td></tr>';
         $html .= '</tbody>';
         $html .= '</table>';
         $html .= '<div class="vertical-separator"></div>';
@@ -85,7 +86,7 @@ class AdministratorModelArticle {
         $html .= '</form>';
         $html .= '<div class="vertical-separator"></div>';
         $html .= '<form class="admin-form news remove" id="form-article-remove" method="POST" action="' . PAGE_ADMIN . '">';
-        $html .= '<input hidden type="text" name="remove-article-id" value="' . $articleId . '"/>';
+        $html .= '<input hidden type="text" name="adminpanel-article" value="' . $articleId . '"/>';
         $html .= '<input id="admin-submit-article-remove" type="submit" value="Remove" />';
         $html .= '</form>';
 
@@ -103,10 +104,10 @@ class AdministratorModelArticle {
     public function editArticle($articleId) {
         // if the submit field is present, update article data
         if ( Post::get('submit') ) {
-            $articleId = Post::get('edit-article-id');
-            $title     = Post::get('edit-article-title');
-            $author    = Post::get('edit-article-author');
-            $content   = Post::get('edit-article-content');
+            $articleId = Post::get('adminpanel-article');
+            $title     = Post::get('adminpanel-article-title');
+            $author    = Post::get('adminpanel-article-author');
+            $content   = Post::get('adminpanel-article-content');
 
             $query = $this->_dbh->prepare(sprintf(
                 "UPDATE %s
@@ -137,7 +138,7 @@ class AdministratorModelArticle {
      * @return void
      */
     public function removeArticle() {
-        $articleId = Post::get('remove-article-id');
+        $articleId = Post::get('adminpanel-article');
 
         $query = $this->_dbh->prepare(sprintf(
             "DELETE 
@@ -145,7 +146,7 @@ class AdministratorModelArticle {
               WHERE news_id = '%s'",
             DbFactory::TABLE_NEWS,
             $articleId
-            ));
+        ));
         $query->execute();
     }
 
@@ -170,7 +171,7 @@ class AdministratorModelArticle {
                 AND news_id = %d", 
                     DbFactory::TABLE_NEWS, 
                     $articleId
-                ));
+        ));
         $query->execute();
 
         return new Article($query->fetch());
