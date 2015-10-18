@@ -1,16 +1,21 @@
 /** * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/) * http://cssreset.com */
-html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,time, mark, audio, video {    margin: 0;  padding: 0; border: 0;  font-size: 100%;    font: inherit;  vertical-align: baseline;}/* HTML5 display-role reset for older browsers */article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {    display: block;}body {  line-height: 1;}ol, ul {    list-style: none;}blockquote, q {   quotes: none;}blockquote:before, blockquote:after,q:before, q:after {   content: '';    content: none;}table {border-collapse: collapse;  border-spacing: 0;}
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video {    margin: 0;  padding: 0; border: 0;  font-size: 100%;    font: inherit;  vertical-align: baseline;}/* HTML5 display-role reset for older browsers */article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {    display: block;}body {  line-height: 1;}ol,ul {    list-style: none;}blockquote,q {   quotes: none;}blockquote:before,blockquote:after,q:before,q:after {   content: '';    content: none;}table {border-collapse: collapse;  border-spacing: 0;}
 
 /* entire HTML Page Defaults*/
-html, body {
+html,body {
     width: 100%;
     min-width: 1366px;
     min-height: 1000px;
-    background-color: #F6F6F6;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial,Helvetica,sans-serif;
     font-weight: normal;
     text-align: left;
     color: #777777;
+    background-image: url('../../images/wildstar/graphics/page_bg_game_1.gif');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    background-color: #000000;
 }
 
 /* general link */
@@ -42,14 +47,14 @@ img {
 /* horizontal line element to separate elements vertically by specific height */
 .vertical-separator {
     display: block;
-    height: 6px;
+    height: 4px;
 }
 
 /* vertical line element to separate elements horizontally by specific width */
 .horizontal-separator {
     clear: both;
     display: inline-block;
-    width: 6px;
+    width: 4px;
 }
 
 /* hide the element from being rendered */
@@ -109,13 +114,23 @@ img {
 }
 
 /* red faction text color */
-.defiant, .dominion {
-    color: #FF0000;
+.defiant,.dominion {
+    color: rgba(135,60,39,1.0);
+}
+
+/* red faction text hover state */
+a.defiant:hover,a.dominion:hover {
+    color: #FFFFFF;
 }
 
 /* blue faction text color */
-.guardian, .exiles {
-    color: #0000FF;
+.guardian,.exiles {
+    color: rgba(12,112,136,1.0);
+}
+
+/* blue faction text hover state */
+a.guardian:hover,a.exiles:hover {
+    color: #FFFFFF;
 }
 
 /*
@@ -135,6 +150,7 @@ img {
     display: inline-block;
     width: 1366px;
     min-height: 768px;
+    background-color: rgba(0,0,0,0.6);
 }
 
 /* default flag image size for guild name links */
@@ -168,23 +184,23 @@ img {
 /* button submenu above data table */
 .submenu {
     height: 40px;
-    border: 1px solid #C0C0C0;
-    border-radius: 3px;
     font-size: 12px;
+    border: 1px solid rgba(1,31,44,1.50);
+    margin: 0px 5px 0px 5px;
 }
 
 /* button submenu item */
 .submenu li {
     display: inline-block;
     height: 40px;
-    border-right: 1px solid #C0C0C0;
+    border-right: 1px solid rgba(1,31,44,1.50);
     line-height: 40px;
     padding: 0px 10px 0px 10px;
 }
 
 /* button submenu item hover state */
 .submenu li:hover {
-    color: blue;
+    color: #FFFFFF;
     cursor: pointer;
 }
 
@@ -197,7 +213,7 @@ img {
 .block-title {
     height: 26px;
     line-height: 26px;
-    font-family: Impact, sans-serif;
+    font-family: Impact,sans-serif;
     font-size: 18px;
     color: #555555;
 }
@@ -216,8 +232,7 @@ img {
 
 /* hover state for container pane logo */
 .top-guild-container:hover .top-guild-logo {
-    border: 1px solid blue;
-    border-radius: 3px;
+    border: 1px solid #FFFFFF;
 }
 
 /* horizontal separator for top guild items */
@@ -231,8 +246,7 @@ img {
     height: 275px;
     width: 275px;
     line-height: 275px;
-    border: 1px solid #C0C0C0;
-    border-radius: 3px;
+    border: 1px solid rgba(1,31,44,1.50);
 }
 
 /* guild logo for top guild container */
@@ -245,7 +259,7 @@ img {
 .top-guild-name {
     height: 25px;
     line-height: 25px;
-    font-family: Impact, sans-serif;
+    font-family: Impact,sans-serif;
     font-size: 22px; 
     color: #555555;
 }
@@ -262,9 +276,8 @@ img {
 /* highlight side block element with dark background and light text with padding */
 .highlight {
     color: #FFFFFF;
-    background-color: #222222;
-    border: 1px solid #222222;
-    border-radius: 5px;
+    background-color: rgba(1,31,44,0.50);
+    border: 1px solid rgba(1,31,44,1.50);
     padding: 2px;
 }
 
@@ -290,8 +303,7 @@ img {
 #dialog-wrapper {
     display: inline-block;
     min-width: 420px !important;
-    border: 1px solid #C0C0C0;
-    border-radius: 3px;
+    border: 1px solid rgba(1,31,44,0.50);
     padding: 5px;
 }
 
@@ -299,8 +311,7 @@ img {
 #dialog-title {
     height: 32px;
     line-height: 32px;
-    background-color: #C0C0C0;
-    border-radius: 3px;
+    background-color: rgba(1,31,44,0.25);
     font-size: 24px;
     color: #666666;
 }
@@ -321,7 +332,7 @@ img {
     display: none;
     min-width: 1336px;
     min-height: 1000px;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0,0,0,0.9);
     top: 0;
     left: 0;
     bottom: 0;
@@ -334,7 +345,7 @@ img {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%,-50%);
     z-index: 99;
 }
 
@@ -342,8 +353,7 @@ img {
 .popup-window {
     max-height: 800px;
     max-width: 95%;
-    background-color: #FFFFFF;
-    border-radius: 5px;
+    background-color: rgba(0,0,0,0.9);
     padding: 5px;
     overflow-y: auto;
 }
@@ -370,8 +380,8 @@ img {
     margin-right: auto;
     text-align: center;
     vertical-align: middle;
-    background-color: #191919;
-    border-bottom: 2px solid #C0C0C0;
+    background-color: rgba(21,30,36,0.75);
+    border-bottom: 4px solid #000000;
     z-index: 98;
     cursor: default;
     opacity: 0.95;
@@ -392,8 +402,8 @@ img {
     display: inline-block;
     height: 45px;
     line-height: 45px;
-    font-family: Verdana, Helvetica, sans-serif;
-    color: #707070;
+    font-family: Verdana,Helvetica,sans-serif;
+    color: rgba(160,160,160,1);
     padding: 0px 10px 0px 10px;
     transition: color .15s ease-in-out;
    -moz-transition: color .15s ease-in-out;
@@ -402,8 +412,8 @@ img {
 
 /* menu navigation top level item hover state */
 #menu-content li:hover {
-    color: #000000;
-    background-color: #C0C0C0;
+    color: #FFFFFF;
+    background-color: #000000;
     cursor: default;
 }
 
@@ -421,10 +431,10 @@ img {
 /* dropdown navigation item */
 .dropdown-menu-item {
     min-width: 235px;
-    background-color: #191919;
+    background-color: rgba(21,30,36,0.75);
     text-align: left;
     font-size: 14px;
-    color: #707070;
+    color: rgba(160,160,160,1);
     white-space: nowrap;
     padding: 0px 8px 0px 8px;
     cursor: pointer;
@@ -436,8 +446,8 @@ img {
 
 /* dropdown menu item hover state */
 .dropdown-menu-item:hover {
-    background-color: #BBBBBB;
-    color: #000000;
+    background-color: #000000;
+    color: #FFFFFF;
 }
 
 /* display the immediate next level dropdown menu item*/
@@ -449,7 +459,8 @@ img {
 .dropdown-menu-first-level {
     position: absolute;
     display: none;
-    background-color: #191919;
+    background-color: rgba(21,30,36,0.75);
+    border: 4px solid #000000;
     margin: 0px 0px 0px -10px;
 }
 
@@ -457,9 +468,10 @@ img {
 .dropdown-menu-second-level {
     position: absolute;
     visibility: hidden;
-    background-color: #191919;
+    background-color: rgba(21,30,36,0.75);
+    border: 4px solid #000000;
     margin-left: 243px;
-    margin-top: -45px;
+    margin-top: -49px;
 }
 
 /* dropdown menu second level that contains an image which requires more margin to maintain equal height */
@@ -471,14 +483,15 @@ img {
 #search-input {
     height: 20px;
     width: 150px;
-    background-color: #CCCCCC;
-    border: 1px solid #CCCCCC;
-    border-radius: 10px;
+    background-color: rgba(21,30,36,1);
+    border: 0px solid #CCCCCC;
+    color: #FFFFFF;
+    font-size: 12px;
     padding: 0px 5px 0px 5px;
 }
 
 /* removing the focus if textbox is in focus */
-#search-input:focus { outline: 0; }
+
 
 /*
     ARTICLE
@@ -489,55 +502,55 @@ img {
     width: 100%;
     text-align: left;
     vertical-align: top;
+    background-color: rgba(21,30,36,0.20);
+    margin-top: 4px;
 }
 
 /* news article item */
 .article {
     width: 100%;
     vertical-align: top;
-    border: 1px solid #222222;
-    border-radius: 3px 3px 0px 0px;
 }
 
 /* article header title text */
 .article-header div {
-    height: 44px;
-    line-height: 44px;
-    background-color: #222222;
-    color: #FFFFFF;
+    height: 36px;
+    line-height: 36px;
+    color: #777777;
     font-size: 26px;
-    padding: 0px 0px 0px 20px;
+    padding: 0px 0px 0px 10px;
 }
 
 /* article header posted by/author text */
 .article-header span {
     display: block;
-    height: 22px;
-    line-height: 22px;
+    height: 16px;
+    line-height: 16px;
     font-size: 14px;
-    color: #000000;
+    color: #777777;
     border-bottom: 1px solid #222222;
-    padding: 0px 0px 0px 20px;
+    padding: 0px 0px 0px 10px;
 }
 
 /* article body content */
 .article-content {
     line-height: 22px;
     font-size: 14px;
-    color: #555555;
+    color: #888888;
     padding: 5px;
 }
 
 /* article 3rd level headers */
 .article-content h3 {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: bold;
-    color: #000000;
+    font-family: Arial,Helvetica,sans-serif;
+    color: #888888;
     margin: 5px 5px 5px 5px;
 }
 
 /* article lists */
-.article-content ul, ol {
+.article-content ul,ol {
     list-style: none;
     padding: 2px 0px 2px 0px;
 }
@@ -554,19 +567,17 @@ img {
     margin-right: auto;
     text-align: center;
     vertical-align: middle;
-    border-top: 2px solid #C0C0C0;
-    background-color: #191919;
 }
 
 /* footer inner content */
 #footer-content {
     display: inline-block;
-    max-width: 1920px;
-    min-width: 1336px;
+    max-width: 1366px;
     width: 100%;
     height: 35px;
     line-height: 35px;
     font-size: 14px;
+    background-color: rgba(21,30,36,0.30);
 }
 
 /* bottom content wrapper displaying copyright and logos */
@@ -576,23 +587,23 @@ img {
     margin-right: auto;
     text-align: center;
     vertical-align: middle;
-    background-color: #000000;
     font-size: 12px;
-    color: #E8E8E8;
 }
 
 /* bottom inner content */
-#bottom-content {
+.bottom-content {
     display: inline-block;
-    min-width: 1336px;
-    max-width: 1920px;
+    min-width: 1366px;
+    max-width: 1366px;
     width: 100%;
+    background-color: rgba(21,30,36,0.30);
 }
 
 /* bottom logo blocks that contain company/game logos */
 .bottom-logo-block {
     display: inline-block;
     width: 33%;
+    height: 200px;
     vertical-align: middle;
 }
 
@@ -606,8 +617,8 @@ img {
 /* bottom copyright container */
 #bottom-copyright {
     width: 100%;
-    background-color: #000000;
-    padding-bottom: 5px
+    height: 35px;
+    line-height: 35px;
 }
 
 /*
@@ -619,6 +630,7 @@ img {
     height: 50px;
     text-align: left;
     vertical-align: top;
+    margin: 0px 5px 0px 5px;
 }
 
 /* flag image wrapper for title text */
@@ -633,7 +645,7 @@ img {
     height: 50px;
     display: inline-block;
     vertical-align: top;
-    color: #000000;
+    color: #999999;
 }
 
 /* main title text */
@@ -641,7 +653,7 @@ img {
     height: 36px;
     line-height: 36px;
     font-size: 36px;
-    font-family: 'Trebuchet MS', Helvetica, sans-serif;
+    font-family: 'Trebuchet MS',Helvetica,sans-serif;
 }
 
 /* secondary title text */
@@ -655,15 +667,15 @@ img {
     IMAGE PREVIEW
 */
 
-/* preview container for faction logo, guild logo and county flag */
-#faction-logo-preview-wrapper, #guild-country-logo-preview-wrapper {
+/* preview container for faction logo,guild logo and county flag */
+#faction-logo-preview-wrapper,#guild-country-logo-preview-wrapper {
     display: inline-block;
     vertical-align: middle;
     width: 250px;
 }
 
 /* faction logo/guild logo/country flag container */
-#faction-logo-preview-wrapper div, #guild-country-logo-preview-wrapper div {
+#faction-logo-preview-wrapper div,#guild-country-logo-preview-wrapper div {
     vertical-align: middle;
     height: 250px;
     line-height: 250px;
@@ -783,4 +795,18 @@ img {
 .height-200 {
     min-height: 200px !important;
     height: 200px !important;
+}
+
+input[type=submit] {
+    height: 20px;
+    font-size: 12px;
+    color: #777777;
+    border-width: 0px;
+    background-color: rgba(21,30,36,1);
+}
+
+/* side block rankings wrapper */
+#side-block-rankings-wrapper {
+    background-color: rgba(21,30,36,0.30);
+    padding: 0px 3px 0px 3px;
 }

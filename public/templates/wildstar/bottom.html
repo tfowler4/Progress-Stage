@@ -1,0 +1,26 @@
+<div id="bottom-wrapper">
+    <div class="bottom-content">
+        <div class="bottom-logo-block">
+            <span></span>
+            <?php echo Functions::generateExternalHyperLink(LINK_GAME_1, IMG_GAME_LOGO_1, '', true); ?>
+        </div>
+        <div class="bottom-logo-block">
+            <span></span>
+            <?php echo IMG_SITE_LOGO; ?>
+        </div>
+        <div class="bottom-logo-block">
+            <span></span>
+            <?php echo Functions::generateExternalHyperLink(LINK_COMPANY_1, IMG_COMPANY_LOGO_1, '', true); ?>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="vertical-separator"></div>
+    <div class="bottom-content">
+        <div id="bottom-copyright">
+            <?php echo COPYRIGHT; ?> 
+            <?php echo Functions::generateInternalHyperlink('tos', '', '', 'Terms of Service', ''); ?>
+             | 
+             <?php echo Functions::generateInternalHyperlink('privacypolicy', '', '', 'Privacy Policy', ''); ?>
+        </div>
+    </div>
+</div>

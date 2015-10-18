@@ -1,13 +1,13 @@
 /* recent raid wrapper button to scroll */
 .scroll-button-recent {
     display: inline-block;
-    width: 46px;
+    width: 48px;
     height: 90px;
     line-height: 90px;
-    font-family: Verdana, Geneva, sans-serif;
+    font-family: Verdana,Geneva,sans-serif;
     font-size: 38px;
     text-align: center;
-    color: #000000;
+    color: #999999;
     vertical-align: middle;
     cursor: pointer;
     opacity: 0.25;
@@ -25,10 +25,10 @@
     width: 50px;
     height: 100%;
     line-height: 500px;
-    font-family: Verdana, Geneva, sans-serif;
+    font-family: Verdana,Geneva,sans-serif;
     font-size: 38px;
     text-align: center;
-    color: #000000;
+    color: #999999;
     vertical-align: middle;
     cursor: pointer;
     opacity: .25;
@@ -103,7 +103,7 @@
     top: 0;
     height: 50px;
     width: 900px;
-    background-color: rgba(0, 0, 0, .9);
+    background-color: rgba(0,0,0,.9);
     overflow: hidden;
 }
 
@@ -113,7 +113,7 @@
     bottom: 0;
     height: 75px;
     width: 900px;
-    background-color: rgba(0, 0, 0, .9);
+    background-color: rgba(0,0,0,.9);
     overflow: hidden;
 }
 
@@ -121,7 +121,7 @@
 .media-title {
     height: 25px;
     line-height: 25px;
-    color: #E0E0E0;
+    color: #888888;
     font-size: 15px;
     vertical-align: middle;
     padding: 0px 0px 0px 4px;
@@ -152,7 +152,7 @@
     height: 25px;
     line-height: 25px;
     color: #D0D0D0;
-    font-family: Impact, sans-serif;
+    font-family: Impact,sans-serif;
     font-size: 22px;
     letter-spacing: 2px;
     vertical-align: middle;
@@ -196,17 +196,18 @@
 /* recent raid listing content wrapper */
 #recent-raids-wrapper {
     display: inline-block;
-    width: 1336px;
+    width: 1366px;
     height: 90px;
     text-align: left;
     vertical-align: top;
+    background-color: rgba(21,30,36,0.30);
 }
 
 /* recent raid listing inner content */
 #latest-kills {
     position: relative;
     display: inline-block;
-    width: 1198px;
+    width: 1260px;
     height: 90px;
     vertical-align: top;
     overflow: hidden;
@@ -228,7 +229,7 @@
     position: relative;
     display: inline-block;
     float: left;
-    width: 150px;
+    width: 140px;
     height: 90px;
     font-size: 12px;
     text-align: left;
@@ -248,7 +249,7 @@
 
 /* recent raid listing item hover state */
 #latest-kills ul li:hover {
-    background-color: #D5D5D5;
+    background-color: rgba(1,31,44,0.50);
 }
 
 /* recent raid listing item guild text */
@@ -265,7 +266,7 @@
     line-height: 20px;
     font-size: 12px;
     margin: 0px 0px 0px 5px;
-    color: #000000;
+    color: #888888;
 }
 
 /* recent raid listing item kill time text */
@@ -274,7 +275,7 @@
     line-height: 20px;
     font-size: 12px;
     margin: 0px 0px 0px 5px;
-    color: #000000;
+    color: #888888;
 }
 
 /* recent raid listing item screenshot and video text */
@@ -283,7 +284,7 @@
     line-height: 20px;
     font-size: 12px;
     margin: 0px 0px 0px 5px;
-    color: #333333;
+    color: #888888;
 }
 
 /* recent raid listing screenshot/video text hover state */
@@ -297,12 +298,6 @@
     margin-bottom: -8px;
 }
 
-/* side block rankings wrapper */
-#side-block-rankings-wrapper {
-    background-color: #D9D9D9;
-    padding: 0px 3px 0px 3px;
-}
-
 /* side block rankings button for switching rank systems */
 .side-ranking-systems-buttons {
     height: 28px;
@@ -313,6 +308,6 @@
 .side-ranking-header {
     height: 28px;
     line-height: 28px;
-    font-family: Impact, sans-serif;
+    font-family: Impact,sans-serif;
     text-align: left;
 }

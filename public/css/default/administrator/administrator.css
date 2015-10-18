@@ -10,12 +10,12 @@
     outline: none;
 }
 
-.admin-textbox, .admin-select {
+.admin-textbox,.admin-select {
     width: 200px;
 }
 
-.admin-select.month, .admin-select.day, .admin-select.year,
-.admin-select.hour, .admin-select.minute {
+.admin-select.month,.admin-select.day,.admin-select.year,
+.admin-select.hour,.admin-select.minute {
     max-width: 103px;
 }
 
@@ -31,7 +31,7 @@
 .pane-title {
     height: 34px;
     line-height: 30px;
-    font-family: Verdana, Geneva, sans-serif;
+    font-family: Verdana,Geneva,sans-serif;
     font-size: 24px;
     text-align:left;
     border-bottom: 1px solid #000000;
@@ -87,14 +87,14 @@
 }
 
 /* option content pane header/footer guild name (needs to be distinguished) */
-.option-header.guild, .option-footer.guild {
+.option-header.guild,.option-footer.guild {
     height: 32px;
     line-height: 32px;
     font-size: 14px ;
 }
 
 /* main option pane header/footer hover state */
-.option-header:hover, .option-footer:hover {
+.option-header:hover,.option-footer:hover {
     background-color: #C0C0C0;
 }
 

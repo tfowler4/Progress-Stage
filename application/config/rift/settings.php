@@ -28,8 +28,7 @@ define('LINK_COMPANY_1',       'http://www.trionworlds.com');
 define('LINK_GAME_1',          'http://www.riftgame.com');
 define('LINK_TWITTER',         'http://twitter.com/RiftProgress');
 define('COPYRIGHT',            '&copy; ' . RELEASE_YEAR . ' ' . SITE_TITLE . ' - All Rights Reserved.');
-define('DEFAULT_TEMPLATE',     'default');
-
+define('DEFAULT_TEMPLATE',     'rift');
 
 define('FACTIONS',   serialize(array('Defiant', 'Guardian')));
 define('RAID_SIZES', serialize(array('20', '10')));

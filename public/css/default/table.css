@@ -48,7 +48,7 @@
     background-color: #F1F1F1;
 }
 
-/* tables listing header for multiple headers eg. Rank, Guild, Server, etc... */
+/* tables listing header for multiple headers eg. Rank,Guild,Server,etc... */
 .listing tbody tr th.subHeader {
     height: 26px;
     line-height: 26px;
@@ -56,7 +56,7 @@
     border-bottom: 1px solid #C0C0C0;
 }
 
-/* tables listing header for multiple titles eg. Dungeon Name, Tier Name, etc... */
+/* tables listing header for multiple titles eg. Dungeon Name,Tier Name,etc... */
 .listing tbody tr th.subTitle {
     font-size: 14px;
     text-align: left;
@@ -72,12 +72,12 @@
 }
 
 /* guild and server columns must be left-aligned */
-.listing tbody tr th:nth-child(2), .listing tbody tr th:nth-child(3) { text-align: left; }
-.listing tbody tr td:nth-child(2), .listing tbody tr td:nth-child(3) { text-align: left; }
+.listing tbody tr th:nth-child(2),.listing tbody tr th:nth-child(3) { text-align: left; }
+.listing tbody tr td:nth-child(2),.listing tbody tr td:nth-child(3) { text-align: left; }
 
 /* guild and server columns must be left-aligned */
-.listing.directory tbody tr th:nth-child(1), .listing.directory tbody tr td:nth-child(1) { text-align: left; }
-.listing.directory tbody tr th:nth-child(3), .listing.directory tbody tr td:nth-child(3) { text-align: center; }
+.listing.directory tbody tr th:nth-child(1),.listing.directory tbody tr td:nth-child(1) { text-align: left; }
+.listing.directory tbody tr th:nth-child(3),.listing.directory tbody tr td:nth-child(3) { text-align: center; }
 
 /* table row alternate color */
 .listing tbody tr:nth-child(odd) { background-color: #D9D9D9; }
@@ -210,15 +210,15 @@
 }
 
 /* table listing centering specific columns*/
-.listing.guild tbody tr th:nth-child(2), .listing.guild tbody tr td:nth-child(2) { text-align: center; }
-.listing.activity tbody tr th:nth-child(2), .listing.activity tbody tr td:nth-child(2) { text-align: center; }
-.listing.activity tbody tr th:nth-child(3), .listing.activity tbody tr td:nth-child(3) { text-align: center; }
+.listing.guild tbody tr th:nth-child(2),.listing.guild tbody tr td:nth-child(2) { text-align: center; }
+.listing.activity tbody tr th:nth-child(2),.listing.activity tbody tr td:nth-child(2) { text-align: center; }
+.listing.activity tbody tr th:nth-child(3),.listing.activity tbody tr td:nth-child(3) { text-align: center; }
 
 /**
- * Table Details For Dungeon, Encounter, Tier
+ * Table Details For Dungeon,Encounter,Tier
 */
 
-/* page details wrapper for dungeons, encounters, or tier details */
+/* page details wrapper for dungeons,encounters,or tier details */
 #page-details-wrapper {
     float: right;
     min-width: 400px;
@@ -362,7 +362,7 @@
 }
 
 /* form table text/password inputs */
-.form-table input[type=text], input[type=password] {
+.form-table input[type=text],input[type=password] {
     min-width: 200px;
     height: 26px;
     line-height: 26px;

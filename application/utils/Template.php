@@ -221,7 +221,6 @@ class Template {
         $html .= '</table>';
         $html .= '</div>';
         $html .= '<div class="clear"></div>';
-        $html .= '<div class="vertical-separator"></div>';
 
         return $html;
     }

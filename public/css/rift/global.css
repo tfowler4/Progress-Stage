@@ -1,0 +1,813 @@
+/** * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/) * http://cssreset.com */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video {    margin: 0;  padding: 0; border: 0;  font-size: 100%;    font: inherit;  vertical-align: baseline;}/* HTML5 display-role reset for older browsers */article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {    display: block;}body {  line-height: 1;}ol,ul {    list-style: none;}blockquote,q {   quotes: none;}blockquote:before,blockquote:after,q:before,q:after {   content: '';    content: none;}table {border-collapse: collapse;  border-spacing: 0;}
+
+/* entire HTML Page Defaults*/
+html,body {
+    width: 100%;
+    min-width: 1366px;
+    min-height: 1000px;
+    font-family: Arial,Helvetica,sans-serif;
+    font-weight: normal;
+    text-align: left;
+    color: #777777;
+    background-image: url('../../images/rift/graphics/page_bg_game_1.gif');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    background-color: #000000;
+}
+
+/* general link */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* general link hover stage */
+a:hover {
+    text-decoration: none;
+}
+
+/* span element */
+span {
+    vertical-align: middle;
+}
+
+/* img element */
+img {
+    vertical-align: middle;
+}
+
+/* creates breakline from elements */
+.clear {
+    clear: both;
+}
+
+/* horizontal line element to separate elements vertically by specific height */
+.vertical-separator {
+    display: block;
+    height: 4px;
+}
+
+/* vertical line element to separate elements horizontally by specific width */
+.horizontal-separator {
+    clear: both;
+    display: inline-block;
+    width: 4px;
+}
+
+/* hide the element from being rendered */
+.hidden {
+    display: none;
+}
+
+/* adds bold to font */
+.bold {
+    font-weight: bold;
+}
+
+/* align text to the left */
+.text-left {
+    text-align: left;
+}
+
+/* align text to the center */
+.text-center {
+    text-align: center;
+}
+
+/* align text to the right */
+.text-right {
+    text-align: right;
+}
+
+/* align element to the left */
+.move-left {
+    float: left;
+}
+
+/* align element to the right */
+.move-right {
+    float: right;
+}
+
+/* adds finger pointer to give clickable look to element*/
+.clickable {
+    cursor: pointer;
+}
+
+/* makes element unable to be selected for copy/paste text */
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+/* adds transparency to element by reducing opacity */
+.faded {
+    opacity: .3;
+}
+
+/* red faction text color */
+.defiant,.dominion {
+    color: rgba(135,60,39,1.0);
+}
+
+/* red faction text hover state */
+a.defiant:hover,a.dominion:hover {
+    color: #FFFFFF;
+}
+
+/* blue faction text color */
+.guardian,.exiles {
+    color: rgba(12,112,136,1.0);
+}
+
+/* blue faction text hover state */
+a.guardian:hover,a.exiles:hover {
+    color: #FFFFFF;
+}
+
+/*
+    INDEX
+*/
+
+/* full width wrapper around body content */
+#body-wrapper {
+    width: 100%;
+    min-width: 1336px;
+    margin-top: 45px;
+    text-align: center;
+}
+
+/* main content for body element */
+#body-content {
+    display: inline-block;
+    width: 1366px;
+    min-height: 768px;
+    background-color: rgba(0,0,0,0.6);
+}
+
+/* default flag image size for guild name links */
+.flag-icon {
+    width: 29px;
+    height: 16px;
+    margin-right: 4px;
+}
+
+/* custom flag icon size for top guild pane */
+.flag-custom {
+    height: 26px;
+    margin-right: 4px;
+}
+
+/* large guild logo size over default */
+.guild-logo-large {
+    width: 300px;
+}
+
+/* medium guild logo size over default */
+.guild-logo-medium {
+    width: 200px;
+}
+
+/* default guild rank trend icon */
+.trend-icon {
+    margin-right: 4px;
+}
+
+/* button submenu above data table */
+.submenu {
+    height: 40px;
+    font-size: 12px;
+    border: 1px solid rgba(60,3,3,0.5);
+    margin: 0px 5px 0px 5px;
+}
+
+/* button submenu item */
+.submenu li {
+    display: inline-block;
+    height: 40px;
+    border-right: 1px solid rgba(60,3,3,0.5);
+    line-height: 40px;
+    padding: 0px 10px 0px 10px;
+}
+
+/* button submenu item hover state */
+.submenu li:hover {
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+/* button submenu last item */
+.submenu a:last-child li {
+    border: 0;
+}
+
+/* side block content main title */
+.block-title {
+    height: 26px;
+    line-height: 26px;
+    font-family: Impact,sans-serif;
+    font-size: 18px;
+    color: #555555;
+}
+
+/* top content pane wrapper for primary display guilds */
+#top-guild-wrapper {
+    float: left;
+    height: 325px;
+}
+
+/* container for top content pane items */
+.top-guild-container {
+    display: inline-block;
+    height: 325px;
+}
+
+/* hover state for container pane logo */
+.top-guild-container:hover .top-guild-logo {
+    border: 1px solid #FFFFFF;
+}
+
+/* horizontal separator for top guild items */
+.top-guild-separator {
+    display: inline-block;
+    width: 15px;
+}
+
+/* top guild logo container */
+.top-guild-logo {
+    height: 275px;
+    width: 275px;
+    line-height: 275px;
+    border: 1px solid rgba(60,3,3,0.5);
+}
+
+/* guild logo for top guild container */
+.top-guild-logo img {
+    max-height: 275px;
+    max-width: 275px;
+}
+
+/* guild name text for top guild container */
+.top-guild-name {
+    height: 25px;
+    line-height: 25px;
+    font-family: Impact,sans-serif;
+    font-size: 22px; 
+    color: #555555;
+}
+
+/* guild placing text for top guild container */
+.top-guild-place {
+    height: 25px;
+    line-height: 25px;
+    font-size: 14px; 
+    font-weight: bold;
+    color: rgba(85,85,85,1.0);
+}
+
+/* highlight side block element with dark background and light text with padding */
+.highlight {
+    color: #FFFFFF;
+    background-color: rgba(60,3,3,0.5);
+    border: 1px solid rgba(60,3,3,0.5);
+    padding: 2px;
+}
+
+/* main content pane in 2 column layout */
+#main-block {
+    width: 1000px;
+    vertical-align: top;
+    float: left;
+}
+
+/* secondary content pane in 2 column layout */
+#side-block {
+    width: 360px;
+    vertical-align: top;
+    float: right;
+}
+
+/*
+    DIALOG
+*/
+
+/* dialog message box wrapper */
+#dialog-wrapper {
+    display: inline-block;
+    min-width: 420px !important;
+    border: 1px solid rgba(60,3,3,0.5);
+    padding: 5px;
+}
+
+/* dialog message box title */
+#dialog-title {
+    height: 32px;
+    line-height: 32px;
+    background-color: rgba(60,3,3,0.5);
+    font-size: 24px;
+    color: #666666;
+}
+
+/* dialog message box body content*/
+#dialog-body {
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+/*
+    FORM
+*/
+
+/* background shade color for screen fade out */
+.overlay {
+    position: fixed;
+    display: none;
+    min-width: 1336px;
+    min-height: 1000px;
+    background-color: rgba(0,0,0,0.9);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 99;
+}
+
+/* centered class for overlay display */
+.centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 99;
+}
+
+/* popup window wrapper */
+.popup-window {
+    max-height: 800px;
+    max-width: 95%;
+    background-color: rgba(0,0,0,0.9);
+    padding: 5px;
+    overflow-y: auto;
+}
+
+/* popup window wrapper for tables */
+.popup-window .table-wrapper {
+    width: auto !important;
+    max-width: 2000px !important;
+    white-space: nowrap;
+}
+
+/*
+    HEADER
+*/
+
+/* header navigation menu content wrapper */
+#menu-wrapper {
+    position: fixed;
+    min-width: 1336px;
+    width: 100%;
+    height: 45px;
+    top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    vertical-align: middle;
+    background-color: rgba(16,4,4,0.95);
+    border-bottom: 4px solid #000000;
+    z-index: 98;
+    cursor: default;
+    opacity: 0.95;
+}
+
+/* menu navigation inner content */
+#menu-content {
+    display: inline-block;
+    min-width: 1336px;
+    max-width: 1920px;
+    width: 100%;
+    height: 45px;
+    font-size: 14px;
+}
+
+/* menu navigation top level item */
+#menu-content li {
+    display: inline-block;
+    height: 45px;
+    line-height: 45px;
+    font-family: Verdana,Helvetica,sans-serif;
+    color: rgba(160,160,160,1);
+    padding: 0px 10px 0px 10px;
+    transition: color .15s ease-in-out;
+   -moz-transition: color .15s ease-in-out;
+   -webkit-transition: color .15s ease-in-out;
+}
+
+/* menu navigation top level item hover state */
+#menu-content li:hover {
+    color: #FFFFFF;
+    background-color: #000000;
+    cursor: default;
+}
+
+/* menu navigation top level item hover state */
+#menu-content li.no-highlight:hover {
+    background-color: transparent;
+    cursor: default;
+}
+
+/* top level item hover to display dropdown menu */
+#menu-content li:hover div {
+    display: block;
+}
+
+/* dropdown navigation item */
+.dropdown-menu-item {
+    min-width: 235px;
+    background-color: rgba(16,4,4,0.95);
+    text-align: left;
+    font-size: 14px;
+    color: rgba(160,160,160,1);
+    white-space: nowrap;
+    padding: 0px 8px 0px 8px;
+    cursor: pointer;
+    overflow-x: visible;
+    transition: background-color .10s ease-in-out;
+    -moz-transition: background-color .10s ease-in-out;
+    -webkit-transition: background-color .10s ease-in-out;
+}
+
+/* dropdown menu item hover state */
+.dropdown-menu-item:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+/* display the immediate next level dropdown menu item*/
+.dropdown-menu-item:hover > .dropdown-menu-second-level {
+    visibility: visible;
+}
+
+/* dropdown menu first level */
+.dropdown-menu-first-level {
+    position: absolute;
+    display: none;
+    background-color: rgba(16,4,4,0.95);
+    border: 4px solid #000000;
+    margin: 0px 0px 0px -10px;
+}
+
+/* dropdown menu second level */
+.dropdown-menu-second-level {
+    position: absolute;
+    visibility: hidden;
+    background-color: rgba(16,4,4,0.95);
+    border: 4px solid #000000;
+    margin-left: 243px;
+    margin-top: -49px;
+}
+
+/* dropdown menu second level that contains an image which requires more margin to maintain equal height */
+.dropdown-menu-second-level.image {
+    margin-top: -47px;
+}
+
+/* guild search textbox in header */
+#search-input {
+    height: 20px;
+    width: 150px;
+    background-color: rgba(25,4,4,1.0);
+    border: 0px solid #CCCCCC;
+    color: #FFFFFF;
+    font-size: 12px;
+    padding: 0px 5px 0px 5px;
+}
+
+/* removing the focus if textbox is in focus */
+
+
+/*
+    ARTICLE
+*/
+
+/* articles content wrapper for group of articles */
+#articles-wrapper {
+    width: 100%;
+    text-align: left;
+    vertical-align: top;
+    background-color: rgba(4,4,4,0.8);
+    margin-top: 4px;
+}
+
+/* news article item */
+.article {
+    width: 100%;
+    vertical-align: top;
+}
+
+/* article header title text */
+.article-header div {
+    height: 36px;
+    line-height: 36px;
+    color: #777777;
+    font-size: 26px;
+    padding: 0px 0px 0px 10px;
+}
+
+/* article header posted by/author text */
+.article-header span {
+    display: block;
+    height: 16px;
+    line-height: 16px;
+    font-size: 14px;
+    color: #777777;
+    border-bottom: 1px solid #222222;
+    padding: 0px 0px 0px 10px;
+}
+
+/* article body content */
+.article-content {
+    line-height: 22px;
+    font-size: 14px;
+    color: #888888;
+    padding: 5px;
+}
+
+/* article 3rd level headers */
+.article-content h3 {
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Arial,Helvetica,sans-serif;
+    color: #888888;
+    margin: 5px 5px 5px 5px;
+}
+
+/* article lists */
+.article-content ul,ol {
+    list-style: none;
+    padding: 2px 0px 2px 0px;
+}
+
+/*
+    FOOTER
+*/
+
+/* footer content wrapper displaying social media */
+#footer-wrapper {
+    width: 100%;
+    height: 35px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* footer inner content */
+#footer-content {
+    display: inline-block;
+    max-width: 1366px;
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    font-size: 14px;
+    background-color: rgba(0,0,0,0.6);
+}
+
+/* bottom content wrapper displaying copyright and logos */
+#bottom-wrapper {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 12px;
+}
+
+/* bottom inner content */
+.bottom-content {
+    display: inline-block;
+    min-width: 1366px;
+    max-width: 1366px;
+    width: 100%;
+    background-color: rgba(0,0,0,0.6);
+}
+
+/* bottom logo blocks that contain company/game logos */
+.bottom-logo-block {
+    display: inline-block;
+    width: 33%;
+    height: 200px;
+    vertical-align: middle;
+}
+
+/* bottom image helper */
+.bottom-logo-block span {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+/* bottom copyright container */
+#bottom-copyright {
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    background-color: rgba(4,4,4,0.8);
+}
+
+/*
+    TITLE
+*/
+
+ /* title of page content wrapper (if submodule displays one) */
+#title-wrapper {
+    height: 50px;
+    text-align: left;
+    vertical-align: top;
+    margin: 0px 5px 0px 5px;
+}
+
+/* flag image wrapper for title text */
+#title-flag {
+    height: 50px;
+    display: inline-block;
+    margin-right: 4px;
+}
+
+/* text wrapper for main and sub-level text */
+#title-text-wrapper {
+    height: 50px;
+    display: inline-block;
+    vertical-align: top;
+    color: #999999;
+}
+
+/* main title text */
+#title-main-text {
+    height: 36px;
+    line-height: 36px;
+    font-size: 36px;
+    font-family: 'Trebuchet MS',Helvetica,sans-serif;
+}
+
+/* secondary title text */
+#title-sub-text {
+    height: 14px;
+    line-height: 16px;
+    font-size: 12px;
+}
+
+/*
+    IMAGE PREVIEW
+*/
+
+/* preview container for faction logo,guild logo and county flag */
+#faction-logo-preview-wrapper,#guild-country-logo-preview-wrapper {
+    display: inline-block;
+    vertical-align: middle;
+    width: 250px;
+}
+
+/* faction logo/guild logo/country flag container */
+#faction-logo-preview-wrapper div,#guild-country-logo-preview-wrapper div {
+    vertical-align: middle;
+    height: 250px;
+    line-height: 250px;
+}
+
+/* ensure country flag and guild logo fill the container */
+#guild-country-logo-preview-wrapper img {
+    width: 250px;
+}
+
+/* screenshot size - medium if image too small */
+.screenshot-medium {
+    max-width: 400px;
+}
+
+/* screenshot size - large if image too large and is resized down */
+.screenshot-large {
+    max-width: 600px;
+}
+
+/* advertisement container - leaderboard */
+.advertisement-leaderboard {
+    height: 90px;
+    width: 728px;
+    margin: auto;
+}
+
+/* advertisement container - sidebar medium */
+.advertisement-sidebar-medium {
+    height: 300px;
+    width: 250px;
+    margin: auto;
+}
+
+/* advertisement container - sidebar medium */
+.advertisement-sidebar-large {
+    height: 600px;
+    width: 300px;
+    margin: auto;
+}
+
+/* form video link inputs */
+.video-link-input {
+    width: 100px !important;
+    height: 26px;
+    line-height: 26px;
+    background-color: #CCCCCC;
+    border: 0px solid transparent;
+    padding: 0px 3px 0px 3px;
+}
+
+/* form video link labels */
+.video-link-label {
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+    line-height: 26px;
+    text-align: right;
+    padding: 0px 4px 0px 0px;
+}
+
+/* set element width */
+.width-100 {
+    min-width: 100px !important;
+    width: 100px !important;
+}
+
+/* set element width */
+.width-125 {
+    min-width: 125px !important;
+    width: 125px !important;
+}
+
+/* set element width */
+.width-150 {
+    min-width: 150px !important;
+    width: 150px !important;
+}
+
+/* set element width */
+.width-175 {
+    min-width: 175px !important;
+    width: 175px !important;
+}
+
+/* set element width */
+.width-200 {
+    min-width: 200px !important;
+    width: 200px !important;
+}
+
+/* set element height */
+.height-100 {
+    min-height: 100px !important;
+    height: 100px !important;
+}
+
+/* set element height */
+.height-125 {
+    min-height: 125px !important;
+    height: 125px !important;
+}
+
+/* set element height */
+.height-150 {
+    min-height: 150px !important;
+    height: 150px !important;
+}
+
+/* set element height */
+.height-175 {
+    min-height: 175px !important;
+    height: 175px !important;
+}
+
+/* set element height */
+.height-200 {
+    min-height: 200px !important;
+    height: 200px !important;
+}
+
+input[type=submit] {
+    height: 20px;
+    font-size: 12px;
+    color: #777777;
+    border-width: 0px;
+    background-color: rgba(25,4,4,0.75);
+}
+
+/* side block rankings wrapper */
+#side-block-rankings-wrapper {
+    background-color: rgba(4,4,4,0.7);
+    padding: 0px 3px 0px 3px;
+}

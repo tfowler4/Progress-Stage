@@ -55,14 +55,14 @@
 }
 
 /* option content pane header/footer guild name (needs to be distinguished) */
-.option-header.guild, .option-footer.guild {
+.option-header.guild,.option-footer.guild {
     height: 32px;
     line-height: 32px;
     font-size: 14px ;
 }
 
 /* main option pane header/footer hover state */
-.option-header:hover, .option-footer:hover {
+.option-header:hover,.option-footer:hover {
     background-color: #C0C0C0;
 }
 

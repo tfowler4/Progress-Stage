@@ -2,11 +2,11 @@
 .pane-title {
     height: 34px;
     line-height: 30px;
-    font-family: Verdana, Geneva, sans-serif;
+    font-family: Verdana,Geneva,sans-serif;
     font-size: 24px;
     text-align:left;
-    border-bottom: 1px solid #000000;
-    margin-top: 10px;
+    border-bottom: 1px solid #777777;
+    margin: 10px 5px 0px 5px;
 }
 
 /* recent activity pane content wrapper */
@@ -56,8 +56,8 @@
 /* page anchor to be used by page navigation to link */
 .anchor {
     display: block; 
-    position: relative; 
-    top: -40px; 
+    position: relative;
+    top: -40px;
     visibility: hidden;
 }
 
@@ -67,7 +67,7 @@
 
 /* inner page navigation */
 #page-navigation {
-    margin-top: 6px;
+    margin: 6px 0px 0px 5px;
     text-align: left;
 }
 
@@ -76,14 +76,14 @@
     display: inline-block;
     height: 20px;
     line-height: 20px;
-    font-family: Verdana, Geneva, sans-serif;
+    font-family: Verdana,Geneva,sans-serif;
     font-size: 18px;
     padding: 0px 20px 0px 0px;
 }
 
 /* page navigation line item hover state */
 #page-navigation ul li:hover {
-    color: blue;
+    color: #FFFFFF
 }
 
 /* guild signature textarea output */

@@ -59,8 +59,8 @@ class Controller {
         }
 
         // if specific css file found, include it
-        if ( file_exists('public/css/' . $this->_modelName . '/' . $this->_modelName . '.css') ) {
-            $cssFile = 'public/css/' . $this->_modelName . '/' . $this->_modelName . '.css';
+        if ( file_exists('public/css/' . $_SESSION['template'] . '/' . $this->_modelName . '/' . $this->_modelName . '.css') ) {
+            $cssFile = 'public/css/' . $_SESSION['template'] . '/' . $this->_modelName . '/' . $this->_modelName . '.css';
         }
 
         $javascriptFiles = array();

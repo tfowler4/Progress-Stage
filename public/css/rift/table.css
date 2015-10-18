@@ -1,0 +1,417 @@
+/* content wrapper for full size tables */
+.table-wrapper {
+    display: block;
+    vertical-align: top;
+    background-color: rgba(8,4,4,0.9);
+}
+
+/* content wrapper for medium sized tables */
+.table-wrapper.medium {
+    display: inline-block;
+    width: 49.6%;
+    vertical-align: top;
+    background-color: rgba(8,4,4,0.9);
+}
+
+/* content wrapper for tables in articles */
+.table-wrapper .article {
+    background-color: rgba(8,4,4,0.9);
+}
+
+/* hyperlink placed in the header of the table (optionally) */
+.table-header-link {
+    float: right;
+    font-size: 12px;
+}
+
+/*
+ * Table Listing Guilds
+*/
+
+/* guild listing table */
+.listing {
+    width: 100%;
+    border-collapse: collapse;
+    
+}
+
+/* guild listing table body header */
+.listing tbody tr th {
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    text-align: center;
+    color: #000000;
+    padding: 0px 4px 0px 4px;
+    background-color: rgba(8,4,4,0.9);
+}
+
+/* tables listing header for multiple headers eg. Rank,Guild,Server,etc... */
+.listing tbody tr th.subHeader {
+    height: 26px;
+    line-height: 26px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #777777;
+    background-color: rgba(60,3,3,0.5);
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(60,3,3,0.5);
+    border-bottom-style: solid;
+}
+
+/* tables listing header for multiple titles eg. Dungeon Name,Tier Name,etc... */
+.listing tbody tr th.subTitle {
+    font-size: 16px;
+    font-family: Impact,Helvetica,sans-serif;
+    color: #777777;
+    text-align: left;
+    background-color: rgba(4,4,4,0.8);
+}
+
+.listing tbody tr td {
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    color: #777777;
+    text-align: center;
+    padding: 0px 4px 0px 4px;
+}
+
+/* guild and server columns must be left-aligned */
+.listing tbody tr th:nth-child(2),.listing tbody tr th:nth-child(3) { text-align: left; }
+.listing tbody tr td:nth-child(2),.listing tbody tr td:nth-child(3) { text-align: left; }
+
+/* guild and server columns must be left-aligned */
+.listing.directory tbody tr th:nth-child(1),.listing.directory tbody tr td:nth-child(1) { text-align: left; }
+.listing.directory tbody tr th:nth-child(3),.listing.directory tbody tr td:nth-child(3) { text-align: center; }
+
+/* table row alternate color */
+.listing tbody tr:nth-child(odd) {  }
+
+/* tables article */
+.article table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+/* article inner table header */
+.article thead tr th {
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    color: #777777;
+    padding: 0px 4px 0px 4px;
+}
+
+/* article table subheader inside the body */
+.article tbody tr th.subHeader {
+    height: 20px;
+    line-height: 20px;
+    font-size: 11px;
+    background-color: rgba(60,3,3,0.5);
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(60,3,3,0.5);
+    border-bottom-style: solid;
+}
+
+/* article table subtitle inside the body */
+.article tbody tr th.subTitle {
+    font-size: 14px;
+    font-family: Impact,Helvetica,sans-serif;
+    color: #777777;
+    text-align: left;
+    background-color: rgba(4,4,4,0.8);
+}
+
+/* article table body cell content */
+.article tbody tr td {
+    height: 30px;
+    line-height: 1.5;
+    font-size: 12px;
+    padding: 0px 4px 0px 4px;
+    vertical-align: middle;
+}
+
+/* article table body first column to be bolded */
+.article tbody tr td:nth-child(1) {
+    font-weight: bold;
+    width: 200px;
+}
+
+/*
+ * Table Glossary Definitions
+*/
+
+ /* wrapper for glossary table */
+#glossary-wrapper {
+    display: block;
+}
+
+/* inner glossary table */
+.glossary {
+    font-size: 14px;
+    color: #777777;
+    border-collapse: separate;
+    background-color: rgba(8,4,4,0.9);
+}
+
+/* glossary table header */
+.glossary thead tr th {
+    height: 32px;
+    line-height: 32px;
+    font-family: Impact,Helvetica,sans-serif;
+    text-align: left;
+    padding: 0px 4px 0px 4px;
+}
+
+/* glossary table body cell content */
+.glossary tbody tr td {
+    height: 28px;
+    line-height: 28px;
+    font-size: 11px;
+    text-align: left;
+    padding: 0px 8px 0px 8px;
+}
+
+/*
+ * Table Listing Guilds on Side Blocks
+*/
+
+/* side block listing wrapper */
+#side-block-rankings-wrapper {
+    padding: 0px 3px 0px 3px;
+}
+
+/* side block listings table */
+.side-block-listing { width: 100%; }
+
+/* side block listings body header */
+.side-block-listing tbody tr th {
+    height: 32px;
+    line-height: 30px;
+    font-size: 14px;
+    text-align: left;
+    padding: 0px 4px 0px 4px;
+}
+
+/* side block listings body cell content */
+.side-block-listing tbody tr td {
+    height: 14px;
+    line-height: 14px;
+    font-size: 12px;
+    color: #666666;
+    text-align: left;
+    padding: 0px 4px 0px 4px;
+}
+
+/* side block listings body 2nd column larger text (news model rankings) */
+.side-block-listing tbody tr td:nth-child(2) {
+    font-size: 30px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+/* table listing centering specific columns*/
+.listing.guild tbody tr th:nth-child(2),.listing.guild tbody tr td:nth-child(2) { text-align: center; }
+.listing.activity tbody tr th:nth-child(2),.listing.activity tbody tr td:nth-child(2) { text-align: center; }
+.listing.activity tbody tr th:nth-child(3),.listing.activity tbody tr td:nth-child(3) { text-align: center; }
+
+/**
+ * Table Details For Dungeon,Encounter,Tier
+*/
+
+/* page details wrapper for dungeons,encounters,or tier details */
+#page-details-wrapper {
+    float: right;
+    min-width: 400px;
+    background-color: rgba(8,4,4,0.30);
+    border: 1px solid rgba(60,3,3,0.5);
+    padding: 0px 3px 0px 3px;
+    margin: 0px 5px 0px 5px;
+}
+
+/* page details table */
+.page-details { width: 100%; }
+
+/* page details table header */
+.page-details thead tr th {
+    height: 24px;
+    line-height: 24px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* page details body header */
+.page-details tbody tr th {
+    height: 24px;
+    line-height: 24px;
+    font-size: 14px;
+    text-align: left;
+}
+
+/* page details table body cell content */
+.page-details tbody tr td {
+    height: 24px;
+    line-height: 24px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+}
+
+/**
+ * Table Details For Guild Profile
+*/
+
+/* side block guild profile content wrapper */
+#side-profile-wrapper {
+    border-radius: 3px;
+    background-color: rgba(4,4,4,0.7);
+    padding: 0px 3px 0px 3px;
+}
+
+ /* side block guild profile table */
+.side-profile-table { width: 100%; }
+
+/* side block guild profile header */
+.side-profile-table thead tr th {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    padding-top: 8px;
+}
+
+/* side block guild profile body header */
+.side-profile-table tbody tr th {
+    height: 32px;
+    line-height: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+    padding: 0px 4px 0px 4px;
+}
+
+/* side block guild profile body cell content */
+.side-profile-table tbody tr td {
+    height: 32px;
+    line-height: 30px;
+    font-size: 14px;
+    text-align: left;
+    padding: 0px 4px 0px 4px;
+}
+
+/* side block guild profile footer header */
+.profile-table tfoot tr th { text-align: center; }
+
+/* add right border (primarily for table cell separating) */
+.border-right {  }
+
+/* world first ranking text for glossary */
+.world-first-rank { color: #CC0000; }
+
+/* region first ranking text for glossary */
+.region-first-rank { color: #FF9966; }
+
+/**
+ * Table Displaying Forms
+*/
+
+/* table wrapped in a form content wrapper */
+#form-table-wrapper {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    background-color: rgba(8,4,4,0.95);
+    border: 1px solid #000000;
+    padding: 10px;
+}
+
+/* form table header */
+.form-table thead tr th {
+    height: 26px;
+    line-height: 26px;
+    font-size: 18px;
+    font-family: Impact,Helvetica,sans-serif;
+    text-align: center;
+}
+
+/* form table body header */
+.form-table tbody tr th {
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+
+/* form table body cell content */
+.form-table tbody tr td {
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    text-align: left;
+}
+
+/* form table footer cell content */
+.form-table tfoot tr td {
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* form table text/password inputs */
+.form-table input[type=text],input[type=password] {
+    min-width: 200px;
+    height: 26px;
+    line-height: 26px;
+    color: #888888;
+    background-color: rgba(25,4,4,1.0);
+    border: 0px solid transparent;
+    padding: 0px 3px 0px 3px;
+}
+
+/* form table select dropdown */
+.form-table select {
+    color: #888888;
+    background-color: rgba(25,4,4,1.0);
+    height: 25px;
+    min-width: 175px;
+    border: 0px solid transparent;
+}
+
+/* form table textarea */
+.form-table textarea {
+    height: 200px;
+    width: 100%;
+    color: #888888;
+    background-color: rgba(25,4,4,1.0);
+    padding: 0px 5px 0px 5px;
+    border: 0px solid transparent;
+    resize: none;
+}
+
+/**
+ * Table Displaying Popup Forms
+*/
+
+/* popup form table body header */
+.form-table.popup tbody tr th {
+    height: 22px;
+    line-height: 22px;
+    font-size: 14px;
+    text-align: left;
+}
+
+/* popup form table select dropdown */
+.form-table.popup select {
+    min-width: 100px;
+}
+
+/* popup form table standard size select dropdown */
+.form-table.standard select {
+    min-width: 50px;
+}

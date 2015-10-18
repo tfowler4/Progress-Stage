@@ -31,7 +31,7 @@ var NewsEventBinder = function() {
             activePane.slideToggle(slideDelay, 'linear', function() {
                 activePane.addClass('hidden');
                 activePane.removeClass('active');
-                activePane.css('background-color', '#D9D9D9');
+                //activePane.css('background-color', '#D9D9D9');
 
                 blockRankHeight = $("#dungeon-slider").css('height');
             });
@@ -40,7 +40,7 @@ var NewsEventBinder = function() {
                 stopClickRankPanel = false;
                 currentPane.removeClass('hidden');
                 currentPane.addClass('active');
-                activePane.css('background-color', '#D9D9D9');
+                //activePane.css('background-color', '#D9D9D9');
                 
                 blockRankHeight = $("#dungeon-slider").css('height');
             });
@@ -87,10 +87,10 @@ var NewsEventBinder = function() {
 
     // recent raid buttons click to scroll through different list panes
     $(document).on('click touchstart', '.scroll-button-recent', function() {
-        var numOfDisplayItems = 8;
+        var numOfDisplayItems = 9;
         var numOfRecentItems  = Math.ceil($("#latest-kills  ul li").length / numOfDisplayItems);
         var recentSlideDelay  = 500;
-        var recentSlideWidth  = 1206;
+        var recentSlideWidth  = 1268; // add 8 to width from css
         var maxRecentPaneSize = numOfRecentItems * recentSlideWidth;
 
         if( stopClickRecent ) { return; }

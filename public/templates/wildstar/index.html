@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><?php echo $data->title . ' | ' . SITE_TITLE; ?></title>
+        <meta name="description" content="<?php echo META_DESCRIPTION; ?>">
+        <meta name="keywords" content="<?php echo META_KEYWORDS; ?>">
+        <meta name="author" content="<?php echo META_AUTHOR; ?>">
+        <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+        <meta property="og:title" content="<?php echo $data->title; ?>" />
+        <?php if ( !empty($data->description) ): ?><meta property="og:description" content="<?php echo $data->description; ?>" /> <?php endif; ?>
+        
+<?php include('scripts.html'); ?>
+    </head>
+    <body>
+        <div class="overlay"></div>
+        <?php include('header.html'); ?>
+        <?php include($this->_contentFile); ?>
+        <?php include('footer.html'); ?>
+        <?php include('bottom.html'); ?>
+        <div id="popup-wrapper" class="popup-window popup hidden"></div>
+    </body>
+</html>
+
+<?php ob_end_flush(); ?>
