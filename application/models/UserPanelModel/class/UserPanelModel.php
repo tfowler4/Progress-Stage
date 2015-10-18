@@ -55,11 +55,6 @@ class UserPanelModel extends Model {
                     $this->_guildDetails = $this->_getCorrectGuild($this->_action);
                 }
 
-                if ( $this->_guildDetails == null ) {
-                    header('Location: ' . HOST_NAME);
-                    die;
-                }
-
                 $this->_formFields   = new GuildFormFields();
                 $this->_currentPanel = new UserPanelModelGuild($this->_action, $this->_formFields, $this->_guildDetails, $this->_userDetails, $this->_userGuilds, $this->_raidTeams);
                 break;

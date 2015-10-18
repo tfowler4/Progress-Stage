@@ -45,6 +45,13 @@ class UserPanelModelGuild extends UserPanelModel {
         $this->_formFields   = $formFields;
         $this->_raidTeams    = $raidTeams;
 
+        // if an action is attempting to modify a guild and no guild details are present
+        // error out
+        if ( $this->_action != self::GUILD_ADD && $this->_guildDetails == null ) {
+            header('Location: ' . HOST_NAME);
+            die;
+        }
+
         if ( Post::formActive() ) {
             $this->_populateFormFields();
 
