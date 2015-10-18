@@ -76,6 +76,7 @@ class GuildDetails extends DetailObject {
     // Merged Rankings Properties
     protected $_rank;
     protected $_trend;
+    protected $_trendImage;
     protected $_prevRank;
     protected $_pointDiff;
     protected $_worldRank;

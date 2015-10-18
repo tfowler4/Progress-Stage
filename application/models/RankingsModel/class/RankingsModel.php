@@ -31,7 +31,7 @@ class RankingsModel extends Model {
             'WF'            => '_worldFirst',
             'RF'            => '_regionFirst',
             'SF'            => '_serverFirst',
-            'Trending'      => '_trend',
+            'Trending'      => '_trendImage',
             'Previous Rank' => '_prevRank'
         );
 
@@ -146,6 +146,17 @@ class RankingsModel extends Model {
                 $points                   = $rankDetails->_points;
                 $guildDetails->_pointDiff = Functions::getPointDiff($currentPoints, $points);
                 $guildDetails->_points    = number_format($rankDetails->_points, 2, '.', ',');
+
+                // set the trend image based on trend value
+                $guildDetails->_trendImage = $guildDetails->_trend;
+
+                if ( $guildDetails->_trend > 0 ) {
+                    $guildDetails->_trendImage = IMG_ARROW_TREND_UP_SML . ' ' . $guildDetails->_trend;
+                }
+
+                if ( $guildDetails->_trend < 0 ) {
+                    $guildDetails->_trendImage = IMG_ARROW_TREND_DOWN_SML . ' ' . $guildDetails->_trend;
+                }
 
                 $currentPoints = $points;
             }

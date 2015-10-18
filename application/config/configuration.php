@@ -88,6 +88,4 @@ if ( session_id() == '' || !isset($_SESSION) ) {
 }
 
 // set default template
-if ( !isset($_SESSION['template']) ) {
-    $_SESSION['template'] = DEFAULT_TEMPLATE;
-}
+$_SESSION['template'] = DEFAULT_TEMPLATE;

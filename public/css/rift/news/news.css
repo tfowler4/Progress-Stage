@@ -306,6 +306,8 @@
 .side-ranking-systems-buttons {
     height: 28px;
     line-height: 28px;
+    border: 1px solid transparent;
+    padding: 2px;
 }
 
 /* side block rankings subheader (dungeon/tier) */
