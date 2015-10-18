@@ -15,7 +15,7 @@ html,body {
     background-repeat: no-repeat;
     background-position: center top;
     background-attachment: fixed;
-    background-color: #000000;
+    background-color: #FFFFFF;
 }
 
 /* general link */
@@ -115,6 +115,7 @@ img {
 
 /* red faction text color */
 .defiant,.dominion {
+    font-weight: bold;
     color: rgba(135,60,39,1.0);
 }
 
@@ -125,6 +126,7 @@ a.defiant:hover,a.dominion:hover {
 
 /* blue faction text color */
 .guardian,.exiles {
+    font-weight: bold;
     color: rgba(12,112,136,1.0);
 }
 

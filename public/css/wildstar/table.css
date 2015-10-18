@@ -108,10 +108,10 @@
 .article tbody tr th.subHeader {
     height: 20px;
     line-height: 20px;
-    font-size: 11px;
-    background-color: rgba(60,3,3,0.5);
+    font-size: 13px;
+    background-color: rgba(1,31,44,0.50);
     border-bottom-width: 2px;
-    border-bottom-color: rgba(60,3,3,0.5);
+    border-bottom-color: rgba(1,31,44,.50);
     border-bottom-style: solid;
 }
 

@@ -79,7 +79,7 @@
             <div id="standings-wrapper">
                 <?php $count = 0; foreach( $data->_guildStandings as $dungeonId => $dataArray ): ?>
 
-                    <div class="table-wrapper standings medium">
+                    <div class="table-wrapper standings medium <?php if ( $count > 0 ) { echo 'move-right'; } else { echo 'move-left'; } ?>">
                         <table class="listing news">
                             <thead>
                             </thead>
@@ -99,11 +99,10 @@
                         </table>
                     </div>
 
-                    <!--<?php if ( $count == 0 ): ?><div class="horizontal-separator"> </div><?php endif; ?>-->
-
                     <?php $count++; ?>
                 <?php endforeach; ?>
 
+                <div class="clear"></div>
                 <div class="vertical-separator"></div>
             </div>
 
