@@ -23,7 +23,6 @@ class WeeklyRaidingReport extends Script {
 
         self::getPastWeekEncounters();
         self::createArticle();
-        self::displayArticle();
 
         Logger::log('INFO', 'Adding new Weekly Raiding Report to Database...', 'dev');
         self::addArticleToDatabase();

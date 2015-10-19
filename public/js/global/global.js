@@ -321,4 +321,27 @@ var GlobalEventBinder = function() {
 
         return rootDir;
     }
+
+    // update site skin via select dropbox on footer of page
+    $(document).on('change', '#skin-selector', function() { updateSiteSkin($('#skin-selector')); });
+    var updateSiteSkin = function(input) {
+        var currentPageUrl = document.URL;
+        var skinValue      = input.val();
+
+        console.log(input);
+        console.log(skinValue);
+        // ajax call to set session value and reload page
+        $.ajax({
+            url: currentPageUrl,
+            type: 'POST',
+            data: { request: 'siteSkin', skinValue: skinValue},
+            success: function(data) {
+                location.reload();
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            }
+        });
+    }
 };
