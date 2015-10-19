@@ -11,7 +11,7 @@ date_default_timezone_set('America/Los_Angeles');
 // Supported Games
 define('GAME_RIFT',     'Rift');
 define('GAME_WILDSTAR', 'WildStar');
-define('GAME_NAME_1',   GAME_WILDSTAR);
+define('GAME_NAME_1',   GAME_RIFT);
 define('LIVE',          0);
 
 // setting HOST_NAME
@@ -88,4 +88,6 @@ if ( session_id() == '' || !isset($_SESSION) ) {
 }
 
 // set default template
-$_SESSION['template'] = DEFAULT_TEMPLATE;
+if ( empty($_SESSION['template']) ) {
+    $_SESSION['template'] = DEFAULT_SKIN;
+}

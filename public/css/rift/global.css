@@ -799,12 +799,44 @@ a.guardian:hover,a.exiles:hover {
     height: 200px !important;
 }
 
+/* submit button imput */
 input[type=submit] {
     height: 20px;
     font-size: 12px;
     color: #777777;
     border-width: 0px;
     background-color: rgba(25,4,4,0.75);
+}
+
+/* text/password inputs */
+input[type=text],input[type=password] {
+    min-width: 200px;
+    height: 26px;
+    line-height: 26px;
+    color: #888888;
+    background-color: rgba(25,4,4,1.0);
+    border: 0px solid transparent;
+    padding: 0px 3px 0px 3px;
+}
+
+/* select dropdown */
+select {
+    color: #888888;
+    background-color: rgba(25,4,4,1.0);
+    height: 25px;
+    min-width: 175px;
+    border: 0px solid transparent;
+}
+
+/* textarea */
+textarea {
+    height: 200px;
+    width: 100%;
+    color: #888888;
+    background-color: rgba(25,4,4,1.0);
+    padding: 0px 5px 0px 5px;
+    border: 0px solid transparent;
+    resize: none;
 }
 
 /* side block rankings wrapper */

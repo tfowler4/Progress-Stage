@@ -9,6 +9,7 @@ class User extends DataObject {
     protected $_emailAddress;
     protected $_encrypedPassword;
     protected $_dateCreated;
+    protected $_defaultTemplate;
     protected $_admin;
 
     /**
@@ -20,6 +21,7 @@ class User extends DataObject {
         $this->_emailAddress     = $params['email'];
         $this->_encrypedPassword = $params['passcode'];
         $this->_dateCreated      = $params['date_joined'];
+        $this->_defaultTemplate  = $params['default_template'];
         $this->_admin            = $params['admin'];
     }
 }

@@ -10,5 +10,15 @@
                 echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
             ?>
         <?php endif; ?>
+        Site Skin: 
+        <select id="skin-selector">
+            <?php foreach(unserialize(SITE_SKINS) as $skinId => $skinValue): ?>
+                <?php if ( $skinId == $_SESSION['template'] ): ?>
+                    <option value="<?php echo $skinId; ?>" selected><?php echo $skinValue; ?></option>
+                <?php else: ?>
+                    <option value="<?php echo $skinId; ?>"><?php echo $skinValue; ?></option>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </select>
     </div>
 </div>

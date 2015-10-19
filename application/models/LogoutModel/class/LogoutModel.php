@@ -15,12 +15,9 @@ class LogoutModel extends Model {
         $this->title = self::PAGE_TITLE;
 
         if ( Post::formActive() ) { // Form has required fields filled out
-            session_unset();
-
-            // set default template
-            if ( !isset($_SESSION['template']) ) {
-                $_SESSION['template'] = DEFAULT_TEMPLATE;
-            }
+            unset($_SESSION['userId']);
+            unset($_SESSION['logged']);
+            unset($_SESSION['userDetails']);
 
             $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully logged out!');
         }

@@ -69,6 +69,7 @@ class LoginModel extends Model {
                     passcode,
                     active,
                     date_joined,
+                    default_template,
                     confirmcode,
                     admin
                FROM %s
@@ -85,6 +86,7 @@ class LoginModel extends Model {
             $_SESSION['userId']      = $dbh->lastInsertId('user_id');
             $_SESSION['logged']      = 'yes';
             $_SESSION['userDetails'] = new User($user);
+            $_SESSION['template']    = $user['default_template'];
         }
     }
 }

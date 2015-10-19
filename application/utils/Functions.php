@@ -776,6 +776,28 @@ class Functions {
 
         return $guildDetails;
     }
+
+    /**
+     * update user details in database to new selected template
+     *
+     * @param  string $templateName [ name of template skin ]
+     * @param  User   $userDetails  [ User Details Object ]
+     * 
+     * @return void
+     */
+    public static function updateUserTemplate($templateName, $userDetails) {
+        $dbh = DbFactory::getDbh();
+
+        $query = $dbh->prepare(sprintf(
+            "UPDATE %s
+                SET default_template = '%s'
+              WHERE user_id = '%s'",
+            DbFactory::TABLE_USERS,
+            $templateName,
+            $userDetails->_userId
+        ));
+        $query->execute();
+    }
 }
 
 Functions::init();

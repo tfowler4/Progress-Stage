@@ -91,6 +91,7 @@ class UserPanelModel extends Model {
                     passcode,
                     active,
                     date_joined,
+                    default_template,
                     confirmcode,
                     admin
                FROM %s
