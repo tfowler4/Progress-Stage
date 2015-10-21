@@ -289,12 +289,12 @@ class NewsModel extends Model {
 
             $encounterDetails   = $guildDetails->_encounterDetails->$encounterId;
             $encounterSpecifics = CommonDataContainer::$encounterArray[$encounterId];
-            $guildDetails->nameLength(12);
+            $guildDetails->nameLength(10);
 
             $dataArray[$identifier]             = new stdClass();
             $dataArray[$identifier]->name       = $guildDetails->_name;
             $dataArray[$identifier]->guild      = $guildDetails->_nameLink;
-            $dataArray[$identifier]->encounter  = Functions::shortName($encounterSpecifics->_name, 22);
+            $dataArray[$identifier]->encounter  = Functions::shortName($encounterSpecifics->_name, 20);
             $dataArray[$identifier]->time       = $encounterDetails->_shorttime;
             $dataArray[$identifier]->server     = $guildDetails->_server;
             $dataArray[$identifier]->link       = Functions::generateInternalHyperLink('guild', $guildDetails->_faction, $guildDetails->_server, $guildDetails->_name, 0, false);

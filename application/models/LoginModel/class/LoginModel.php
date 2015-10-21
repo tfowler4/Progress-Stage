@@ -86,7 +86,7 @@ class LoginModel extends Model {
             $_SESSION['userId']      = $dbh->lastInsertId('user_id');
             $_SESSION['logged']      = 'yes';
             $_SESSION['userDetails'] = new User($user);
-            $_SESSION['template']    = $user['default_template'];
+            //$_SESSION['template']    = $user['default_template'];
         }
     }
 }

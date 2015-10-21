@@ -439,8 +439,16 @@ class Functions {
             $name = str_replace(' ', '_', $name);
 
             if ( strrpos($name, '_') == ($length - 1) ) { $name = substr($name, 0, $length - 1); }
-            $name = trim(substr(trim($name), 0, $length)) . '...';
+            $name = trim(substr(trim($name), 0, $length));
             $name = str_replace('_', ' ', $name);
+
+            $lastChar = substr($name, strlen($name) -1);
+
+            if ( $lastChar == ' ' ) {
+                $name = substr($name, 0, strlen($name) - 1);
+            }
+
+            $name .= '...';
         }
 
         return $name;

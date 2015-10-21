@@ -196,7 +196,7 @@
 /* recent raid listing content wrapper */
 #recent-raids-wrapper {
     display: inline-block;
-    width: 1336px;
+    width: 1366px;
     height: 90px;
     text-align: left;
     vertical-align: top;
@@ -206,7 +206,7 @@
 #latest-kills {
     position: relative;
     display: inline-block;
-    width: 1198px;
+    width: 1260px;
     height: 90px;
     vertical-align: top;
     overflow: hidden;
@@ -228,7 +228,7 @@
     position: relative;
     display: inline-block;
     float: left;
-    width: 150px;
+    width: 140px;
     height: 90px;
     font-size: 12px;
     text-align: left;
