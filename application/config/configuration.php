@@ -91,3 +91,7 @@ if ( session_id() == '' || !isset($_SESSION) ) {
 if ( empty($_SESSION['template']) ) {
     $_SESSION['template'] = DEFAULT_SKIN;
 }
+
+if ( Post::get('skinValue') != '' ) {
+    $_SESSION['template'] = Post::get('skinValue');
+}

@@ -34,8 +34,6 @@ abstract class Model {
                 die;
                 break;
             case 'siteSkin':
-                $_SESSION['template'] = Post::get('skinValue');
-
                 // if the user is logged in, change their default template to the current template
                 if ( isset($_SESSION['userDetails']) ) {
                     Functions::updateUserTemplate($_SESSION['template'], $_SESSION['userDetails']);
