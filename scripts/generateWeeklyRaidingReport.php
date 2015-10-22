@@ -97,7 +97,7 @@ class WeeklyRaidingReport extends Script {
             values('%s','%s','%s','%s','%s','%s')",
              DbFactory::TABLE_NEWS,
              self::$reportArticle->title,
-             self::$reportArticle->content,
+             mysql_escape_string(self::$reportArticle->content),
              self::$reportArticle->date,
              self::$reportArticle->postedBy,
              1,
