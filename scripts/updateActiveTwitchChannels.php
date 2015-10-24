@@ -13,7 +13,8 @@ class Twitch extends Script {
     public static function init() {
         Logger::log('INFO', 'Starting Update Twitch Channel...', 'dev');
 
-        self::cleanTwitchDirectory();
+        // No longer cleaning twitch folder to prevent images having issues being loaded
+        //self::cleanTwitchDirectory();
         self::getTwitchChannels();
 
         $directory = ABS_FOLD_TWITCH;
