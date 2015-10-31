@@ -213,44 +213,44 @@ class GuildDirectoryModel extends Model {
      * @return object [ site properties ]
      */
     private function _getGuildData() {
-        $returnObj = new stdClass();
+        $returnObj = array();
 
-        $returnObj->numOfGuilds = count(CommonDataContainer::$guildArray);
+        $returnObj['numOfGuilds'] = count(CommonDataContainer::$guildArray);
 
         foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
             if ( $guildDetails->_region == 'NA' ) { 
-                if ( !isset($returnObj->numOfActiveNAGuilds) ) { 
-                    $returnObj->numOfActiveNAGuilds = 0; 
+                if ( !isset($returnObj['numOfActiveNAGuilds']) ) { 
+                    $returnObj['numOfActiveNAGuilds'] = 0; 
                 }
 
-                if ( !isset($returnObj->numOfInactiveNAGuilds) ) { 
-                    $returnObj->numOfInactiveNAGuilds = 0; 
+                if ( !isset($returnObj['numOfInactiveNAGuilds']) ) { 
+                    $returnObj['numOfInactiveNAGuilds'] = 0; 
                 }
 
                 if ( $guildDetails->_activeStatus == 'Inactive' ) {
-                    $returnObj->numOfInactiveNAGuilds++; 
+                    $returnObj['numOfInactiveNAGuilds']++; 
                 } else {
-                    $returnObj->numOfActiveNAGuilds++; 
+                    $returnObj['numOfActiveNAGuilds']++; 
                 }
             }
 
             if ( $guildDetails->_region == 'EU' ) { 
-                if ( !isset($returnObj->numOfActiveEUGuilds) ) { 
-                    $returnObj->numOfActiveEUGuilds = 0; 
+                if ( !isset($returnObj['numOfActiveEUGuilds']) ) { 
+                    $returnObj['numOfActiveEUGuilds'] = 0; 
                 }
 
-                if ( !isset($returnObj->numOfInactiveEUGuilds) ) { 
-                    $returnObj->numOfInactiveEUGuilds = 0; 
+                if ( !isset($returnObj['numOfInactiveEUGuilds']) ) { 
+                    $returnObj['numOfInactiveEUGuilds'] = 0; 
                 }
 
                 if ( $guildDetails->_activeStatus == 'Inactive' ) {
-                    $returnObj->numOfInactiveEUGuilds++; 
+                    $returnObj['numOfInactiveEUGuilds']++; 
                 } else {
-                    $returnObj->numOfActiveEUGuilds++; 
+                    $returnObj['numOfActiveEUGuilds']++; 
                 }
             }
         }
 
-        return $returnObj;
+        return (object) $returnObj;
     }
 }

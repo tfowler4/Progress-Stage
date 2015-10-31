@@ -200,11 +200,12 @@ class AdministratorModelGuild {
             $childrenIdArray = explode('||', $this->_guildDetails->_child);
 
             foreach( $childrenIdArray as $index => $guildId ) {
-                 $childForm = new stdClass();
-                 $childForm->guildId = $guildId;
+                $childForm           = array();
+                $childForm[$guildId] = $guildId;
+                $childForm           = (object) $childForm;
 
-                 DBObjects::removeGuild($childForm);
-                 $this->_removeGuildLogo($childForm->guildId);
+                DBObjects::removeGuild($childForm);
+                $this->_removeGuildLogo($childForm->guildId);
             }
         }
         

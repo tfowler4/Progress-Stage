@@ -172,26 +172,26 @@ class GuildModel extends Model {
      */
     private function _mergeRankDetailsToEncounters() {
         foreach( $this->_guildDetails->_encounterDetails as $encounterId => $encounterDetails ) {
-            $newEncounterDetails = new stdClass();
+            $newEncounterDetails = array();
 
             $encounterProperties = $encounterDetails->getProperties();
 
             foreach ( $encounterProperties as $key => $value ) {
-                $newEncounterDetails->$key = $value;
+                $newEncounterDetails[$key] = $value;
             }
 
             foreach ( CommonDataContainer::$rankSystemArray as $systemId => $systemDetails ) {
                 $systemAbbreviation = $systemDetails->_abbreviation;
                 $identifier         = $encounterId . '_' . $systemAbbreviation;
 
-                $newEncounterDetails->{'_' . $systemAbbreviation} = '--';
+                $newEncounterDetails['_' . $systemAbbreviation] = '--';
 
                 if ( isset($this->_guildDetails->_rankDetails->_rankEncounters->$identifier->_points) ) {
-                    $newEncounterDetails->{'_' . $systemAbbreviation} = Functions::formatPoints($this->_guildDetails->_rankDetails->_rankEncounters->$identifier->_points);
+                    $newEncounterDetails['_' . $systemAbbreviation] = Functions::formatPoints($this->_guildDetails->_rankDetails->_rankEncounters->$identifier->_points);
                 }
             }
 
-            $this->_guildDetails->_encounterDetails->$encounterId = $newEncounterDetails;
+            $this->_guildDetails->_encounterDetails->$encounterId = (object) $newEncounterDetails;
         }
     }
 

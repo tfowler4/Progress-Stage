@@ -58,13 +58,13 @@ class Dungeon extends DataObject {
      * @return object [ property containing all encounters from dungeon ]
      */
     private function _getEncounters($dungeonId) {
-        $property = new stdClass();
+        $property = array();
 
         foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ) {
-            if ( $encounterDetails->_dungeonId == $dungeonId ) { $property->$encounterId = $encounterDetails; }
+           if ( $encounterDetails->_dungeonId == $dungeonId ) { $property[$encounterId] = $encounterDetails; }
         }
 
-        return $property;
+        return (object) $property;
     }
 
     /**

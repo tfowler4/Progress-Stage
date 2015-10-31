@@ -221,11 +221,7 @@ class NewsModel extends Model {
                     $image        = Functions::getTrendImage($trend);
                     $identifier   = $systemAbbrev . ' | ' . $guildId;
 
-                    $detailsArray[$rankId][$identifier]           = new stdClass();
-                    $detailsArray[$rankId][$identifier]->points   = $points;
-                    $detailsArray[$rankId][$identifier]->progress = $guildDetails->_standing;
-                    $detailsArray[$rankId][$identifier]->guild    = $guildDetails->_nameLink;
-                    $detailsArray[$rankId][$identifier]->rank     = $image . ' ' . $rank;
+                    $detailsArray[$rankId][$identifier] = new NewsSideRankings($guildDetails, $points, $image, $rank);
                 }
             }
 
@@ -287,19 +283,7 @@ class NewsModel extends Model {
 
             if ( !isset($guildDetails->_encounterDetails->$encounterId) ) { continue; }
 
-            $encounterDetails   = $guildDetails->_encounterDetails->$encounterId;
-            $encounterSpecifics = CommonDataContainer::$encounterArray[$encounterId];
-            $guildDetails->nameLength(10);
-
-            $dataArray[$identifier]             = new stdClass();
-            $dataArray[$identifier]->name       = $guildDetails->_name;
-            $dataArray[$identifier]->guild      = $guildDetails->_nameLink;
-            $dataArray[$identifier]->encounter  = Functions::shortName($encounterSpecifics->_name, 20);
-            $dataArray[$identifier]->time       = $encounterDetails->_shorttime;
-            $dataArray[$identifier]->server     = $guildDetails->_server;
-            $dataArray[$identifier]->link       = Functions::generateInternalHyperLink('guild', $guildDetails->_faction, $guildDetails->_server, $guildDetails->_name, 0, false);
-            $dataArray[$identifier]->screenshot = $encounterDetails->_screenshotLink;
-            $dataArray[$identifier]->video      = $encounterDetails->_videoLink;
+            $dataArray[$identifier] = new RecentKillObject($guildDetails, $encounterId);
         }
 
         return $dataArray;

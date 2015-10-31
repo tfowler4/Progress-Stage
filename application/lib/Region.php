@@ -31,12 +31,12 @@ class Region extends DataObject {
      * @return object [ property containing all servers from a specific region ]
      */
     public function getServers($region) {
-        $property = new stdClass();
+        $property = array();
 
         foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails ) {
-            if ( $serverDetails->_region == $region ) { $property->$serverId = $serverDetails; }
+            if ( $serverDetails->_region == $region ) { $property[$serverId] = $serverDetails; }
         }
 
-        return $property;
+        return (object) $property;
     }
 }

@@ -451,10 +451,10 @@ class Listings extends DataObject {
      * @return object [ standings object array ]
      */
     private function _setViewServerArray($sortGuildArray, $dungeonDetails) {
-        $retVal         = new stdClass();
-        $retVal->header = $dungeonDetails->_name . ' Standings';
-        $retVal->data   = (!empty($sortGuildArray) ? $sortGuildArray : array());
+        $retVal           = array();
+        $retVal['header'] = $dungeonDetails->_name . ' Standings';
+        $retVal['data']   = (!empty($sortGuildArray) ? $sortGuildArray : array());
 
-        return $retVal;
+        return (object) $retVal;
     }
 }
