@@ -25,7 +25,7 @@ class RankingsModel extends Model {
             'Rank'          => '_rank',
             'Guild'         => '_nameLink',
             'Server'        => '_serverLink',
-            'Progress'      => '_standing',
+            'Progress'      => '_progress',
             'Points'        => '_points',
             'Diff'          => '_pointDiff',
             'WF'            => '_worldFirst',
@@ -83,6 +83,7 @@ class RankingsModel extends Model {
         $this->title = self::PAGE_TITLE;
 
         $guildListing = new Listings('rankings', $params);
+        $this->_dataDetails    = $guildListing->_dataDetails;
 
         if ( isset($params[0]) ) { $this->_view     = $params[0]; }
         if ( isset($params[1]) ) { $this->_rankType = $params[1]; }
@@ -96,6 +97,8 @@ class RankingsModel extends Model {
                     $this->_rankingsArray['world'] = $guildListing->listArray->world['world'];
                     $this->_rankingsArray['world']->tableFields = $this->_setTableFields($this->_tier, $this->_dungeon, $this->_encounter);
                     $this->_rankingsArray['world']->headerText  = 'World Rankings';
+
+                    $this->_dataDetails->setClears($this->_rankingsArray['world']->data);
                 }
                 break;
             case 'region':
@@ -108,6 +111,8 @@ class RankingsModel extends Model {
                         $this->_rankingsArray[$abbreviation] = $guildListing->listArray->region[$abbreviation];
                         $this->_rankingsArray[$abbreviation]->tableFields = $this->_setTableFields($this->_tier, $this->_dungeon, $this->_encounter);
                         $this->_rankingsArray[$abbreviation]->headerText  = $style . ' Rankings';
+
+                        $this->_dataDetails->setClears($this->_rankingsArray[$abbreviation]->data);
                     }
                 }
                 break;
@@ -120,16 +125,16 @@ class RankingsModel extends Model {
                         $this->_rankingsArray[$server] = $guildListing->listArray->server[$server];
                         $this->_rankingsArray[$server]->tableFields = $this->_setTableFields($this->_tier, $this->_dungeon, $this->_encounter);
                         $this->_rankingsArray[$server]->headerText  = $server . ' Rankings';
+
+                        $this->_dataDetails->setClears($this->_rankingsArray[$server]->data);
                     }
                 }
                 break;
         }
 
         $this->_setRankSystemDetails();
-        $this->_dataDetails    = $guildListing->_dataDetails;
         $this->_detailsPane    = $this->_dataDetails;
         $this->_topGuildsArray = $guildListing->_topGuildsArray;
-        $this->_dataDetails->setClears();
 
         $this->title = $this->_dataDetails->_name . ' ' . ucfirst($this->_view) . ' ' . self::PAGE_TITLE;
     }
@@ -139,26 +144,11 @@ class RankingsModel extends Model {
 
             $currentPoints = 0;
             foreach( $dataArray->data as $guildId => $guildDetails ) {
-                $rankDetails = $guildDetails->{'_' . strtolower($this->_rankType)};
-                $guildDetails->_rank      = $rankDetails->_rank->{'_' . $this->_view};
-                $guildDetails->_trend     = $rankDetails->_trend->{'_' . $this->_view};
-                $guildDetails->_prevRank  = $rankDetails->_prevRank->{'_' . $this->_view};
-                $points                   = $rankDetails->_points;
-                $guildDetails->_pointDiff = Functions::getPointDiff($currentPoints, $points);
-                $guildDetails->_points    = number_format($rankDetails->_points, 2, '.', ',');
+                $guildDetails->_pointDiff = Functions::getPointDiff($currentPoints, $guildDetails->_points);
 
-                // set the trend image based on trend value
-                $guildDetails->_trendImage = $guildDetails->_trend;
+                $currentPoints = $guildDetails->_points;
 
-                if ( $guildDetails->_trend > 0 ) {
-                    $guildDetails->_trendImage = IMG_ARROW_TREND_UP_SML . ' ' . $guildDetails->_trend;
-                }
-
-                if ( $guildDetails->_trend < 0 ) {
-                    $guildDetails->_trendImage = IMG_ARROW_TREND_DOWN_SML . ' ' . $guildDetails->_trend;
-                }
-
-                $currentPoints = $points;
+                $guildDetails->_points = Functions::formatPoints($guildDetails->_points);
             }
         }
     }

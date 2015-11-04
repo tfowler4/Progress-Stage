@@ -20,9 +20,9 @@ class ServersModel extends Model {
             'Rank'            => '_rank',
             'Guild'           => '_nameLink',
             'Server'          => '_serverLink',
-            'Progress'        => '_standing',
-            'Hard Modes'      => '_hardModeStanding',
-            'Conqueror'       => '_conqeuror',
+            'Progress'        => '_progress',
+            'Hard Modes'      => '_specialProgress',
+            'Conqueror'       => '_achievement',
             'WF'              => '_worldFirst',
             'RF'              => '_regionFirst',
             'SF'              => '_serverFirst',
@@ -66,6 +66,7 @@ class ServersModel extends Model {
 
         $this->_serverDetails = Functions::getServerByName($this->_server);
         $this->_tierDetails   = Functions::getTierByName($this->_tier);
+        $this->_detailsPane = $this->_serverDetails;
 
         $server = $this->_serverDetails->_name;
 
@@ -83,11 +84,13 @@ class ServersModel extends Model {
             }
         }
 
-        $this->_dataDetails = $this->_guildListing->_dataDetails;
-        $this->_detailsPane = $this->_guildListing->_serverDetails;
-        $this->_detailsPane->getFirstEncounterKills();
+        if ( isset($this->_guildListing) ) {
+            $this->_dataDetails = $this->_guildListing->_dataDetails;
+            $this->_detailsPane = $this->_guildListing->_serverDetails;
+            $this->_detailsPane->getFirstEncounterKills($this->_standingsArray);
 
-        $this->title = $this->_detailsPane->_name . ' ' . self::PAGE_TITLE;
+            $this->title = $this->_detailsPane->_name . ' ' . self::PAGE_TITLE;
+        }
     }
 
     /**

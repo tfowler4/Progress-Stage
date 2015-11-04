@@ -52,16 +52,20 @@ class Server extends DataObject {
 
         $this->_guilds = $guilds;
     }
-
+   
     /**
      * get all region/world first kills of server
+     *
+     * @param $guildArray [ server guilds array ]
      * 
      * @return void
      */
-    public function getFirstEncounterKills() {
-        foreach( $this->_guilds as $guildId => $guildDetails ) {
-            $this->_numOfRegionFirsts += $guildDetails->_regionFirst;
-            $this->_numOfWorldFirsts  += $guildDetails->_worldFirst;
+    public function getFirstEncounterKills($guildArray) {
+        foreach( $guildArray as $dungeonId => $dungeonDetails ) {
+            foreach ( $dungeonDetails->data as $guildId => $guildDetails ) {
+                $this->_numOfRegionFirsts += $guildDetails->_regionFirst;
+                $this->_numOfWorldFirsts  += $guildDetails->_worldFirst;
+            }
         }
     }
 }

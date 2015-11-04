@@ -23,10 +23,11 @@ class DbFactory {
     const TABLE_TWITCH       = 'twitch_table';
     const TABLE_VIDEOS       = 'video_table';
     const TABLE_KILLS        = 'encounterkills_table';
+    const TABLE_STANDINGS    = 'standings_table';
+    const TABLE_RANKINGS     = 'rankings_table';
 
     public static function init() {
         self::$_dbh = self::getDbh();
-        //self::_getTwitchChannels();
         self::_getCountries();
         self::_getServers();
         self::_getRegions();
@@ -391,6 +392,243 @@ class DbFactory {
                 $guildDetails->_progression               = $arr;
             } 
         }
+    }
+
+    /**
+     * get a list of specific encounter kills in order of earliest to latest
+     *
+     * @param  string $encounterId [ id of encounter in database ]
+     * 
+     * @return void
+     */
+    public static function getStandingsForEncounter($encounterId) {
+        $guildArray = array();
+
+        $query = self::$_dbh->query(sprintf(
+            "SELECT kill_id,
+                    guild_id,
+                    encounter_id,
+                    dungeon_id,
+                    tier,
+                    raid_size,
+                    datetime,
+                    date,
+                    time,
+                    time_zone,
+                    server,
+                    videos,
+                    server_rank,
+                    region_rank,
+                    world_rank,
+                    country_rank
+               FROM %s
+              WHERE encounter_id = %d
+            ORDER BY datetime ASC",
+            self::TABLE_KILLS,
+            $encounterId
+            ));
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $guildId          = $row['guild_id'];
+            $encounterId      = $row['encounter_id'];
+            $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
+            $dungeonId        = $encounterDetails->_dungeonId;
+            $dungeonDetails   = CommonDataContainer::$dungeonArray[$dungeonId];
+            $tierId           = $dungeonDetails->_tier;
+            $tierDetails      = CommonDataContainer::$tierArray[$tierId];
+
+            if ( isset(CommonDataContainer::$guildArray[$guildId]) ) {
+                $guildDetails                             = CommonDataContainer::$guildArray[$guildId];
+                $arr                                      = $guildDetails->_progression;
+                $arr['dungeon'][$dungeonId][$encounterId] = $row;
+                $arr['encounter'][$encounterId]           = $row;
+                $guildDetails->_progression               = $arr;
+
+                $guildArray[$guildId] = $guildDetails;
+            }
+        }
+
+        return $guildArray;
+    }
+
+    /**
+     * get a list of all standing data for a specific dungeon
+     *
+     * @param  string $dungeonId [ id for dungeon ]
+     * @param  string $limit     [ limit number of guilds to get ]
+     * 
+     * @return void
+     */
+    public static function getStandingsForDungeon($dungeonId, $acceptableGuilds) {
+        $guildArray = array();
+
+        $query = self::$_dbh->query(sprintf(
+            "SELECT standings_id,
+                    guild_id,
+                    dungeon_id,
+                    complete,
+                    progress,
+                    special_progress,
+                    achievement,
+                    world_first,
+                    region_first,
+                    server_first,
+                    country_first,
+                    recent_time,
+                    recent_activity
+               FROM %s
+              WHERE dungeon_id = %d
+           ORDER BY complete DESC,
+                    recent_time ASC",
+            self::TABLE_STANDINGS,
+            $dungeonId
+        ));
+
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $guildId              = $row['guild_id'];
+
+            if ( !isset($acceptableGuilds[$guildId]) ) { continue; }
+
+            $guildArray[$guildId] = new StandingsDataObject($row);
+        }
+
+        return $guildArray;
+    }
+
+    /**
+     * get a list of all standing data for a specific dungeon
+     *
+     * @param  string $dungeonId [ id for dungeon ]
+     * @param  string $guildId   [ id for guild ]
+     * 
+     * @return void
+     */
+    public static function getStandingsForGuildInDungeon($dungeonId, $guildId) {
+        $query = self::$_dbh->query(sprintf(
+            "SELECT standings_id,
+                    guild_id,
+                    dungeon_id,
+                    complete,
+                    progress,
+                    special_progress,
+                    achievement,
+                    world_first,
+                    region_first,
+                    server_first,
+                    country_first,
+                    recent_time,
+                    recent_activity
+               FROM %s
+              WHERE dungeon_id = %d
+                AND guild_id = %d
+           ORDER BY complete DESC,
+                    recent_time ASC",
+            self::TABLE_STANDINGS,
+            $dungeonId,
+            $guildId
+        ));
+
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $guildId = $row['guild_id'];
+            return new StandingsDataObject($row);
+        }
+
+        return null;
+    }
+
+    /**
+     * get a list of all standing data for a specific dungeon
+     *
+     * @param  string $dungeonId [ id for dungeon ]
+     * @param  string $limit     [ limit number of guilds to get ]
+     * 
+     * @return void
+     */
+    public static function getRankingsForDungeon($dungeonId, $rankType, $view) {
+        $guildArray = array();
+
+        $query = self::$_dbh->query(sprintf(
+                    "SELECT %s.guild_id,
+                            %s.dungeon_id,
+                            %s.recent_time,
+                            %s.recent_activity,
+                            %s.world_first,
+                            %s.region_first,
+                            %s.server_first,
+                            %s.country_first,
+                            %s.progress,
+                            %s.complete,
+                            %s.special_progress,
+                            qp_points,
+                            qp_world_rank,
+                            qp_region_rank,
+                            qp_server_rank,
+                            qp_country_rank,
+                            qp_world_trend,
+                            qp_region_trend,
+                            qp_server_trend,
+                            qp_country_trend,
+                            qp_world_prev_rank,
+                            qp_region_prev_rank,
+                            qp_server_prev_rank,
+                            qp_country_prev_rank,
+                            ap_points,
+                            ap_world_rank,
+                            ap_region_rank,
+                            ap_server_rank,
+                            ap_country_rank,
+                            ap_world_trend,
+                            ap_region_trend,
+                            ap_server_trend,
+                            ap_country_trend,
+                            ap_world_prev_rank,
+                            ap_region_prev_rank,
+                            ap_server_prev_rank,
+                            ap_country_prev_rank,
+                            apf_points,
+                            apf_world_rank,
+                            apf_region_rank,
+                            apf_server_rank,
+                            apf_country_rank,
+                            apf_world_trend,
+                            apf_region_trend,
+                            apf_server_trend,
+                            apf_country_trend,
+                            apf_world_prev_rank,
+                            apf_region_prev_rank,
+                            apf_server_prev_rank,
+                            apf_country_prev_rank
+                       FROM %s
+            LEFT OUTER JOIN %s
+                         ON %s.guild_id = %s.guild_id
+                         WHERE %s.dungeon_id = %d
+                           AND %s.dungeon_id = %d",
+            self::TABLE_RANKINGS,
+            self::TABLE_RANKINGS,
+            self::TABLE_STANDINGS,
+            self::TABLE_STANDINGS,
+            self::TABLE_STANDINGS,
+            self::TABLE_STANDINGS,
+            self::TABLE_STANDINGS,
+            self::TABLE_STANDINGS,
+            self::TABLE_STANDINGS,
+            self::TABLE_STANDINGS,
+            self::TABLE_STANDINGS,
+            self::TABLE_RANKINGS,
+            self::TABLE_STANDINGS,
+            self::TABLE_RANKINGS,
+            self::TABLE_STANDINGS,
+            self::TABLE_RANKINGS,
+            $dungeonId,
+            self::TABLE_STANDINGS,
+            $dungeonId
+        ));
+
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $guildId              = $row['guild_id'];
+            $guildArray[$guildId] = new RankingsDataObject($row, $rankType, $view);
+        }
+
+        return $guildArray;
     }
 
     /**

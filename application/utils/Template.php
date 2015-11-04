@@ -255,7 +255,7 @@ class Template {
             $html .= '<div class="top-guild-container">';
             $html .= '<div class="top-guild-logo">' . self::getLogo($guildDetails) . '</div>';
             $html .= '<div class="vertical-separator"></div>';
-            $html .= '<div class="top-guild-name">' . Functions::getImageFlag($guildDetails->_country, 'small') . '<span>' .$guildDetails->_name . '</span></div>';
+            $html .= '<div class="top-guild-name">' . Functions::getImageFlag($guildDetails->_country, 'small') . '<span>' .Functions::shortName($guildDetails->_name, 20) . '</span></div>';
             $html .= '<div class="top-guild-place">' . Functions::convertToOrdinal($guildCount). ' - ' . $placeStr . '</div>';
             $html .= '</div>';
             $html .= '</a>';

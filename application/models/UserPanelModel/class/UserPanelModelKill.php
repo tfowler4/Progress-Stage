@@ -170,7 +170,7 @@ class UserPanelModelKill extends UserPanelModel {
      */
     private function mergeOptionsToEncounters() {
         foreach( $this->_guildDetails->_encounterDetails as $encounterId => $encounterDetails ) {
-            $newEncounterDetails = array();
+            $newEncounterDetails = new stdClass();
 
             $encounterProperties = $encounterDetails->getProperties();
 
@@ -183,9 +183,9 @@ class UserPanelModelKill extends UserPanelModel {
             $optionsString .= ' | ';
             $optionsString .= $this->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModelKill::KILLS_REMOVE . '/' . $this->_guildDetails->_guildId . '/' . $encounterId, 'Delete', true);
 
-            $newEncounterDetails['_options'] = $optionsString;
+            $newEncounterDetails->_options = $optionsString;
 
-            $this->_guildDetails->_encounterDetails->$encounterId = (object) $newEncounterDetails;
+            $this->_guildDetails->_encounterDetails->$encounterId = $newEncounterDetails;
         }
     }
 }

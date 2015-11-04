@@ -29,9 +29,9 @@ class StandingsModel extends Model {
             'Rank'            => '_rank',
             'Guild'           => '_nameLink',
             'Server'          => '_serverLink',
-            'Progress'        => '_standing',
-            'Hard Modes'      => '_hardModeStanding',
-            'Conqueror'       => '_conqeuror',
+            'Progress'        => '_progress',
+            'Hard Modes'      => '_specialProgress',
+            'Conqueror'       => '_achievement',
             'WF'              => '_worldFirst',
             'RF'              => '_regionFirst',
             'SF'              => '_serverFirst',
@@ -89,7 +89,8 @@ class StandingsModel extends Model {
 
         $this->title = self::PAGE_TITLE;
 
-        $guildListing = new Listings('standings', $params);
+        $guildListing       = new Listings('standings', $params);
+        $this->_dataDetails = $guildListing->_dataDetails;
 
         if ( isset($params[0]) ) { $this->_view    = $params[0]; }
         if ( isset($params[1]) ) { $this->_tier    = $params[1]; }
@@ -102,6 +103,8 @@ class StandingsModel extends Model {
                     $this->_standingsArray['world'] = $guildListing->listArray->world['world'];
                     $this->_standingsArray['world']->tableFields = $this->_setTableFields($this->_tier, $this->_dungeon, $this->_encounter);
                     $this->_standingsArray['world']->headerText  = 'World Standings';
+
+                    $this->_dataDetails->setClears($this->_standingsArray['world']->data);
                 }
                 break;
             case 'region':
@@ -114,6 +117,8 @@ class StandingsModel extends Model {
                         $this->_standingsArray[$abbreviation] = $guildListing->listArray->region[$abbreviation];
                         $this->_standingsArray[$abbreviation]->tableFields = $this->_setTableFields($this->_tier, $this->_dungeon, $this->_encounter);
                         $this->_standingsArray[$abbreviation]->headerText  = $style . ' Standings';
+
+                        $this->_dataDetails->setClears($this->_standingsArray[$abbreviation]->data);
                     }
                 }
                 break;
@@ -126,6 +131,8 @@ class StandingsModel extends Model {
                         $this->_standingsArray[$server] = $guildListing->listArray->server[$server];
                         $this->_standingsArray[$server]->tableFields = $this->_setTableFields($this->_tier, $this->_dungeon, $this->_encounter);
                         $this->_standingsArray[$server]->headerText  = $server . ' Standings';
+
+                        $this->_dataDetails->setClears($this->_standingsArray[$server]->data);
                     }
                 }
                 break;
@@ -135,11 +142,10 @@ class StandingsModel extends Model {
             $this->_setEncounterTimeDiffField();
         }
 
-        $this->_dataDetails    = $guildListing->_dataDetails;
+        
         $this->_detailsPane    = $this->_dataDetails;
         $this->_topGuildsArray = $guildListing->_topGuildsArray;
         $this->_identifier     = $guildListing->_identifier;
-        $this->_dataDetails->setClears();
 
         $this->title = $this->_dataDetails->_name . ' ' . ucfirst($this->_view) . ' ' . self::PAGE_TITLE;
     }

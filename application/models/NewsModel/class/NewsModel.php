@@ -24,7 +24,7 @@ class NewsModel extends Model {
             'Rank'     => '_rank',
             'Guild'    => '_nameLink',
             'Server'   => '_serverLink',
-            'Progress' => '_standing'
+            'Progress' => '_progress'
         );
 
     /**
@@ -204,19 +204,19 @@ class NewsModel extends Model {
                 $returnArray[$dungeonId]->dataDetails = $dungeonDetails;
             }
         }
-        
+
         $newReturnArray = array();
 
         foreach( $returnArray as $dungeonId => $guildArray ) {
             $detailsArray = array();
 
-            foreach( $guildArray->data as $guildId => $guildDetails ) {
+            foreach( $guildArray->data as $rank => $guildDetails ) {
                 foreach( unserialize(RANK_SYSTEMS) as $systemAbbrev => $systemName ) {
-                    $key          = '_' . strtolower($systemAbbrev);
-                    $rankDetails  = $guildDetails->$key;
-                    $points       = Functions::formatPoints($rankDetails->_points);
-                    $trend        = $rankDetails->_trend->_world;
-                    $rank         = $rankDetails->_rank->_world;
+                    $abbrev       = strtolower($systemAbbrev);
+                    $guildId      = $guildDetails->_guildId;
+                    $points       = Functions::formatPoints($guildDetails->{'_' . $abbrev . 'Points'});
+                    $trend        = $guildDetails->_trend;
+                    $rank         = $guildDetails->_rank;
                     $rankId       = sprintf("%02d", $rank);
                     $image        = Functions::getTrendImage($trend);
                     $identifier   = $systemAbbrev . ' | ' . $guildId;
@@ -257,24 +257,43 @@ class NewsModel extends Model {
         $dataArray = array();
 
         $query = $dbh->prepare(sprintf(
-            "SELECT activity_id,
-                    encounter_id,
+            "SELECT kill_id,
                     guild_id,
-                    date_added,
-                    strtotime,
-                    update_rank
-               FROM %s
-           ORDER BY strtotime DESC
-              LIMIT %s", 
-                    DbFactory::TABLE_RECENT_RAIDS, 
+                    encounter_id,
+                    dungeon_id,
+                    tier,
+                    raid_size,
+                    datetime,
+                    date,
+                    time,
+                    time_zone,
+                    server,
+                    videos,
+                    server_rank,
+                    region_rank,
+                    world_rank,
+                    country_rank
+              FROM  %s
+          ORDER BY  datetime DESC
+             LIMIT  %s", 
+                    DbFactory::TABLE_KILLS,
                     $limit
-                ));
+        ));
         $query->execute();
 
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
             $guildId     = $row['guild_id'];
             $encounterId = $row['encounter_id'];
+            $dungeonId   = $row['dungeon_id'];
             $identifier  = $guildId . '|' . $encounterId;
+
+            if ( isset(CommonDataContainer::$guildArray[$guildId]) ) {
+                $guildDetails                             = CommonDataContainer::$guildArray[$guildId];
+                $arr                                      = $guildDetails->_progression;
+                $arr['dungeon'][$dungeonId][$encounterId] = $row;
+                $arr['encounter'][$encounterId]           = $row;
+                $guildDetails->_progression               = $arr;
+            } 
 
             if ( !isset(CommonDataContainer::$guildArray[$guildId]) ) { continue; }
 

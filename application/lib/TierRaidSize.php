@@ -35,16 +35,16 @@ class TierRaidSize extends DataObject {
      * @return object [ property containing all dungeons from a tier raid size ]
      */
     public function getDungeons() {
-        $property = array();
+        $property = new stdClass();
 
         foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ) {
             if ( $dungeonDetails->_raidSize == $this->_raidSize && $dungeonDetails->_tier == $this->_tier ) {
-                $property[$dungeonId] = $dungeonDetails;
+                $property->$dungeonId = $dungeonDetails;
                 $this->_numOfDungeons++;
             }
         }
 
-        return (object) $property;
+        return $property;
     }
 
     /**
@@ -53,17 +53,17 @@ class TierRaidSize extends DataObject {
      * @return object [ property containing all raid sizes from a tier raid size ]
      */
     public function getEncounters() {
-        $property = array();
+        $property = new stdClass();
 
         foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ) {
             if ( $encounterDetails->_raidSize == $this->_raidSize && $encounterDetails->_tier == $this->_tier ) {
-                $property[$encounterId] = $encounterDetails;
+                $property->$encounterId = $encounterDetails;
                 $this->_numOfEncounters++;
 
                 if ( $encounterDetails->_type == 2 ) { $this->_numOfSpecialEncounters++; }
             }
         }
 
-        return (object) $property;
+        return $property;
     }
 }

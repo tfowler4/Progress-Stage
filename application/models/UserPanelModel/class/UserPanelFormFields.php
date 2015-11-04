@@ -15,6 +15,7 @@ class GuildFormFields {
     public $facebook;
     public $twitter;
     public $guildLogo;
+    public $active;
 }
 
 /**

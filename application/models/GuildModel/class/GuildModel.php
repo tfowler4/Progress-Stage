@@ -172,26 +172,26 @@ class GuildModel extends Model {
      */
     private function _mergeRankDetailsToEncounters() {
         foreach( $this->_guildDetails->_encounterDetails as $encounterId => $encounterDetails ) {
-            $newEncounterDetails = array();
+            $newEncounterDetails = new stdClass();
 
             $encounterProperties = $encounterDetails->getProperties();
 
             foreach ( $encounterProperties as $key => $value ) {
-                $newEncounterDetails[$key] = $value;
+                $newEncounterDetails->$key = $value;
             }
 
             foreach ( CommonDataContainer::$rankSystemArray as $systemId => $systemDetails ) {
                 $systemAbbreviation = $systemDetails->_abbreviation;
                 $identifier         = $encounterId . '_' . $systemAbbreviation;
 
-                $newEncounterDetails['_' . $systemAbbreviation] = '--';
+                $newEncounterDetails->{'_' . $systemAbbreviation} = '--';
 
                 if ( isset($this->_guildDetails->_rankDetails->_rankEncounters->$identifier->_points) ) {
-                    $newEncounterDetails['_' . $systemAbbreviation] = Functions::formatPoints($this->_guildDetails->_rankDetails->_rankEncounters->$identifier->_points);
+                    $newEncounterDetails->{'_' . $systemAbbreviation} = Functions::formatPoints($this->_guildDetails->_rankDetails->_rankEncounters->$identifier->_points);
                 }
             }
 
-            $this->_guildDetails->_encounterDetails->$encounterId = (object) $newEncounterDetails;
+            $this->_guildDetails->_encounterDetails->$encounterId = $newEncounterDetails;
         }
     }
 
@@ -201,7 +201,7 @@ class GuildModel extends Model {
      * @return array [ list of kills sorted by time ]
      */
     private function _getActivityTimeline() {
-        $returnArray = array();
+        $returnArray   = array();
         $killTimeArray = array();
 
         foreach( $this->_guildDetails->_encounterDetails as $encounterDetails ) {
@@ -337,10 +337,10 @@ class GuildModel extends Model {
             $tierId              = $dungeonDetails->_tier;
             $tierDetails         = CommonDataContainer::$tierArray[$tierId];
 
-            $arr = $this->_guildDetails->_progression;
+            $arr                                      = $this->_guildDetails->_progression;
             $arr['dungeon'][$dungeonId][$encounterId] = $row;
-            $arr['encounter'][$encounterId] = $row;
-            $this->_guildDetails->_progression = $arr;
+            $arr['encounter'][$encounterId]           = $row;
+            $this->_guildDetails->_progression        = $arr;
         }
 
         $this->_guildDetails->generateEncounterDetails('');

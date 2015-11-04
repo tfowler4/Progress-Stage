@@ -20,7 +20,7 @@
             <?php if ( isset($data->_encounter) ): ?>
                 <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_datetime')); ?>
             <?php else: ?>
-                <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_standing')); ?>
+                <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_progress')); ?>
             <?php endif; ?>
         <?php endif; ?>
 

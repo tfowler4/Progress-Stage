@@ -64,14 +64,14 @@ class Tier extends DataObject {
      * @return object [ property containing all dungeons from a tier ]
      */
     private function _getDungeons($tier) {
-        $property = array();
+        $property = new stdClass();
 
         krsort(CommonDataContainer::$dungeonArray);
         foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ) {
-            if ( $dungeonDetails->_tier == $tier ) { $property[$dungeonId] = $dungeonDetails; $this->_numOfDungeons++; }
+            if ( $dungeonDetails->_tier == $tier ) { $property->$dungeonId = $dungeonDetails; $this->_numOfDungeons++; }
         }
 
-        return (object) $property;
+        return $property;
     }
 
     /**
@@ -82,13 +82,13 @@ class Tier extends DataObject {
      * @return object [ property containing all encounters from a tier ]
      */
     private function _getEncounters($tier) {
-        $property = array();
+        $property = new stdClass();
 
         foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ) {
-            if ( $encounterDetails->_tier == $tier ) { $property[$encounterId] = $encounterDetails; $this->_numOfEncounters++; }
+            if ( $encounterDetails->_tier == $tier ) { $property->$encounterId = $encounterDetails; $this->_numOfEncounters++; }
         }
 
-        return (object) $property;
+        return $property;
     }
 
     /**
@@ -97,15 +97,15 @@ class Tier extends DataObject {
      * @return object [ property containing all raid sizes from a tier ]
      */
     private function _getRaidSizes() {
-        $property = array();
+        $property = new stdClass();
 
         foreach( $this->_dungeons as $dungeonDetails ) {
             $raidSize = $dungeonDetails->_raidSize;
 
-            if ( !isset($this->_raidSizes->$raidSize) ) { $property[$raidSize] = $raidSize; }
+            if ( !isset($this->_raidSizes->$raidSize) ) { $property->$raidSize = $raidSize; }
         }
 
-        return (object) $property;
+        return $property;
     }
 
     /**
