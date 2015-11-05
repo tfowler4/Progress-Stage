@@ -57,7 +57,7 @@ class UpdateAllPointRankings extends Script {
             self::createDungeonInsertStrings();
 
             Logger::log('INFO', 'Updating Recent Raid Table', 'dev');
-            //self::updateRecentRaidTable();
+            self::updateRecentRaidTable();
         }
 
         Logger::log('INFO', 'Update All Point Rankings Completed!', 'dev');
