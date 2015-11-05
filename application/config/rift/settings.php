@@ -8,7 +8,7 @@ define('GAME_URL',             'http://www.riftgame.com');
 define('META_AUTHOR',          "Terry 'Raive' Fowler");
 define('META_KEYWORDS',        "RIFT, RIFT raiding, RIFT progress, progress, raiding, progression, tracker, tracking, rank, ranking, top 25, guild");
 define('META_DESCRIPTION',     "RIFT's #1 Resource for raid progression tracking.");
-define('LATEST_TIER',          8);
+define('LATEST_TIER',          9);
 define('EU_TIME_DIFF',         28800); // 8 *3600 = 28800
 define('NA_PATCH_TIME',        'N/A (Inconsistant)'); //"UTC -8 Hours (PST)"
 define('EU_PATCH_TIME',        'N/A (Inconsistant)'); //"UTC +0 Hours (GMT)"

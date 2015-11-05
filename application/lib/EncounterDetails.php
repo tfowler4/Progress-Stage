@@ -89,9 +89,6 @@ class EncounterDetails extends DetailObject {
             $this->_screenshotLink = '--';
         }
 
-        //if ( !empty($params[4]) ) { $this->_videoLink        = '<a target="_blank" href="' . $params[4] . '">View</a>'; } //id="login-activator" class="activatePopUp"
-        //if ( !empty($params[4]) ) { $this->_videoLink        = '<a class="video-activator clickable" data-guild="' . $guildDetails->_guildId . '" data-encounter="' . $this->_encounterId . '">View</a>'; } 
-        
         $this->_serverRank       = $params['server_rank'];
         $this->_regionRank       = $params['region_rank'];
         $this->_worldRank        = $params['world_rank'];

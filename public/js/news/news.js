@@ -53,7 +53,9 @@ var NewsEventBinder = function() {
 
         var systemId = $(this).prop('id').replace('system-selector-', '');
         
-        if ( !$(this).hasClass('highlight') ) {
+        var numOfTables = $(this).parent().find('table').length;
+
+        if ( !$(this).hasClass('highlight') && numOfTables > 0 ) {
             stopClickRankPanel = true;
             $(this).parent().children('.highlight').removeClass('highlight');
             $(this).addClass('highlight');

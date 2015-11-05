@@ -402,7 +402,8 @@ class DbFactory {
      * @return void
      */
     public static function getStandingsForEncounter($encounterId) {
-        $guildArray = array();
+        $guildArray   = array();
+        $euAlignArray = array();
 
         $query = self::$_dbh->query(sprintf(
             "SELECT kill_id,
@@ -444,10 +445,25 @@ class DbFactory {
                 $guildDetails->_progression               = $arr;
 
                 $guildArray[$guildId] = $guildDetails;
+
+                // Apply EU Time Diff
+                $strtotime = strtotime($row['datetime']);
+                if ( $guildDetails->_region == 'EU' && $dungeonDetails->_euTimeDiff > 0 ) {
+                    $strtotime = strtotime("-".($dungeonDetails->_euTimeDiff + (7*60)) . ' minutes', $strtotime);
+                }
+
+                $euAlignArray[$guildId] = $strtotime;
             }
+
         }
 
-        return $guildArray;
+        asort($euAlignArray);
+
+        foreach( $euAlignArray as $guildId => $strtotime) {
+            $euAlignArray[$guildId] = $guildArray[$guildId];
+        }
+
+        return $euAlignArray;
     }
 
     /**
