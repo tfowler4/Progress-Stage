@@ -151,7 +151,7 @@ class PopulateStandingsTable extends Script {
                         $detailsArray['special_progress']++;
                     }
 
-                    if ( $detailsArray['recent_time'] == 0 || $encounterDetails->_strtotime > $detailsArray['recent_time'] ) {
+                    if ( $encounter->_type == 0 && ($detailsArray['recent_time'] == 0 || $encounterDetails->_strtotime > $detailsArray['recent_time']) ) {
                         $detailsArray['recent_time']     = $encounterDetails->_strtotime;
                         $detailsArray['recent_activity'] = $encounter->_encounterName . ' @ ' . $encounterDetails->_datetime;
                     }

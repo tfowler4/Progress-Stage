@@ -253,8 +253,9 @@ class NewsModel extends Model {
      * @return array [ array of encounter kill data entries ]
      */
     private function _getRecentRaids($limit) {
-        $dbh       = DbFactory::getDbh();
-        $dataArray = array();
+        $dbh          = DbFactory::getDbh();
+        $dataArray    = array();
+        $enAlignArray = array();
 
         $query = $dbh->prepare(sprintf(
             "SELECT kill_id,
@@ -282,10 +283,13 @@ class NewsModel extends Model {
         $query->execute();
 
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
-            $guildId     = $row['guild_id'];
-            $encounterId = $row['encounter_id'];
-            $dungeonId   = $row['dungeon_id'];
-            $identifier  = $guildId . '|' . $encounterId;
+            $guildId        = $row['guild_id'];
+            $encounterId    = $row['encounter_id'];
+            $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
+            $dungeonId      = $row['dungeon_id'];
+            $dungeonId      = $encounterDetails->_dungeonId;
+            $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
+            $identifier     = $guildId . '|' . $encounterId;
 
             if ( isset(CommonDataContainer::$guildArray[$guildId]) ) {
                 $guildDetails                             = CommonDataContainer::$guildArray[$guildId];
@@ -303,9 +307,27 @@ class NewsModel extends Model {
             if ( !isset($guildDetails->_encounterDetails->$encounterId) ) { continue; }
 
             $dataArray[$identifier] = new RecentKillObject($guildDetails, $encounterId);
+
+            // Apply EU Time Diff
+            $strtotime = strtotime($row['datetime']);
+            if ( $guildDetails->_region == 'EU' ) {
+                $strtotime = strtotime("-". EU_TIME_DIFF . ' minutes', $strtotime);
+            }
+
+            if ( $guildDetails->_region == 'EU' && $dungeonDetails->_euTimeDiff > 0 ) {
+                $strtotime = strtotime("-". ($dungeonDetails->_euTimeDiff) . ' minutes', $strtotime);
+            }
+
+            $euAlignArray[$identifier] = $strtotime;
         }
 
-        return $dataArray;
+        arsort($euAlignArray);
+
+        foreach( $euAlignArray as $identifier => $strtotime) {
+            $euAlignArray[$identifier] = $dataArray[$identifier];
+        }
+
+        return $euAlignArray;
     }
 
     /**

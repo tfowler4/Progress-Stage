@@ -7,7 +7,7 @@ define('META_AUTHOR',          "Terry 'Raive' Fowler");
 define('META_KEYWORDS',        "WildStar, WildStar raiding, WildStar progress, progress, raiding, progression, tracker, tracking, rank, ranking, top 25, guild");
 define('META_DESCRIPTION',     "WildStar's #1 Resource for raid progression tracking.");
 define('LATEST_TIER',          1);
-define('EU_TIME_DIFF',         0); // 8 *3600 = 28800
+define('EU_TIME_DIFF',         0); // 0 hours * 60 minutes = 0
 define('NA_PATCH_TIME',        'N/A (Inconsistant)'); //"UTC -8 Hours (PST)"
 define('EU_PATCH_TIME',        'N/A (Inconsistant)'); //"UTC +0 Hours (GMT)"
 define('FREEZE_KILL_COUNT',    0);

@@ -40,7 +40,7 @@ class GuildModel extends Model {
     const TABLE_HEADER_PROGRESSION = array(
             'Encounter'      => '_encounterName',
             'Date Completed' => '_datetime',
-            'Server'         => '_serverLink',
+            'Server'         => '_killServerLink',
             'WR'             => '_worldRankImage',
             'RR'             => '_regionRankImage',
             'SR'             => '_serverRankImage',

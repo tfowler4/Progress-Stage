@@ -87,7 +87,7 @@ class UpdateAllPointRankings extends Script {
     }
 
     public static function updateRecentRaidTable() {
-        $query = self::$_dbh->query(sprintf(
+        $query = self::$_dbh->prepare(sprintf(
             "UPDATE %s
                 SET update_rank = 1",
             DbFactory::TABLE_RECENT_RAIDS
@@ -342,14 +342,14 @@ class UpdateAllPointRankings extends Script {
                 }
             }
 
-            $query2 = self::$_dbh->prepare(sprintf(
+            $query = self::$_dbh->prepare(sprintf(
                 "UPDATE guild_table
                     SET rank_dungeon = '%s'
                   WHERE guild_id = '%s'",
                 $dbInsertString,
                 $guildId
                 ));
-            $query2->execute();
+            $query->execute();
         }
     }
 
@@ -382,7 +382,7 @@ class UpdateAllPointRankings extends Script {
                 }
             }
 
-            $query = self::$_dbh->query(sprintf(
+            $query = self::$_dbh->prepare(sprintf(
                 "UPDATE guild_table
                     SET rank_encounter = '%s'
                   WHERE guild_id = '%s'",
@@ -619,7 +619,7 @@ class UpdateAllPointRankings extends Script {
                 self::$_encounterPointArray[$encounterId]['APF'][$guildId] = $apfValue . '_APF';
 
                 // Assign Points to Dungeons
-                
+
                 // Quality Progression
                 if ( !isset(self::$_dungeonPointArray[$dungeonId]['QP'][$guildId]) ) {
                     self::$_dungeonPointArray[$dungeonId]['QP'][$guildId]  = $qpValue . '_QP';
@@ -627,7 +627,7 @@ class UpdateAllPointRankings extends Script {
                     $pointValues = explode('_', self::$_dungeonPointArray[$dungeonId]['QP'][$guildId]);
 
                     // If Final Encounter, make point value the final dungeon value
-                    if ( $dungeonDetails->_finalEncounterId == $encounterId || !isset($dungeonFinalEncounterCheck[$dungeonId]) ) {
+                    if ( $dungeonDetails->_finalEncounterId == $encounterId && !isset($dungeonFinalEncounterCheck[$dungeonId]) ) {
                         self::$_dungeonPointArray[$dungeonId]['QP'][$guildId]  = $qpValue . '_' . $pointValues[1];
                         $dungeonFinalEncounterCheck[$dungeonId] = true;
                     } else {

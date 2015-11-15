@@ -342,7 +342,7 @@ class Template {
      */
     public static function getSpreadsheetHtml($tableHeader, $spreadsheet, $dungeonDetails) {
         $glossaryArray = array(
-            'World Frist' => '<span class="world-first-rank">First guild to complete encounter in the world</span>',
+            'World First' => '<span class="world-first-rank">First guild to complete encounter in the world</span>',
             'Region First' => '<span class="region-first-rank">First guild to complete encounter in the region</span>'
             );
 

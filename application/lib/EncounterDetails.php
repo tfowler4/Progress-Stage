@@ -54,7 +54,6 @@ class EncounterDetails extends DetailObject {
     public function __construct(&$params, &$guildDetails, &$dungeonDetails) {
         $this->_encounterId    = $params['encounter_id'];
         $this->_killServer     = (!empty($params['server']) ? $params['server'] : $guildDetails->_server);
-        $this->_killServerLink = $guildDetails->_serverLink;
         $this->_date           = $params['date'];
         $this->_time           = $params['time'];
         $this->_datetime       = Functions::formatDate($this->_date . ' ' . $this->_time, 'm/d/Y H:i');
@@ -67,6 +66,9 @@ class EncounterDetails extends DetailObject {
         $this->_day            = Functions::formatDate($this->_date, 'd');
         $this->_year           = Functions::formatDate($this->_date, 'Y');
         $this->_screenshot     = $guildDetails->_guildId . '-' . $this->_encounterId;
+
+        $serverDetails  = CommonDataContainer::$serverArray[$this->_killServer];
+        $this->_killServerLink = $serverDetails->_nameLink;
 
         if ( isset($params['videos']) && $params['videos'] > 0 ) {
             $this->_hasVideos = true;
@@ -99,9 +101,16 @@ class EncounterDetails extends DetailObject {
         $this->_countryRankImage = Functions::getRankMedal($this->_countryRank);
 
         // Apply EU Time Diff
+        if ( $guildDetails->_region == 'EU' ) {
+            $this->_strtotime  = strtotime("-". EU_TIME_DIFF . ' minutes', $this->_strtotime);
+            $this->_datetime   = date('m/d/Y H:i', $this->_strtotime);
+            $this->_shorttime  = date('m/d H:i', $this->_strtotime);
+        }
+
         if ( $guildDetails->_region == 'EU' && $dungeonDetails->_euTimeDiff > 0 ) {
-            $this->_strtotime = strtotime("-".($dungeonDetails->_euTimeDiff + (7*60)) . ' minutes', $this->_strtotime);
+            $this->_strtotime = strtotime("-". ($dungeonDetails->_euTimeDiff) . ' minutes', $this->_strtotime);
             $this->_datetime  = date('m/d/Y H:i', $this->_strtotime);
+            $this->_shorttime  = date('m/d H:i', $this->_strtotime);
         }
 
         $this->_guildId      = $guildDetails->_guildId;

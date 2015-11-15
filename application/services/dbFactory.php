@@ -448,8 +448,12 @@ class DbFactory {
 
                 // Apply EU Time Diff
                 $strtotime = strtotime($row['datetime']);
+                if ( $guildDetails->_region == 'EU' ) {
+                    $strtotime = strtotime("-". EU_TIME_DIFF . ' minutes', $strtotime);
+                }
+
                 if ( $guildDetails->_region == 'EU' && $dungeonDetails->_euTimeDiff > 0 ) {
-                    $strtotime = strtotime("-".($dungeonDetails->_euTimeDiff + (7*60)) . ' minutes', $strtotime);
+                    $strtotime = strtotime("-". ($dungeonDetails->_euTimeDiff) . ' minutes', $strtotime);
                 }
 
                 $euAlignArray[$guildId] = $strtotime;

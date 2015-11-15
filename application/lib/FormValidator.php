@@ -198,7 +198,7 @@ class FormValidator {
 
         // validate website url
         if ( !empty($formFields->website) ) {
-            $isWebsiteInvalid = self::_validateWebsiteLink($this->website);
+            $isWebsiteInvalid = self::_validateWebsiteLink($formFields->website);
 
             if ( $isWebsiteInvalid ) {
                 self::$isFormInvalid = true;
