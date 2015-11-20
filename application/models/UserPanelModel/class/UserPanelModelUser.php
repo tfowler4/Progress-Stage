@@ -67,7 +67,7 @@ class UserPanelModelUser extends UserPanelModel {
      * @return void
      */
     private function _updateEmail() {
-        DBObjects::editUserEmail($this->_formFields);
+        DbObjects::editUserEmail($this->_formFields);
 
         $this->_userDetails = $this->_getUpdatedUserDetails($this->_userDetails->_userId);
 
@@ -82,7 +82,7 @@ class UserPanelModelUser extends UserPanelModel {
     private function _updatePassword() {
         $this->_formFields->newPassword = FormValidator::encryptPasscode($this->_formFields->newPassword);
 
-        DBObjects::editUserPassword($this->_formFields);
+        DbObjects::editUserPassword($this->_formFields);
 
         $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully updated your password!');
     }

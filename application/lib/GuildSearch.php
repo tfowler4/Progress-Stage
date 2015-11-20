@@ -40,12 +40,7 @@ class GuildSearch {
                     creator_id,
                     parent,
                     child,
-                    rank_tier,
-                    rank_size,
-                    rank_dungeon,
-                    rank_encounter,
-                    rank_tier_size,
-                    rank_overall
+                    rank_encounter
                FROM %s
               WHERE name LIKE '%s' 
            ORDER BY name DESC", 

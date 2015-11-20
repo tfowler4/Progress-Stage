@@ -95,7 +95,7 @@ class UserPanelModelKill extends UserPanelModel {
      * @return void
      */
     private function _removeKill() {
-        DBObjects::removeKill($this->_formFields);
+        DbObjects::removeKill($this->_formFields);
 
         $this->_removeScreenshot($this->_formFields->guildId, $this->_formFields->encounter);
 
@@ -108,7 +108,7 @@ class UserPanelModelKill extends UserPanelModel {
      * @return void
      */
     private function _editKill() {
-        DBObjects::editKill($this->_formFields);
+        DbObjects::editKill($this->_formFields);
 
         if ( !empty($this->_formFields->screenshot['tmp_name']) ) {
             $imagePath = ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter;
@@ -133,7 +133,7 @@ class UserPanelModelKill extends UserPanelModel {
      * @return void
      */
     private function _addKill() {
-        DBObjects::addKill($this->_formFields);
+        DbObjects::addKill($this->_formFields);
 
         if ( !empty($this->_formFields->screenshot['tmp_name']) ) {
             $imagePath = ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter;

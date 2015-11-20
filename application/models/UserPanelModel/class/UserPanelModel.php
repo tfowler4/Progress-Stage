@@ -137,12 +137,7 @@ class UserPanelModel extends Model {
                     creator_id,
                     parent,
                     child,
-                    rank_tier,
-                    rank_size,
-                    rank_dungeon,
-                    rank_encounter,
-                    rank_tier_size,
-                    rank_overall
+                    rank_encounter
                FROM %s
               WHERE guild_id='%s'",
              DbFactory::TABLE_GUILDS,
@@ -191,12 +186,7 @@ class UserPanelModel extends Model {
                     creator_id,
                     parent,
                     child,
-                    rank_tier,
-                    rank_size,
-                    rank_dungeon,
-                    rank_encounter,
-                    rank_tier_size,
-                    rank_overall
+                    rank_encounter
                FROM %s
               WHERE guild_id='%s'",
              DbFactory::TABLE_GUILDS,
@@ -290,12 +280,7 @@ class UserPanelModel extends Model {
                     creator_id,
                     parent,
                     child,
-                    rank_tier,
-                    rank_size,
-                    rank_dungeon,
-                    rank_encounter,
-                    rank_tier_size,
-                    rank_overall
+                    rank_encounter
                FROM %s
               WHERE creator_id='%s'
                 AND type='0'", 

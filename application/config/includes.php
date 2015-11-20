@@ -1,5 +1,4 @@
 <?php
-
 // Twitter
 include ABSOLUTE_PATH . '/library/twitter/codebird-php-master/src/codebird.php';
 

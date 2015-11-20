@@ -98,12 +98,7 @@ class RegisterModel extends Model {
                     creator_id,
                     parent,
                     child,
-                    rank_tier,
-                    rank_size,
-                    rank_dungeon,
-                    rank_encounter,
-                    rank_tier_size,
-                    rank_overall
+                    rank_encounter
                FROM %s
            ORDER BY date_created DESC
               LIMIT 10", 
@@ -126,7 +121,7 @@ class RegisterModel extends Model {
     private function _registerUser() {
         $this->_formFields->password = FormValidator::encryptPasscode($this->_formFields->password);
 
-        DBObjects::addUser($this->_formFields);
+        DbObjects::addUser($this->_formFields);
 
         $dbh = DbFactory::getDbh();
 
@@ -142,12 +137,12 @@ class RegisterModel extends Model {
                FROM %s
               WHERE user_id='%s'",
              DbFactory::TABLE_USERS,
-             DBObjects::$insertId
+             DbObjects::$insertId
              ));
         $query->execute();
 
         while ( $user = $query->fetch(PDO::FETCH_ASSOC) ) {
-            $_SESSION['userId']      = DBObjects::$insertId;
+            $_SESSION['userId']      = DbObjects::$insertId;
             $_SESSION['logged']      = 'yes';
             $_SESSION['userDetails'] = new User($user);
 
@@ -164,8 +159,8 @@ class RegisterModel extends Model {
     private function _registerGuild() {
         $this->_formFields->region = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
-        DBObjects::addGuild($this->_formFields);
-        $this->_assignGuildLogo(DBObjects::$insertId);
+        DbObjects::addGuild($this->_formFields);
+        $this->_assignGuildLogo(DbObjects::$insertId);
     }
 
     /**

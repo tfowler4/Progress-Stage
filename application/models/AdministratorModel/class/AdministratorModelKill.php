@@ -63,7 +63,7 @@ class AdministratorModelKill {
      * @return void
      */
     public function addNewKill() {
-        DBObjects::addKill($this->_formFields);
+        DbObjects::addKill($this->_formFields);
 
         if ( !empty($this->_formFields->screenshot['tmp_name']) ) {
             $imagePath = ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter;
@@ -233,7 +233,7 @@ class AdministratorModelKill {
         $html = '';
 
         if ( Post::get('submit') ) {
-            DBObjects::editKill($this->_formFields);
+            DbObjects::editKill($this->_formFields);
 
             if ( !empty($this->_formFields->screenshot['tmp_name']) ) {
                 $imagePath = ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter;
@@ -296,7 +296,7 @@ class AdministratorModelKill {
     public function removeKill($guildId) {
         // if the submit field is present, remove kill data
         if ( Post::get('submit') ) {
-            DBObjects::removeKill($this->_formFields);
+            DbObjects::removeKill($this->_formFields);
 
             $this->_removeScreenshot($this->_formFields->guildId, $this->_formFields->encounter);
         } else {

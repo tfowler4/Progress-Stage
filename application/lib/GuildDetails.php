@@ -36,12 +36,7 @@ class GuildDetails extends DetailObject {
     protected $_progression = array();
 
     // Ranking Properties
-    protected $_rankTier;
-    protected $_rankSize;
-    protected $_rankDungeon;
     protected $_rankEncounter;
-    protected $_rankTierRaidSize;
-    protected $_rankOverall;
     protected $_rankDetails;
     protected $_isRankDetailsSet;
 
@@ -108,12 +103,7 @@ class GuildDetails extends DetailObject {
         $this->_parent           = $params['parent'];
         $this->_child            = $params['child'];
         $this->_schedule         = $params['schedule'];
-        $this->_rankTier         = $params['rank_tier'];
-        $this->_rankSize         = $params['rank_size'];
-        $this->_rankDungeon      = $params['rank_dungeon'];
         $this->_rankEncounter    = $params['rank_encounter'];
-        $this->_rankTierRaidSize = $params['rank_tier_size'];
-        $this->_rankOverall      = $params['rank_overall'];
         $this->_guildType        = (isset($params['guild_type']) && !empty($params['guild_type']) ? $params['guild_type'] : 'N/A');
         $this->_recentActivity   = 'N/A';
         $this->_complete         = 0;

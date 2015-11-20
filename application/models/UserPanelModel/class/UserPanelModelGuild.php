@@ -121,7 +121,7 @@ class UserPanelModelGuild extends UserPanelModel {
 
         $this->_formFields->region = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
-        DBObjects::editGuild($this->_formFields, $this->_guildDetails);
+        DbObjects::editGuild($this->_formFields, $this->_guildDetails);
         if ( !empty($this->_formFields->guildLogo['tmp_name']) ) { $this->_assignGuildLogo($this->_guildDetails->_guildId); }
 
         $this->_guildDetails = $this->_getUpdatedGuildDetails($this->_guildDetails->_guildId);
@@ -137,7 +137,7 @@ class UserPanelModelGuild extends UserPanelModel {
     private function _removeGuild() {
         if ( !isset($this->_guildDetails) || $this->_guildDetails == null ) { header('Location: ' . HOST_NAME . '/userpanel');  die(); }
 
-        DBObjects::removeGuild($this->_formFields);
+        DbObjects::removeGuild($this->_formFields);
 
         // Guild is a child of a parent guild, update parent's info
         if ( !empty($this->_guildDetails->_parent) && $this->_guildDetails->_parent != '0' ) {
@@ -158,7 +158,7 @@ class UserPanelModelGuild extends UserPanelModel {
                 $sqlChild = implode("||", $childrenIdArray);
             }
 
-            DBObjects::removeChildGuild($sqlChild, $parentId);
+            DbObjects::removeChildGuild($sqlChild, $parentId);
         } else if ( !empty($this->_guildDetails->_child) ) {
             $childrenIdArray = explode('||', $this->_guildDetails->_child);
 
@@ -167,7 +167,7 @@ class UserPanelModelGuild extends UserPanelModel {
                 $childForm->guildId = $guildId;
                 $childForm            = $childForm;
 
-                DBObjects::removeGuild($childForm);
+                DbObjects::removeGuild($childForm);
                 $this->_removeGuildLogo($childForm->guildId);
             }
         }
@@ -189,8 +189,8 @@ class UserPanelModelGuild extends UserPanelModel {
 
         $this->_formFields->region = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
-        DBObjects::addGuild($this->_formFields);
-        $this->_assignGuildLogo(DBObjects::$insertId);
+        DbObjects::addGuild($this->_formFields);
+        $this->_assignGuildLogo(DbObjects::$insertId);
 
         $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully created a new guild!');
     }
@@ -207,8 +207,8 @@ class UserPanelModelGuild extends UserPanelModel {
 
         $this->_formFields->region = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
-        DBObjects::addChildGuild($this->_formFields, $this->_userDetails->_userId, $this->_guildDetails);
-        $this->_copyParentGuildLogo($this->_guildDetails->_guildId, DBObjects::$insertId);
+        DbObjects::addChildGuild($this->_formFields, $this->_userDetails->_userId, $this->_guildDetails);
+        $this->_copyParentGuildLogo($this->_guildDetails->_guildId, DbObjects::$insertId);
 
         $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully added a new raid team!');
     }

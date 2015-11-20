@@ -64,8 +64,8 @@ class AdministratorModelGuild {
         $this->_formFields->guildName = $this->_formFields->guild;
         $this->_formFields->region    = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
-        DBObjects::addGuild($this->_formFields);
-        $this->_assignGuildLogo(DBObjects::$insertId);
+        DbObjects::addGuild($this->_formFields);
+        $this->_assignGuildLogo(DbObjects::$insertId);
     }
 
     /**
@@ -153,7 +153,7 @@ class AdministratorModelGuild {
             $this->_formFields->guildName = $this->_formFields->guild;
             $this->_formFields->region    = CommonDataContainer::$serverArray[$this->_formFields->server]->_region;
 
-            DBObjects::editGuild($this->_formFields, $guildDetails);
+            DbObjects::editGuild($this->_formFields, $guildDetails);
             if ( !empty($this->_formFields->guildLogo['tmp_name']) ) { $this->_assignGuildLogo($guildDetails->_guildId); }
         } else {
             $html         = '';
@@ -174,7 +174,7 @@ class AdministratorModelGuild {
         $guildDetails               = CommonDataContainer::$guildArray[$this->_formFields->guild];
         $this->_formFields->guildId = $this->_formFields->guild;
 
-        DBObjects::removeGuild($this->_formFields);
+        DbObjects::removeGuild($this->_formFields);
         
         // Guild is a child of a parent guild, update parent's info
         if ( !empty($this->_guildDetails->_parent) && $this->_guildDetails->_parent != '0' ) {
@@ -195,7 +195,7 @@ class AdministratorModelGuild {
                 $sqlChild = implode("||", $childrenIdArray);
             }
 
-            DBObjects::removeChildGuild($sqlChild, $parentId);
+            DbObjects::removeChildGuild($sqlChild, $parentId);
         } else if ( !empty($this->_guildDetails->_child) ) {
             $childrenIdArray = explode('||', $this->_guildDetails->_child);
 
@@ -204,7 +204,7 @@ class AdministratorModelGuild {
                 $childForm->$guildId = $guildId;
                 $childForm           = $childForm;
 
-                DBObjects::removeGuild($childForm);
+                DbObjects::removeGuild($childForm);
                 $this->_removeGuildLogo($childForm->guildId);
             }
         }

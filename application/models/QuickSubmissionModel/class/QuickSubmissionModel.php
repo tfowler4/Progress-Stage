@@ -66,7 +66,7 @@ class QuickSubmissionModel extends Model {
     protected function _processKillSubmission() {
         $dbh = DbFactory::getDbh();
 
-        DBObjects::addKill($this->_formFields);
+        DbObjects::addKill($this->_formFields);
 
         $imagePath = strtolower(ABS_FOLD_KILLSHOTS . $this->_formFields->guildId . '-' . $this->_formFields->encounter);
 

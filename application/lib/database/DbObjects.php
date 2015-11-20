@@ -1,9 +1,9 @@
 <?php
 
 /**
- * database objects for insert/edlete/update queries
+ * database objects for insert/delete/update queries
  */
-class DBObjects {
+class DbObjects {
     protected static $_queryObject;
     protected static $_sqlString;
     protected static $_successful;
