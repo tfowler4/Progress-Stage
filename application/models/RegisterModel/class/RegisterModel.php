@@ -97,8 +97,7 @@ class RegisterModel extends Model {
                     type,
                     creator_id,
                     parent,
-                    child,
-                    rank_encounter
+                    child
                FROM %s
            ORDER BY date_created DESC
               LIMIT 10", 

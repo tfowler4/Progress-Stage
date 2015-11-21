@@ -136,8 +136,7 @@ class UserPanelModel extends Model {
                     type,
                     creator_id,
                     parent,
-                    child,
-                    rank_encounter
+                    child
                FROM %s
               WHERE guild_id='%s'",
              DbFactory::TABLE_GUILDS,
@@ -185,8 +184,7 @@ class UserPanelModel extends Model {
                     type,
                     creator_id,
                     parent,
-                    child,
-                    rank_encounter
+                    child
                FROM %s
               WHERE guild_id='%s'",
              DbFactory::TABLE_GUILDS,
@@ -279,8 +277,7 @@ class UserPanelModel extends Model {
                     type,
                     creator_id,
                     parent,
-                    child,
-                    rank_encounter
+                    child
                FROM %s
               WHERE creator_id='%s'
                 AND type='0'", 

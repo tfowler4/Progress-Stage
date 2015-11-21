@@ -239,8 +239,7 @@ class DbFactory {
                     type,
                     creator_id,
                     parent,
-                    child,
-                    rank_encounter
+                    child
                FROM %s
            ORDER BY name ASC",
             self::TABLE_GUILDS

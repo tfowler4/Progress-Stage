@@ -39,8 +39,7 @@ class GuildSearch {
                     type,
                     creator_id,
                     parent,
-                    child,
-                    rank_encounter
+                    child
                FROM %s
               WHERE name LIKE '%s' 
            ORDER BY name DESC", 
