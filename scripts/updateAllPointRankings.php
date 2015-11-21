@@ -1,6 +1,6 @@
 <?php
 
-include_once 'script.php';
+include 'script.php';
 
 class UpdateAllPointRankings extends Script {
     protected static $_encountersNeedUpdateArray;
@@ -12,6 +12,7 @@ class UpdateAllPointRankings extends Script {
     protected static $_rankArrayForEncounters;
     protected static $_rankArrayForDungeons;
     protected static $_existingRankingsArray = array();
+    protected static $_existingEncounterRankingsArray = array();
 
     public static function init() {
         Logger::log('INFO', 'Starting Update All Point Rankings...', 'dev');
@@ -66,6 +67,7 @@ class UpdateAllPointRankings extends Script {
     public static function getExistingRankings() {
         $dbh = DbFactory::getDbh();
 
+        // getting all dungeon rankings
         $query = $dbh->query(sprintf(
             "SELECT rankings_id,
                     guild_id,
@@ -84,6 +86,26 @@ class UpdateAllPointRankings extends Script {
 
             self::$_existingRankingsArray[$guildId][$dungeonId] = $row;
         }
+
+        // getting all encounter rankings
+        $query = $dbh->query(sprintf(
+            "SELECT rankings_id,
+                    guild_id,
+                    encounter_id
+               FROM %s", 
+                    DbFactory::TABLE_ENCOUNTER_RANKINGS
+        ));
+
+        while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
+            $guildId     = $row['guild_id'];
+            $encounterId = $row['encounter_id'];
+            
+            if ( !isset(self::$_existingEncounterRankingsArray[$guildId]) ) {
+                self::$_existingEncounterRankingsArray[$guildId] = array();
+            }
+
+            self::$_existingEncounterRankingsArray[$guildId][$encounterId] = $row;
+        }
     }
 
     public static function updateRecentRaidTable() {
@@ -98,9 +120,8 @@ class UpdateAllPointRankings extends Script {
     public static function createDungeonInsertStrings() {
         ksort(self::$_rankArrayForDungeons);
         foreach ( self::$_rankArrayForDungeons as $guildId => $dungeonArray ) {
-            $guildDetails             = CommonDataContainer::$guildArray[$guildId];
-            $dungeonInsertStringArray = array();
-            $detailsArray             = array();
+            $guildDetails = CommonDataContainer::$guildArray[$guildId];
+            $detailsArray = array();
 
             foreach ( $dungeonArray as $dungeon => $rankValue ) {
                 $dungeon        = explode('_', $dungeon);
@@ -109,22 +130,16 @@ class UpdateAllPointRankings extends Script {
                 $system         = strtolower($dungeon[1]);
                 $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
 
-                if ( !isset($dungeonInsertStringArray[$dungeonId]) ) {
-                    $dungeonInsertStringArray[$dungeonId] = $dungeonId . '<>' . implode('||', $rankValue);
-                } else {
-                    $dungeonInsertStringArray[$dungeonId] .= '++' . implode('||', $rankValue);
-                }
-
                 // new rankings table code
-                if ( !isset($details[$dungeonId]) ) {
-                    $details[$dungeonId] = array();
+                if ( !isset($detailsArray[$dungeonId]) ) {
+                    $standingsDetails                             = DbFactory::getStandingsForGuildInDungeon($dungeonId, $guildId);
+                    $detailsArray[$dungeonId]                     = array();
+                    $detailsArray[$dungeonId]['guild_id']         = $guildId;
+                    $detailsArray[$dungeonId]['dungeon_id']       = $dungeonId;
+                    $detailsArray[$dungeonId]['progress']         = $standingsDetails->_progress;
+                    $detailsArray[$dungeonId]['special_progress'] = $standingsDetails->_specialProgress;
                 }
 
-                $standingsDetails = DbFactory::getStandingsForGuildInDungeon($dungeonId, $guildId);
-                $detailsArray[$dungeonId]['guild_id']                     = $guildId;
-                $detailsArray[$dungeonId]['dungeon_id']                   = $dungeonId;
-                $detailsArray[$dungeonId]['progress']                     = $standingsDetails->_progress;
-                $detailsArray[$dungeonId]['special_progress']             = $standingsDetails->_specialProgress;
                 $detailsArray[$dungeonId][$system . '_points']            = $rankValue[1];
                 $detailsArray[$dungeonId][$system . '_world_rank']        = $rankValue[2];
                 $detailsArray[$dungeonId][$system . '_server_rank']       = $rankValue[3];
@@ -140,19 +155,9 @@ class UpdateAllPointRankings extends Script {
                 $detailsArray[$dungeonId][$system . '_country_prev_rank'] = $rankValue[13];
             }
 
-            $dbInsertString = '';
-
-            foreach ($dungeonInsertStringArray as $dungeonId => $insertString ) {
-                if ( empty($dbInsertString) ) {
-                    $dbInsertString = $insertString;
-                } else {
-                    $dbInsertString .= '~~' .  $insertString;
-                }
-            }
-
             // new rankings table code
-            if ( isset(self::$_existingRankingsArray[$guildId][$dungeonId]) ) {
-                foreach ( $detailsArray as $dungeonId => $details ) {
+            foreach ( $detailsArray as $dungeonId => $details ) {
+                if ( isset(self::$_existingRankingsArray[$guildId][$dungeonId]) ) {
                     $query = self::$_dbh->prepare(sprintf(
                         "UPDATE %s
                             SET progress ='%s',
@@ -242,11 +247,9 @@ class UpdateAllPointRankings extends Script {
                         $details['apf_country_prev_rank'],
                         $guildId,
                         $dungeonId
-                        ));
+                    ));
                     $query->execute();
-                }
-            } else {
-                foreach ( $detailsArray as $dungeonId => $details ) {
+                } else {
                     $query = self::$_dbh->prepare(sprintf(
                         "INSERT INTO %s
                                (progress,
@@ -337,59 +340,128 @@ class UpdateAllPointRankings extends Script {
                         $details['apf_country_prev_rank'],
                         $guildId,
                         $dungeonId
-                        ));
+                    ));
                     $query->execute();
                 }
             }
-
-            $query = self::$_dbh->prepare(sprintf(
-                "UPDATE guild_table
-                    SET rank_dungeon = '%s'
-                  WHERE guild_id = '%s'",
-                $dbInsertString,
-                $guildId
-                ));
-            $query->execute();
         }
     }
 
     public static function createEncounterInsertStrings() {
         ksort(self::$_rankArrayForEncounters);
         foreach ( self::$_rankArrayForEncounters as $guildId => $encounterArray ) {
-            $guildDetails               = CommonDataContainer::$guildArray[$guildId];
-            $encounterInsertStringArray = array();
+            $guildDetails = CommonDataContainer::$guildArray[$guildId];
+            $detailsArray = array();
 
             foreach ( $encounterArray as $encounter => $rankValue ) {
                 $encounter        = explode('_', $encounter);
                 $rankValue        = explode('||', $rankValue);
                 $encounterId      = $encounter[0];
+                $system           = strtolower($encounter[1]);
                 $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
 
-                if ( !isset($encounterInsertStringArray[$encounterId]) ) {
-                    $encounterInsertStringArray[$encounterId] = $encounterId . '<>' . implode('||', $rankValue);
-                } else {
-                    $encounterInsertStringArray[$encounterId] .= '++' . implode('||', $rankValue);
+                // new rankings table code
+                if ( empty($detailsArray[$encounterId]) ) {
+                    $detailsArray[$encounterId]                 = array();
+                    $detailsArray[$encounterId]['guild_id']     = $guildId;
+                    $detailsArray[$encounterId]['encounter_id'] = $encounterId;
+                    $detailsArray[$encounterId]['dungeon_id']   = $encounterDetails->_dungeonId;
                 }
+
+                $detailsArray[$encounterId][$system . '_points']       = $rankValue[1];
+                $detailsArray[$encounterId][$system . '_world_rank']   = $rankValue[2];
+                $detailsArray[$encounterId][$system . '_server_rank']  = $rankValue[3];
+                $detailsArray[$encounterId][$system . '_region_rank']  = $rankValue[4];
+                $detailsArray[$encounterId][$system . '_country_rank'] = $rankValue[5];
             }
 
-            $dbInsertString = '';
-
-            foreach ($encounterInsertStringArray as $encounterId => $insertString ) {
-                if ( empty($dbInsertString) ) {
-                    $dbInsertString = $insertString;
+            // new rankings table code
+            foreach ( $detailsArray as $encounterId => $details ) {
+                if ( isset(self::$_existingEncounterRankingsArray[$guildId][$encounterId]) ) {
+                    $query = self::$_dbh->prepare(sprintf(
+                        "UPDATE %s
+                            SET qp_points = '%s',
+                                qp_world_rank = '%s',
+                                qp_region_rank = '%s',
+                                qp_server_rank = '%s',
+                                qp_country_rank = '%s',
+                                ap_points = '%s',
+                                ap_world_rank = '%s',
+                                ap_region_rank = '%s',
+                                ap_server_rank = '%s',
+                                ap_country_rank = '%s',
+                                apf_points = '%s',
+                                apf_world_rank = '%s',
+                                apf_region_rank = '%s',
+                                apf_server_rank = '%s',
+                                apf_country_rank = '%s'
+                          WHERE guild_id = %d
+                            AND encounter_id = %d",
+                        DbFactory::TABLE_ENCOUNTER_RANKINGS,
+                        $details['qp_points'],
+                        $details['qp_world_rank'],
+                        $details['qp_region_rank'],
+                        $details['qp_server_rank'],
+                        $details['qp_country_rank'],
+                        $details['ap_points'],
+                        $details['ap_world_rank'],
+                        $details['ap_region_rank'],
+                        $details['ap_server_rank'],
+                        $details['ap_country_rank'],
+                        $details['apf_points'],
+                        $details['apf_world_rank'],
+                        $details['apf_region_rank'],
+                        $details['apf_server_rank'],
+                        $details['apf_country_rank'],
+                        $guildId,
+                        $encounterId
+                    ));
+                    $query->execute();
                 } else {
-                    $dbInsertString .= '~~' .  $insertString;
+                    $query = self::$_dbh->prepare(sprintf(
+                        "INSERT INTO %s
+                               (qp_points,
+                                qp_world_rank,
+                                qp_region_rank,
+                                qp_server_rank,
+                                qp_country_rank,
+                                ap_points,
+                                ap_world_rank,
+                                ap_region_rank,
+                                ap_server_rank,
+                                ap_country_rank,
+                                apf_points,
+                                apf_world_rank,
+                                apf_region_rank,
+                                apf_server_rank,
+                                apf_country_rank,
+                                guild_id,
+                                dungeon_id,
+                                encounter_id)
+                          values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
+                        DbFactory::TABLE_ENCOUNTER_RANKINGS,
+                        $details['qp_points'],
+                        $details['qp_world_rank'],
+                        $details['qp_region_rank'],
+                        $details['qp_server_rank'],
+                        $details['qp_country_rank'],
+                        $details['ap_points'],
+                        $details['ap_world_rank'],
+                        $details['ap_region_rank'],
+                        $details['ap_server_rank'],
+                        $details['ap_country_rank'],
+                        $details['apf_points'],
+                        $details['apf_world_rank'],
+                        $details['apf_region_rank'],
+                        $details['apf_server_rank'],
+                        $details['apf_country_rank'],
+                        $details['guild_id'],
+                        $details['dungeon_id'],
+                        $details['encounter_id']
+                    ));
+                    $query->execute();
                 }
             }
-
-            $query = self::$_dbh->prepare(sprintf(
-                "UPDATE guild_table
-                    SET rank_encounter = '%s'
-                  WHERE guild_id = '%s'",
-                $dbInsertString,
-                $guildId
-                ));
-            $query->execute();
         }
     }
 
@@ -727,7 +799,7 @@ class UpdateAllPointRankings extends Script {
               WHERE update_rank = '0'
            GROUP BY encounter_id",
              DbFactory::TABLE_RECENT_RAIDS
-            ));
+        ));
         $query->execute();
 
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { 

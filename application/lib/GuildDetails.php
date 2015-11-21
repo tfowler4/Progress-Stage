@@ -36,16 +36,13 @@ class GuildDetails extends DetailObject {
     protected $_progression = array();
 
     // Ranking Properties
-    protected $_rankEncounter;
+    protected $_rankEncounter = array();
     protected $_rankDetails;
     protected $_isRankDetailsSet;
 
     // Detail Properties
     protected $_encounterDetails;
     protected $_dungeonDetails;
-    protected $_tierDetails;
-    protected $_raidSizeDetails;
-    protected $_tierRaidSizeDetails;
     protected $_datetime;
     protected $_screenshot;
     protected $_video;
@@ -103,7 +100,6 @@ class GuildDetails extends DetailObject {
         $this->_parent           = $params['parent'];
         $this->_child            = $params['child'];
         $this->_schedule         = $params['schedule'];
-        $this->_rankEncounter    = $params['rank_encounter'];
         $this->_guildType        = (isset($params['guild_type']) && !empty($params['guild_type']) ? $params['guild_type'] : 'N/A');
         $this->_recentActivity   = 'N/A';
         $this->_complete         = 0;
@@ -123,11 +119,11 @@ class GuildDetails extends DetailObject {
         }
 
         // set server image and text
-        $serverDetails  = CommonDataContainer::$serverArray[$this->_server];
-        $this->_serverLink  = $serverDetails->_nameLink;
+        $serverDetails     = CommonDataContainer::$serverArray[$this->_server];
+        $this->_serverLink = $serverDetails->_nameLink;
 
         // set country image and text
-        $countryDetails = CommonDataContainer::$countryArray[$this->_country];
+        $countryDetails     = CommonDataContainer::$countryArray[$this->_country];
         $this->_countryLink = $this->_countryImage . '<span>' . $countryDetails->_name . '</span>';
 
         // set other guild options to either N/A or actual links
@@ -142,12 +138,8 @@ class GuildDetails extends DetailObject {
         if ( empty(trim($this->_socialNetworks)) ) { $this->_socialNetworks = 'N/A'; }
 
         // set default standings detail info
-        $this->_dungeonDetails = $this->generateDungeonDetails();
+        $this->_dungeonDetails   = $this->generateDungeonDetails();
         $this->_encounterDetails = new stdClass();
-
-        // TODO: Add Tier/Raid Size/Tier Raid Size content
-        //$this->_tierDetails         = $this->generateTierDetails();
-        //$this->_tierRaidSizeDetails = $this->generateTierRaidSizeDetails();
     }
 
     /**
@@ -173,91 +165,26 @@ class GuildDetails extends DetailObject {
      * 
      * @return void
      */
-    public function generateRankDetails($dataType, $dataId = null) {
+    public function generateRankDetails($dataType) {
         $property = new stdClass();
         
         if ( $dataType == 'encounters' ) {
+            DbFactory::getGuildEncounterRankings($this->_guildId, $dataType);
+
             // Generate Encounter Ranking
             $rankEncounters = new stdClass();
-            $encounterArray = explode("~~", $this->_rankEncounter);
+            foreach ( $this->_rankEncounter as $encounterId => $rankDetails ) {
+                foreach( unserialize(RANK_SYSTEMS) as $systemAbbrev => $systemName ) {
+                    $identifier = $encounterId . '_' . $systemAbbrev;
 
-            foreach ( $encounterArray as $encounter ) {
-                 if ( empty($encounter) ) { continue; }
-
-                $encounterDetails = explode('<>', $encounter);
-                $encounterId      = $encounterDetails[0];
-
-                $encounterRankArray = explode('++', $encounterDetails[1]);
-
-                foreach( $encounterRankArray as $rankDetails ) {
-                    $rankSystemArray = explode('||', $rankDetails);
-
-                    $rankSystem = $rankSystemArray[0];
-                    $identifier = $encounterId . '_' . $rankSystem;
-
-                    $rankEncounters->$identifier = new RankDetails($rankSystemArray, $encounterId);
+                    $rankEncounters->$identifier = new RankDetails($systemAbbrev, $rankDetails, $encounterId);
                 }
             }
 
             $property->_rankEncounters = $rankEncounters;
-        } elseif ( $dataType == 'dungeons' ) {
-            // Generate Dungeon Ranking
-            $rankDungeons = new stdClass();
-            $dungeonArray = explode('~~', $this->_rankDungeon);
-
-            foreach ( $dungeonArray as $dungeon ) {
-                if ( empty($dungeon) ) { continue; }
-
-                $dungeonDetails = explode('<>', $dungeon);
-                $dungeonId      = $dungeonDetails[0];
-
-                $dungeonRankArray = explode('++', $dungeonDetails[1]);
-
-                foreach( $dungeonRankArray as $rankDetails ) {
-                    $rankSystemArray = explode('||', $rankDetails);
-                    
-                    $rankSystem = strtolower($rankSystemArray[0]);
-                    $identifier = $dungeonId . '_' . $rankSystem;
-
-                    //$rankDungeons->$identifier = new RankDetails($rankSystemArray, $dungeonId);
-                    $this->_dungeonDetails->$dungeonId->{'_' . $rankSystem} = new RankDetails($rankSystemArray, $dungeonId);
-                }
-            }
-
-            $property->_rankDungeons = $rankDungeons;
         }
 
         $this->_rankDetails = $property;
-    }
-
-    /**
-     * create empty tier raid size details to store in tierRaidSizeDetails property
-     * 
-     * @return object [ property containing empty tierRaidSize detail objects ]
-     */
-    public function generateTierRaidSizeDetails() {
-        $property = new stdClass();
-
-        foreach ( CommonDataContainer::$tierRaidSizeArray as $tierRaidSize => $tierRaidSizeDetails ) {
-            $property->$tierRaidSize = new TierRaidSizeDetails($tierRaidSizeDetails);
-        }
-            
-        return $property;
-    }
-
-    /**
-     * create empty tier details to store in tierDetails property
-     * 
-     * @return object [ property containing empty tier detail objects ]
-     */
-    public function generateTierDetails() {
-        $property = new stdClass();
-            
-        foreach ( CommonDataContainer::$tierArray as $tierId => $tierDetails ) {
-            $property->{$tierDetails->_tier} = new TierDetails($tierDetails);
-        }
-
-        return $property;
     }
 
     /**
@@ -455,12 +382,6 @@ class GuildDetails extends DetailObject {
             case 'dungeon':
                 $recentTime = $this->_dungeonDetails->$id->_recentTime;
                 break;
-            case 'tier':
-                $recentTime = $this->_tierDetails->$id->_recentTime;
-                break;
-            case 'tierRaidSize':
-                $recentTime = $this->_tierRaidSizeDetails->$id->_recentTime;
-                break;
         }
 
         if ( !isset($recentTime) || $recentTime == "" || ( $recentTime < $encounter->_strtotime ) ) {
@@ -474,16 +395,6 @@ class GuildDetails extends DetailObject {
                     $this->_dungeonDetails->$id->_recentTime             = $encounter->_strtotime;
                     $this->_dungeonDetails->$id->_recentActivity         = $encounterDetails->_encounterName . ' @ ' . $encounter->_datetime;
                     $this->_dungeonDetails->$id->_recentEncounterDetails = $encounter;
-                    break;
-                case 'tier':
-                    $this->_tierDetails->$id->_recentTime             = $encounter->_strtotime;
-                    $this->_tierDetails->$id->_recentActivity         = $encounterDetails->_encounterName . ' @ ' . $encounter->_datetime;
-                    $this->_tierDetails->$id->_recentEncounterDetails = $encounter;
-                    break;
-                case 'tierRaidSize':
-                    $this->_tierRaidSizeDetails->$id->_recentTime             = $encounter->_strtotime;
-                    $this->_tierRaidSizeDetails->$id->_recentActivity         = $encounterDetails->_encounterName . ' @ ' . $encounter->_datetime;
-                    $this->_tierRaidSizeDetails->$id->_recentEncounterDetails = $encounter;
                     break;
             }
         }

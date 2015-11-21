@@ -2,19 +2,19 @@
 
 include 'script.php';
 
-class PushStageToWebServer {
-    static protected $_login;
-    static protected $_connection;
-    static protected $_localFileLocation;
-    static protected $_remoteFileLocation;
-    static protected $_serverFiles     = array();
-    static protected $_serverDirectory = array();
-    static protected $_exemptFolders   = array('data', 'images', 'docs', '.git');
+class PushStageToWebServer extends Script {
+    protected static $_login;
+    protected static $_connection;
+    protected static $_localFileLocation;
+    protected static $_remoteFileLocation;
+    protected static $_serverFiles     = array();
+    protected static $_serverDirectory = array();
+    protected static $_exemptFolders   = array('data', 'images', 'docs', '.git');
 
     // Local location is set to ABSOLUTE_PATH
     const REMOTE_LOCATION = '/public_html/' . DOMAIN;
 
-    static public function init() {
+    public static function init() {
         Logger::log('INFO', 'Starting Push Stage To Web Server...', 'dev');
         self::$_connection = ftp_connect(FTP_HOST);
         self::$_login      = ftp_login(self::$_connection, FTP_USER, FTP_PASSWORD);
@@ -34,7 +34,7 @@ class PushStageToWebServer {
     }
 
     // To search thru each directory
-    static public function searchDirectory($currentFolder) {
+    public static function searchDirectory($currentFolder) {
         $handle = opendir($currentFolder);
 
         while ( false !== ($file = readdir($handle)) ) {
@@ -56,7 +56,7 @@ class PushStageToWebServer {
     }
 
     // To check directories and create them if they do not exist on web server
-    static public function checkDirectory($file) {
+    public static function checkDirectory($file) {
         $directory = str_replace(ABSOLUTE_PATH, self::REMOTE_LOCATION, $file);
 
         if ( !is_dir($directory) ) {
@@ -67,7 +67,7 @@ class PushStageToWebServer {
     }
 
     // To check directories and exclude those on the list
-    static public function checkExemptions($folderName) {
+    public static function checkExemptions($folderName) {
         $folders = explode('/', $folderName);
 
         foreach (self::$_exemptFolders as $exemption) {
@@ -78,7 +78,7 @@ class PushStageToWebServer {
     }
 
     // To upload files from local machine to web server
-    static public function uploadFiles($localFile, $remoteFile) {
+    public static function uploadFiles($localFile, $remoteFile) {
         $upload = ftp_nb_put(self::$_connection, $remoteFile, $localFile, FTP_BINARY);
 
         // Keep connection open while files are uploading
@@ -93,7 +93,7 @@ class PushStageToWebServer {
     }
 
     // To get all file listings from web server
-    static public function getWebServerListings($connection, $path) {
+    public static function getWebServerListings($connection, $path) {
         $listings = ftp_nlist($connection, $path);
 
         foreach ($listings as $currentFile) {

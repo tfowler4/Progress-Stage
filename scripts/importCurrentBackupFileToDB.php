@@ -1,17 +1,18 @@
 <?php
+
 include 'script.php';
 
-class ImportCurrentBackupFileToDB {
-	static protected $_login;
-	static protected $_connection;
+class ImportCurrentBackupFileToDB extends Script {
+    static protected $_login;
+    static protected $_connection;
     static protected $_serverBackupPath;
 
     const LOCAL_PATH = ABSOLUTE_PATH . '/temp';
 
-	static public function init() {
+    public static function init() {
         Logger::log('INFO', 'Starting Import Current Backup File to Database...', 'dev');
 
-		$dateYear  = date('Y');
+        $dateYear  = date('Y');
         $dateMonth = date('n')."-".date('M');
         $dateDay   = date('d');
         $fullDate  = $dateYear . '/' . $dateMonth . '/' . $dateDay;
@@ -33,10 +34,10 @@ class ImportCurrentBackupFileToDB {
         self::executeImportCommand($importFile);
 
         ftp_close(self::$_connection);
-	}
+    }
 
     // To import file into database
-    static public function executeImportCommand($file) {
+    public static function executeImportCommand($file) {
 
         // To import file into target database; DB must already exist
         $command ='mysql -h' . DB_HOST .' -u' . DB_USER .' -p' . DB_PASS .' ' .  DB_NAME .' < ' . $file; //. ' > stdout_output.txt 2>stderr_output.txt';
@@ -54,7 +55,7 @@ class ImportCurrentBackupFileToDB {
     }
 
     // To download lastest file to local
-    static public function downloadBackupFile($connection, $file) {
+    public static function downloadBackupFile($connection, $file) {
         if ( !file_exists(self::LOCAL_PATH) ) {
             mkdir(self::LOCAL_PATH, 0777, true);
         }
@@ -68,19 +69,19 @@ class ImportCurrentBackupFileToDB {
         return $localFile;
     }
 
-	// To get lastest backup file from web server
-	static public function getCurrentBackupFile($connection, $path) {
+    // To get lastest backup file from web server
+    public static function getCurrentBackupFile($connection, $path) {
         if (DOMAIN == 'stage') {
             Logger::log('ERROR', 'Failed to execute script in current domain: ' . DOMAIN, 'dev');
             exit;
         }
 
-		$listings   = ftp_nlist($connection, $path);
+        $listings   = ftp_nlist($connection, $path);
         $count      = count($listings);
         $lastestFile = $listings[$count - 1];
         
         return $path . '/' . $lastestFile;
-	}
+    }
 }
 
 ImportCurrentBackupFileToDB::init();

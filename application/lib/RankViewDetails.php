@@ -12,10 +12,10 @@ class RankViewDetails extends DetailObject {
     /**
      * constructor
      */
-    public function __construct($params) {
-        $this->_world   = $params[0];
-        $this->_server  = $params[1];
-        $this->_region  = $params[2];
-        $this->_country = $params[3];
+    public function __construct($worldRank, $regionRank, $serverRank, $countryRank) {
+        $this->_world   = $worldRank;
+        $this->_server  = $regionRank;
+        $this->_region  = $serverRank;
+        $this->_country = $countryRank;
     }
 }

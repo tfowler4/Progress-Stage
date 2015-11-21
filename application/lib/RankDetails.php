@@ -14,13 +14,39 @@ class RankDetails extends DetailObject {
     /**
      * constructor
      */
-    public function __construct($params, $id) {
-        $this->_system = $params[0];
+    public function __construct($system, $params, $id) {
+        $this->_system = strtolower($system);
         $this->_id     = $id;
-        $this->_points = !empty($params[1]) ? $params[1] : 0;
 
-        if ( !empty($params[2]) ) { $this->_rank = new RankViewDetails(array_slice($params, 2, 4)); }
-        if ( !empty($params[6]) ) { $this->_trend = new RankViewDetails(array_slice($params, 6, 4)); }
-        if ( !empty($params[10]) ) { $this->_prevRank = new RankViewDetails(array_slice($params, 10, 4)); }
+        if ( !empty($params[$this->_system . '_points']) ) {
+            $this->_points = $params[$this->_system . '_points'];
+        }
+
+        if ( isset($params[$this->_system . '_world_rank']) ) {
+            $this->_rank = new RankViewDetails(
+                $params[$this->_system . '_world_rank'],
+                $params[$this->_system . '_region_rank'],
+                $params[$this->_system . '_server_rank'],
+                $params[$this->_system . '_country_rank']
+            );
+        }
+
+        if ( isset($params[$this->_system . '_world_trend']) ) {
+            $this->_trend = new RankViewDetails(
+                $params[$this->_system . '_world_trend'],
+                $params[$this->_system . '_region_trend'],
+                $params[$this->_system . '_server_trend'],
+                $params[$this->_system . '_country_trend']
+            );
+        }
+
+        if ( isset($params[$this->_system . '_world_prev_rank']) ) {
+            $this->_prevRank = new RankViewDetails(
+                $params[$this->_system . '_world_prev_rank'],
+                $params[$this->_system . '_region_prev_rank'],
+                $params[$this->_system . '_server_prev_rank'],
+                $params[$this->_system . '_country_prev_rank']
+            );
+        }
     }
 }

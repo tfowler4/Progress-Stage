@@ -6,25 +6,26 @@
 class DbFactory {
     private static $_dbh;
 
-    const TABLE_DUNGEONS     = 'dungeon_table';
-    const TABLE_ENCOUNTERS   = 'encounterlist_table';
-    const TABLE_FACTIONS     = 'faction_table';
-    const TABLE_TIERS        = 'tier_table';
-    const TABLE_SERVERS      = 'server_table';
-    const TABLE_REGIONS      = 'region_table';
-    const TABLE_USERS        = 'users_table';
-    const TABLE_GUILDS       = 'guild_table';
-    const TABLE_NEWS         = 'news_table';
-    const TABLE_COUNTRIES    = 'country_table';
-    const TABLE_RECENT_RAIDS = 'recent_raid_table';
-    const TABLE_DOCUMENTS    = 'document_table';
-    const TABLE_SYSTEMS      = 'rank_system_table';
-    const TABLE_LOGGING      = 'log_table';
-    const TABLE_TWITCH       = 'twitch_table';
-    const TABLE_VIDEOS       = 'video_table';
-    const TABLE_KILLS        = 'encounterkills_table';
-    const TABLE_STANDINGS    = 'standings_table';
-    const TABLE_RANKINGS     = 'rankings_table';
+    const TABLE_DUNGEONS           = 'dungeon_table';
+    const TABLE_ENCOUNTERS         = 'encounterlist_table';
+    const TABLE_FACTIONS           = 'faction_table';
+    const TABLE_TIERS              = 'tier_table';
+    const TABLE_SERVERS            = 'server_table';
+    const TABLE_REGIONS            = 'region_table';
+    const TABLE_USERS              = 'users_table';
+    const TABLE_GUILDS             = 'guild_table';
+    const TABLE_NEWS               = 'news_table';
+    const TABLE_COUNTRIES          = 'country_table';
+    const TABLE_RECENT_RAIDS       = 'recent_raid_table';
+    const TABLE_DOCUMENTS          = 'document_table';
+    const TABLE_SYSTEMS            = 'rank_system_table';
+    const TABLE_LOGGING            = 'log_table';
+    const TABLE_TWITCH             = 'twitch_table';
+    const TABLE_VIDEOS             = 'video_table';
+    const TABLE_KILLS              = 'encounterkills_table';
+    const TABLE_STANDINGS          = 'standings_table';
+    const TABLE_RANKINGS           = 'rankings_table';
+    const TABLE_ENCOUNTER_RANKINGS = 'encounter_rankings_table';
 
     public static function init() {
         self::$_dbh = self::getDbh();
@@ -389,6 +390,98 @@ class DbFactory {
         }
     }
 
+    public static function getGuildEncounterRankings($guildId, $dataType, $dataId = '') {
+        $sqlString = 'guild_id ="' . $guildId . '"';
+
+        switch ($dataType) {
+            case 'dungeon':
+                $sqlString = ' AND dungeon_id ="' . $dataId . '"';
+                break;
+        }
+
+        $query = self::$_dbh->query(sprintf(
+            "SELECT rankings_id,
+                    guild_id,
+                    encounter_id,
+                    dungeon_id,
+                    qp_points,
+                    qp_world_rank,
+                    qp_region_rank,
+                    qp_server_rank,
+                    qp_country_rank,
+                    ap_points,
+                    ap_world_rank,
+                    ap_region_rank,
+                    ap_server_rank,
+                    ap_country_rank,
+                    apf_points,
+                    apf_world_rank,
+                    apf_region_rank,
+                    apf_server_rank,
+                    apf_country_rank
+               FROM %s
+              WHERE %s",
+            self::TABLE_ENCOUNTER_RANKINGS,
+            $sqlString
+            ));
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $guildId          = $row['guild_id'];
+            $encounterId      = $row['encounter_id'];
+
+            if ( isset(CommonDataContainer::$guildArray[$guildId]) ) {
+                $guildDetails                 = CommonDataContainer::$guildArray[$guildId];
+                $arr                          = $guildDetails->_rankEncounter;
+                $arr[$encounterId]            = $row;
+                $guildDetails->_rankEncounter = $arr;
+            } 
+        }
+    }
+/*
+    public static function getGuildDungeonRankings($guildId, $dataId = '') {
+        $sqlString = 'guild_id ="' . $guildId . '"';
+
+        if ( !empty() ) {
+            $sqlString = ' AND dungeon_id ="' . $dataId . '"';
+        }
+
+        $query = self::$_dbh->query(sprintf(
+            "SELECT rankings_id,
+                    guild_id,
+                    encounter_id,
+                    dungeon_id,
+                    qp_points,
+                    qp_world_rank,
+                    qp_region_rank,
+                    qp_server_rank,
+                    qp_country_rank,
+                    ap_points,
+                    ap_world_rank,
+                    ap_region_rank,
+                    ap_server_rank,
+                    ap_country_rank,
+                    apf_points,
+                    apf_world_rank,
+                    apf_region_rank,
+                    apf_server_rank,
+                    apf_country_rank
+               FROM %s
+              WHERE %s",
+            self::TABLE_ENCOUNTER_RANKINGS,
+            $sqlString
+            ));
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $guildId          = $row['guild_id'];
+            $encounterId      = $row['encounter_id'];
+
+            if ( isset(CommonDataContainer::$guildArray[$guildId]) ) {
+                $guildDetails                 = CommonDataContainer::$guildArray[$guildId];
+                $arr                          = $guildDetails->_rankEncounter;
+                $arr[$encounterId]            = $row;
+                $guildDetails->_rankEncounter = $arr;
+            } 
+        }
+    }
+*/
     /**
      * get a list of specific encounter kills in order of earliest to latest
      *

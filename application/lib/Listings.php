@@ -146,8 +146,6 @@ class Listings extends DataObject {
             $this->_identifier  = $this->_dataDetails->_dungeonId;
             $this->_title       = $this->_dataDetails->_name;
 
-            //DBFactory::getEncounterKills('dungeon', $this->_identifier);
-
             if ( empty($this->_dataDetails) ) { return null; }
 
             $this->_dungeonDetails = $this->_dataDetails;
@@ -184,69 +182,12 @@ class Listings extends DataObject {
     }
 
     /**
-     * TEMPORARY
-     *
-     * @return array
-     */
-    private function _getTemporarySortArray($dungeonDetails = null) {
-        $sortArray = array();
-
-        if ( $this->_listType == 'standings' || $this->_listType == 'news' || $this->_listType == 'servers' ) {
-            foreach ( $this->_guildArray as $guildId => $guildDetails ) {
-                switch ($this->_dataType) {
-                    case '_tierDetails':
-                        $guildDetails->generateEncounterDetails('tier', $this->_identifier);
-                        break;
-                    case '_dungeonDetails':
-                        $guildDetails->generateEncounterDetails('dungeon', $this->_identifier);
-                        break;
-                    case '_encounterDetails':
-                        $guildDetails->generateEncounterDetails('encounter', $this->_identifier);
-                        break;
-                }
-
-                if ( empty($guildDetails->{$this->_dataType}->{$this->_identifier}) ) { continue; }
-
-                $progressionDetails = $guildDetails->{$this->_dataType}->{$this->_identifier};
-
-                if ( $this->_dataType != '_encounterDetails' && $progressionDetails->_complete == 0 ) { continue; }
-
-                if ( $this->_dataType == '_encounterDetails' ) { 
-                    $sortArray[0][$guildId] = $progressionDetails->_strtotime;
-                } elseif ( $this->_dataType != '_encounterDetails' ) { 
-                    $sortArray[$progressionDetails->_complete][$guildId] = $progressionDetails->_recentTime;
-
-                    // If guild only submitted the final encounter, their complete will be equal to dungeon completion
-                    if ( $progressionDetails->_complete != $this->_dataDetails->_numOfEncounters ) {
-                        $finalEncounterId = $this->_dataDetails->_finalEncounterId;
-
-                        if ( isset($guildDetails->_encounterDetails->$finalEncounterId) ) {
-                            $totalComplete = CommonDataContainer::$dungeonArray[$this->_identifier]->_numOfEncounters;
-
-                            unset($sortArray[$progressionDetails->_complete][$guildId]);
-                            $sortArray[$totalComplete][$guildId] = $progressionDetails->_recentTime;
-                        }
-                    }
-                }
-            }
-        } elseif ( $this->_listType == 'rankings' ) {
-            foreach ( $this->_guildArray as $guildId => $guildDetails ) {
-                $guildDetails->generateEncounterDetails('dungeon', $this->_standingsId);
-                $guildDetails->generateRankDetails('dungeons');
-
-                if ( !isset($guildDetails->{$this->_dataType}->{$this->_identifier}->{$this->_rankingId}) ) { continue; }
-
-                $points = $guildDetails->{$this->_dataType}->{$this->_identifier}->{$this->_rankingId}->_points;
-
-                $sortArray[$guildId] = $points;
-            }
-        }
-
-        return $sortArray;
-    }
-
-    /**
-     * TEMPORARY
+     * add guild to sorting array and increasing rank value
+     * 
+     * @param GuildDetails $guildDetails        [ guild details object ]
+     * @param array        $temporaryGuildArray [ array of guilds in sorted by as they are being added]
+     * @param array        $completionTimeArray [ completion time sorted by earliest to latest ]
+     * @param array        $rankArray           [ rank increment in array format based on view ]
      *
      * @return void
      */
@@ -261,9 +202,9 @@ class Listings extends DataObject {
     }
 
     /**
-     * TEMPORARY
+     * get list of guilds based on standings information
      *
-     * @return array
+     * @return array [ array of guilds sorted by number of encounters cleared and time ]
      */
     private function _getStandings() {
         $rankArray           = array();
@@ -335,11 +276,6 @@ class Listings extends DataObject {
     /**
      * get guild rankings based upon type of content selected
      * 
-     * @param  string $rankType [ point ranking system ]
-     * @param  string $view     [ view type filter ]
-     * @param  string $tier     [ name of tier ]
-     * @param  string $dungeon  [ name of dungeon ]
-     * 
      * @return array [ array of guilds sorted by points ]
      */
     private function _getRankings() {
@@ -392,9 +328,11 @@ class Listings extends DataObject {
     }
 
     /**
-     * TEMPORARY
+     * take a sorted list of guilds and to sort them by the UI viewing property
      *
-     * @return object
+     * @param array $sortGuildArray [ list of guilds sorted by time of completion ]
+     *
+     * @return GuildListing [ guild listing object ]
      */
     private function _setViewArray($sortGuildArray) {
         $guildListing = new GuildListing();

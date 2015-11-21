@@ -2,18 +2,18 @@
 
 include 'script.php';
 
-class PushStageToLive {
-    static protected $_gameName;
-    static protected $_destination;
-    static protected $_newFileLocation;
-    static protected $_destinationFolder;
-    static protected $_currentFileLocation;
-    static protected $_numberOfFiles = 0;
-    static protected $_exemptFolders = array('docs', 'images', 'temp', 'data', '.git');
-    
-    const SOURCE_FOLDER              = ABSOLUTE_PATH;
+class PushStageToLive extends Script {
+    protected static $_gameName;
+    protected static $_destination;
+    protected static $_newFileLocation;
+    protected static $_destinationFolder;
+    protected static $_currentFileLocation;
+    protected static $_numberOfFiles = 0;
+    protected static $_exemptFolders = array('docs', 'images', 'temp', 'data', '.git');
 
-    static public function init() {
+    const SOURCE_FOLDER = ABSOLUTE_PATH;
+
+    public static function init() {
         Logger::log('INFO', 'Starting Push Stage To Live...', 'dev');
 
         $folders       = explode("/", self::SOURCE_FOLDER);
@@ -38,7 +38,7 @@ class PushStageToLive {
         Logger::log('INFO', 'Push Stage To Live Completed!', 'dev');
     }
     
-    static public function searchDirectory($currentFolder) {
+    public static function searchDirectory($currentFolder) {
         $liveFiles     = array();
         $stageFiles    = array();
         $modifiedFiles = array();
@@ -75,7 +75,7 @@ class PushStageToLive {
         closedir($handle);
    }
     
-    static public function checkDirectory($file) {
+    public static function checkDirectory($file) {
 
         if ( (isset(self::$_gameName)) ) {
             $directory = str_replace(self::SOURCE_FOLDER, self::$_destination, $file);
@@ -86,11 +86,11 @@ class PushStageToLive {
         }
     }
     
-    static public function moveFiles($oldFile, $newFile) {
+    public static function moveFiles($oldFile, $newFile) {
         copy($oldFile, $newFile);
     }
 
-    static public function checkExemptions($folderName) {
+    public static function checkExemptions($folderName) {
         $folders = explode('/', $folderName);
 
         if ( (isset(self::$_gameName)) ) {
@@ -109,7 +109,7 @@ class PushStageToLive {
         }
     }
 
-    static public function getCurrentFiles($file) {
+    public static function getCurrentFiles($file) {
         $files = array();
         if ( is_file($file) ) {
             $modifiedTime = filemtime($file);
@@ -120,7 +120,7 @@ class PushStageToLive {
         return $files;
     }
 
-    static public function compareModifiedFiles($stageFiles, $liveFiles) {
+    public static function compareModifiedFiles($stageFiles, $liveFiles) {
         $modifiedFiles = array();
 
         if ( is_array($stageFiles) && is_array($liveFiles) ) {
@@ -141,7 +141,7 @@ class PushStageToLive {
         } 
     }
 
-    static public function logModifiedFiles($files) {
+    public static function logModifiedFiles($files) {
         self::$_numberOfFiles += count($files);
 
         if ( is_array($files) ) {

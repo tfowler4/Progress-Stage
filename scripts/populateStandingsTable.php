@@ -3,7 +3,7 @@
 include 'script.php';
 
 class PopulateStandingsTable extends Script {
-    protected static $_standingsArray = array();
+    protected static $_standingsArray         = array();
     protected static $_existingStandingsArray = array();
 
     public static function init() {

@@ -2,7 +2,7 @@
 
 include 'script.php';
 
-class DeleteBackupFilesOlderThanAWeek {
+class DeleteBackupFilesOlderThanAWeek extends Script {
     protected static $_login;
     protected static $_connection;
     protected static $_serverBackupPath;
