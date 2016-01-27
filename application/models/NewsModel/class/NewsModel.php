@@ -214,9 +214,10 @@ class NewsModel extends Model {
                 foreach( unserialize(RANK_SYSTEMS) as $systemAbbrev => $systemName ) {
                     $abbrev       = strtolower($systemAbbrev);
                     $guildId      = $guildDetails->_guildId;
+                    $origPoints   = $guildDetails->{'_' . $abbrev . 'Points'};
                     $points       = Functions::formatPoints($guildDetails->{'_' . $abbrev . 'Points'});
-                    $trend        = $guildDetails->_trend;
-                    $rank         = $guildDetails->_rank;
+                    $trend        = $guildDetails->{'_' . $abbrev . 'Trend'};
+                    $rank         = $guildDetails->{'_' . $abbrev . 'Rank'};
                     $rankId       = sprintf("%02d", $rank);
                     $image        = Functions::getTrendImage($trend);
                     $identifier   = $systemAbbrev . ' | ' . $guildId;
