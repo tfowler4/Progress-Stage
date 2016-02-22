@@ -35,7 +35,7 @@ class Template {
         $html .= '<tr>';
 
         foreach( $tableHeader as $key => $value ) {
-            $html .= '<th class="subHeader';
+            $html .= '<th class="info';
 
             if ( $cellCount % 3 == 0 ) {
                 $html .= ' border-right';
@@ -72,10 +72,10 @@ class Template {
         $html = '';
         $html .= '<tr>';
         $html .= '<th class="subTitle" colspan="' . $columnSpan . '">';
-        $html .= $headerText;
+        $html .= '<div class="pull-left">' . $headerText . '</div>';
 
         if ( !empty($optionText) ) {
-            $html .= '<a id="' . $optionId . '" class="table-header-link move-right' . $optionClass . '" href="#">' . $optionText . '</a>';
+            $html .= '<div class="pull-right"><a id="' . $optionId . '" class="table-header-link move-right' . $optionClass . '" href="#">' . $optionText . '</a></div>';
         }
 
         $html .= '</th>';
@@ -546,72 +546,74 @@ class Template {
         switch ($modelName) {
             case 'news':
                 if ( MODULE_NEWS_SET == 1 ) {
-                    $html = '<li>News</li>';
+                    $html = '<li>';
 
-                    if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('news', '', '', $html, ''); }
+                    if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('news', '', '', 'News', ''); }
+
+                    $html .= '</li>';
                 }
                 break;
             case 'quickSubmit':
                 if ( MODULE_QUICKSUB_SET == 1 ) {
-                    $html = '<li id="quick-activator" class="activatePopUp">Quick Submission</li>';
-
-                    if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('quickSubmit', '', '', $html, ''); }
+                    $html = '<li id="login-activator" class="activatePopUp"><a href="#">Quick Submission</a></li>';
                 }
                 break;
             case 'howto':
                 if ( MODULE_HOWTO_SET == 1 ) {
-                    $html = '<li>How-To</li>';
+                    $html = '<li>';
 
-                    if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('howto', '', '', $html, ''); }
+                    if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('howto', '', '', 'How-To', ''); }
+
+                    $html .= '</li>';
                 }
                 break;
             case 'register':
                 if ( MODULE_REGISTER_SET == 1 ) {
                     if ( !isset($_SESSION['logged']) ) {
-                        $html = '<li>Register</li>';
+                        $html = '<li>';
 
-                        if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('register', '', '', $html, ''); }
+                        if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('register', '', '', '<span class="glyphicon glyphicon-user"></span>  Register', ''); }
+
+                        $html .= '</li>';
                     }
                 }
                 break;
             case 'contactus':
                 if ( MODULE_CONTACT_SET == 1 ) {
-                    $html = '<li id="contact-activator" class="activatePopUp">Contact Us</li>';
-
-                    if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('contactus', '', '', $html, ''); }
+                    $html = '<li id="contact-activator" class="activatePopUp"><a href="#"><span class="glyphicon glyphicon-envelope"></span> Contact Us</a></li>';
                 }
                 break;
             case 'userpanel':
                 if ( MODULE_USERPANEL_SET == 1 ) {
                     if ( isset($_SESSION['logged']) && $_SESSION['logged'] == 'yes' ) {
-                        $html = '<li>Control Panel</li>';
+                        $html = '<li>';
 
-                        if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('userpanel', '', '', $html, ''); }
+                        if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('userpanel', '', '', '<span class="glyphicon glyphicon-wrench"></span>  Control Panel', ''); }
+
+                        $html .= '</li>';
                     }
                 }
                 break;
             case 'directory':
-                if ( MODULE_CONTACT_SET == 1 ) {
-                    $html = '<li>Guild Directory</li>';
+                if ( MODULE_DIRECTORY_SET == 1 ) {
+                    $html = '<li>';
 
-                    if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('directory', '', '', $html, ''); }
+                    if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('directory', '', '', 'Guild Directory', ''); }
+
+                    $html .= '</li>';
                 }
                 break;
             case 'login':
                 if ( MODULE_LOGIN_SET == 1 ) {
                     if ( !isset($_SESSION['logged']) ) {
-                        $html = '<li id="login-activator" class="activatePopUp">Login</li>';
-
-                        if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('login', '', '', $html, ''); }
+                        $html = '<li id="login-activator" class="activatePopUp"><a href="#"><span class="glyphicon glyphicon-log-in"></span>  Login</a></li>';
                     }
                 }
                 break;
             case 'logout':
                 if ( MODULE_LOGOUT_SET == 1 ) {
                     if ( isset($_SESSION['logged']) && $_SESSION['logged'] == 'yes' ) {
-                        $html = '<li id="logout-activator" class="activatePopUp">Logout</li>';
-
-                        if ( $isHyperlink ) { $html = Functions::generateInternalHyperlink('logout', '', '', $html, ''); }
+                        $html = '<li id="logout-activator" class="activatePopUp"><a href="#"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>';
                     }
                 }
                 break;
@@ -642,51 +644,99 @@ class Template {
         switch ($modelName) {
             case 'standings':
             case 'rankings':
-                $html .= '<li>';
-                    if ( $modelName == 'standings') { $html .= 'Progression Standings ' . IMG_ARROW_DROPDOWN; }
-                    if ( $modelName == 'rankings') { $html .= 'Point Rankings ' . IMG_ARROW_DROPDOWN; }
-                    $html .= '<div class="dropdown-menu-first-level">';
+                $html .= '<li class="dropdown">';
+                    $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
+
+                    if ( $modelName == 'standings') { $html .= 'Progression Standings '; }
+                    if ( $modelName == 'rankings') { $html .= 'Point Rankings '; }
+
+                    $html .= '<span class="caret"></span></a>';
+                    $html .= '<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">';
+                        $currentEra = '';
+                        $tierLevel  = 0;
                         foreach( $topLevelArray as $tierId => $tierDetails) {
-                            $html .= '<div class="dropdown-menu-item">';
-                                $html .= '(T' . $tierDetails->_tier . '/' . $tierDetails->_altTier . ') ' . $tierDetails->_name;
-                                $html .= '<div class="dropdown-menu-second-level">';
+                            if ( $currentEra == '' || $currentEra != $tierDetails->_era ) {
+                                $currentEra = $tierDetails->_era;
+
+                                if ( $tierLevel > 0 ) {
+                                    $html .= '<li role="separator" class="divider"></li>';
+                                }
+
+                                $html .= '<li class="dropdown-header">' . $currentEra . '</li>';
+                            }
+
+                            $html .= '<li class="dropdown-submenu">';
+                                $html .= '<a tabindex="-1" href="#">';
+                                    $html .= $tierDetails->_altTier . ' - ' . $tierDetails->_name;
+                                $html .= '</a>';
+                                $html .= '<ul class="dropdown-menu">';
                                     foreach( $tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
-                                        if ( $modelName == 'standings') { $html .= '<div class="dropdown-menu-item">' . Functions::generateInternalHyperlink('standings', $dungeonDetails, 'world', $dungeonDetails->_name, ''); }
-                                        if ( $modelName == 'rankings' ) { $html .= '<div class="dropdown-menu-item">' . Functions::generateInternalHyperlink('rankings', $dungeonDetails, 'world/' . POINT_SYSTEM_DEFAULT, '<div class="dropdown-menu-item">' . $dungeonDetails->_name . '</div>', ''); }
+                                        if ( $modelName == 'standings') { $html .= '<li class="dropdown-submenu">' . Functions::generateInternalHyperlink('standings', $dungeonDetails, 'world', $dungeonDetails->_name, ''); }
+                                        if ( $modelName == 'rankings' ) { $html .= '<li>' . Functions::generateInternalHyperlink('rankings', $dungeonDetails, 'world/' . POINT_SYSTEM_DEFAULT, $dungeonDetails->_name, ''); }
                                             if ( $numOfLevels > 2 ) {
-                                                $html .= '<div class="dropdown-menu-second-level">';
+                                                $html .= '<ul class="dropdown-menu">';
+
+                                                    $currentType     = '';
+                                                    $encounterLevel  = 0;
                                                     foreach( $dungeonDetails->_encounters as $encounterId => $encounterDetails ) {
-                                                        if ( $modelName == 'standings') { $html .= Functions::generateInternalHyperlink('standings', $encounterDetails, 'world', '<div class="dropdown-menu-item">' . $encounterDetails->_name . '</div>', ''); }
+                                                        if ( $currentType == '' || $currentType != $encounterDetails->_type ) {
+                                                            $currentType = $encounterDetails->_type;
+                                                            $title = '';
+
+                                                            switch ($currentType) {
+                                                                case '0':
+                                                                    $title = 'Normal Encounters';
+                                                                    break;
+                                                                case '1':
+                                                                    $title = 'Achievements';
+                                                                    break;
+                                                                case '2':
+                                                                    $title = 'Hard Mode / Special Encounters';
+                                                                    break;
+                                                            }
+
+                                                            if ( $encounterLevel > 0 ) {
+                                                                $html .= '<li role="separator" class="divider"></li>';
+                                                            }
+
+                                                            $html .= '<li class="dropdown-header">' . $title . '</li>';
+                                                        }
+
+                                                        if ( $modelName == 'standings') { $html .= '<li>' . Functions::generateInternalHyperlink('standings', $encounterDetails, 'world', $encounterDetails->_name, '') . '</li>'; }
+
+                                                        $encounterLevel++;
                                                     }
-                                                $html .= '</div>';
-                                                if ( $dungeonDetails->_numOfEncounters > 0 ) { $html .= IMG_ARROW_EXPAND; }
+                                                $html .= '</ul>';
                                             }
-                                        $html .= '</div>';
+                                        $html .= '</li>';
                                     }
-                                $html .= '</div>';
-                                if ( $tierDetails->_numOfDungeons > 0 ) { $html .= IMG_ARROW_EXPAND; }
-                            $html .= '</div>';
+                                $html .= '</ul>';
+                            $html .= '</li>';
+
+                            $tierLevel++;
                         }
-                    $html .= '</div>';
+                    $html .= '</ul>';
                 $html .= '</li>';
                 break;
             case 'servers':
-                $html .= '<li>';
-                    $html .= 'Servers ' . IMG_ARROW_DROPDOWN;
-                    $html .= '<div class="dropdown-menu-first-level">';
+                $html .= '<li class="dropdown">';
+                    $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Servers <span class="caret"></span></a>';
+                    $html .= '<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">';
                         foreach( $topLevelArray as $regionId => $regionDetails ) {
-                            $html .= '<div class="dropdown-menu-item">';
-                                $html .= $regionDetails->_regionImage . '<span>' . $regionDetails->_name . '</span>';
-                                $html .= '<div class="dropdown-menu-second-level image">';
+                            $html .= '<li class="dropdown-submenu">';
+                                $html .= '<a tabindex="-1" href="#">';
+                                    $html .= $regionDetails->_regionImage . '<span>' . $regionDetails->_name . '</span>';
+                                $html .= '</a>';
+                                $html .= '<ul class="dropdown-menu">';
                                     foreach( $regionDetails->_servers as $serverId => $serverDetails ) {
                                         if ( $serverDetails->_region != $regionDetails->_abbreviation ) { continue; }
-                                        $html .= '<div class="dropdown-menu-item">' . $serverDetails->_nameLink . '</div>';
+
+                                        $html .= '<li>' . $serverDetails->_navLink . '</li>';
                                     }
-                                $html .= '</div>';
-                                if ( $regionDetails->_numOfServers > 0 ) { $html .= IMG_ARROW_EXPAND; }
-                            $html .= '</div>';
+                                $html .= '</ul>';
+                            $html .= '</li>';
                         }
-                    $html .= '</div>';
+                    $html .= '</ul>';
                 $html .= '</li>';
                 break;
         }

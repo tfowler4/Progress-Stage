@@ -97,7 +97,8 @@ class DbFactory {
                     alt_title,
                     encounters,
                     special_encounters,
-                    dungeons
+                    dungeons,
+                    era
                FROM %s
            ORDER BY tier DESC",
             self::TABLE_TIERS

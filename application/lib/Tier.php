@@ -18,6 +18,7 @@ class Tier extends DataObject {
     protected $_dungeons;
     protected $_encounters;
     protected $_raidSizes;
+    protected $_era;
     protected $_abbreviation;
     protected $_firstTierClear;
     protected $_recentTierClear;
@@ -37,6 +38,7 @@ class Tier extends DataObject {
         $this->_altTitle                = $params['alt_title'];
         $this->_numOfEncounters         = $params['encounters'];
         $this->_numOfSpecialEncounters  = $params['special_encounters'];
+        $this->_era                     = $params['era'];
         $this->_abbreviation            = $this->_altTier;
         $this->_numOfDungeons           = 0;
         $this->_numOfEncounters         = 0;

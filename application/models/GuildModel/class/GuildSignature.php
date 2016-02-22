@@ -40,6 +40,26 @@ class GuildSignature {
         if ( !isset(CommonDataContainer::$guildArray[$this->_guildId]) ) { die; }
 
         $this->_guildDetails = CommonDataContainer::$guildArray[$this->_guildId];
+
+        switch ($this->_view) {
+            case '0':
+                $this->_view     = 'world';
+                $this->_viewText = 'World';
+                break;
+            case '1':
+                $this->_view     = 'server';
+                $this->_viewText = $this->_guildDetails->_server;
+                break;
+            case '2':
+                $this->_view     = 'region';
+                $this->_viewText = $this->_guildDetails->_region;
+                break;
+            case '3':
+                $this->_view     = 'country';
+                $this->_viewText = $this->_guildDetails->_country;
+                break;
+        }
+
         $this->_rankDetails  = $this->_getRankingsForGuild($this->_dungeonId, $this->_rankSystem, $this->_view, $this->_guildId);
 
         $this->_dungeonDetails = CommonDataContainer::$dungeonArray[$this->_dungeonId];
@@ -59,25 +79,6 @@ class GuildSignature {
         $boxRank    = array();
         $boxPoints  = array();
         $boxContent = array();
-
-        switch ($this->_view) {
-            case '0':
-                $this->_view     = '_world';
-                $this->_viewText = 'World';
-                break;
-            case '1':
-                $this->_view     = '_region';
-                $this->_viewText = $guildDetails->_region;
-                break;
-            case '2':
-                $this->_view     = '_server';
-                $this->_viewText = $guildDetails->_server;
-                break;
-            case '3':
-                $this->_view     = '_country';
-                $this->_viewText = $guildDetails->_country;
-                break;
-        }
 
         $image     = '';
         $imagePath = ABS_FOLD_WIDGETS . 'bg_widget_' . strtolower($this->_guildDetails->_faction) . '.png';
@@ -104,7 +105,7 @@ class GuildSignature {
 
         if ( !empty($this->_rankDetails) ) {
             $standingText = $this->_rankDetails->_progress;
-            $rankText = $this->_viewText . ' ' . Functions::convertToOrdinal($this->_rankDetails->_rank);
+            $rankText     = $this->_viewText . ' ' . Functions::convertToOrdinal($this->_rankDetails->_rank);
         }
 
         // Add Flag and Region/Server text
@@ -197,7 +198,8 @@ class GuildSignature {
             LEFT OUTER JOIN %s
                          ON %s.guild_id = %s.guild_id
                          WHERE %s.dungeon_id = %d
-                           AND %s.dungeon_id = %d",
+                           AND %s.dungeon_id = %d
+                           AND %s.guild_id = %d",
             DbFactory::TABLE_RANKINGS,
             DbFactory::TABLE_RANKINGS,
             DbFactory::TABLE_STANDINGS,

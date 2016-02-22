@@ -7,6 +7,7 @@ class Server extends DataObject {
     protected $_serverId;
     protected $_name;
     protected $_nameLink;
+    protected $_navLink;
     protected $_country;
     protected $_countryImage;
     protected $_region;
@@ -29,6 +30,7 @@ class Server extends DataObject {
         $this->_type2        = $params['type2'];
         $this->_countryImage = Functions::getImageFlag($this->_country, '');
         $this->_nameLink     = $this->_countryImage . '<span>' . Functions::generateInternalHyperLink('servers', '', '', $this->_name, '') . '</span>';
+        $this->_navLink      = Functions::generateInternalHyperLink('servers', '', '', $this->_name, '');
     }
 
     /**

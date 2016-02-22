@@ -48,15 +48,15 @@ var NewsEventBinder = function() {
     });
 
     // side rankings system click to display different ranking systems data
-    $(document).on('click touchstart', 'span.clickable', function() {
+    $(document).on('click touchstart', 'button.clickable', function() {
         if( stopClickRankPanel ) { return; }
 
         var systemId = $(this).prop('id').replace('system-selector-', '');
-        
-        var numOfTables = $(this).parent().find('table').length;
+        var numOfTables = $(document).find('.side-tables').length;
 
         if ( !$(this).hasClass('highlight') && numOfTables > 0 ) {
             stopClickRankPanel = true;
+
             $(this).parent().children('.highlight').removeClass('highlight');
             $(this).addClass('highlight');
 
@@ -65,24 +65,25 @@ var NewsEventBinder = function() {
         }
     });
     var hideAndShowSideRankings = function(me, detailsClass, systemId, delay, enableClick) {
-        var identifier = '.' + detailsClass + '.active';
-        $(me).parent().find(identifier).parent().css('height', $(me).parent().find(identifier).parent().css('height'));
-        $(me).parent().find(identifier).slideToggle(delay, 'linear', function() {
-            $(me).parent().find(identifier).addClass('hidden');
-            $(me).parent().find(identifier).css('display', 'none');
-            $(me).parent().find(identifier).removeClass('active');
-        });
-
+        var identifier    = '.' + detailsClass + '.active-rank';
         var newIdentifier = '.' + systemId + '.' + detailsClass + '.hidden';
-        $(me).parent().find(newIdentifier).delay(delay).slideToggle(delay, 'linear', function() {
-            $(me).parent().find(newIdentifier).addClass('active');
-            $(me).parent().find(newIdentifier).css('display', 'block');
-            $(me).parent().find(newIdentifier).removeClass('hidden');
+        me = $(me).parent().parent();
 
-            if ( enableClick ) {
-                stopClickRankPanel = false;
-            }
+        $(me).parent().find(identifier).slideToggle(delay, 'linear', function() {
+            $(this).addClass('hidden');
+            $(this).removeClass('active-rank');
         });
+
+        $(me).parent().find(newIdentifier).each(function() {
+
+            $(this).addClass('active-rank');
+            $(this).removeClass('hidden');
+            $(this).css('display', 'block');
+        });
+
+        if ( enableClick ) {
+            stopClickRankPanel = false;
+        }
     };
 
     // recent raid buttons click to scroll through different list panes

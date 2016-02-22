@@ -1,22 +1,38 @@
-<div id="menu-wrapper">
-    <div id="menu-content">
-        <ul class="move-left">
-            <?php echo Template::drawHeaderMenuItem('news', true); ?>
-            <?php echo Template::drawHeaderMenuDropdownItem('standings', false, 3, CommonDataContainer::$tierArray); ?>
-            <?php echo Template::drawHeaderMenuDropdownItem('rankings', false, 2, CommonDataContainer::$tierArray); ?>
-            <?php echo Template::drawHeaderMenuDropdownItem('servers', false, 0, CommonDataContainer::$regionArray); ?>
-            <?php echo Template::drawHeaderMenuItem('howto', true); ?>
-            <?php echo Template::drawHeaderMenuItem('directory', true); ?>
-            <?php echo Template::drawHeaderMenuItem('quickSubmit', false); ?>
-            <?php echo Template::drawHeaderMenuItem('search', false); ?>
-        </ul>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">RIFT Progress</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <?php echo Template::drawHeaderMenuItem('news', true); ?>
+                <?php echo Template::drawHeaderMenuDropdownItem('standings', false, 3, CommonDataContainer::$tierArray); ?>
+                <?php echo Template::drawHeaderMenuDropdownItem('rankings', false, 2, CommonDataContainer::$tierArray); ?>
+                <?php echo Template::drawHeaderMenuDropdownItem('servers', false, 0, CommonDataContainer::$regionArray); ?>
+                <?php echo Template::drawHeaderMenuItem('howto', true); ?>
+                <?php echo Template::drawHeaderMenuItem('directory', true); ?>
+                <?php echo Template::drawHeaderMenuItem('quickSubmit', false); ?>
+            </ul>
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Enter Guild Name...">
+                </div>
+                <button type="submit" class="btn btn-link"><span class="glyphicon glyphicon-search"></span></button>
+            </form>
 
-        <ul class="move-right">
-            <?php echo Template::drawHeaderMenuItem('userpanel', true); ?>
-            <?php echo Template::drawHeaderMenuItem('login', false); ?>
-            <?php echo Template::drawHeaderMenuItem('logout', false); ?>
-            <?php echo Template::drawHeaderMenuItem('register', true); ?>
-            <?php echo Template::drawHeaderMenuItem('contactus', false); ?>
-        </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <?php echo Template::drawHeaderMenuItem('userpanel', true); ?>
+                <?php echo Template::drawHeaderMenuItem('login', false); ?>
+                <?php echo Template::drawHeaderMenuItem('logout', false); ?>
+                <?php echo Template::drawHeaderMenuItem('register', true); ?>
+                <?php echo Template::drawHeaderMenuItem('contactus', false); ?>
+            </ul>
+        </div>
     </div>
-</div>
+</nav>

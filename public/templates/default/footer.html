@@ -1,24 +1,33 @@
-<div class="vertical-separator"></div>
-<div id="footer-wrapper">
-    <div id="footer-content">
-        Follow Us 
-        <?php echo Functions::generateExternalHyperLink(LINK_TWITTER, IMG_TWITTER_LOGO . ' Twitter', ''); ; ?>
+<div id="footer" class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 bg-primary">
+            <div class="col-sm-12 col-xs-12 col-md-7 col-lg-7 text-right">
+                Follow Us 
+                <?php echo Functions::generateExternalHyperLink(LINK_TWITTER, IMG_TWITTER_LOGO . ' Twitter', ''); ; ?>
 
-        <?php if ( LIVE == 0 ): ?>
-            <?php
-                echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.'; 
-                echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
-            ?>
-        <?php endif; ?>
-        Site Skin: 
-        <select id="skin-selector">
-            <?php foreach(unserialize(SITE_SKINS) as $skinId => $skinValue): ?>
-                <?php if ( $skinId == $_SESSION['template'] ): ?>
-                    <option value="<?php echo $skinId; ?>" selected><?php echo $skinValue; ?></option>
-                <?php else: ?>
-                    <option value="<?php echo $skinId; ?>"><?php echo $skinValue; ?></option>
+                <?php if ( LIVE == 0 ): ?>
+                    <?php
+                        echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.'; 
+                        echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
+                    ?>
                 <?php endif; ?>
-            <?php endforeach; ?>
-        </select>
+            </div>
+
+            <div class="col-sm-12 col-xs-12 col-md-5 col-lg-5 text-left" style="height:30px; line-height:30px;">
+                <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="skin-selector">Site Skin:</label>
+                    <select id="skin-selector">
+                        <?php foreach(unserialize(SITE_SKINS) as $skinId => $skinValue): ?>
+                            <?php if ( $skinId == $_SESSION['template'] ): ?>
+                                <option value="<?php echo $skinId; ?>" selected><?php echo $skinValue; ?></option>
+                            <?php else: ?>
+                                <option value="<?php echo $skinId; ?>"><?php echo $skinValue; ?></option>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

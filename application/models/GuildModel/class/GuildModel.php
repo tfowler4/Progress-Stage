@@ -56,7 +56,7 @@ class GuildModel extends Model {
             'Dungeon'        => '_dungeon',
             'Tier'           => '_tier',
             'Date Completed' => '_datetime',
-            'Server'         => '_serverLink',
+            'Server'         => '_killServerLink',
             'Time Diff'      => '_span',
             'WR'             => '_worldRankImage',
             'RR'             => '_regionRankImage',
