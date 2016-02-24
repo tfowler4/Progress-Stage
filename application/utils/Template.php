@@ -237,7 +237,8 @@ class Template {
         $html       = '';
         $guildCount = 1;
 
-        $html = '<div id="top-guild-wrapper" class="noselect">';
+        //$html = '<div id="top-guild-wrapper" class="noselect">';
+        $html = '<div id="top-guild-wrapper" class="row">';
 
         foreach ( $topGuildArray as $guildId => $guildDetails ) {
             $placeStr = '';
@@ -250,6 +251,17 @@ class Template {
                 }
             }
 
+            $html .= '<div class="col-lg-4">';
+                $html .= '<div class="thumbnail">';
+                    $html .= self::getLogo($guildDetails);
+                    $html .= '<div class="caption">';
+                        $html .= '<h4>' . Functions::shortName($guildDetails->_name, 20) . '</h4>';
+                        $html .= '<p>' . Functions::convertToOrdinal($guildCount). ' - ' . $placeStr . '</p>';
+                    $html .= '</div>';
+                $html .= '</div>';
+            $html .= '</div>';
+
+            /*
             $html .= '<div class="top-guild-separator"></div>';
             $html .= '<a href="' . Functions::generateInternalHyperLink('guild', '', $guildDetails->_server, $guildDetails->_name, '', false) . '">';
             $html .= '<div class="top-guild-container">';
@@ -260,7 +272,7 @@ class Template {
             $html .= '</div>';
             $html .= '</a>';
             $html .= '<div class="top-guild-separator"></div>';
-
+            */
             $guildCount++;
         }
 

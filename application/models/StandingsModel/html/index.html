@@ -1,5 +1,64 @@
+<div style="margin-top:60px;"></div>
+
+<div class="container">
+    <div id="title-wrapper" class="row">
+        <h2><?php echo $data->_detailsPane->_name; ?> <small>Progression Standings</small></h2>
+    </div>
+
+    <div id="top-guilds-wrapper" class="row">
+        <div class="col-lg-8 col-md-8">
+            <?php if ( !empty($data->_topGuildsArray) ): ?>
+                <div class="vertical-separator"></div>
+                <?php if ( isset($data->_encounter) ): ?>
+                    <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_datetime')); ?>
+                <?php else: ?>
+                    <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_progress')); ?>
+                <?php endif; ?>
+            <?php endif; ?>
+        </div>
+
+        <div class="col-lg-4 col-md-4">
+            <?php if ( isset($data->_encounter) ): ?>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Encounter Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach( StandingsModel::PANE_ENCOUNTER as $key => $value ): ?>
+                            <tr>
+                                <th><?php echo $key; ?></th>
+                                <td><?php echo $data->_detailsPane->$value; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else : ?>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Dungeon Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach( StandingsModel::PANE_DUNGEON as $key => $value ): ?>
+                            <tr>
+                                <th><?php echo $key; ?></th>
+                                <td><?php echo $data->_detailsPane->$value; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
 <div id="body-wrapper">
     <div id="body-content">
+
+        <!--
         <div class="vertical-separator"></div>
 
         <div id="title-wrapper">
@@ -14,7 +73,7 @@
         </div>
 
         <div class="clear"></div>
-
+        
         <?php if ( !empty($data->_topGuildsArray) ): ?>
             <div class="vertical-separator"></div>
             <?php if ( isset($data->_encounter) ): ?>
@@ -23,7 +82,7 @@
                 <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_progress')); ?>
             <?php endif; ?>
         <?php endif; ?>
-
+        -->
         <div id="page-details-wrapper">
             <?php if ( isset($data->_encounter) ): ?>
                 <table class="page-details">
