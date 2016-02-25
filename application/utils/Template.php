@@ -196,8 +196,8 @@ class Template {
         $html        = '';
         $columnCount = 0;
 
-        $html .= '<div id="glossary-wrapper">';
-        $html .= '<table class="glossary">';
+        //$html .= '<div id="glossary-wrapper">';
+        $html .= '<table class="table table-condensed">';
         $html .= '<thead>';
         $html .= '<tr>';
         $html .= '<th colspan="' . $numOfColumns . '">Glossary</th>';
@@ -219,8 +219,8 @@ class Template {
 
         $html .= '</tbody>';
         $html .= '</table>';
-        $html .= '</div>';
-        $html .= '<div class="clear"></div>';
+        //$html .= '</div>';
+        //$html .= '<div class="clear"></div>';
 
         return $html;
     }
@@ -254,9 +254,11 @@ class Template {
             $html .= '<div class="col-lg-4">';
                 $html .= '<div class="thumbnail">';
                     $html .= self::getLogo($guildDetails);
-                    $html .= '<div class="caption">';
-                        $html .= '<h4>' . Functions::shortName($guildDetails->_name, 20) . '</h4>';
-                        $html .= '<p>' . Functions::convertToOrdinal($guildCount). ' - ' . $placeStr . '</p>';
+                    $html .= '<div class="caption text-center">';
+                        $html .= '<h4>';
+                            $html .= Functions::shortName($guildDetails->_name, 20);
+                            $html .= '<p><small>' . Functions::convertToOrdinal($guildCount). ' - ' . $placeStr . '</small></p>';
+                        $html .= '</h4>';
                     $html .= '</div>';
                 $html .= '</div>';
             $html .= '</div>';

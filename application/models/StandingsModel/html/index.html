@@ -2,11 +2,13 @@
 
 <div class="container">
     <div id="title-wrapper" class="row">
-        <h2><?php echo $data->_detailsPane->_name; ?> <small>Progression Standings</small></h2>
+        <div class="col-lg-11 col-md-12 col-sm-12 col-xs-12">
+            <h2><?php echo $data->_detailsPane->_name; ?> <small>Progression Standings</small></h2>
+        </div>
     </div>
 
     <div id="top-guilds-wrapper" class="row">
-        <div class="col-lg-8 col-md-8">
+        <div class="col-lg-7 col-md-5 col-sm-7 col-xs-4">
             <?php if ( !empty($data->_topGuildsArray) ): ?>
                 <div class="vertical-separator"></div>
                 <?php if ( isset($data->_encounter) ): ?>
@@ -17,7 +19,7 @@
             <?php endif; ?>
         </div>
 
-        <div class="col-lg-4 col-md-4">
+        <div class="col-lg-4 col-md-4 col-sm-7 col-xs-4">
             <?php if ( isset($data->_encounter) ): ?>
                 <table class="table table-condensed">
                     <thead>
@@ -53,12 +55,66 @@
             <?php endif; ?>
         </div>
     </div>
+
+    <div id="submenus" class="row">
+        <div class="col-lg-11 col-md-12 col-sm-12 col-xs-12">
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group" role="group" aria-label="First group">
+                    <button type="button" class="btn btn-default"><?php echo $data->generateInternalHyperLink('world', 'World', false); ?></button>
+                    <button type="button" class="btn btn-default"><?php echo $data->generateInternalHyperLink('region', 'Regional', false); ?></button>
+                    <button type="button" class="btn btn-default"><?php echo $data->generateInternalHyperLink('server', 'Server', false); ?></button>
+                    <button type="button" class="btn btn-default"><?php echo $data->generateInternalHyperLink('country', 'Country', false); ?></button>
+                </div>
+
+                <div class="btn-group" role="group" aria-label="First group">
+                    <button type="button" class="btn btn-default">
+                        <a id="<?php echo $data->_identifier . '-' . $data->_view; ?>" href="#" class="spreadsheet">View as Spreadsheet</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top:10px;"></div>
+
+    <div id="data" class="row">
+        <div class="col-lg-11 col-md-9 col-sm-7 col-xs-8">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <?php foreach( $data->_standingsArray as $listType => $dataArray ): ?>
+                            <?php echo Template::drawSubTitleTableRow($dataArray->tableFields, $dataArray->headerText); ?>
+
+                            <?php if ( !empty($dataArray->data) ): ?>
+                                <?php echo Template::drawSubHeaderTableRow($dataArray->tableFields); ?>
+
+                                <?php foreach( $dataArray->data as $guildId => $guildDetails ): ?>
+                                    <?php echo Template::drawBodyTableRow($dataArray->tableFields, $guildDetails); ?>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <?php echo Template::drawEmptyGuildTableRow($dataArray->tableFields, 'No guild data found.'); ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="glossary" class="row">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <?php echo Template::drawGlossary(StandingsModel::GLOSSARY, 3); ?>
+        </div>
+    </div>
 </div>
 
+<!--
 <div id="body-wrapper">
     <div id="body-content">
 
-        <!--
+        
         <div class="vertical-separator"></div>
 
         <div id="title-wrapper">
@@ -82,7 +138,7 @@
                 <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_progress')); ?>
             <?php endif; ?>
         <?php endif; ?>
-        -->
+        
         <div id="page-details-wrapper">
             <?php if ( isset($data->_encounter) ): ?>
                 <table class="page-details">
@@ -122,16 +178,18 @@
         <div class="clear"></div>
 
         <div class="vertical-separator"></div>
-
+        -->
+        <!--
         <div id="submenu-1" class="move-left">
             <ul class="submenu noselect">
                 <?php echo $data->generateInternalHyperLink('world', '<li>World</li>', false); ?>
                 <?php echo $data->generateInternalHyperLink('region', '<li>Regional</li>', false); ?>
                 <?php echo $data->generateInternalHyperLink('server', '<li>Server</li>', false); ?>
-                <!--<?php echo $data->generateInternalHyperLink('country', '<li>Country</li>', false); ?>-->
+                <!--<?php echo $data->generateInternalHyperLink('country', '<li>Country</li>', false); ?>
             </ul>
         </div>
-
+        -->
+        <!--
         <?php if ( isset($data->_dungeon) && !isset($data->_encounter) ): ?>
             <div id="submenu-2" class="move-right">
                 <ul class="submenu">
@@ -143,7 +201,8 @@
         <div class="clear"></div>
 
         <div class="vertical-separator"></div>
-
+        -->
+        <!--
         <div class="table-wrapper">
             <table class="listing">
                 <thead>
@@ -167,8 +226,9 @@
         </div>
 
         <div class="vertical-separator"></div>
-
+         
         <?php echo Template::drawGlossary(StandingsModel::GLOSSARY, 3); ?>
 
     </div>
 </div>
+-->
