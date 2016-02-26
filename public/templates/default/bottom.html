@@ -1,14 +1,17 @@
-<div id="bottom" class="container">
+<div id="bottom" class="container-fluid">
     <div class="row">
-        <div class="col-md-12 col-lg-12 text-center">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-right" style="vertical-align:middle; float:none; display:inline-block; ">
             <?php echo Functions::generateExternalHyperLink(LINK_GAME_1, IMG_GAME_LOGO_1, '', true); ?>
-
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4 text-center" style="vertical-align:middle; float:none; display:inline-block; ">
             <?php echo IMG_SITE_LOGO; ?>
-
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left" style="vertical-align:middle; float:none; display:inline-block; ">
             <?php echo Functions::generateExternalHyperLink(LINK_COMPANY_1, IMG_COMPANY_LOGO_1, '', true); ?>
         </div>
-
-        <div class="col-md-12 col-lg-12 text-center bg-info">
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center bg-info">
             &copy; 2011 RIFT Progress - All Rights Reserved. 
             <?php echo Functions::generateInternalHyperlink('tos', '', '', 'Terms of Service', ''); ?>
              | 
