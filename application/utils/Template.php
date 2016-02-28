@@ -562,7 +562,7 @@ class Template {
                 break;
             case 'quickSubmit':
                 if ( MODULE_QUICKSUB_SET == 1 ) {
-                    $html = '<li id="login-activator" class="activatePopUp"><a href="#">Quick Submission</a></li>';
+                    $html = '<li data-toggle="modal" data-target="#quickModal"><a href="#">Quick Submission</a></li>';
                 }
                 break;
             case 'howto':
@@ -587,7 +587,7 @@ class Template {
                 break;
             case 'contactus':
                 if ( MODULE_CONTACT_SET == 1 ) {
-                    $html = '<li id="contact-activator" class="activatePopUp"><a href="#"><span class="glyphicon glyphicon-envelope"></span> Contact Us</a></li>';
+                    $html = '<li data-toggle="modal" data-target="#contactModal"><a href="#"><span class="glyphicon glyphicon-envelope"></span> Contact Us</a></li>';
                 }
                 break;
             case 'userpanel':
@@ -613,7 +613,7 @@ class Template {
             case 'login':
                 if ( MODULE_LOGIN_SET == 1 ) {
                     if ( !isset($_SESSION['logged']) ) {
-                        $html = '<li id="login-activator" class="activatePopUp"><a href="#"><span class="glyphicon glyphicon-log-in"></span>  Login</a></li>';
+                        $html = '<li data-toggle="modal" data-target="#loginModal"><a href="#"><span class="glyphicon glyphicon-log-in"></span>  Login</a></li>';
                     }
                 }
                 break;
