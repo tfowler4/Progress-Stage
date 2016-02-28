@@ -182,10 +182,11 @@ class RankingsModel extends Model {
      * @param  string  $view   [ view type filter ]
      * @param  string  $system [ point ranking system ]
      * @param  string  $text   [ display text ]
+     * @param  string  $class  [ custom classes ]
      * 
      * @return string [ html hyperlink ]
      */
-    public function generateInternalHyperLink($view, $system, $text) {
+    public function generateInternalHyperLink($view, $system, $text, $class) {
         $url       = PAGE_RANKINGS . $view;
         $hyperlink = '';
 
@@ -193,7 +194,11 @@ class RankingsModel extends Model {
         if ( isset($this->_tier) ) { $url    .= '/' . $this->_tier; }
         if ( isset($this->_dungeon) ) { $url .= '/' . $this->_dungeon; }
 
-        $hyperlink = '<a href="' . $url . '" target"_blank">' . $text . '</a>';
+        if (!empty($class)) {
+            $class = 'class="' . $class . '"';
+        }
+
+        $hyperlink = '<a ' . $class . ' href="' . $url . '" target"_blank">' . $text . '</a>';
 
         return $hyperlink;
     }

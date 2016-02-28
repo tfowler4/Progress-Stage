@@ -1,3 +1,90 @@
+<div class="container-fluid">
+    <div id="title-wrapper" class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="pull-left">
+                <?php echo Functions::getImageFlag($data->_detailsPane->_country, 'medium'); ?>
+            </div>
+            <div>
+                <span class="h2" style="margin-left:5px;"><?php echo '   ' . $data->_detailsPane->_name; ?></span>
+                <p>
+                    <small class="h5" style="margin-left:5px;">
+                        <?php echo $data->_tierDetails->_altTier . ' - ' . $data->_tierDetails->_name; ?>
+                    </small>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="top-guilds-wrapper" class="row">
+        <div class="col-lg-9 col-md-7 col-sm-6 col-xs-6">
+            <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_progress')); ?>
+        </div>
+
+        <div class="col-lg-3 col-md-5 col-sm-6 col-xs-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading"><span class="h4">Server Details</span></div>
+                <table class="table table-condensed">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <?php foreach( ServersModel::PANE_SERVER as $key => $value ): ?>
+                            <tr>
+                                <th><?php echo $key; ?></th>
+                                <td><?php echo $data->_detailsPane->$value; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="submenus" class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group" role="group" aria-label="First group">
+                    <?php foreach ( CommonDataContainer::$tierArray as $tierId => $tierDetails ): ?>
+                        <?php echo $data->generateInternalHyperLink($tierDetails->_name, $tierDetails->_name . ' (' . $tierDetails->_altTier . ')', 'btn btn-default', false); ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top:10px;"></div>
+
+    <div id="data" class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panel panel-primary">
+                <table class="table table-striped table-hover">
+                    <tbody>
+                        <?php foreach( $data->_standingsArray as $listType => $dataArray ): ?>
+                            <?php echo Template::drawSubTitleTableRow($dataArray->tableFields, $dataArray->headerText); ?>
+
+                            <?php if ( !empty($dataArray->data) ): ?>
+                                <?php echo Template::drawSubHeaderTableRow($dataArray->tableFields); ?>
+
+                                <?php foreach( $dataArray->data as $guildId => $guildDetails ): ?>
+                                    <?php echo Template::drawBodyTableRow($dataArray->tableFields, $guildDetails); ?>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <?php echo Template::drawEmptyGuildTableRow($dataArray->tableFields, 'No guild data found.'); ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="glossary" class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+            <?php echo Template::drawGlossary(ServersModel::GLOSSARY, 3); ?>
+        </div>
+    </div>
+
+</div>
+<!--
 <div id="body-wrapper">
     <div id="body-content">
         <div class="vertical-separator"></div>
@@ -56,7 +143,7 @@
                 <?php echo $data->generateInternalHyperLink($data->_tier, '<li>View as Spreadsheet</li>', true); ?>
             </ul>
         </div>
-        -->
+        
         <div class="clear"></div>
 
         <div class="vertical-separator"></div>
@@ -89,3 +176,4 @@
 
     </div>
 </div>
+-->

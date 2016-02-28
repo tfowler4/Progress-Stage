@@ -71,7 +71,7 @@ class Template {
 
         $html = '';
         $html .= '<tr>';
-        $html .= '<th class="subTitle" colspan="' . $columnSpan . '">';
+        $html .= '<th class="subTitle bg-primary" colspan="' . $columnSpan . '">';
         $html .= '<div class="pull-left">' . $headerText . '</div>';
 
         if ( !empty($optionText) ) {
@@ -196,13 +196,14 @@ class Template {
         $html        = '';
         $columnCount = 0;
 
-        $html .= '<div id="glossary-wrapper">';
-        $html .= '<table class="glossary">';
-        $html .= '<thead>';
+        $html .= '<div class="panel panel-primary">';
+        $html .= '<div class="panel-heading"><span class="h4">Glossary</span></div>';
+        $html .= '<table class="table table-condensed">';
+        /*$html .= '<thead>';
         $html .= '<tr>';
         $html .= '<th colspan="' . $numOfColumns . '">Glossary</th>';
         $html .= '</tr>';
-        $html .= '</thead>';
+        $html .= '</thead>';*/
         $html .= '<tbody>';
 
         foreach ( $glossaryArray as $name => $definition ) {
@@ -220,7 +221,7 @@ class Template {
         $html .= '</tbody>';
         $html .= '</table>';
         $html .= '</div>';
-        $html .= '<div class="clear"></div>';
+        //$html .= '<div class="clear"></div>';
 
         return $html;
     }
@@ -237,7 +238,8 @@ class Template {
         $html       = '';
         $guildCount = 1;
 
-        $html = '<div id="top-guild-wrapper" class="noselect">';
+        //$html = '<div id="top-guild-wrapper" class="noselect">';
+        $html = '<div id="top-guild-wrapper" class="row">';
 
         foreach ( $topGuildArray as $guildId => $guildDetails ) {
             $placeStr = '';
@@ -250,16 +252,19 @@ class Template {
                 }
             }
 
-            $html .= '<div class="top-guild-separator"></div>';
-            $html .= '<a href="' . Functions::generateInternalHyperLink('guild', '', $guildDetails->_server, $guildDetails->_name, '', false) . '">';
-            $html .= '<div class="top-guild-container">';
-            $html .= '<div class="top-guild-logo">' . self::getLogo($guildDetails) . '</div>';
-            $html .= '<div class="vertical-separator"></div>';
-            $html .= '<div class="top-guild-name">' . Functions::getImageFlag($guildDetails->_country, 'small') . '<span>' .Functions::shortName($guildDetails->_name, 20) . '</span></div>';
-            $html .= '<div class="top-guild-place">' . Functions::convertToOrdinal($guildCount). ' - ' . $placeStr . '</div>';
+            $html .= '<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 text-center">';
+                $html .= '<div class="thumbnail top-guild">';
+                    $html .= self::getLogo($guildDetails);
+                   /*$html .= '<div class="caption text-center">';
+                        $html .= '<h3>';
+                            $html .= '<strong>' . Functions::shortName($guildDetails->_name, 20) . '</strong>';
+                            $html .= '<p><small>' . Functions::convertToOrdinal($guildCount). ' - ' . $placeStr . '</small></p>';
+                        $html .= '</h3>';
+                    $html .= '</div>';*/
+                $html .= '</div>';
+                            $html .= '<h3><strong>' . Functions::shortName($guildDetails->_name, 20) . '</strong></h3>';
+                            $html .= '<p><small>' . Functions::convertToOrdinal($guildCount). ' - ' . $placeStr . '</small></p>';
             $html .= '</div>';
-            $html .= '</a>';
-            $html .= '<div class="top-guild-separator"></div>';
 
             $guildCount++;
         }
@@ -316,9 +321,11 @@ class Template {
                 $imageDimensions    = getimagesize($localSrc);
                 $class              = '';
 
-                if ( $imageDimensions[0] > 600 ) { 
-                    $class = 'class="screenshot-large"'; 
-                }
+                //if ( $imageDimensions[0] > 600 ) {
+                //    $class = 'class="screenshot-large img-responsive"'; 
+                //} else {
+                    $class ='class="img-responsive"';
+                //}
 
                 $screenshot = '<img src="' . $src . '" ' . $class . ' >';
 

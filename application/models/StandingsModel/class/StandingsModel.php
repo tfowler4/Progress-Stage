@@ -191,11 +191,12 @@ class StandingsModel extends Model {
      * 
      * @param  string  $view        [ view type filter ]
      * @param  string  $text        [ display text ]
+     * @param  string  $class       [ custom classes ]
      * @param  boolean $spreadsheet [ true if link to spreadsheet popup ]
      * 
      * @return string [ html hyperlink ]
      */
-    public function generateInternalHyperLink($view, $text, $spreadsheet = false) {
+    public function generateInternalHyperLink($view, $text, $class, $spreadsheet = false) {
         $url       = PAGE_STANDINGS . $view;
         $hyperlink = '';
 
@@ -204,7 +205,11 @@ class StandingsModel extends Model {
         if ( isset($this->_encounter) ) { $url .= '/' . $this->_encounter; }
         if ( $spreadsheet ) { $url .= '/spreadsheet'; }
 
-        $hyperlink = '<a href="' . $url . '" target"_blank">' . $text . '</a>';
+        if (!empty($class)) {
+            $class = 'class="' . $class . '"';
+        }
+
+        $hyperlink = '<a ' . $class . ' href="' . $url . '" target"_blank">' . $text . '</a>';
 
         return $hyperlink;
     }

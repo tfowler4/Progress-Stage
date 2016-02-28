@@ -109,18 +109,23 @@ class ServersModel extends Model {
      * 
      * @param  string  $tier        [ tier name ]
      * @param  string  $text        [ display text ]
+     * @param  string  $class       [ custom classes ]
      * @param  boolean $spreadsheet [ true if link to spreadsheet popup ]
      * 
      * @return string [ html hyperlink ]
      */
-    public function generateInternalHyperLink($tier, $text, $spreadsheet = false) {
+    public function generateInternalHyperLink($tier, $text, $class, $spreadsheet = false) {
         $url       = PAGE_SERVERS . $this->_server;
         $hyperlink = '';
 
         if ( isset($tier) ) { $url .= '/' . Functions::cleanLink($tier); }
         if ( $spreadsheet ) { $url .= '/spreadsheet'; }
 
-        $hyperlink = '<a href="' . $url . '" target"_blank">' . $text . '</a>';
+        if (!empty($class)) {
+            $class = 'class="' . $class . '"';
+        }
+
+        $hyperlink = '<a ' . $class . ' href="' . $url . '" target"_blank">' . $text . '</a>';
 
         return $hyperlink;
     }

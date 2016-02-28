@@ -10,7 +10,7 @@ class GuildModel extends Model {
     protected $_guildDetails;
     protected $_pageDetails;
     protected $_activityArray;
-    protected $_latestScreenshot;
+    protected $_latestScreenshot = array();
     protected $_guildLogo;
     protected $_recentActivity;
     protected $_raidProgressionTableHeader;
@@ -99,15 +99,22 @@ class GuildModel extends Model {
         if ( empty($this->_guildDetails) ) { Functions::sendTo404(); }
 
         $this->_getAllGuildDetails();
-        $this->_activityArray    = $this->_getActivityTimeline();
-        $this->_latestScreenshot = Template::getScreenshot($this->_guildDetails, $this->_guildDetails->_recentEncounterDetails, true);
+        $this->_activityArray = $this->_getActivityTimeline();
+
+        $maxCount = 3;
+        foreach ( $this->_activityArray as $encounterId => $encounterDetails ) {
+            if ( count($this->_latestScreenshot) == $maxCount ) { break; }
+            $this->_latestScreenshot[] = Template::getScreenshot($this->_guildDetails, $encounterDetails, true);
+            $this->_recentActivity[]   = $this->_getRecentActivityDetails($encounterDetails); //$encounterDetails;
+        }
+        
 
         $this->_raidProgressionTableHeader  = self::TABLE_HEADER_PROGRESSION;
         $this->_activityTimelineTableHeader = self::TABLE_HEADER_TIMELINE;
 
-        if ( !empty($this->_latestScreenshot) ) {
-            $this->_recentActivity = $this->_getRecentActivityDetails();
-        }
+        //if ( !empty($this->_latestScreenshot) ) {
+        //    $this->_recentActivity = $this->_getRecentActivityDetails();
+        //}
 
         $this->_mergeRankDetailsToEncounters();
 
@@ -278,9 +285,9 @@ class GuildModel extends Model {
      * 
      * @return array [ encounter details in array format ]
      */
-    private function _getRecentActivityDetails() {
+    private function _getRecentActivityDetails($activityDetails) {
         $returnArray      = array();
-        $activityDetails  = $this->_guildDetails->_recentEncounterDetails;
+        //$activityDetails  = $this->_guildDetails->_recentEncounterDetails;
         $encounterId      = $activityDetails->_encounterId;
         $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
 
@@ -350,15 +357,20 @@ class GuildModel extends Model {
      * generate page internal hyperlink anchor
      * 
      * @param  string $location [ name of location ]
+     * @param  string $class    [ custom css class ]
      * 
      * @return string [ html string containing hyperlink anchor ]
      */
-    public function generateInternalAnchor($location) {
+    public function generateInternalAnchor($location, $class) {
         $url       = '#' . $location;
         $url       = strtolower(str_replace(" ", "-", $url)) . '-anchor';
         $hyperlink = '';
 
-        $hyperlink = '<a href="' . $url . '">' . $location . '</a>';
+        if (!empty($class)) {
+            $class = 'class="' . $class . '"';
+        }
+
+        $hyperlink = '<a ' . $class . ' href="' . $url . '">' . $location . '</a>';
 
         return $hyperlink;
     }
