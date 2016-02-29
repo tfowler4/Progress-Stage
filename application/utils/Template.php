@@ -560,21 +560,21 @@ class Template {
                 if ( MODULE_NEWS_SET == 1 ) {
                     $html = '<li>';
 
-                    if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('news', '', '', 'News', ''); }
+                    if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('news', '', '', '<span class="glyphicon glyphicon-home"></span>', ''); }
 
                     $html .= '</li>';
                 }
                 break;
             case 'quickSubmit':
                 if ( MODULE_QUICKSUB_SET == 1 ) {
-                    $html = '<li data-toggle="modal" data-target="#quickModal"><a href="#">Quick Submission</a></li>';
+                    $html = '<li data-toggle="modal" data-target="#quickModal"><a href="#"><span class="glyphicon glyphicon-upload"></span>  Quick Submission</a></li>';
                 }
                 break;
             case 'howto':
                 if ( MODULE_HOWTO_SET == 1 ) {
                     $html = '<li>';
 
-                    if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('howto', '', '', 'How-To', ''); }
+                    if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('howto', '', '', '<span class="glyphicon glyphicon-check"></span>  How-To', ''); }
 
                     $html .= '</li>';
                 }
@@ -610,7 +610,7 @@ class Template {
                 if ( MODULE_DIRECTORY_SET == 1 ) {
                     $html = '<li>';
 
-                    if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('directory', '', '', 'Guild Directory', ''); }
+                    if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('directory', '', '', '<span class="glyphicon glyphicon-tasks"></span>  Guild Directory', ''); }
 
                     $html .= '</li>';
                 }
@@ -659,8 +659,8 @@ class Template {
                 $html .= '<li class="dropdown">';
                     $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
 
-                    if ( $modelName == 'standings') { $html .= 'Progression Standings '; }
-                    if ( $modelName == 'rankings') { $html .= 'Point Rankings '; }
+                    if ( $modelName == 'standings') { $html .= '<span class="glyphicon glyphicon-list"></span>  Progression Standings '; }
+                    if ( $modelName == 'rankings') { $html .= '<span class="glyphicon glyphicon-stats"></span>  Point Rankings '; }
 
                     $html .= '<span class="caret"></span></a>';
                     $html .= '<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">';
@@ -732,7 +732,7 @@ class Template {
                 break;
             case 'servers':
                 $html .= '<li class="dropdown">';
-                    $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Servers <span class="caret"></span></a>';
+                    $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span>  Servers <span class="caret"></span></a>';
                     $html .= '<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">';
                         foreach( $topLevelArray as $regionId => $regionDetails ) {
                             $html .= '<li class="dropdown-submenu">';
