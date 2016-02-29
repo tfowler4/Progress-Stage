@@ -23,27 +23,18 @@ var NewsEventBinder = function() {
         var paneTitleId = $(this).prop('id').replace('dungeon-rankings-clicker-', '');
         var currentPane = $('#dungeon-rankings-wrapper-' + paneTitleId);
 
-        if ( currentPane.hasClass('hidden') ) {
+        if ( currentPane.css('display') == 'none' ) {
             stopClickRankPanel = true;
-
-            var activePane = $(this).parent().children('.active');
-
+            
+            var activePane = $(document).find('.active-dungeon');
             activePane.slideToggle(slideDelay, 'linear', function() {
-                activePane.addClass('hidden');
-                activePane.removeClass('active');
+                activePane.removeClass('active-dungeon');
 
-                blockRankHeight = $("#dungeon-slider").css('height');
+                currentPane.slideToggle(slideDelay, 'linear', function() {
+                    stopClickRankPanel = false;
+                    currentPane.addClass('active-dungeon');
+                });
             });
-
-            currentPane.slideToggle(slideDelay, 'linear', function() {
-                stopClickRankPanel = false;
-                currentPane.removeClass('hidden');
-                currentPane.addClass('active');
-
-                blockRankHeight = $("#dungeon-slider").css('height');
-            });
-
-            $("#dungeon-slider").css('height', 'auto');
         }
     });
 
@@ -75,7 +66,6 @@ var NewsEventBinder = function() {
         });
 
         $(me).parent().find(newIdentifier).each(function() {
-
             $(this).addClass('active-rank');
             $(this).removeClass('hidden');
             $(this).css('display', 'block');
@@ -85,36 +75,6 @@ var NewsEventBinder = function() {
             stopClickRankPanel = false;
         }
     };
-
-    // recent raid buttons click to scroll through different list panes
-    $(document).on('click touchstart', '.scroll-button-recent', function() {
-        var numOfDisplayItems = 9;
-        var numOfRecentItems  = Math.ceil($("#latest-kills  ul li").length / numOfDisplayItems);
-        var recentSlideDelay  = 500;
-        var recentSlideWidth  = 1267; // add 7 to width from css
-        var maxRecentPaneSize = numOfRecentItems * recentSlideWidth;
-
-        if( stopClickRecent ) { return; }
-
-        var pos = $('#latest-kills ul').css("left").replace("px", "");
-        var direction;
-
-        if ( $(this).hasClass('left') ) {
-            direction = 'left';
-            pos       = parseInt(pos) + recentSlideWidth + 2;
-        } else if ( $(this).hasClass('right') ) {
-            direction = 'right';
-            pos       = parseInt(pos) - recentSlideWidth - 2;
-        }
-
-        if ( (direction == 'left' && parseInt(pos) <= 0) 
-             || (direction == 'right' && pos > (-1*maxRecentPaneSize) ) ) {
-            stopClickRecent = true; 
-            $('#latest-kills ul').animate({ left: pos }, recentSlideDelay, function() {
-                stopClickRecent = false;
-            });
-        }
-    });
 
     // media viewer buttons click to scroll through different video/streams
     $(document).on('click touchstart', '.scroll-button-media', function() {
@@ -185,59 +145,12 @@ var NewsEventBinder = function() {
         }
     };
 
-    // media overlay navigation button click to scroll to exact stream
-    $(document).on('click touchstart', '.circle.clickable.faded', function() {
-        var mediaSlideDelay = 350;
-        var mediaSlideWidth = 900;
-        var currentPosition = parseInt($('#media-pane ul').css("left").replace("px", ""));
-
-        if( stopClickMedia ) { return; }
-
-        stopClickMedia = true;
-
-        if ( !userClicked ) {
-            userClicked = true;
-            autoSliding = false;
-
-            if ( mediaAutoSliderId ) {
-                clearInterval(mediaAutoSliderId);
-            }
-        }
-
-        $('.circle').not('.clickable.faded').addClass('clickable faded');
-
-        $(this).removeClass('clickable faded');
-
-        var navigationNumber = parseInt($(this).attr('class').replace('circle', ''));
-        var mediaPosition    = navigationNumber * mediaSlideWidth;
-        var newPosition      = -1 * mediaPosition;
-
-        // media overlay top bar logo
-        $('.media-overlay-top img').fadeToggle(mediaSlideDelay).delay(mediaSlideDelay).fadeToggle(mediaSlideDelay);
-
-        // media overlay bottom bar
-        $('.media-overlay-bottom').slideToggle(mediaSlideDelay).delay(mediaSlideDelay).slideToggle(mediaSlideDelay);
-
-        // image slider
-        $('#media-pane ul').delay(mediaSlideDelay).animate({ left: newPosition }, mediaSlideDelay);
-
-        // place guild logo back to its original place by fading out and resetting
-        if ( $('.media-guild-logo').css('margin-right') == '5px' ) {
-            $('.media-guild-logo').fadeToggle(mediaSlideDelay, function() {
-                $('.media-guild-logo').css('margin-right', '500px');
-                $('.media-guild-logo').css('display', 'block');
-            })
-        }
-
-        // animate guild logo 
-        $('.media-guild-logo').delay(mediaSlideDelay).animate({ 'margin-right': 5 }, mediaSlideDelay, function() {
-            stopClickMedia = false;
-        });
-    });
-
     // when page finishes loading
     $(window).load(function(){
         // when page loads, re-adjust guild logos on media overlay to be centered based on image height
+        
+
+        /*
         $('.media-guild-logo img').each(function() {
             var parentHeight = parseInt($(this).parent().parent().css('height').replace('px', ''));
             var height       = parseInt($(this).css('height').replace('px', ''));
@@ -275,5 +188,6 @@ var NewsEventBinder = function() {
                 scrollMediaSlider('right', mediaSliderPosition);
             }, 1000*10 );
         }
+        */
     });
 };
