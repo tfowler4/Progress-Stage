@@ -41,12 +41,24 @@
 
     <div id="submenus" class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <!--
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group" role="group" aria-label="First group">
                     <?php foreach ( CommonDataContainer::$tierArray as $tierId => $tierDetails ): ?>
                         <?php echo $data->generateInternalHyperLink($tierDetails->_name, $tierDetails->_name . ' (' . $tierDetails->_altTier . ')', 'btn btn-default', false); ?>
                     <?php endforeach; ?>
                 </div>
+            </div>
+            -->
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Select Tier Content <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <?php foreach ( CommonDataContainer::$tierArray as $tierId => $tierDetails ): ?>
+                        <li><?php echo $data->generateInternalHyperLink($tierDetails->_name, $tierDetails->_name . ' (' . $tierDetails->_altTier . ')', '', false); ?></li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
         </div>
     </div>

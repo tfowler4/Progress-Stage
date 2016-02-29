@@ -221,7 +221,7 @@ var GlobalEventBinder = function() {
         var currentPageUrl = document.URL;
         var dungeonId      = $(this).prop('id');
 
-        $(".overlay").fadeToggle('fast');
+        //$(".overlay").fadeToggle('fast');
 
         // Ajax call to retrieve spreadsheet html
          $.ajax({
@@ -229,17 +229,17 @@ var GlobalEventBinder = function() {
             type: 'POST',
             data: { request: 'spreadsheet', dungeon: dungeonId},
             success: function(data) {
-                var spreadsheetDiv = $('#popup-wrapper');
+                var spreadsheetDiv = $('#spreadsheetModal .modal-body');
 
-                spreadsheetDiv.toggleClass('centered');
-                spreadsheetDiv.fadeToggle('fast');
+                //spreadsheetDiv.toggleClass('centered');
+                //spreadsheetDiv.fadeToggle('fast');
                 spreadsheetDiv.html(data);
 
                 // To help resizing with vertical scrollbar
-                var currentWidth = parseInt(spreadsheetDiv.find('div').css('width').replace('px', ''));
-                var newWidth     = currentWidth + 50;
+                //var currentWidth = parseInt(spreadsheetDiv.find('div').css('width').replace('px', ''));
+                //var newWidth     = currentWidth + 50;
 
-                spreadsheetDiv.find('div').css('width', newWidth);
+                //spreadsheetDiv.find('div').css('width', newWidth);
             },
             error: function(xhr, desc, err) {
                 console.log(xhr);

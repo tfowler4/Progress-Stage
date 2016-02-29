@@ -53,29 +53,29 @@ class StandingsModel extends Model {
         );
 
     const PANE_DUNGEON = array(
-            'Name'              => '_name',
-            'Tier'              => '_tierFullTitle',
-            'Raid Size'         => '_raidSize',
-            'Encounters'        => '_numOfEncounters',
-            'Release Date'      => '_dateLaunch',
-            'EU Time Diff'      => '_euTimeDiffTitle',
-            'WW Clears'         => '_numOfDungeonClears',
-            'NA Clears'         => '_numOfNADungeonClears',
-            'EU Clears'         => '_numOfEUDungeonClears',
-            'First Clear'       => '_firstDungeonClear',
-            'Most Recent Clear' => '_recentDungeonClear'
+            'Name'         => '_name',
+            'Tier'         => '_tierFullTitle',
+            'Raid Size'    => '_raidSize',
+            'Encounters'   => '_numOfEncounters',
+            'Release Date' => '_dateLaunch',
+            'EU Time Diff' => '_euTimeDiffTitle',
+            'WW Clears'    => '_numOfDungeonClears',
+            'NA Clears'    => '_numOfNADungeonClears',
+            'EU Clears'    => '_numOfEUDungeonClears',
+            'First Clear'  => '_firstDungeonClear',
+            'Recent Clear' => '_recentDungeonClear'
         );
 
     const PANE_ENCOUNTER = array(
-            'Name'             => '_name',
-            'Tier'             => '_tierFullTitle',
-            'Dungeon'          => '_dungeon',
-            'Raid Size'        => '_raidSize',
-            'WW Clears'        => '_numOfEncounterKills',
-            'NA Clears'        => '_numOfNAEncounterKills',
-            'EU Clears'        => '_numOfEUEncounterKills',
-            'First Kill'       => '_firstEncounterKill',
-            'Most Recent Kill' => '_recentEncounterKill'
+            'Name'        => '_name',
+            'Tier'        => '_tierFullTitle',
+            'Dungeon'     => '_dungeon',
+            'Raid Size'   => '_raidSize',
+            'WW Clears'   => '_numOfEncounterKills',
+            'NA Clears'   => '_numOfNAEncounterKills',
+            'EU Clears'   => '_numOfEUEncounterKills',
+            'First Kill'  => '_firstEncounterKill',
+            'Recent Kill' => '_recentEncounterKill'
         );
 
     const PAGE_TITLE = 'Progression Standings';
@@ -142,7 +142,6 @@ class StandingsModel extends Model {
             $this->_setEncounterTimeDiffField();
         }
 
-        
         $this->_detailsPane    = $this->_dataDetails;
         $this->_topGuildsArray = $guildListing->_topGuildsArray;
         $this->_identifier     = $guildListing->_identifier;

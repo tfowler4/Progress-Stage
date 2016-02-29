@@ -75,7 +75,7 @@ class Template {
         $html .= '<div class="pull-left">' . $headerText . '</div>';
 
         if ( !empty($optionText) ) {
-            $html .= '<div class="pull-right"><a id="' . $optionId . '" class="table-header-link move-right' . $optionClass . '" href="#">' . $optionText . '</a></div>';
+            $html .= '<div class="pull-right"><a data-toggle="modal" data-target="#spreadsheetModal" id="' . $optionId . '" class="table-header-link move-right ' . $optionClass . '" href="#">' . $optionText . '</a></div>';
         }
 
         $html .= '</th>';
@@ -354,13 +354,17 @@ class Template {
             );
 
         $html = '';
-        $html .= '<div class="vertical-separator"></div>';
+        $html .= '<div id="glossary" class="row">';
+        $html .= '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">';
         $html .= self::drawGlossary($glossaryArray, 1);
-        $html .= '<div class="vertical-separator"></div>';
-        $html .= '<div class="table-wrapper">';
-        $html .= '<table class="listing">';
-        $html .= '<thead>';
-        $html .= '</thead>';
+        $html .= '</div>';
+        $html .= '</div>';
+        $html .= '<div id="data" class="row">';
+        $html .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
+        $html .= '<div class="panel panel-primary">';
+        $html .= '<table class="table table-striped table-hover table-condensed">';
+        //$html .= '<thead>';
+        //$html .= '</thead>';
         $html .= '<tbody>';
 
         foreach( $spreadsheet as $listType => $dataArray ) {
@@ -379,6 +383,7 @@ class Template {
 
         $html .= '</tbody>';
         $html .= '</table>';
+        $html .= '</div>';
         $html .= '</div>';
 
         return $html;

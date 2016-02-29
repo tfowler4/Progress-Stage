@@ -56,7 +56,7 @@ class Encounter extends DataObject {
         $encounterId               = $this->_encounterId;
 
         $tierDetails           = CommonDataContainer::$tierArray[$this->_tier];
-        $this->_tierFullTitle  = $tierDetails->_name . ' (T' . $tierDetails->_tier . '/' . $tierDetails->_altTier . ')';
+        $this->_tierFullTitle  = $tierDetails->_name . ' (' . $tierDetails->_altTier . ')';
 
         foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
             if ( isset($guildDetails->_encounterDetails->$encounterId) ) {

@@ -55,18 +55,34 @@
 
     <div id="submenus" class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                <div class="btn-group" role="group" aria-label="First group">
-                    <?php echo $data->generateInternalHyperLink('world', 'World', 'btn btn-default', false); ?>
-                    <?php echo $data->generateInternalHyperLink('region', 'Regional', 'btn btn-default', false); ?>
-                    <?php echo $data->generateInternalHyperLink('server', 'Server', 'btn btn-default', false); ?>
-                    <?php echo $data->generateInternalHyperLink('country', 'Country', 'btn btn-default', false); ?>
-                </div>
-
-                <div class="btn-group pull-right" role="group" aria-label="First group">
-                    <a class="btn btn-default" id="<?php echo $data->_identifier . '-' . $data->_view; ?>" href="#" class="spreadsheet">View as Spreadsheet</a>
-                </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Select List View <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><?php echo $data->generateInternalHyperLink('world', 'World', '', false); ?></li>
+                    <li><?php echo $data->generateInternalHyperLink('region', 'Regional', '', false); ?></li>
+                    <li><?php echo $data->generateInternalHyperLink('server', 'Server', '', false); ?></li>
+                    <li><?php echo $data->generateInternalHyperLink('country', 'Country', '', false); ?></li>
+                </ul>
             </div>
+
+            <?php if ( isset($data->_dungeon) && !isset($data->_encounter) ): ?>
+                <div class="btn-toolbar pull-right" role="toolbar" aria-label="Toolbar with button groups">
+                    <!--
+                    <div class="btn-group" role="group" aria-label="First group">
+                        <?php echo $data->generateInternalHyperLink('world', 'World', 'btn btn-default', false); ?>
+                        <?php echo $data->generateInternalHyperLink('region', 'Regional', 'btn btn-default', false); ?>
+                        <?php echo $data->generateInternalHyperLink('server', 'Server', 'btn btn-default', false); ?>
+                        <?php echo $data->generateInternalHyperLink('country', 'Country', 'btn btn-default', false); ?>
+                    </div>
+                    -->
+                    <div class="btn-group" role="group" aria-label="First group">
+                        <a data-toggle="modal" data-target="#spreadsheetModal" class="spreadsheet btn btn-default" id="<?php echo $data->_identifier . '-' . $data->_view; ?>" href="#">View as Spreadsheet</a>
+                        <!--<li data-toggle="modal" data-target="#loginModal"><a href="#"><span class="glyphicon glyphicon-log-in"></span>  Login</a></li>-->
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 

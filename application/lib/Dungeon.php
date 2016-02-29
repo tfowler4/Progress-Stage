@@ -77,7 +77,7 @@ class Dungeon extends DataObject {
         $finalEncounterId = $this->_finalEncounterId;
 
         $tierDetails          = CommonDataContainer::$tierArray[$this->_tier];
-        $this->_tierFullTitle = $tierDetails->_name . ' (T' . $tierDetails->_tier . '/' . $tierDetails->_altTier . ')';
+        $this->_tierFullTitle = $tierDetails->_name . ' (' . $tierDetails->_altTier . ')';
 
         foreach( $guildArray as $guildId => $guildDetails ) {
             if ( $guildDetails->_isContentCleared ) {

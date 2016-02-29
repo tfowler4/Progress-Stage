@@ -33,19 +33,44 @@
 
     <div id="submenus" class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Select List View <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><?php echo $data->generateInternalHyperLink('world', $data->_rankType, 'World', 'btn btn-default'); ?></li>
+                    <li><?php echo $data->generateInternalHyperLink('region', $data->_rankType, 'Regional', 'btn btn-default'); ?></li>
+                    <li><?php echo $data->generateInternalHyperLink('server', $data->_rankType, 'Server', 'btn btn-default'); ?></li>
+                    <li><?php echo $data->generateInternalHyperLink('country', $data->_rankType, 'Country', 'btn btn-default'); ?></li>
+                </ul>
+            </div>
+            <!--
+            <div class="btn-toolbar pull-right" role="toolbar" aria-label="Toolbar with button groups">
+                
                 <div class="btn-group" role="group" aria-label="First group">
                     <?php echo $data->generateInternalHyperLink('world', $data->_rankType, 'World', 'btn btn-default'); ?>
                     <?php echo $data->generateInternalHyperLink('region', $data->_rankType, 'Regional', 'btn btn-default'); ?>
                     <?php echo $data->generateInternalHyperLink('server', $data->_rankType, 'Server', 'btn btn-default'); ?>
                     <?php echo $data->generateInternalHyperLink('country', $data->_rankType, 'Country', 'btn btn-default'); ?>
                 </div>
-
-                <div class="btn-group pull-right" role="group" aria-label="Second group">
+                
+                <div class="btn-group" role="group" aria-label="Second group">
                     <?php foreach(unserialize(RANK_SYSTEMS) as $systemAbbrev => $systemName): ?>
                         <?php echo $data->generateInternalHyperLink($data->_view, $systemAbbrev, $systemName, 'btn btn-default'); ?>
                     <?php endforeach; ?>
                 </div>
+            </div>
+            -->
+
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Select Point System <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <?php foreach(unserialize(RANK_SYSTEMS) as $systemAbbrev => $systemName): ?>
+                        <li><?php echo $data->generateInternalHyperLink($data->_view, $systemAbbrev, $systemName, ''); ?></li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
         </div>
     </div>
