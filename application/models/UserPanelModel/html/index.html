@@ -1,4 +1,157 @@
 <script>var eventBinder = new UserPanelEventBinder();</script>
+
+<div class="container-fluid">
+    <div id="container-wrapper" class="row">
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Account Management</div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <span class="input-group-addon">Username</span>
+                        <input type="text" disabled class="form-control" value="<?php echo $data->_userDetails->_userName; ?>">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">Email</span>
+                        <input type="text" disabled class="form-control" value="<?php echo $data->_userDetails->_emailAddress; ?>">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">Date Created</span>
+                        <input type="text" disabled class="form-control" value="<?php echo Functions::formatDate($data->_userDetails->_dateCreated, 'm-d-Y'); ?>">
+                    </div>
+                </div>
+                <div class="panel-footer">Change Email Address</div>
+                <div class="panel-footer">Change Password</div>
+            </div>
+        </div>
+
+        <?php foreach ( $data->_userGuilds as $guildId => $guildDetails ): ?>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Guild Management</div>
+                <div class="panel-body text-center">
+                    <h3><?php echo $guildDetails->_name; ?></h3>
+                    <?php echo $guildDetails->_logo; ?>
+
+                    <h4>
+                        Date Created
+                        <p><small><?php echo Functions::formatDate($guildDetails->_dateCreated, 'm-d-Y'); ?></small></p>
+                    </h4>
+
+                    <h4>
+                        Server
+                        <p><small><?php echo $guildDetails->_serverLink; ?></small></p>
+                    </h4>
+
+                    <h4>
+                        Faction
+                        <p><small><?php echo $guildDetails->_faction; ?></small></p>
+                    </h4>
+
+                    <h4>
+                        Country
+                        <p><small><?php echo $guildDetails->_countryLink; ?><</small></p>
+                    </h4>
+
+                    <h4>
+                        Guild Leader
+                        <p><small><?php echo $guildDetails->_leader; ?></small></p>
+                    </h4>
+
+                    <h4>
+                        Status
+                        <p><small><?php echo $guildDetails->_activeStatus; ?></small></p>
+                    </h4>
+
+                    <h4>
+                        Number of Raid Teams
+                        <p><small><?php echo (count($data->_raidTeams[$guildDetails->_guildId])+1); ?></small></p>
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+
+<!--
+                    <div id="guild-pane-<?php echo $guildDetails->_guildId; ?>" class="option-header guild"><?php echo $guildDetails->_name; ?></div>
+                <div id="guild-content-<?php echo $guildDetails->_guildId; ?>" class="option-content guild active">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div>
+                                        <?php echo $guildDetails->_logo; ?>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Date Created</th>
+                            </tr>
+                            <tr>
+                                <td><?php echo Functions::formatDate($guildDetails->_dateCreated, 'm-d-Y'); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Server</th>
+                            </tr>
+                            <tr>
+                                <td><?php echo $guildDetails->_serverLink; ?></td>
+                            </tr>
+                            <tr>
+                                <th>Faction</th>
+                            </tr>
+                            <tr>
+                                <td><?php echo $guildDetails->_faction; ?></td>
+                            </tr>
+                            <tr>
+                                <th>Country</th>
+                            </tr>
+                            <tr>
+                                <td><?php echo $guildDetails->_countryLink; ?></td>
+                            </tr>
+                            <tr>
+                                <th>Guild Leader</th>
+                            </tr>
+                            <tr>
+                                <td><?php echo $guildDetails->_leader; ?></td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                            </tr>
+                            <tr>
+                                <td><?php echo $guildDetails->_activeStatus; ?></td>
+                            </tr>
+                            <tr>
+                                <th>Number of Raid Teams</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <?php echo (count($data->_raidTeams[$guildDetails->_guildId])+1); ?>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>-->
+
+
+
+        <?php for ( $i = $data->_numOfGuilds; $i < UserPanelModelGuild::MAX_GUILDS; $i++ ): ?>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Guild Management</div>
+                    <div class="panel-body">
+                        Add New Guild
+                    </div>
+                </div>
+            </div>
+        <?php endfor; ?>
+    </div>
+</div>
+
+<!--
 <div id="body-wrapper">
     <div id="body-content">
         <div class="vertical-separator"></div>
@@ -194,3 +347,5 @@
         <div class="vertical-separator"></div>
     </div>
 </div>
+
+-->

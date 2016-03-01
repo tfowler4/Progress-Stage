@@ -567,14 +567,14 @@ class Template {
                 break;
             case 'quickSubmit':
                 if ( MODULE_QUICKSUB_SET == 1 ) {
-                    $html = '<li data-toggle="modal" data-target="#quickModal"><a href="#"><span class="glyphicon glyphicon-upload"></span>  Quick Submission</a></li>';
+                    $html = '<li data-toggle="modal" data-target="#quickModal"><a href="#"><span class="glyphicon glyphicon-upload"></span>  Kill Submission</a></li>';
                 }
                 break;
             case 'howto':
                 if ( MODULE_HOWTO_SET == 1 ) {
                     $html = '<li>';
 
-                    if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('howto', '', '', '<span class="glyphicon glyphicon-check"></span>  How-To', ''); }
+                    if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('howto', '', '', '<span class="glyphicon glyphicon-check"></span>  FAQ', ''); }
 
                     $html .= '</li>';
                 }
@@ -600,7 +600,7 @@ class Template {
                     if ( isset($_SESSION['logged']) && $_SESSION['logged'] == 'yes' ) {
                         $html = '<li>';
 
-                        if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('userpanel', '', '', '<span class="glyphicon glyphicon-wrench"></span>  Control Panel', ''); }
+                        if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('userpanel', '', '', '<span class="glyphicon glyphicon-wrench"></span>  Dashboard', ''); }
 
                         $html .= '</li>';
                     }
@@ -610,7 +610,7 @@ class Template {
                 if ( MODULE_DIRECTORY_SET == 1 ) {
                     $html = '<li>';
 
-                    if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('directory', '', '', '<span class="glyphicon glyphicon-tasks"></span>  Guild Directory', ''); }
+                    if ( $isHyperlink ) { $html .= Functions::generateInternalHyperlink('directory', '', '', '<span class="glyphicon glyphicon-tasks"></span>  Directory', ''); }
 
                     $html .= '</li>';
                 }
@@ -625,7 +625,7 @@ class Template {
             case 'logout':
                 if ( MODULE_LOGOUT_SET == 1 ) {
                     if ( isset($_SESSION['logged']) && $_SESSION['logged'] == 'yes' ) {
-                        $html = '<li id="logout-activator" class="activatePopUp"><a href="#"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>';
+                        $html = '<li data-toggle="modal" data-target="#logoutModal"><a href="#"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>';
                     }
                 }
                 break;
@@ -659,8 +659,8 @@ class Template {
                 $html .= '<li class="dropdown">';
                     $html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
 
-                    if ( $modelName == 'standings') { $html .= '<span class="glyphicon glyphicon-list"></span>  Progression Standings '; }
-                    if ( $modelName == 'rankings') { $html .= '<span class="glyphicon glyphicon-stats"></span>  Point Rankings '; }
+                    if ( $modelName == 'standings') { $html .= '<span class="glyphicon glyphicon-list"></span>  Standings '; }
+                    if ( $modelName == 'rankings') { $html .= '<span class="glyphicon glyphicon-stats"></span>  Rankings '; }
 
                     $html .= '<span class="caret"></span></a>';
                     $html .= '<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">';

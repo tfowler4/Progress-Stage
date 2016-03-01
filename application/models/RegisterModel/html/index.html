@@ -2,19 +2,7 @@
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <div id="form-wrapper" class="row">
-                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 text-center">
-                    <div id="faction-logo-preview-wrapper">
-                        <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
-                            <div class="thumbnail">
-                                <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
-                                    <?php echo Functions::getImageFaction($factionDetails->_name); ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-offset-1 col-lg-7 col-md-12 col-sm-12 col-xs-12">
                     <div class="panel panel-primary">
                         <div class="panel-heading">Registration</div>
                         <div class="panel-body">
@@ -130,7 +118,17 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 text-center">
+                    <div id="faction-logo-preview-wrapper">
+                        <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
+                            <div class="thumbnail">
+                                <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
+                                    <?php echo Functions::getImageFaction($factionDetails->_name); ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
                     <div id="guild-country-logo-preview-wrapper">
                         <div class="thumbnail">
                             <div id="guild-logo-preview"></div>
