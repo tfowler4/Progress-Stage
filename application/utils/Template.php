@@ -631,8 +631,9 @@ class Template {
                 break;
             case 'search':
                 if ( MODULE_SEARCH_SET == 1 ) {
-                    $html = '<li class="no-highlight"><form id="search-form"><input id="search-input" placeholder="Enter guild name" type="text" /></form></li>';
-                    $html .= '<li id="search-activator" class="no-highlight">' . IMG_ICON_SEARCH . '</li>';
+                    $html = '<li data-toggle="modal" data-target="#searchModal"><a href="#"><span class="glyphicon glyphicon-search"></span></a></li>';
+                    //$html = '<li class="no-highlight"><form id="search-form"><input id="search-input" placeholder="Enter guild name" type="text" /></form></li>';
+                    //$html .= '<li id="search-activator" class="no-highlight">' . IMG_ICON_SEARCH . '</li>';
                 }
                 break;
         }
