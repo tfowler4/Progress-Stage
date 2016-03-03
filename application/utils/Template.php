@@ -567,7 +567,7 @@ class Template {
                 break;
             case 'quickSubmit':
                 if ( MODULE_QUICKSUB_SET == 1 ) {
-                    $html = '<li data-toggle="modal" data-target="#quickModal"><a href="#"><span class="glyphicon glyphicon-upload"></span>  Kill Submission</a></li>';
+                    $html = '<li data-toggle="modal" data-target="#quickModal"><a href="#"><span class="glyphicon glyphicon-upload"></span>  Submit a Kill</a></li>';
                 }
                 break;
             case 'howto':
@@ -631,7 +631,7 @@ class Template {
                 break;
             case 'search':
                 if ( MODULE_SEARCH_SET == 1 ) {
-                    $html = '<li data-toggle="modal" data-target="#searchModal"><a href="#"><span class="glyphicon glyphicon-search"></span></a></li>';
+                    $html = '<li data-toggle="modal" data-target="#searchModal"><a href="#"><span class="glyphicon glyphicon-search"></span>  Search</a></li>';
                     //$html = '<li class="no-highlight"><form id="search-form"><input id="search-input" placeholder="Enter guild name" type="text" /></form></li>';
                     //$html .= '<li id="search-activator" class="no-highlight">' . IMG_ICON_SEARCH . '</li>';
                 }

@@ -1,17 +1,24 @@
 <div id="footer" class="container-fluid">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bg-primary">
-            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 text-center">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
                 Follow Us 
                 <?php echo Functions::generateExternalHyperLink(LINK_TWITTER, IMG_TWITTER_LOGO . ' Twitter', ''); ; ?>
-
+                
                 <?php if ( LIVE == 0 ): ?>
                     <?php
-                        echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.'; 
-                        echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
+                        //echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.'; 
+                        //echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
                     ?>
                 <?php endif; ?>
+
+                <ul class="list-inline">
+                    <?php echo '<li>' . Functions::generateInternalHyperlink('directory', '', '', '<span class="glyphicon glyphicon-tasks"></span>  Directory', '') . '</li>'; ?>
+                    <?php echo '<li><a href="#" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-envelope"></span> Contact Us</a></li>'; ?>
+                    <?php echo '<li>' . Functions::generateInternalHyperlink('howto', '', '', '<span class="glyphicon glyphicon-check"></span>  FAQ', '') . '</li>'; ?>
+                </ul>
             </div>
+            <!--
             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 text-center" style="height:30px; line-height:30px;">
                 <form class="form-horizontal">
                 <div class="form-group">
@@ -27,6 +34,7 @@
                     </select>
                 </div>
             </div>
+        -->
         </div>
     </div>
 </div>
