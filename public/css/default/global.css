@@ -220,3 +220,13 @@
 #footer a {
     color: #FFFFFF;
 }
+
+/* red faction text color */
+.defiant,.dominion {
+    color: #FF0000;
+}
+
+/* blue faction text color */
+.guardian,.exiles {
+    color: #0000FF;
+}
