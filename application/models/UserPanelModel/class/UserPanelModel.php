@@ -287,6 +287,7 @@ class UserPanelModel extends Model {
 
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
             $guildDetails                 = new GuildDetails($row);
+            $guildDetails                 = $this->_getAllGuildDetails($guildDetails);
             $guildArray[$row['guild_id']] = $guildDetails;
 
             $this->_raidTeams[$row['guild_id']] = $this->_getRaidTeams($row['guild_id'], $guildArray[$row['guild_id']]);
@@ -340,5 +341,91 @@ class UserPanelModel extends Model {
         } else {
             Functions::sendTo404();
         }
+    }
+
+    /**
+     * adds edit/remove option properties to encounter details object
+     * 
+     * @return void
+     */
+    private function _mergeOptionsToEncounters($guildDetails) {
+        foreach( $guildDetails->_encounterDetails as $encounterId => $encounterDetails ) {
+            $newEncounterDetails = new stdClass();
+
+            $encounterProperties = $encounterDetails->getProperties();
+
+            foreach ( $encounterProperties as $key => $value ) {
+                $newEncounterDetails->$key = $value;
+            }
+
+            $optionsString = '';
+            $optionsString .= '<a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span>  Edit</a>';
+            $optionsString .= '  ';
+            $optionsString .= '<a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove"></span>  Remove</a>';
+            //$optionsString .= $this->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModelKill::KILLS_EDIT . '/' . $this->_guildDetails->_guildId .'/' . $encounterId, 'Edit', true);
+            //$optionsString .= ' | ';
+            //$optionsString .= $this->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModelKill::KILLS_REMOVE . '/' . $this->_guildDetails->_guildId . '/' . $encounterId, 'Delete', true);
+
+            $newEncounterDetails->_options = $optionsString;
+
+            $guildDetails->_encounterDetails->$encounterId = $newEncounterDetails;
+        }
+
+        return $guildDetails;
+    }
+
+    /**
+     * generate all encounter standings and rankings information
+     *      * 
+     * @return void
+     */
+    protected function _getAllGuildDetails($guildDetails) {
+        $guildDetails->generateRankDetails('encounters');
+
+        $dbh       = DbFactory::getDbh();
+        $dataArray = array();
+
+        $query = $dbh->prepare(sprintf(
+            "SELECT kill_id,
+                    guild_id,
+                    encounter_id,
+                    dungeon_id,
+                    tier,
+                    raid_size,
+                    datetime,
+                    date,
+                    time,
+                    time_zone,
+                    server,
+                    videos,
+                    server_rank,
+                    region_rank,
+                    world_rank,
+                    country_rank
+               FROM %s
+              WHERE guild_id=%d", 
+                    DbFactory::TABLE_KILLS, 
+                    $guildDetails->_guildId
+                ));
+        $query->execute();
+
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $encounterId         = $row['encounter_id'];
+            $encounterDetails    = CommonDataContainer::$encounterArray[$encounterId];
+            $dungeonId           = $encounterDetails->_dungeonId;
+            $dungeonDetails      = CommonDataContainer::$dungeonArray[$dungeonId];
+            $tierId              = $dungeonDetails->_tier;
+            $tierDetails         = CommonDataContainer::$tierArray[$tierId];
+
+            $arr                                      = $guildDetails->_progression;
+            $arr['dungeon'][$dungeonId][$encounterId] = $row;
+            $arr['encounter'][$encounterId]           = $row;
+            $guildDetails->_progression        = $arr;
+        }
+
+        $guildDetails->generateEncounterDetails('');
+        $guildDetails = $this->_mergeOptionsToEncounters($guildDetails);
+
+        return $guildDetails;
     }
 }
