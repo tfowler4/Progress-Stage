@@ -1,40 +1,63 @@
-<div id="footer" class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bg-primary">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-                Follow Us 
-                <?php echo Functions::generateExternalHyperLink(LINK_TWITTER, IMG_TWITTER_LOGO . ' Twitter', ''); ; ?>
-                
-                <?php if ( LIVE == 0 ): ?>
-                    <?php
-                        //echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.'; 
-                        //echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
-                    ?>
-                <?php endif; ?>
+<div id="footer">
+    <div class="container-fluid navbar-inverse">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bg-primary">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                    <?php echo Functions::generateExternalHyperLink(LINK_TWITTER, IMG_TWITTER_LOGO, ''); ; ?>
 
-                <ul class="list-inline">
-                    <?php echo '<li>' . Functions::generateInternalHyperlink('directory', '', '', '<span class="glyphicon glyphicon-tasks"></span>  Directory', '') . '</li>'; ?>
-                    <?php echo '<li><a href="#" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-envelope"></span> Contact Us</a></li>'; ?>
-                    <?php echo '<li>' . Functions::generateInternalHyperlink('howto', '', '', '<span class="glyphicon glyphicon-check"></span>  FAQ', '') . '</li>'; ?>
-                </ul>
-            </div>
-            <!--
-            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 text-center" style="height:30px; line-height:30px;">
-                <form class="form-horizontal">
-                <div class="form-group">
-                    <label for="skin-selector">Site Skin:</label>
-                    <select id="skin-selector">
-                        <?php foreach(unserialize(SITE_SKINS) as $skinId => $skinValue): ?>
-                            <?php if ( $skinId == $_SESSION['template'] ): ?>
-                                <option value="<?php echo $skinId; ?>" selected><?php echo $skinValue; ?></option>
-                            <?php else: ?>
-                                <option value="<?php echo $skinId; ?>"><?php echo $skinValue; ?></option>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </select>
+                    <?php if ( LIVE == 0 ): ?>
+                        <?php
+                            echo ' Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.'; 
+                            echo ' Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
+                        ?>
+                    <?php endif; ?>
+
+                    <ul class="list-inline">
+                        <?php echo '<li>' . Functions::generateInternalHyperlink('directory', '', '', '<span class="glyphicon glyphicon-tasks"></span>  Directory', '') . '</li>'; ?>
+                        <?php echo '<li><a href="#" data-toggle="modal" data-target="#contactModal"><span class="glyphicon glyphicon-envelope"></span> Contact Us</a></li>'; ?>
+                        <?php echo '<li>' . Functions::generateInternalHyperlink('howto', '', '', '<span class="glyphicon glyphicon-check"></span>  FAQ', '') . '</li>'; ?>
+                    </ul>
                 </div>
+
+                <!--
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 text-center" style="height:30px; line-height:30px;">
+                    <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="skin-selector">Site Skin:</label>
+                        <select id="skin-selector">
+                            <?php foreach(unserialize(SITE_SKINS) as $skinId => $skinValue): ?>
+                                <?php if ( $skinId == $_SESSION['template'] ): ?>
+                                    <option value="<?php echo $skinId; ?>" selected><?php echo $skinValue; ?></option>
+                                <?php else: ?>
+                                    <option value="<?php echo $skinId; ?>"><?php echo $skinValue; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                -->
             </div>
-        -->
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center" style="vertical-align:middle; display:inline-block; height:200px; line-height:200px; ">
+                <?php echo Functions::generateExternalHyperLink(LINK_GAME_1, IMG_GAME_LOGO_1, '', true); ?>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center" style="vertical-align:middle; display:inline-block; height:200px; line-height:200px;">
+                <?php echo IMG_SITE_LOGO; ?>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center" style="vertical-align:middle; display:inline-block; height:200px; line-height:200px;">
+                <?php echo Functions::generateExternalHyperLink(LINK_COMPANY_1, IMG_COMPANY_LOGO_1, '', true); ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                <?php echo COPYRIGHT; ?> 
+                <?php echo Functions::generateInternalHyperlink('tos', '', '', 'Terms of Service', ''); ?>
+                 | 
+                 <?php echo Functions::generateInternalHyperlink('privacypolicy', '', '', 'Privacy Policy', ''); ?>
+            </div>
         </div>
     </div>
 </div>

@@ -230,3 +230,7 @@
 .guardian,.exiles {
     color: #0000FF;
 }
+
+#body-content {
+    min-height:65.3vh;
+}

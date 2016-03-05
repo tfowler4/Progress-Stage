@@ -13,11 +13,11 @@
 <?php include('scripts.html'); ?>
     </head>
     <body>
-        <div class="overlay"></div>
         <?php include('header.html'); ?>
-        <?php include($this->_contentFile); ?>
+        <div id="body-content">
+            <?php include($this->_contentFile); ?>
+        </div>
         <?php include('footer.html'); ?>
-        <?php include('bottom.html'); ?>
         <?php include('forms.html'); ?>
     </body>
 </html>
