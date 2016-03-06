@@ -1628,3 +1628,129 @@
 </div>
 
 -->
+
+
+<!--
+<div id="body-wrapper">
+    <div id="body-content">
+        <div class="vertical-separator"></div>
+
+        <?php if ( !empty($data->_dialogOptions) ): ?>
+            <?php echo Functions::showDialogWindow($data->_dialogOptions); ?>
+
+            <div class="vertical-separator"></div>
+        <?php endif; ?>
+
+        <div id="form-table-wrapper">
+            <form method="POST" action="<?php echo PAGE_QUICK; ?>" autocomplete="off" enctype="multipart/form-data">
+                <table class="form-table standard">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Quick Kill Submission</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Guild Name</th>
+                            <td>
+                                <select id="user-form-guild" name="quick-guild">
+                                    <option value="">Select Guild</option>
+                                    <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails): ?>
+                                        <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                         </tr>
+                        <tr>
+                            <th>Encounter</th>
+                            <td>
+                                <select id="user-form-encounter" name="quick-encounter">
+                                    <option value>Select Encounter</option>
+                                </select>
+                            </td>
+                         </tr>
+                        <tr>
+                            <th>Date (M-D-Y)</th>
+                            <td>
+                               <select id="user-form-month" name="quick-month">
+                                    <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
+                                        <?php if ( $month == date('m') ): ?> 
+                                            <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
+                                        <?php else: ?>
+                                            <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </select>  
+                               <select id="user-form-day" name="quick-day">
+                                    <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
+                                        <?php if ( $day == date('d') ): ?> 
+                                            <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
+                                        <?php else: ?>
+                                            <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </select>  
+                               <select id="user-form-year" name="quick-year">
+                                    <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
+                                        <?php if ( $year == date('Y') ): ?> 
+                                            <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
+                                        <?php else: ?>
+                                            <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Time (H:M UTC)</th>
+                            <td>
+                               <select id="user-form-hour" name="quick-hour">
+                                    <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
+                                        <?php if ( $hour == date('H') ): ?> 
+                                            <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
+                                        <?php else: ?>
+                                            <option value="<?php echo $hour; ?>"><?php echo $hourValue; ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </select>  
+                               <select id="user-form-minute" name="quick-minute">
+                                    <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
+                                        <?php if ( $minute == date('i') ): ?> 
+                                            <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
+                                        <?php else: ?>
+                                            <option value="<?php echo $minute; ?>"><?php echo $minuteValue; ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Screenshot</th>
+                            <td><input id="user-form-screenshot" type="file" name="quick-screenshot"></td>
+                        </tr>
+                        <tr>
+                            <th>Kill Videos</th>
+                            <td>
+                                <div class="video-link-container"></div>
+                                <a class="new-video-link" href="#">Add New Video</a>
+                            </td>
+                         </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td  colspan="2">
+                                <input id="user-form-active" type="hidden" name='active' value="Active">
+                                <input id="user-form-submit" type="submit" value="Submit">
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+
+            <div id="screenshot-preview"></div>
+        </div>
+
+        <div class="vertical-separator"></div>
+    </div>
+</div>
+-->

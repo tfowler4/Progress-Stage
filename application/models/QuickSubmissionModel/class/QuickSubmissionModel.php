@@ -29,13 +29,17 @@ class QuickSubmissionModel extends Model {
             FormValidator::validate('kill-add', $this->_formFields);
 
             if ( FormValidator::$isFormInvalid ) {
-                $this->_dialogOptions = array('title' => 'Error', 'message' => FormValidator::$message);
+                $this->_dialogOptions = array('title' => 'Error',
+                                              'message' => FormValidator::$message,
+                                              'type' => 'danger');
                 return;
             }
 
             $this->_processKillSubmission();
 
-            $this->_dialogOptions = array('title' => 'Success', 'message' => 'Your kill has been submitted successfully! Standings and Rankings will be updated accordingly!');
+            $this->_dialogOptions = array('title' => 'Success',
+                                          'message' => 'Your kill has been submitted successfully! Standings and Rankings will be updated accordingly!',
+                                          'type' => 'success');
         }
     }
 

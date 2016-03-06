@@ -8,7 +8,6 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-
 <?php foreach( glob("public/css/" . $_SESSION['template'] . "/*.css") as $filename ): ?>
         <link rel='stylesheet' type='text/css' href='<?php echo FOLD_INDEX. $filename; ?>'>
 <?php endforeach; ?>
@@ -21,7 +20,6 @@
 <?php foreach( glob("public/js/*.js") as $filename ): ?>
         <script type='text/javascript' src='<?php echo FOLD_INDEX . $filename; ?>'></script>
 <?php endforeach; ?>
-
 
 <?php echo $customJSFiles; ?>
 

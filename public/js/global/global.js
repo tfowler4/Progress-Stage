@@ -64,7 +64,7 @@ var GlobalEventBinder = function() {
     }
 
     // on user selecting a guild, send ajax call to fetch avaialble encounters to submit
-    $(document).on('change', '#user-form-guild, #user-form-popup-guild', function() { updateGuildEncounters(this); });
+    $(document).on('change', '#user-form-guild, #user-form-popup-guild, #quick-form-guild', function() { updateGuildEncounters(this); });
     var updateGuildEncounters = function(input) {
         var currentPageUrl = document.URL;
         var guildId        = input.value;
@@ -80,6 +80,7 @@ var GlobalEventBinder = function() {
 
                 if ( elementId == 'user-form-popup-guild' ) { selectElement = $('#user-form-popup-encounter') }
                 if ( elementId == 'user-form-guild' ) { selectElement = $('#user-form-encounter') }
+                if ( elementId == 'quick-form-guild' ) { selectElement = $('#quick-form-encounter') }
 
                 $("#" + elementId + " option[value='']").remove();
 
