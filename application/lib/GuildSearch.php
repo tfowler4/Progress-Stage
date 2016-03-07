@@ -11,13 +11,15 @@ class GuildSearch {
     /**
      * runs a query to search database for guild names similar 
      * to what is in the Post queryTerm field
+     *
+     * @param  string $searchTerm [ query search string ]
      * 
      * @return array [ guild search results ]
      */
-    public static function getSearchResults() {
-        self::$_queryString = Post::get('queryTerm');
+    public static function getSearchResults($searchTerm) {
+        self::$_queryString = $searchTerm;
 
-        if ( empty(self::$_queryString) ) { return ''; }
+        if ( empty(self::$_queryString) ) { return $searchResults; }
 
         $dbh = DbFactory::getDbh();
 

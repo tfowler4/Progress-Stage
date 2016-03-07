@@ -1,574 +1,274 @@
-
-<!-- Modal -->
-<div id="loginModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title">Login</h3>
-            </div>
-            <div class="modal-body">
-                <p>
-                    <form role="form" method="POST" action="<?php echo PAGE_LOGIN; ?>" autocomplete="off">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
-                                <input type="text" class="form-control" id="login-username" name="login-username" placeholder="Username/Email">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-briefcase"></span></span>
-                                <input type="password" class="form-control" id="login-password" name="login-password" placeholder="Password">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <input id="login-popup-active" type="hidden" name='active' value="Active">
-                            <button type="submit" class="btn btn-default">
-                                <span class="glyphicon glyphicon-log-in"></span>  Log In
-                            </button>
-                        </div>
-                    </form>
-                </p>
-                <p class="text-center">
-                    <?php echo '<a class="btn btn-default" href="' . Functions::generateInternalHyperlink('register', '', '', '', '', false) . '"><span class="glyphicon glyphicon-user"></span>  Create Account</a>'; 
-                    ?>
-                    <?php echo '<a class="btn btn-default" href="' . Functions::generateInternalHyperlink('reset', '', '', '', '', false) . '"><span class="glyphicon glyphicon-alert"></span>  Password Recovery</a>'; 
-                    ?>
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span>  Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div id="logoutModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title">Logging Out?</h3>
-            </div>
-            <div class="modal-body text-center">
-                <p>
-                    <form role="form" method="POST" action="<?php echo PAGE_LOGOUT; ?>" autocomplete="off">
-                        <h4>Are you sure you want to log out?</h4>
-                        <div class="form-group">
-                            <input id="logout-popup-active" type="hidden" name='active' value="Active">
-                            <button id="logout-popup-confirm" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-log-out"></span>  Logout</button>
-                        </div>
-                    </form>
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div id="quickModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title">Quick Kill Submission</h3>
-            </div>
-            <div class="modal-body">
-                <p>
-                    <form role="form" method="POST" action="<?php echo PAGE_QUICK; ?>" autocomplete="off" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="username">Guild</label>
-                            <select id="user-form-popup-guild" class="form-control" name="quick-guild">
-                                <option value="">Select Guild</option>
-                                <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails): ?>
-                                    <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="user-form-popup-encounter">Encounter</label>
-                            <select id="user-form-popup-encounter" class="form-control" name="quick-encounter">
-                                <option value="">Select Encounter</option>
-                            </select>
-                        </div>
-                        <label for="quick-date">Date (M-D-Y)</label>
-                        <div class="form-inline">
+<?php if ( $formId == 'loginModal' ): ?>
+    <div id="loginModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Login</h3>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <form role="form" method="POST" action="<?php echo PAGE_LOGIN; ?>" autocomplete="off">
                             <div class="form-group">
-                               <select id="user-form-popup-month" class="form-control" name="quick-month">
-                                    <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
-                                        <?php if ( $month == date('m') ): ?> 
-                                            <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
-                                        <?php else: ?>
-                                            <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
-                                        <?php endif; ?>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
+                                    <input type="text" class="form-control" id="login-username" name="login-username" placeholder="Username/Email">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-briefcase"></span></span>
+                                    <input type="password" class="form-control" id="login-password" name="login-password" placeholder="Password">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input id="login-popup-active" type="hidden" name='active' value="Active">
+                                <button type="submit" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-log-in"></span>  Log In
+                                </button>
+                            </div>
+                        </form>
+                    </p>
+                    <p class="text-center">
+                        <?php echo '<a class="btn btn-default" href="' . Functions::generateInternalHyperlink('register', '', '', '', '', false) . '"><span class="glyphicon glyphicon-user"></span>  Create Account</a>'; 
+                        ?>
+                        <?php echo '<a class="btn btn-default" href="' . Functions::generateInternalHyperlink('reset', '', '', '', '', false) . '"><span class="glyphicon glyphicon-alert"></span>  Password Recovery</a>'; 
+                        ?>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span>  Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php elseif ($formId == 'logoutModal' ): ?>
+    <div id="logoutModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Logging Out?</h3>
+                </div>
+                <div class="modal-body text-center">
+                    <p>
+                        <form role="form" method="POST" action="<?php echo PAGE_LOGOUT; ?>" autocomplete="off">
+                            <h4>Are you sure you want to log out?</h4>
+                            <div class="form-group">
+                                <input id="logout-popup-active" type="hidden" name='active' value="Active">
+                                <button id="logout-popup-confirm" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-log-out"></span>  Logout</button>
+                            </div>
+                        </form>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php elseif ($formId == 'contactModal' ): ?>
+    <div id="contactModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Contact Us</h3>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <form role="form">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+                                    <input type="text" class="form-control"  id="contact-email" name="contact-email" placeholder="Email Address" aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-feedback">Feedback Type</label>
+                                <select id="contact-popup-feedback" class="form-control" name="contact-feedback">
+                                    <option value="">Select Feedback Type</option>
+                                    <option value="General Feedback">General Feedback</option>
+                                    <option value="Guild Details Request">Guild Details Request</option>
+                                    <option value="UI Layout Issues">UI Layout Issues</option>
+                                    <option value=">Account Problem">Account Problem</option>
+                                    <option value="Submission Errors">Submission Errors</option>
+                                    <option value="Feature Request">Feature Request</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-message">Message</label>
+                                <textarea class="form-control" id="contact-popup-message" name="contact-message" rows="5"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-default">Submit</button>
+                            </div>
+                        </form>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span>  Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php elseif ($formId == 'quickModal' ): ?>
+    <div id="quickModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Quick Kill Submission</h3>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <form role="form" method="POST" action="<?php echo PAGE_QUICK; ?>" autocomplete="off" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="username">Guild</label>
+                                <select id="user-form-popup-guild" class="form-control" name="quick-guild">
+                                    <option value="">Select Guild</option>
+                                    <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails): ?>
+                                        <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <select id="user-form-popup-day" class="form-control" name="quick-day">
-                                    <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
-                                        <?php if ( $day == date('d') ): ?> 
-                                            <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
-                                        <?php else: ?>
-                                            <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
+                                <label for="user-form-popup-encounter">Encounter</label>
+                                <select id="user-form-popup-encounter" class="form-control" name="quick-encounter">
+                                    <option value="">Select Encounter</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                               <select id="user-form-popup-year" class="form-control" name="quick-year">
-                                    <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
-                                        <?php if ( $year == date('Y') ): ?> 
-                                            <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
-                                        <?php else: ?>
-                                            <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                </select>
+                            <label for="quick-date">Date (M-D-Y)</label>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                   <select id="user-form-popup-month" class="form-control" name="quick-month">
+                                        <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
+                                            <?php if ( $month == date('m') ): ?> 
+                                                <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
+                                            <?php else: ?>
+                                                <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <select id="user-form-popup-day" class="form-control" name="quick-day">
+                                        <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
+                                            <?php if ( $day == date('d') ): ?> 
+                                                <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
+                                            <?php else: ?>
+                                                <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                   <select id="user-form-popup-year" class="form-control" name="quick-year">
+                                        <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
+                                            <?php if ( $year == date('Y') ): ?> 
+                                                <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
+                                            <?php else: ?>
+                                                <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
 
-                        <label for="quick-time">Time (H:M UTC)</label>
-                        <div class="form-inline">
-                            <div class="form-group">
-                                <select id="user-form-popup-hour" class="form-control"  name="quick-hour">
-                                    <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
-                                        <?php if ( $hour == date('H') ): ?> 
-                                            <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
-                                        <?php else: ?>
-                                            <option value="<?php echo $hour; ?>"><?php echo $hourValue; ?></option>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                </select>
+                            <label for="quick-time">Time (H:M UTC)</label>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <select id="user-form-popup-hour" class="form-control"  name="quick-hour">
+                                        <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
+                                            <?php if ( $hour == date('H') ): ?> 
+                                                <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
+                                            <?php else: ?>
+                                                <option value="<?php echo $hour; ?>"><?php echo $hourValue; ?></option>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                   <select id="user-form-popup-minute" class="form-control"  name="quick-minute">
+                                        <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
+                                            <?php if ( $minute == date('i') ): ?> 
+                                                <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
+                                            <?php else: ?>
+                                                <option value="<?php echo $minute; ?>"><?php echo $minuteValue; ?></option>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-group">
-                               <select id="user-form-popup-minute" class="form-control"  name="quick-minute">
-                                    <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
-                                        <?php if ( $minute == date('i') ): ?> 
-                                            <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
-                                        <?php else: ?>
-                                            <option value="<?php echo $minute; ?>"><?php echo $minuteValue; ?></option>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="quick-screenshot">Screenshot</label>
-                            <input type="file" name="quick-screenshot" class="form-control" id="quick-screenshot">
-                        </div>
-                        <div class="form-group">
-                            <label for="quick-videos">Kill Videos</label>
-                            <div class="video-link-container"></div>
-                            <a class="btn btn-default new-video-link" href="#"><span class="glyphicon glyphicon-plus"></span>  Add New Video</a>
-                        </div>
-                        <div class="form-group">
-                            <input id="quick-form-active" type="hidden" name='active' value="Active">
-                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-check"></span>  Submit</button>
-                        </div>
-                    </form>
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span>  Close</button>
+                            <div class="form-group">
+                                <label for="quick-screenshot">Screenshot</label>
+                                <input type="file" name="quick-screenshot" class="form-control" id="quick-screenshot">
+                            </div>
+                            <div class="form-group">
+                                <label for="quick-videos">Kill Videos</label>
+                                <div class="video-link-container"></div>
+                                <a class="btn btn-default new-video-link" href="#"><span class="glyphicon glyphicon-plus"></span>  Add New Video</a>
+                            </div>
+                            <div class="form-group">
+                                <input id="quick-form-active" type="hidden" name='active' value="Active">
+                                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-check"></span>  Submit</button>
+                            </div>
+                        </form>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span>  Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-<!-- Modal -->
-<div id="contactModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title">Contact Us</h3>
-            </div>
-            <div class="modal-body">
-                <p>
-                    <form role="form">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
-                                <input type="text" class="form-control"  id="contact-email" name="contact-email" placeholder="Email Address" aria-describedby="basic-addon1">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact-feedback">Feedback Type</label>
-                            <select id="contact-popup-feedback" class="form-control" name="contact-feedback">
-                                <option value="">Select Feedback Type</option>
-                                <option value="General Feedback">General Feedback</option>
-                                <option value="Guild Details Request">Guild Details Request</option>
-                                <option value="UI Layout Issues">UI Layout Issues</option>
-                                <option value=">Account Problem">Account Problem</option>
-                                <option value="Submission Errors">Submission Errors</option>
-                                <option value="Feature Request">Feature Request</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact-message">Message</label>
-                            <textarea class="form-control" id="contact-popup-message" name="contact-message" rows="5"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-default">Submit</button>
-                        </div>
-                    </form>
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span>  Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div id="spreadsheetModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title">Spreadsheet</h3>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span>  Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div id="searchModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title">Search</h3>
-            </div>
-            <div class="modal-body">
-                <p>
-                    <form role="form" method="POST" action="<?php echo PAGE_LOGIN; ?>" autocomplete="off">
+<?php elseif ($formId == 'searchModal'): ?>
+    <div id="searchModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Search</h3>
+                </div>
+                <div class="modal-body">
+                    <p>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span></span>
-                                <input type="text" class="form-control" placeholder="Enter guild, server, region, encounter, dungeon, or tier name..." aria-describedby="basic-addon1">
+                                <input type="text" id="search-input" class="form-control" placeholder="Enter guild name..." aria-describedby="basic-addon1">
                             </div>
                         </div>
                         <div class="form-group">
-                            <input id="login-popup-active" type="hidden" name='active' value="Active">
-                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>  Search</button>
+                            <input id="search-form-active" type="hidden" name='active' value="Active">
+                            <button id="search-form-submit" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>  Search</button>
                         </div>
-                    </form>
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span>  Close</button>
+                    </p>
+                    <div id="search-results"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span>  Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+<?php elseif ($formId == 'spreadsheetModal'): ?>
+    <div id="spreadsheetModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
-<!--
-
-<?php if ( $formId == 'login' ): ?>
-    <div id="form-table-wrapper">
-        <form method="POST" action="<?php echo PAGE_LOGIN; ?>" autocomplete="off">
-            <table class="form-table popup">
-                <thead>
-                    <tr>
-                        <th>Login</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>Username/Email</th>
-                    </tr>
-                    <tr>
-                        <td><input id="login-popup-username" type="text" name="login-username" class="required"></td>
-                     </tr>
-                    <tr>
-                        <th>Password</th>
-                     </tr>
-                    <tr>
-                        <td><input id="login-popup-password" type="password" name="login-password" class="required"></td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>
-                            <input id="login-popup-active" type="hidden" name='active' value="Active">
-                            <input id="login-popup-submit" type="submit" value="Submit">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><?php echo Functions::generateInternalHyperlink('reset', '', '', 'Password Recovery', ''); ?></td>
-                    </tr>
-                    <tr>
-                        <td><a href="#" class="closePopup">Close</a></td>
-                    </tr>
-                </tfoot>
-            </table>
-        </form>
-    </div>
-<?php elseif ($formId == 'logout' ): ?>
-    <div id="form-table-wrapper">
-        <form method="POST" action="<?php echo PAGE_LOGOUT; ?>" autocomplete="off">
-            <table class="form-table popup">
-                <thead>
-                    <tr>
-                        <th>Logging Out?</th>
-                    </tr>
-                </thead>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>Are you sure you want to log out?</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input id="logout-popup-active" type="hidden" name='active' value="Active">
-                            <input id="logout-popup-confirm" type="submit" value="Logout">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><a href="#" class="closePopup">Close</a></td>
-                    </tr>
-                </tfoot>
-            </table>
-        </form>
-    </div>
-<?php elseif ($formId == 'contact' ): ?>
-    <div id="form-table-wrapper">
-        <form method="POST" action="<?php echo PAGE_CONTACTUS; ?>" autocomplete="off">
-            <table class="form-table popup">
-                <thead>
-                    <tr>
-                        <th>Contact Us</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>Email Address</th>
-                    </tr>
-                    <tr>
-                        <td><input id="contact-popup-email" type="text" name="contact-email" class="required"></td>
-                     </tr>
-                    <tr>
-                        <th>Feedback</th>
-                     </tr>
-                    <tr>
-                        <td>
-                            <select id="contact-popup-feedback" name="contact-feedback">
-                                <option value="">Select Feedback Type</option>
-                                <option value="General Feedback">General Feedback</option>
-                                <option value="Guild Details Request">Guild Details Request</option>
-                                <option value="UI Layout Issues">UI Layout Issues</option>
-                                <option value=">Account Problem">Account Problem</option>
-                                <option value="Submission Errors">Submission Errors</option>
-                                <option value="Feature Request">Feature Request</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Message</th>
-                    </tr>
-                    <tr>
-                        <td><textarea id="contact-popup-message" name="contact-message" class="required"></textarea></td>
-                     </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>
-                            <input id="contact-popup-active" type="hidden" name='active' value="Active">
-                            <input id="contact-popup-submit" type="submit" value="Submit">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><a href="#" class="closePopup">Close</a></td>
-                    </tr>
-                </tfoot>
-            </table>
-        </form>
-    </div>
-<?php elseif ($formId == 'quick' ): ?>
-    <div id="form-table-wrapper">
-        <form method="POST" action="<?php echo PAGE_QUICK; ?>" autocomplete="off" enctype="multipart/form-data">
-            <table class="form-table popup">
-                <thead>
-                    <tr>
-                        <th>Quick Kill Submission</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>Guild Name</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select id="user-form-popup-guild" name="quick-guild">
-                                <option value="">Select Guild</option>
-                                <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails): ?>
-                                    <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </td>
-                     </tr>
-                    <tr>
-                        <th>Encounter</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select id="user-form-popup-encounter" name="quick-encounter">
-                                <option value="">Select Encounter</option>
-                            </select>
-                        </td>
-                     </tr>
-                    <tr>
-                        <th>Date (M-D-Y)</th>
-                     </tr>
-                        <td>
-                           <select id="user-form-popup-month" name="quick-month">
-                                <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
-                                    <?php if ( $month == date('m') ): ?> 
-                                        <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
-                                    <?php else: ?>
-                                        <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </select>  
-                           <select id="user-form-popup-day" name="quick-day">
-                                <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
-                                    <?php if ( $day == date('d') ): ?> 
-                                        <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
-                                    <?php else: ?>
-                                        <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </select>  
-                           <select id="user-form-popup-year" name="quick-year">
-                                <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
-                                    <?php if ( $year == date('Y') ): ?> 
-                                        <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
-                                    <?php else: ?>
-                                        <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Time (H:M UTC)</th>
-                     </tr>
-                        <td>
-                           <select id="user-form-popup-hour" name="quick-hour">
-                                <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
-                                    <?php if ( $hour == date('H') ): ?> 
-                                        <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
-                                    <?php else: ?>
-                                        <option value="<?php echo $hour; ?>"><?php echo $hourValue; ?></option>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </select>  
-                           <select id="user-form-popup-minute" name="quick-minute">
-                                <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
-                                    <?php if ( $minute == date('i') ): ?> 
-                                        <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
-                                    <?php else: ?>
-                                        <option value="<?php echo $minute; ?>"><?php echo $minuteValue; ?></option>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Screenshot</th>
-                    </tr>
-                    <tr>
-                        <td><input id="user-form-popup-screenshot" type="file" name="quick-screenshot"></td>
-                    </tr>
-                    <tr>
-                        <th>Kill Videos</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="video-link-container"></div>
-                            <a class="new-video-link" href="#">Add New Video</a>
-                        </td>
-                     </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>
-                            <input id="user-form-popup-active" type="hidden" name='active' value="Active">
-                            <input id="user-form-popup-submit" type="submit" value="Submit">
-                            <div id="popup-screenshot-preview"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><a href="#" class="closePopup">Close</a></td>
-                    </tr>
-                </tfoot>
-            </table>
-        </form>
-    </div>
-<?php elseif ($formId == 'search'): ?>
-    <?php $searchResults = GuildSearch::getSearchResults(); ?>
-
-    <div class="vertical-separator"></div>
-    <div class="table-wrapper">
-        <table class="listing">
-            <thead>
-            </thead>
-            <tbody>
-                <tr>
-                    <th class="subTitle" colspan="4">Guild Search Results</th>
-                </tr>
-                <?php if ( !empty($searchResults) ): ?>
-                    <tr>
-                        <th class="subHeader">&nbsp;</th>
-                        <th class="subHeader">Guild</th>
-                        <th class="subHeader">Server</th>
-                        <th class="subHeader">Region</th>
-                    </tr>
-                    <?php foreach ( $searchResults as $guildId => $guildDetails ): ?>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td><?php echo $guildDetails->_nameLink; ?></td>
-                            <td><?php echo $guildDetails->_serverLink; ?></td>
-                            <td><?php echo $guildDetails->_region; ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td>Your search returned 0 results</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-            <tfoot>
-            </tfoot>
-        </table>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Spreadsheet</h3>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span>  Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 <?php elseif ($formId == 'video'): ?>
 <?php endif; ?>
-
--->

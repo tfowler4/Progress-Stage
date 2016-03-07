@@ -12,9 +12,8 @@ abstract class Model {
      */
     public function __construct() {
         switch(Post::get('request')) {
-            case 'form':
             case 'search':
-                $html = Template::getPopupForm(Post::get('formId'));
+                $html = Template::getSearchResults(Post::get('queryTerm'));
                 echo $html;
                 die;
                 break;
@@ -38,6 +37,9 @@ abstract class Model {
                 if ( isset($_SESSION['userDetails']) ) {
                     Functions::updateUserTemplate($_SESSION['template'], $_SESSION['userDetails']);
                 }
+            case 'modal':
+                $html = Template::loadModalHtml(Post::get('formId'));
+                echo $html;
                 die;
                 break;
         }

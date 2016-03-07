@@ -75,7 +75,9 @@ class Template {
         $html .= '<div class="pull-left">' . $headerText . '</div>';
 
         if ( !empty($optionText) ) {
-            $html .= '<div class="pull-right"><a data-toggle="modal" data-target="#spreadsheetModal" id="' . $optionId . '" class="table-header-link move-right ' . $optionClass . '" href="#">' . $optionText . '</a></div>';
+            $html .= '<div class="pull-right">';
+            $html .= '<a data-toggle="modal" data-target="#spreadsheetModal" id="' . $optionId . '" class="btn btn-default btn-xs ' . $optionClass . '" href="#">' . $optionText . '</a>';
+            $html .= '</div>';
         }
 
         $html .= '</th>';
@@ -567,7 +569,7 @@ class Template {
                 break;
             case 'quickSubmit':
                 if ( MODULE_QUICKSUB_SET == 1 ) {
-                    $html = '<li data-toggle="modal" data-target="#quickModal"><a href="#"><span class="glyphicon glyphicon-upload"></span>  Submit a Kill</a></li>';
+                    $html = '<li class="modal-activator" data-toggle="modal" data-target="#quickModal"><a href="#"><span class="glyphicon glyphicon-upload"></span>  Submit a Kill</a></li>';
                 }
                 break;
             case 'howto':
@@ -592,7 +594,7 @@ class Template {
                 break;
             case 'contactus':
                 if ( MODULE_CONTACT_SET == 1 ) {
-                    $html = '<li data-toggle="modal" data-target="#contactModal"><a href="#"><span class="glyphicon glyphicon-envelope"></span> Contact Us</a></li>';
+                    $html = '<li class="modal-activator" data-toggle="modal" data-target="#contactModal"><a href="#"><span class="glyphicon glyphicon-envelope"></span> Contact Us</a></li>';
                 }
                 break;
             case 'userpanel':
@@ -618,22 +620,20 @@ class Template {
             case 'login':
                 if ( MODULE_LOGIN_SET == 1 ) {
                     if ( !isset($_SESSION['logged']) ) {
-                        $html = '<li data-toggle="modal" data-target="#loginModal"><a href="#"><span class="glyphicon glyphicon-log-in"></span>  Login</a></li>';
+                        $html = '<li class="modal-activator" data-toggle="modal" data-target="#loginModal"><a href="#"><span class="glyphicon glyphicon-log-in"></span>  Login</a></li>';
                     }
                 }
                 break;
             case 'logout':
                 if ( MODULE_LOGOUT_SET == 1 ) {
                     if ( isset($_SESSION['logged']) && $_SESSION['logged'] == 'yes' ) {
-                        $html = '<li data-toggle="modal" data-target="#logoutModal"><a href="#"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>';
+                        $html = '<li class="modal-activator" data-toggle="modal" data-target="#logoutModal"><a href="#"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>';
                     }
                 }
                 break;
             case 'search':
                 if ( MODULE_SEARCH_SET == 1 ) {
-                    $html = '<li data-toggle="modal" data-target="#searchModal"><a href="#"><span class="glyphicon glyphicon-search"></span>  Search</a></li>';
-                    //$html = '<li class="no-highlight"><form id="search-form"><input id="search-input" placeholder="Enter guild name" type="text" /></form></li>';
-                    //$html .= '<li id="search-activator" class="no-highlight">' . IMG_ICON_SEARCH . '</li>';
+                    $html = '<li class="modal-activator" data-toggle="modal" data-target="#searchModal"><a href="#"><span class="glyphicon glyphicon-search"></span>  Search</a></li>';
                 }
                 break;
         }
@@ -766,5 +766,51 @@ class Template {
      */
     public static function getPopupForm($formId) {
         include_once ABS_FOLD_TEMPLATES . $_SESSION['template'] . '/forms.html';
+    }
+
+    /**
+     * get the necessary form html through given form id
+     * 
+     * @param  string $formId [ id of form ]
+     * 
+     * @return void
+     */
+    public static function loadModalHtml($formId) {
+        include_once ABS_FOLD_TEMPLATES . $_SESSION['template'] . '/forms.html';
+    }
+
+    public static function getSearchResults($searchTerm) {
+        $searchResults = GuildSearch::getSearchResults($searchTerm);
+
+        $html = '';
+        $html .= '<div class="panel panel-primary">';
+        $html .= '<div class="panel-heading">Search Results</div>';
+        $html .= '<table class="table table-condensed table-hover table-striped">';
+        $html .= '<thead>';
+        $html .= '<tr>';
+        $html .= '<th>Guild</th>';
+        $html .= '<th>Server</th>';
+        $html .= '<th>Region</th>';
+        $html .= '</tr>';
+        $html .= '</thead>';
+        $html .= '<tbody>';
+
+        if ( !empty($searchResults) ) {
+            foreach( $searchResults as $guildId => $guildDetails ) {
+                $html .= '<tr>';
+                $html .= '<td>' . $guildDetails->_nameLink . '</td>';
+                $html .= '<td>' . $guildDetails->_serverLink . '</td>';
+                $html .= '<td>' . $guildDetails->_region . '</td>';
+                $html .= '</tr>';
+            }
+        } else {
+            $html .= '<tr><td colspan="3" class="text-center">No search results found.</td></tr>';
+        }
+
+        $html .= '</tbody>';
+        $html .= '</table>';
+        $html .= '</div>';
+
+        return $html;
     }
 }

@@ -1754,3 +1754,257 @@
     </div>
 </div>
 -->
+
+    // update site skin via select dropbox on footer of page
+    $(document).on('change', '#skin-selector', function() { updateSiteSkin($('#skin-selector')); });
+    var updateSiteSkin = function(input) {
+        var currentPageUrl = document.URL;
+        var skinValue      = input.val();
+
+        console.log(input);
+        console.log(skinValue);
+        // ajax call to set session value and reload page
+        $.ajax({
+            url: currentPageUrl,
+            type: 'POST',
+            data: { request: 'siteSkin', skinValue: skinValue},
+            success: function(data) {
+                location.reload();
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            }
+        });
+    }
+
+    // help keep popup menu centered if window gets resized
+    $(window).resize(function() {
+        $('.centered').css({
+            position:'absolute',
+            left: ($(window).width() - $('.centered').outerWidth())/2,
+            top: ($(window).height() - $('.centered').outerHeight())/2
+        });
+    });
+
+
+    // bind searchGuilds event to textbox submit and image click to display guild search results
+    var searchGuilds = function(event) {
+        event.preventDefault();
+
+        var currentPageUrl = document.URL;
+        var searchTerm     = $('#search-input').val();
+
+        $(".overlay").fadeToggle('fast');
+
+        // Ajax call to retrieve guild search html
+        $.ajax({
+            url: currentPageUrl,
+            type: 'POST',
+            data: { request: 'search', queryTerm: searchTerm, formId: 'search'},
+            success: function(data) {
+                var searchResultsDiv = $('#popup-wrapper');
+
+                searchResultsDiv.toggleClass('centered');
+                searchResultsDiv.fadeToggle('fast');
+                searchResultsDiv.html(data);
+
+                // To help resizing with vertical scrollbar
+                var currentWidth = parseInt(searchResultsDiv.find('div').css('width').replace('px', ''));
+                var newWidth     = currentWidth + 50;
+
+                searchResultsDiv.find('div').css('width', newWidth);
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            }
+        });
+    };
+    $(document).on('submit', '#search-form', searchGuilds);
+    $(document).on('click touchstart', '#search-activator', searchGuilds);
+
+
+    // on user selecting a guild logo image, display a preview of the image
+    $(document).on('click touchstart', '.closePopup', function() {
+        activePopup.fadeToggle('fast');
+        activePopup.removeClass('centered');
+        activePopup.html('');
+        activePopup = '';
+        $(".overlay").fadeToggle('fast');
+    });
+
+    // on click of activatePopup class elements, display popup screen
+    $(document).on('click touchstart', '.activatePopUp', function() {
+        $(".overlay").fadeToggle('fast');
+
+        var currentPageUrl = document.URL;
+        var id             = $(this).attr('id').replace('-activator', '');
+        var popupId        = id + '-popup';
+
+        // Ajax Call for Forms
+         $.ajax({
+            url: currentPageUrl,
+            type: 'POST',
+            data: { request: 'form', formId: id},
+            success: function(data) {
+                var activeDiv = $('#popup-wrapper');
+
+                activeDiv.toggleClass('centered');
+                activeDiv.fadeToggle('fast');
+                activeDiv.html(data);
+                activePopup = activeDiv;
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            }
+        });
+
+        if ( $('#' + popupId) != undefined ) {
+            activePopup = $('#' + popupId);
+
+            $('#' + popupId).toggleClass('centered');
+            $('#' + popupId).fadeToggle('fast');
+        }
+    });
+
+
+    // on click of the overlay, remove the overlay and popup screen
+    $(document).on('click touchstart', '.overlay', function() {
+        //Temporary
+        if ( !activePopup || activePopup.length === 0 ) {
+            activePopup = $('#popup-wrapper');
+        }
+
+        activePopup.fadeToggle('fast');
+        activePopup.removeClass('centered');
+        activePopup.html('');
+        activePopup = '';
+        $(".overlay").fadeToggle('fast');
+    });
+
+
+    // when page finishes loading
+    $(window).load(function(){
+        // when page loads, re-adjust guild logos on media overlay to be centered based on image height
+        
+
+        /*
+        $('.media-guild-logo img').each(function() {
+            var parentHeight = parseInt($(this).parent().parent().css('height').replace('px', ''));
+            var height       = parseInt($(this).css('height').replace('px', ''));
+            var marginTop    = -1 *(height - parentHeight) / 2;
+
+            $(this).css('margin-top', marginTop +'px');
+        });
+
+        $('.media-guild-flag img').each(function() {
+            var parentHeight = parseInt($(this).parent().parent().css('height').replace('px', ''));
+            var height       = parseInt($(this).css('height').replace('px', ''));
+            var marginTop    = -1 *(height - parentHeight) / 2;
+
+            $(this).css('margin-top', '-15px');
+        });
+
+        numOfMediaItems     = $("#media-pane ul li").length;
+
+        if ( numOfMediaItems == 0 ) { return; }
+
+        mediaSlideDelay     = 350;
+        mediaSlideWidth     = 900;
+        maxMediaPaneSize    = numOfMediaItems * mediaSlideWidth;
+        mediaSliderPosition = $('#media-pane ul').css("left").replace("px", "");
+
+        // automatically move slider to right until user clicks
+        if ( !userClicked && autoSliding && numOfMediaItems > 1 ) {
+            mediaAutoSliderId = setInterval(function(){
+                if ( (mediaSliderPosition-mediaSlideWidth) == (-1*maxMediaPaneSize) ) {
+                    mediaSliderPosition = 0;
+                } else {
+                    mediaSliderPosition = parseInt(mediaSliderPosition) - mediaSlideWidth;
+                }
+
+                scrollMediaSlider('right', mediaSliderPosition);
+            }, 1000*10 );
+        }
+        */
+    });
+
+
+    // media viewer buttons click to scroll through different video/streams
+    $(document).on('click touchstart', '.scroll-button-media', function() {
+        if( stopClickMedia || numOfMediaItems <= 1) { return; }
+
+        if ( !userClicked ) {
+            userClicked = true;
+            autoSliding = false;
+
+            if ( mediaAutoSliderId ) {
+                clearInterval(mediaAutoSliderId);
+            }
+        }
+
+        mediaSliderPosition = $('#media-pane ul').css("left").replace("px", "");
+        var direction;
+
+        if ( $(this).hasClass('left') ) {
+            direction           = 'left';
+            mediaSliderPosition = parseInt(mediaSliderPosition) + mediaSlideWidth;
+        }
+
+        if ( $(this).hasClass('right') && (mediaSliderPosition-mediaSlideWidth) == (-1*maxMediaPaneSize) ) {
+            direction           = 'right';
+            mediaSliderPosition = 0;
+        } else if ( $(this).hasClass('right') ) {
+            direction           = 'right';
+            mediaSliderPosition = parseInt(mediaSliderPosition) - mediaSlideWidth;
+        }
+
+        scrollMediaSlider(direction, mediaSliderPosition);
+    });
+    var scrollMediaSlider = function(direction, pos) {
+        if ( (direction == 'left' && parseInt(pos) <= 0) 
+             || (direction == 'right' && pos > (-1*maxMediaPaneSize) ) ) {
+            stopClickMedia = true;
+
+            var navigationNumber = -1 * (pos / mediaSlideWidth);
+            $('.circle').not('.clickable.faded').addClass('clickable faded');
+
+            $('.circle.'+navigationNumber).removeClass('clickable faded');
+
+            // media overlay top bar logo
+            $('.media-overlay-top img').fadeToggle(mediaSlideDelay).delay(mediaSlideDelay).fadeToggle(mediaSlideDelay);
+
+            // media overlay bottom bar
+            $('.media-overlay-bottom').slideToggle(mediaSlideDelay).delay(mediaSlideDelay).slideToggle(mediaSlideDelay);
+
+            // image slider
+            $('#media-pane ul').delay(mediaSlideDelay).animate({ left: pos }, mediaSlideDelay);
+
+            // place guild logo back to its original place by fading out and resetting
+            if ( $('.media-guild-logo').css('margin-right') == '5px' ) {
+                $('.media-guild-logo').fadeToggle(mediaSlideDelay, function() {
+                    $('.media-guild-logo').css('margin-right', '500px');
+                    $('.media-guild-logo').css('display', 'block');
+
+                    $('.media-guild-flag img, media-guild-logo img').css('margin-top', '0px');
+
+                    $('.media-guild-flag img').css('margin-top', '-15px');
+                })
+            }
+
+            // animate guild logo 
+            $('.media-guild-logo').delay(mediaSlideDelay).animate({ 'margin-right': 5 }, mediaSlideDelay, function() {
+                stopClickMedia = false;
+            });
+        }
+    };
+
+
+    var numOfMediaItems;
+    var mediaSlideDelay;
+    var mediaSlideWidth;
+    var maxMediaPaneSize;
+    var mediaAutoSliderId;
+    var mediaSliderPosition;

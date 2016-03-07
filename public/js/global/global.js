@@ -93,42 +93,10 @@ var GlobalEventBinder = function() {
         });
     }
 
-    // on user clicking 'View' for videos to fetch all videos for that encounter/guild
-    $(document).on('click touchstart', '.video-activator', function() {
-        $(".overlay").fadeToggle('fast');
-
-        var currentPageUrl = document.URL;
-        var guildId        = $(this).attr('data-guild');
-        var encounterId    = $(this).attr('data-encounter');
-
-        // ajax call to retrieve new video list html
-         $.ajax({
-            url: currentPageUrl,
-            type: 'POST',
-            data: { request: 'videoList', guild: guildId, encounter: encounterId},
-            success: function(data) {
-                var activeDiv = $('#popup-wrapper');
-
-                activeDiv.toggleClass('centered');
-                activeDiv.fadeToggle('fast');
-                activeDiv.html(data);
-                activePopup = activeDiv;
-            },
-            error: function(xhr, desc, err) {
-                console.log(xhr);
-                console.log("Details: " + desc + "\nError:" + err);
-            }
-        });
-    });
-
-    // bind searchGuilds event to textbox submit and image click to display guild search results
-    var searchGuilds = function(event) {
-        event.preventDefault();
-
+    // on click of submit on search modal
+    $(document).on('click touchstart', '#search-form-submit', function() {
         var currentPageUrl = document.URL;
         var searchTerm     = $('#search-input').val();
-
-        $(".overlay").fadeToggle('fast');
 
         // Ajax call to retrieve guild search html
         $.ajax({
@@ -136,111 +104,8 @@ var GlobalEventBinder = function() {
             type: 'POST',
             data: { request: 'search', queryTerm: searchTerm, formId: 'search'},
             success: function(data) {
-                var searchResultsDiv = $('#popup-wrapper');
-
-                searchResultsDiv.toggleClass('centered');
-                searchResultsDiv.fadeToggle('fast');
+                var searchResultsDiv = $('#search-results');
                 searchResultsDiv.html(data);
-
-                // To help resizing with vertical scrollbar
-                var currentWidth = parseInt(searchResultsDiv.find('div').css('width').replace('px', ''));
-                var newWidth     = currentWidth + 50;
-
-                searchResultsDiv.find('div').css('width', newWidth);
-            },
-            error: function(xhr, desc, err) {
-                console.log(xhr);
-                console.log("Details: " + desc + "\nError:" + err);
-            }
-        });
-    };
-    $(document).on('submit', '#search-form', searchGuilds);
-    $(document).on('click touchstart', '#search-activator', searchGuilds);
-
-    // on user selecting a guild logo image, display a preview of the image
-    $(document).on('click touchstart', '.closePopup', function() {
-        activePopup.fadeToggle('fast');
-        activePopup.removeClass('centered');
-        activePopup.html('');
-        activePopup = '';
-        $(".overlay").fadeToggle('fast');
-    });
-
-    // on click of activatePopup class elements, display popup screen
-    $(document).on('click touchstart', '.activatePopUp', function() {
-        $(".overlay").fadeToggle('fast');
-
-        var currentPageUrl = document.URL;
-        var id             = $(this).attr('id').replace('-activator', '');
-        var popupId        = id + '-popup';
-
-        // Ajax Call for Forms
-         $.ajax({
-            url: currentPageUrl,
-            type: 'POST',
-            data: { request: 'form', formId: id},
-            success: function(data) {
-                var activeDiv = $('#popup-wrapper');
-
-                activeDiv.toggleClass('centered');
-                activeDiv.fadeToggle('fast');
-                activeDiv.html(data);
-                activePopup = activeDiv;
-            },
-            error: function(xhr, desc, err) {
-                console.log(xhr);
-                console.log("Details: " + desc + "\nError:" + err);
-            }
-        });
-
-        if ( $('#' + popupId) != undefined ) {
-            activePopup = $('#' + popupId);
-
-            $('#' + popupId).toggleClass('centered');
-            $('#' + popupId).fadeToggle('fast');
-        }
-    });
-
-    // on click of the overlay, remove the overlay and popup screen
-    $(document).on('click touchstart', '.overlay', function() {
-        //Temporary
-        if ( !activePopup || activePopup.length === 0 ) {
-            activePopup = $('#popup-wrapper');
-        }
-
-        activePopup.fadeToggle('fast');
-        activePopup.removeClass('centered');
-        activePopup.html('');
-        activePopup = '';
-        $(".overlay").fadeToggle('fast');
-    });
-
-    // on click of "View as Spreadsheet" button, make ajax call to display spreadsheet popup
-    $(document).on('click touchstart', '.spreadsheet', function(event) {
-        event.preventDefault();
-
-        var currentPageUrl = document.URL;
-        var dungeonId      = $(this).prop('id');
-
-        //$(".overlay").fadeToggle('fast');
-
-        // Ajax call to retrieve spreadsheet html
-         $.ajax({
-            url: currentPageUrl,
-            type: 'POST',
-            data: { request: 'spreadsheet', dungeon: dungeonId},
-            success: function(data) {
-                var spreadsheetDiv = $('#spreadsheetModal .modal-body');
-
-                //spreadsheetDiv.toggleClass('centered');
-                //spreadsheetDiv.fadeToggle('fast');
-                spreadsheetDiv.html(data);
-
-                // To help resizing with vertical scrollbar
-                //var currentWidth = parseInt(spreadsheetDiv.find('div').css('width').replace('px', ''));
-                //var newWidth     = currentWidth + 50;
-
-                //spreadsheetDiv.find('div').css('width', newWidth);
             },
             error: function(xhr, desc, err) {
                 console.log(xhr);
@@ -320,15 +185,6 @@ var GlobalEventBinder = function() {
         videoLinkContainer.append(html);
     });
 
-    // help keep popup menu centered if window gets resized
-    $(window).resize(function() {
-        $('.centered').css({
-            position:'absolute',
-            left: ($(window).width() - $('.centered').outerWidth())/2,
-            top: ($(window).height() - $('.centered').outerHeight())/2
-        });
-    });
-
     // get large flag image directory to return for country preview
     var getFlagLargeDirectory = function() {
         var href              = window.location.href;
@@ -345,26 +201,105 @@ var GlobalEventBinder = function() {
         return rootDir;
     }
 
-    // update site skin via select dropbox on footer of page
-    $(document).on('change', '#skin-selector', function() { updateSiteSkin($('#skin-selector')); });
-    var updateSiteSkin = function(input) {
+    // on click of modal activator link to process html before displaying modal
+    $(document).on('click touchstart', '.modal-activator', function() {
         var currentPageUrl = document.URL;
-        var skinValue      = input.val();
+        var modalId        = $(this).attr('data-target');
+        var modal          = modalId.replace("#", "");
 
-        console.log(input);
-        console.log(skinValue);
-        // ajax call to set session value and reload page
+        var modalWrapper = $('#modal-wrapper');
+        var modalBackdrop = $('.modal-backdrop');
+        modalWrapper.empty();
+        modalBackdrop.remove();
+
+        // Ajax call to retrieve guild modal html
         $.ajax({
             url: currentPageUrl,
             type: 'POST',
-            data: { request: 'siteSkin', skinValue: skinValue},
+            data: { request: 'modal', formId: modal },
             success: function(data) {
-                location.reload();
+                modalWrapper.html(data);
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            },
+            complete: function(data) {
+                $(modalId).modal("show");
+            }
+        });
+    });
+
+    // on user clicking 'View' for videos to fetch all videos for that encounter/guild
+    $(document).on('click touchstart', '.video-activator', function() {
+        $(".overlay").fadeToggle('fast');
+
+        var currentPageUrl = document.URL;
+        var guildId        = $(this).attr('data-guild');
+        var encounterId    = $(this).attr('data-encounter');
+
+        // ajax call to retrieve new video list html
+         $.ajax({
+            url: currentPageUrl,
+            type: 'POST',
+            data: { request: 'videoList', guild: guildId, encounter: encounterId},
+            success: function(data) {
+                var activeDiv = $('#popup-wrapper');
+
+                activeDiv.toggleClass('centered');
+                activeDiv.fadeToggle('fast');
+                activeDiv.html(data);
+                activePopup = activeDiv;
             },
             error: function(xhr, desc, err) {
                 console.log(xhr);
                 console.log("Details: " + desc + "\nError:" + err);
             }
         });
-    }
+    });
+
+    // on click of "View as Spreadsheet" button, make ajax call to display spreadsheet popup
+    $(document).on('click touchstart', '.spreadsheet', function(event) {
+        event.preventDefault();
+
+        var currentPageUrl   = document.URL;
+        var dungeonId        = $(this).prop('id');
+        var modalWrapper     = $('#modal-wrapper');
+        var modalBackdrop    = $('.modal-backdrop');
+        modalWrapper.empty();
+        modalBackdrop.remove();
+
+        // Ajax call to get the modal html
+
+        $.ajax({
+            url: currentPageUrl,
+            type: 'POST',
+            data: { request: 'modal', formId: 'spreadsheetModal' },
+            success: function(html) {
+                modalWrapper.html(html);
+            },
+            error: function(xhr, desc, err) {
+                console.log(xhr);
+                console.log("Details: " + desc + "\nError:" + err);
+            },
+            complete: function(data) {
+                $('#spreadsheetModal').modal("show");
+
+                $.ajax({
+                    url: currentPageUrl,
+                    type: 'POST',
+                    data: { request: 'spreadsheet', dungeon: dungeonId},
+                    success: function(data) {
+                        var spreadsheetDiv = $('#spreadsheetModal .modal-body');
+                        spreadsheetDiv.empty();
+                        spreadsheetDiv.html(data);
+                    },
+                    error: function(xhr, desc, err) {
+                        console.log(xhr);
+                        console.log("Details: " + desc + "\nError:" + err);
+                    }
+                });
+            }
+        });
+    });
 };
