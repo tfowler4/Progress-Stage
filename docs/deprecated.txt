@@ -2134,3 +2134,90 @@
     </div>
 </div>
 -->
+
+// user panel model event binder
+var UserPanelEventBinder = function() {
+    // clicking on guild name will slide up pane to show/hide details and options
+    $(document).on('click touchstart', '.option-header.guild, .option-footer.guild', function() {
+        var guildId    = $(this).prop('id').replace('guild-pane-', '');
+        var activePane = $(this).parent().find(".option-content.guild.active");
+        var childPane  = $('#guild-content-'+guildId);
+
+
+        if ( childPane.css('display') == 'none' ) {
+            childPane.slideToggle();
+            childPane.addClass('active');
+        }
+
+        activePane.slideToggle();
+        activePane.removeClass('active');
+    });
+};
+
+<!--
+<?php if ( !empty($data->_recentRaids) ): ?>
+    <div class="container-fluid">
+        <div class="row" style="margin-top:5px; margin-bottom:5px;">
+            <div class="col-lg-12 col-md-12 hidden-xs hidden-sm">
+                <div id="carouselLatestKills" class="carousel slide" data-interval="false" data-ride="carousel" style="width:1366px; height:80px; margin:0 auto;">
+                    <div class="carousel-inner" role="listbox" style="height:80px; margin:0 auto; padding-left:25px; padding-right:25px;">
+                        <?php $numOfKills  = count($data->_recentRaids); ?>
+                        <?php $numOfSlides = floor($numOfKills / 10); ?>
+                        <?php $slideArray  = array(); ?>
+                        <?php $slideCount  = 0; ?>
+                        <?php $killCount   = 0; ?>
+                        <?php $html        = ''; ?>
+
+                        <?php foreach( $data->_recentRaids as $key => $timestamp ): ?>
+                            <?php
+                                $html .= '<div class="text-cut" style="float:left; width:130px; padding-left: 5px; padding-right: 5px; border-right: 1px solid #000;">
+                                    <a href="' . Functions::generateInternalHyperLink('guild', '', $data->_recentRaids[$key]->server, $data->_recentRaids[$key]->name, 0, false) . '"></a>
+                                    <div class="latest-guild">' . $data->_recentRaids[$key]->guild . '</div>
+                                    <div class="latest-kill">' . $data->_recentRaids[$key]->encounter . '</div>
+                                    <div class="latest-time">' . $data->_recentRaids[$key]->time . '</div>
+                                    <div class="latest-media">
+                                        SS: ' . $data->_recentRaids[$key]->screenshot . '
+                                          |  
+                                        Vid: ' . $data->_recentRaids[$key]->video . '
+                                    </div>
+                                </div>';
+                            ?>
+
+                            <?php $killCount++; ?>
+
+                            <?php if ( $killCount % $numOfSlides == 0 ): ?>
+                                <?php $slideArray[] = $html; ?>
+                                <?php $html = ''; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+
+                        <?php $slideCount = 0; ?>
+                        <?php foreach( $slideArray as $slide ): ?>
+                            <?php $activeClass = ''; ?>
+
+                            <?php if ( $slideCount == 0 ): ?>
+                                <?php $activeClass = ' active'; ?>
+                            <?php endif; ?>
+
+                            <div class="item<?php echo $activeClass; ?>">
+                                <?php echo $slide; ?>
+                            </div>
+
+                            <?php $slideCount++; ?>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <a class="left carousel-control" href="#carouselLatestKills" role="button" data-slide="prev" style="width:20px;">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#carouselLatestKills" role="button" data-slide="next" style="width:20px;">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+-->

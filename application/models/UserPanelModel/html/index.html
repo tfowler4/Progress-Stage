@@ -23,48 +23,53 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="account-management">
                     <div class="col-lg-offset-4 col-lg-4 col-md-offset-4 col-md-4 col-sm-12 col-xs-12">
-                        <div class="panel">
+                        <br>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Update Profile</div>
                             <div class="panel-body">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
-                                        <input type="text" disabled class="form-control" value="<?php echo $data->_userDetails->_userName; ?>">
+                                <form method="POST" action="<?php echo PAGE_USER_PANEL; ?>" autocomplete="off">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+                                            <input type="text" disabled class="form-control" value="<?php echo $data->_userDetails->_userName; ?>">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
-                                        <input type="text" class="form-control" value="<?php echo $data->_userDetails->_emailAddress; ?>">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+                                            <input type="text" class="form-control" value="<?php echo $data->_userDetails->_emailAddress; ?>">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
-                                        <input type="password" class="form-control" id="reset-password" name="reset-password" placeholder="Enter New Password">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+                                            <input type="password" class="form-control" id="reset-password" name="reset-password" placeholder="Enter New Password">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
-                                        <input type="password" class="form-control" id="reset-password-confirm" name="reset-password-confirm" placeholder="Re-Enter Password">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+                                            <input type="password" class="form-control" id="reset-password-confirm" name="reset-password-confirm" placeholder="Re-Enter Password">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Date Created</span>
-                                        <input type="text" disabled class="form-control" value="<?php echo Functions::formatDate($data->_userDetails->_dateCreated, 'm-d-Y'); ?>">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Date Created</span>
+                                            <input type="text" disabled class="form-control" value="<?php echo Functions::formatDate($data->_userDetails->_dateCreated, 'm-d-Y'); ?>">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <input id="login-popup-active" type="hidden" name='active' value="Active">
-                                    <button type="submit" class="btn btn-default">
-                                        <span class="glyphicon glyphicon-check"></span>  Update Email Address
-                                    </button>
+                                    <div class="form-group">
+                                        <input type="hidden" name='active' value="Active">
+                                        <input type="hidden" name="form-type" value="update-profile">
+                                        <button name="update-email" type="submit" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-check"></span>  Update Email Address
+                                        </button>
 
-                                    <button type="submit" class="btn btn-default">
-                                        <span class="glyphicon glyphicon-check"></span>  Update Password
-                                    </button>
-                                </div>
+                                        <button name="update-password" type="submit" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-check"></span>  Update Password
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -72,7 +77,8 @@
 
                 <?php foreach ( $data->_userGuilds as $guildId => $guildDetails ): ?>
                     <div role="tabpanel" class="tab-pane fade" id="edit-guild-<?php echo $guildId; ?>">
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
+                        <br>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center">
                             <div id="faction-logo-preview-wrapper">
                                 <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
                                     <div class="thumbnail">
@@ -84,8 +90,9 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <div class="panel">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">Edit Guild Profile</div>
                                 <div class="panel-body">
                                     <form class="form-horizontal" role="form">
                                         <div class="form-group">
@@ -167,7 +174,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center">
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center">
                             <div id="guild-country-logo-preview-wrapper">
                                 <div class="thumbnail">
                                     <div id="guild-logo-preview"><?php echo $guildDetails->_logo; ?></div>

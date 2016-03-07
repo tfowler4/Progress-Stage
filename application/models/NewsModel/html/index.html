@@ -1,72 +1,5 @@
 <script>var eventBinder = new NewsEventBinder();</script>
 
-<!--
-<?php if ( !empty($data->_recentRaids) ): ?>
-    <div class="container-fluid">
-        <div class="row" style="margin-top:5px; margin-bottom:5px;">
-            <div class="col-lg-12 col-md-12 hidden-xs hidden-sm">
-                <div id="carouselLatestKills" class="carousel slide" data-interval="false" data-ride="carousel" style="width:1366px; height:80px; margin:0 auto;">
-                    <div class="carousel-inner" role="listbox" style="height:80px; margin:0 auto; padding-left:25px; padding-right:25px;">
-                        <?php $numOfKills  = count($data->_recentRaids); ?>
-                        <?php $numOfSlides = floor($numOfKills / 10); ?>
-                        <?php $slideArray  = array(); ?>
-                        <?php $slideCount  = 0; ?>
-                        <?php $killCount   = 0; ?>
-                        <?php $html        = ''; ?>
-
-                        <?php foreach( $data->_recentRaids as $key => $timestamp ): ?>
-                            <?php
-                                $html .= '<div class="text-cut" style="float:left; width:130px; padding-left: 5px; padding-right: 5px; border-right: 1px solid #000;">
-                                    <a href="' . Functions::generateInternalHyperLink('guild', '', $data->_recentRaids[$key]->server, $data->_recentRaids[$key]->name, 0, false) . '"></a>
-                                    <div class="latest-guild">' . $data->_recentRaids[$key]->guild . '</div>
-                                    <div class="latest-kill">' . $data->_recentRaids[$key]->encounter . '</div>
-                                    <div class="latest-time">' . $data->_recentRaids[$key]->time . '</div>
-                                    <div class="latest-media">
-                                        SS: ' . $data->_recentRaids[$key]->screenshot . '
-                                          |  
-                                        Vid: ' . $data->_recentRaids[$key]->video . '
-                                    </div>
-                                </div>';
-                            ?>
-
-                            <?php $killCount++; ?>
-
-                            <?php if ( $killCount % $numOfSlides == 0 ): ?>
-                                <?php $slideArray[] = $html; ?>
-                                <?php $html = ''; ?>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-
-                        <?php $slideCount = 0; ?>
-                        <?php foreach( $slideArray as $slide ): ?>
-                            <?php $activeClass = ''; ?>
-
-                            <?php if ( $slideCount == 0 ): ?>
-                                <?php $activeClass = ' active'; ?>
-                            <?php endif; ?>
-
-                            <div class="item<?php echo $activeClass; ?>">
-                                <?php echo $slide; ?>
-                            </div>
-
-                            <?php $slideCount++; ?>
-                        <?php endforeach; ?>
-                    </div>
-
-                    <a class="left carousel-control" href="#carouselLatestKills" role="button" data-slide="prev" style="width:20px;">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#carouselLatestKills" role="button" data-slide="next" style="width:20px;">
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
--->
 <?php echo Advertisement::getLeaderboardAd(); ?>
 
 <div class="container-fluid">
@@ -175,8 +108,8 @@
                     <?php foreach( $data->_newsArticles as $date => $article ): ?>
                     <div class="panel panel-primary">
                         <div class="panel-heading"><span class="h4"><?php echo $article->title; ?></span></div>
-                        <div class="panel-footer">Posted by: <?php echo $article->postedBy . ' @ ' . $article->date; ?></div>
-                        <div class="panel-body"><?php echo $article->content; ?></div>
+                        <div class="panel-footer" style="padding:6px 15px 6px 15px;">Posted by: <?php echo $article->postedBy . ' @ ' . $article->date; ?></div>
+                        <div class="panel-body" style="padding:0px 15px 10px 15px;"><?php echo $article->content; ?></div>
                     </div>
                     <?php endforeach; ?>
                 </div>
@@ -211,7 +144,7 @@
                                                 <?php if ( !empty($dungeonDetails['data']) ): ?>
                                                      <?php $rankCount = 1; foreach( $dungeonDetails['data'] as $guildId => $systemArray ): ?>
                                                         <div class="row" style="background-color:none; height:50px;">
-                                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" style="background-color:none; height:50px;">
+                                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="background-color:none; height:50px;">
                                                                 <?php $system = 0; foreach( $systemArray as $systemId => $guildDetails ): ?>
                                                                     <div style="height:25px;" class="text-cut side-rankings-details <?php echo $systemId; ?> <?php if ( $system > 0 ): ?>hidden <?php else: ?>active-rank <?php endif; ?>">
                                                                         <?php echo $guildDetails->guild; $system++; ?>
@@ -223,9 +156,8 @@
                                                                         <strong><?php echo $guildDetails->points; ?></strong> <span><?php echo $guildDetails->progress; $system++; ?></span>
                                                                     </div>
                                                                 <?php endforeach; ?>
-                                                                
                                                             </div>
-                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="height:50px;">
+                                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="height:50px;">
                                                                 <h2 class="text-right" style="margin-top:10px;"><?php echo $guildDetails->rank;?></h2>
                                                             </div>
                                                         </div>

@@ -35,8 +35,21 @@ class UserPanelModel extends Model {
 
         if ( !isset($this->_userDetails) ) { Functions::sendTo404(); }
 
-        $this->_userDetails = $this->_getUpdatedUserDetails($this->_userDetails->_userId);
         $this->_userGuilds  = $this->_getUserGuilds($this->_userDetails->_userId);
+
+        if ( Post::formActive() ) {
+            echo "here";
+            // get form type
+            switch (Post::get('form-type')) {
+                case 'update-profile':
+                    echo 'update-profile';
+                    break;
+                    
+            }
+        }
+exit;
+        /*
+        $this->_userDetails = $this->_getUpdatedUserDetails($this->_userDetails->_userId);
 
         if ( !empty($params) ) {
             if ( isset($params[0]) ) { $this->subModule     = strtolower($params[0]); }
@@ -72,6 +85,7 @@ class UserPanelModel extends Model {
                 $this->_currentPanel = new UserPanelModelKill($this->_action, $this->_formFields, $this->_guildDetails, $this->_encounterDetails);
                 break;
         }
+        */
     }
 
     /**
