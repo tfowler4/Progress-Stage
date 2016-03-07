@@ -234,3 +234,7 @@
 #body-content {
     min-height:65.3vh;
 }
+
+textarea {
+    resize: none;
+}

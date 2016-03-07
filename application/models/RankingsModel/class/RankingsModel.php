@@ -46,7 +46,7 @@ class RankingsModel extends Model {
             'NA Clears'         => '_numOfNADungeonClears',
             'EU Clears'         => '_numOfEUDungeonClears',
             'First Clear'       => '_firstDungeonClear',
-            'Most Recent Clear' => '_recentDungeonClear'
+            'Recent Clear' => '_recentDungeonClear'
         );
 
     const PANE_TIER = array(

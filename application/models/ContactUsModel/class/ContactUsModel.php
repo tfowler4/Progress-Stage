@@ -26,13 +26,17 @@ class ContactUsModel extends Model {
             FormValidator::validate('contactus', $this->_formFields);
 
             if ( FormValidator::$isFormInvalid ) {
-                $this->_dialogOptions = array('title' => 'Error', 'message' => FormValidator::$message);
+                $this->_dialogOptions = array('title' => 'Error',
+                                              'message' => FormValidator::$message,
+                                              'type' => 'danger');
                 return;
             }
 
             $this->_processFeedback();
 
-            $this->_dialogOptions = array('title' => 'Success', 'message' => 'We have received your feedback and will be getting in contact with you shortly!');
+            $this->_dialogOptions = array('title' => 'Success',
+                                          'message' => 'We have received your feedback and will be getting in contact with you shortly!',
+                                          'type' => 'success');
         }
     }
 

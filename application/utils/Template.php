@@ -76,7 +76,7 @@ class Template {
 
         if ( !empty($optionText) ) {
             $html .= '<div class="pull-right">';
-            $html .= '<a data-toggle="modal" data-target="#spreadsheetModal" id="' . $optionId . '" class="btn btn-default btn-xs ' . $optionClass . '" href="#">' . $optionText . '</a>';
+            $html .= '<a data-toggle="modal" data-target="#spreadsheetModal" id="' . $optionId . '" class="btn btn-default btn-xs ' . $optionClass . '" href="#"><span class="glyphicon glyphicon-th-list"></span>  ' . $optionText . '</a>';
             $html .= '</div>';
         }
 

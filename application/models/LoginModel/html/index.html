@@ -1,43 +1,47 @@
-<div id="body-wrapper">
-    <div id="body-content">
-        <div class="vertical-separator"></div>
-
-        <?php if ( !empty($data->_dialogOptions) ): ?>
-            <?php echo Functions::showDialogWindow($data->_dialogOptions); ?>
-
-            <div class="vertical-separator"></div>
-        <?php endif; ?>
-
-        <div id="form-table-wrapper">
-            <form method="POST" action="<?php echo PAGE_LOGIN; ?>" autocomplete="off">
-                <table class="form-table standard">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Login</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Username/Email</th>
-                            <td><input id="login-username" type="text" name="login-username" class="required"></td>
-                        <tr>
-                            <th>Password</th>
-                            <td><input id="login-password" type="password" name="login-password" class="required"></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="2">
-                                <input id="login-active" type="hidden" name='active' value="Active">
-                                <input id="login-submit" type="submit" value="Submit">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"><?php echo Functions::generateInternalHyperlink('reset', '', '', 'Password Recovery', ''); ?></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </form>
+<div class="container-fluid">
+    <?php if (!empty($data->_dialogOptions)): ?>
+        <div id="dialog-wrapper" class="row">
+            <div class="col-lg-offset-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-<?php echo $data->_dialogOptions['type']; ?>">
+                    <div class="panel-heading"><?php echo $data->_dialogOptions['title']; ?></div>
+                    <div class="panel-body text-center"><?php echo $data->_dialogOptions['message']; ?></div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <div id="form-wrapper" class="row">
+        <div class="col-lg-offset-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Login</div>
+                <div class="panel-body">
+                    <form role="form" method="POST" action="<?php echo PAGE_LOGIN; ?>" autocomplete="off">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
+                                <input type="text" class="form-control" id="login-username" name="login-username" placeholder="Username/Email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-briefcase"></span></span>
+                                <input type="password" class="form-control" id="login-password" name="login-password" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input id="login-popup-active" type="hidden" name='active' value="Active">
+                            <button type="submit" class="btn btn-default">
+                                <span class="glyphicon glyphicon-log-in"></span>  Log In
+                            </button>
+                        </div>
+                    </form>
+                    <p class="text-center">
+                        <?php echo '<a class="btn btn-default" href="' . Functions::generateInternalHyperlink('register', '', '', '', '', false) . '"><span class="glyphicon glyphicon-user"></span>  Create Account</a>'; 
+                        ?>
+                        <?php echo '<a class="btn btn-default" href="' . Functions::generateInternalHyperlink('reset', '', '', '', '', false) . '"><span class="glyphicon glyphicon-alert"></span>  Password Recovery</a>'; 
+                        ?>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
