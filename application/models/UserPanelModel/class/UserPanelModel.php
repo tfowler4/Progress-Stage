@@ -14,6 +14,8 @@ class UserPanelModel extends Model {
     protected $_validForm = false;
     protected $_dialogOptions;
     protected $_currentPanel;
+    protected $_setTab = 'account';
+    protected $_tabId;
 
     public $subModule;
 
@@ -38,13 +40,18 @@ class UserPanelModel extends Model {
         $this->_userGuilds  = $this->_getUserGuilds($this->_userDetails->_userId);
 
         if ( Post::formActive() ) {
-            // get form type
             switch (Post::get('form-type')) {
                 case 'update-profile':
                     $this->_formFields   = new UserFormFields();
                     $this->_currentPanel = new UserPanelModelUser(Post::get('action'), $this->_formFields, $this->_userDetails);
+                    $this->_setTab       = 'account';
                     break;
-
+                case 'update-guild':
+                    $this->_formFields   = new GuildFormFields();
+                    $this->_currentPanel = new UserPanelModelGuild(Post::get('action'), $this->_formFields, $this->_userGuilds[Post::get('userpanel-guild-id')], $this->_userDetails, $this->_userGuilds, $this->_raidTeams);
+                    $this->_setTab       = 'guild';
+                    $this->_tabId        = Post::get('userpanel-guild-id');
+                    break;
             }
         }
 

@@ -13,7 +13,7 @@ class UserPanelModelGuild extends UserPanelModel {
     protected $_raidTeams;
 
     const GUILD_ADD       = 'add';
-    const GUILD_EDIT      = 'edit';
+    const GUILD_EDIT      = 'guild-edit';
     const GUILD_RAID_TEAM = 'raid-team';
     const GUILD_REMOVE    = 'remove';
 
@@ -71,7 +71,9 @@ class UserPanelModelGuild extends UserPanelModel {
             }
 
             if ( FormValidator::$isFormInvalid ) {
-                $this->_dialogOptions = array('title' => 'Error', 'message' => FormValidator::$message);
+                $this->_dialogOptions = array('title' => 'Error',
+                                              'message' => FormValidator::$message,
+                                              'type' => 'danger');
                 return;
             }
 
@@ -126,7 +128,9 @@ class UserPanelModelGuild extends UserPanelModel {
 
         $this->_guildDetails = $this->_getUpdatedGuildDetails($this->_guildDetails->_guildId);
 
-        $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully updated your guild details!');
+        $this->_dialogOptions = array('title' => 'Success',
+                                      'message' => 'You have successfully updated your guild details!',
+                                      'type' => 'success');
     }
 
     /**
@@ -174,7 +178,9 @@ class UserPanelModelGuild extends UserPanelModel {
 
         $this->_removeGuildLogo($this->_formFields->guildId);
 
-        $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully removed the guild ' . $this->_guildDetails->_name . '!');
+        $this->_dialogOptions = array('title' => 'Success',
+                                      'message' => 'You have successfully removed the guild ' . $this->_guildDetails->_name . '!',
+                                      'type' => 'success');
 
         unset($this->_guildDetails);
     }
@@ -192,7 +198,9 @@ class UserPanelModelGuild extends UserPanelModel {
         DbObjects::addGuild($this->_formFields);
         $this->_assignGuildLogo(DbObjects::$insertId);
 
-        $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully created a new guild!');
+        $this->_dialogOptions = array('title' => 'Success',
+                                      'message' => 'You have successfully created a new guild!',
+                                      'type' => 'success');
     }
 
     /**
@@ -210,7 +218,9 @@ class UserPanelModelGuild extends UserPanelModel {
         DbObjects::addChildGuild($this->_formFields, $this->_userDetails->_userId, $this->_guildDetails);
         $this->_copyParentGuildLogo($this->_guildDetails->_guildId, DbObjects::$insertId);
 
-        $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully added a new raid team!');
+        $this->_dialogOptions = array('title' => 'Success',
+                                      'message' => 'You have successfully added a new raid team!',
+                                      'type' => 'success');
     }
 
     /**
