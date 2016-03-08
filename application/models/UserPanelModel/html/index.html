@@ -1,4 +1,4 @@
-<script>var eventBinder = new UserPanelEventBinder();</script>
+<!--<script>var eventBinder = new UserPanelEventBinder();</script>-->
 
 <div class="container-fluid">
     <div id="container-wrapper" class="row">
@@ -21,9 +21,22 @@
             </ul>
 
             <div class="tab-content">
+            <br>
+                <?php if ( !empty($data->_currentPanel->_dialogOptions) ): ?>
+
+                    <div id="dialog-wrapper" class="row">
+                        <div class="col-lg-offset-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                            <div class="panel panel-<?php echo $data->_currentPanel->_dialogOptions['type']; ?>">
+                                <div class="panel-heading"><?php echo $data->_currentPanel->_dialogOptions['title']; ?></div>
+                                <div class="panel-body text-center"><?php echo $data->_currentPanel->_dialogOptions['message']; ?></div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
                 <div role="tabpanel" class="tab-pane fade in active" id="account-management">
                     <div class="col-lg-offset-4 col-lg-4 col-md-offset-4 col-md-4 col-sm-12 col-xs-12">
-                        <br>
+
                         <div class="panel panel-primary">
                             <div class="panel-heading">Update Profile</div>
                             <div class="panel-body">
@@ -37,19 +50,25 @@
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
-                                            <input type="text" class="form-control" value="<?php echo $data->_userDetails->_emailAddress; ?>">
+                                            <input type="text" class="form-control" name="userpanel-email" value="<?php echo $data->_userDetails->_emailAddress; ?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
-                                            <input type="password" class="form-control" id="reset-password" name="reset-password" placeholder="Enter New Password">
+                                            <input type="password" class="form-control" name="userpanel-password" placeholder="Enter Current Password">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
-                                            <input type="password" class="form-control" id="reset-password-confirm" name="reset-password-confirm" placeholder="Re-Enter Password">
+                                            <input type="password" class="form-control" name="userpanel-new-password" placeholder="Enter New Password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+                                            <input type="password" class="form-control" name="userpanel-new-retype-password" placeholder="Re-Enter Password">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -61,11 +80,12 @@
                                     <div class="form-group">
                                         <input type="hidden" name='active' value="Active">
                                         <input type="hidden" name="form-type" value="update-profile">
-                                        <button name="update-email" type="submit" class="btn btn-default">
+                                        <input type="hidden" name="userpanel-user-id" value="<?php echo $data->_userDetails->_userId; ?>">
+                                        <button name="action" type="submit" class="btn btn-default" value="update-email">
                                             <span class="glyphicon glyphicon-check"></span>  Update Email Address
                                         </button>
 
-                                        <button name="update-password" type="submit" class="btn btn-default">
+                                        <button name="action" type="submit" class="btn btn-default" value="update-password">
                                             <span class="glyphicon glyphicon-check"></span>  Update Password
                                         </button>
                                     </div>

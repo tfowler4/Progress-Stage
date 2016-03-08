@@ -38,18 +38,19 @@ class UserPanelModel extends Model {
         $this->_userGuilds  = $this->_getUserGuilds($this->_userDetails->_userId);
 
         if ( Post::formActive() ) {
-            echo "here";
             // get form type
             switch (Post::get('form-type')) {
                 case 'update-profile':
-                    echo 'update-profile';
+                    $this->_formFields   = new UserFormFields();
+                    $this->_currentPanel = new UserPanelModelUser(Post::get('action'), $this->_formFields, $this->_userDetails);
                     break;
-                    
+
             }
         }
-exit;
-        /*
+
         $this->_userDetails = $this->_getUpdatedUserDetails($this->_userDetails->_userId);
+
+        /*
 
         if ( !empty($params) ) {
             if ( isset($params[0]) ) { $this->subModule     = strtolower($params[0]); }

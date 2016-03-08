@@ -9,8 +9,8 @@ class UserPanelModelUser extends UserPanelModel {
     protected $_dialogOptions;
     protected $_userDetails;
 
-    const USER_EMAIL    = 'email';
-    const USER_PASSWORD = 'password';
+    const USER_EMAIL    = 'update-email';
+    const USER_PASSWORD = 'update-password';
 
     /**
      * constructor
@@ -33,7 +33,9 @@ class UserPanelModelUser extends UserPanelModel {
             }
 
             if ( FormValidator::$isFormInvalid ) {
-                $this->_dialogOptions = array('title' => 'Error', 'message' => FormValidator::$message);
+                $this->_dialogOptions = array('title' => 'Error', 
+                                              'message' => FormValidator::$message,
+                                              'type' => 'danger');
                 return;
             }
 
@@ -71,7 +73,9 @@ class UserPanelModelUser extends UserPanelModel {
 
         $this->_userDetails = $this->_getUpdatedUserDetails($this->_userDetails->_userId);
 
-        $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully updated your email address!');
+        $this->_dialogOptions = array('title' => 'Success',
+                                      'message' => 'You have successfully updated your email address!',
+                                      'type' => 'success');
     }
 
     /**
@@ -84,6 +88,8 @@ class UserPanelModelUser extends UserPanelModel {
 
         DbObjects::editUserPassword($this->_formFields);
 
-        $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully updated your password!');
+        $this->_dialogOptions = array('title' => 'Success',
+                                      'message' => 'You have successfully updated your password!',
+                                      'type' => 'success');
     }
 }
