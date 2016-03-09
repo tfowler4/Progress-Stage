@@ -15,7 +15,9 @@ class UserPanelModel extends Model {
     protected $_dialogOptions;
     protected $_currentPanel;
     protected $_setTab = 'account';
+    protected $_setOption;
     protected $_tabId;
+    protected $_encounterDetails;
 
     public $subModule;
 
@@ -50,11 +52,46 @@ class UserPanelModel extends Model {
                     $this->_formFields   = new GuildFormFields();
                     $this->_currentPanel = new UserPanelModelGuild(Post::get('action'), $this->_formFields, $this->_userGuilds[Post::get('userpanel-guild-id')], $this->_userDetails, $this->_userGuilds, $this->_raidTeams);
                     $this->_setTab       = 'guild';
+                    $this->_setOption    = 'edit';
                     $this->_tabId        = Post::get('userpanel-guild-id');
+                    break;
+                case 'update-kills':
+                    $this->_formFields   = new KillSubmissionFormFields();
+                    $this->_currentPanel = new UserPanelModelKill(Post::get('action'), $this->_formFields, $this->_userGuilds[Post::get('userpanel-guild-id')]);
+                    $this->_setTab       = 'guild';
+                    $this->_setOption    = 'kills';
+                    $this->_tabId        = Post::get('userpanel-guild-id');
+
+                    $this->_encounterDetails = $this->_currentPanel->_encounterDetails;
+                    break;
+            }
+        } else {
+            switch (Post::get('form-type')) {
+                case 'update-profile':
+                    $this->_setTab       = 'account';
+                    break;
+                case 'update-guild':
+                    $this->_setTab       = 'guild';
+                    $this->_setOption    = 'edit';
+                    $this->_tabId        = Post::get('userpanel-guild-id');
+                    break;
+                case 'update-kills':
+                    $this->_setTab       = 'guild';
+                    $this->_setOption    = 'kills';
+                    $this->_tabId        = Post::get('userpanel-guild-id');
+
+                    if ( Post::get('userpanel-encounter-edit') ) {
+                        $guildDetails = $this->_userGuilds[Post::get('userpanel-guild-id')];
+                        $this->_encounterDetails = $guildDetails->_encounterDetails->{Post::get('userpanel-encounter-edit')};
+                    }
+
                     break;
             }
         }
 
+        unset($this->_raidTeams);
+        $this->_numOfGuilds = 0;
+        $this->_userGuilds  = $this->_getUserGuilds($this->_userDetails->_userId);
         $this->_userDetails = $this->_getUpdatedUserDetails($this->_userDetails->_userId);
 
         /*
@@ -220,7 +257,7 @@ class UserPanelModel extends Model {
         }
 
         if ( isset($guildDetails) ) {
-            $guildDetails = Functions::getAllGuildDetails($guildDetails);
+            $guildDetails = $this->_getAllGuildDetails($guildDetails);
         }
 
         return $guildDetails->_encounterDetails->$encounterId;
@@ -380,10 +417,14 @@ class UserPanelModel extends Model {
                 $newEncounterDetails->$key = $value;
             }
 
-            $optionsString = '';
-            $optionsString .= '<a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span>  Edit</a>';
+            $optionsString = '<form method="POST" action="' . PAGE_USER_PANEL . '">';
+            $optionsString .= '<input type="hidden" name="form-type" value="update-kills">';
+            $optionsString .= '<input type="hidden" name="userpanel-encounter-edit" value="' . $encounterDetails->_encounterId . '">';
+            $optionsString .= '<input type="hidden" name="userpanel-guild-id" value="' . $guildDetails->_guildId . '">';
+            $optionsString .= '<button type="submit" name="action" value="edit-kill" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span>  Edit</button>';
             $optionsString .= '  ';
-            $optionsString .= '<a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove"></span>  Remove</a>';
+            $optionsString .= '<button type="submit" name="action" value="remove-kill" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove"></span>  Remove</button>';
+            $optionsString .= '</form>';
             //$optionsString .= $this->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModelKill::KILLS_EDIT . '/' . $this->_guildDetails->_guildId .'/' . $encounterId, 'Edit', true);
             //$optionsString .= ' | ';
             //$optionsString .= $this->generateInternalHyperlink(UserPanelModel::SUB_KILLS, UserPanelModelKill::KILLS_REMOVE . '/' . $this->_guildDetails->_guildId . '/' . $encounterId, 'Delete', true);

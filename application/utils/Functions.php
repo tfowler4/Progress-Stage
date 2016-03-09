@@ -287,6 +287,7 @@ class Functions {
 
         if ( $size == 'large' ) { 
             $folder .= 'large/'; 
+            $class = 'class="img-responsive"';
         } elseif ( $size == 'medium' ) { 
             $folder .= 'medium/';
         } elseif ( $size == 'small' ) {

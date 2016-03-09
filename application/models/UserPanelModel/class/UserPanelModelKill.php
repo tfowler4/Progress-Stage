@@ -10,9 +10,9 @@ class UserPanelModelKill extends UserPanelModel {
     protected $_guildDetails;
     protected $_encounterDetails;
 
-    const KILLS_ADD    = 'add';
-    const KILLS_REMOVE = 'remove';
-    const KILLS_EDIT   = 'edit';
+    const KILLS_ADD    = 'add-kill';
+    const KILLS_REMOVE = 'remove-kill';
+    const KILLS_EDIT   = 'edit-kill';
 
     const TABLE_HEADER_PROGRESSION = array(
             'Encounter'      => '_encounterName',
@@ -26,11 +26,14 @@ class UserPanelModelKill extends UserPanelModel {
             'Options'        => '_options'
         );
 
-    public function __construct($action, $formFields, $guildDetails, $encounterDetails) {
+    public function __construct($action, $formFields, $guildDetails) {
         $this->_guildDetails     = $guildDetails;
-        $this->_encounterDetails = $encounterDetails;
         $this->_action           = $action;
         $this->_formFields       = $formFields;
+
+        if ( Post::get('userpanel-encounter') ) {
+            $this->_encounterDetails = $guildDetails->_encounterDetails->{Post::get('userpanel-encounter')};
+        }
 
         if ( Post::formActive() ) {
             $this->_populateFormFields();
@@ -48,7 +51,9 @@ class UserPanelModelKill extends UserPanelModel {
             }
 
             if ( FormValidator::$isFormInvalid ) {
-                $this->_dialogOptions = array('title' => 'Error', 'message' => FormValidator::$message);
+                $this->_dialogOptions = array('title' => 'Error',
+                                              'message' => FormValidator::$message,
+                                              'type' => 'danger');
                 return;
             }
 
@@ -58,6 +63,7 @@ class UserPanelModelKill extends UserPanelModel {
                     break;
                 case self::KILLS_REMOVE:
                     $this->_removeKill();
+                    unset($_POST['action']);
                     break;
                 case self::KILLS_EDIT:
                     $this->_editKill();
@@ -65,7 +71,7 @@ class UserPanelModelKill extends UserPanelModel {
             }
         }
 
-        $this->mergeOptionsToEncounters();
+        //$this->mergeOptionsToEncounters();
     }
 
     /**
@@ -99,7 +105,9 @@ class UserPanelModelKill extends UserPanelModel {
 
         $this->_removeScreenshot($this->_formFields->guildId, $this->_formFields->encounter);
 
-        $this->_dialogOptions = array('title' => 'Success', 'message' => 'Your kill has been removed successfully!');
+        $this->_dialogOptions = array('title' => 'Success',
+                                      'message' => 'Your kill has been removed successfully!',
+                                      'type' => 'success');
     }
 
     /**
@@ -124,7 +132,9 @@ class UserPanelModelKill extends UserPanelModel {
 
         $this->_encounterDetails = $this->_getUpdatedEncounterDetails($this->_guildDetails->_guildId, $this->_encounterDetails->_encounterId);
 
-        $this->_dialogOptions = array('title' => 'Success', 'message' => 'Your kill has been updated successfully!');
+        $this->_dialogOptions = array('title' => 'Success',
+                                      'message' => 'Your kill has been updated successfully!',
+                                      'type' => 'success');
     }
 
     /**
@@ -147,7 +157,9 @@ class UserPanelModelKill extends UserPanelModel {
 
         $this->_guildDetails = $this->_getUpdatedGuildDetails($this->_guildDetails->_guildId);
 
-        $this->_dialogOptions = array('title' => 'Success', 'message' => 'Your kill has been submitted successfully! Standings and Rankings will be updated accordingly!');
+        $this->_dialogOptions = array('title' => 'Success',
+                                      'message' => 'Your kill has been submitted successfully! Standings and Rankings will be updated accordingly!',
+                                      'type' => 'success');
     }
 
     /**

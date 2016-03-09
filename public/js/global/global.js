@@ -41,11 +41,12 @@ var GlobalEventBinder = function() {
     var changeFactionLogo = function(input) {
         var faction = input.value.toLowerCase();
 
-        $('#faction-logo-preview-wrapper').children().fadeTo('fast', .3); //addClass('faded');
-        
-        if ( faction != '' ) {
-            $('.' + faction).fadeTo('fast', 1); //removeClass('faded');
-        }
+        $('#faction-logo-preview-wrapper').children().fadeTo('fast', .3, function() {
+            if ( faction != '' ) {
+
+                $('.' + faction).fadeTo('fast', 1);
+            }
+        });
     }
 
     // on user selecting a country, display a preview of the country flag image
@@ -57,7 +58,7 @@ var GlobalEventBinder = function() {
             var dir = getFlagLargeDirectory();
             var imgSrc = dir + country + '.png';
 
-            $('#country-flag-preview').html('<img id="country-flag" src="' + imgSrc + '">');
+            $('#country-flag-preview').html('<img class="img-responsive" id="country-flag" src="' + imgSrc + '">');
         } else {
             $('#country-flag-preview').html('');
         }
@@ -166,11 +167,13 @@ var GlobalEventBinder = function() {
             //html += '</div>';
             html += '<div class="form-inline">';
                 html += '<div class="form-group">';
-                    html += '<label class="video-link-label">Type: </label>';
-                    html += '<select id="user-form-video-type-' + videoLinkNum + '" name="video-link-type[]" class="form-control">';
-                        html += '<option value="0">General Kill</option>';
-                        html += '<option value="1">Encounter Guide</option>';
-                    html += '</select>';
+                    html += '<label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Type</label>';
+                    html += '<div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">';
+                        html += '<select id="user-form-video-type-' + videoLinkNum + '" name="video-link-type[]" class="form-control">';
+                            html += '<option value="0">General Kill</option>';
+                            html += '<option value="1">Encounter Guide</option>';
+                        html += '</select>';
+                    html += '</div>';
                 html += '</div>';
             html += '</div>';
             //html += '<div>';
@@ -192,7 +195,7 @@ var GlobalEventBinder = function() {
         var paramAddressArray = fullAddressArray[1].split('/');
         var rootDir           = 'http://' + paramAddressArray[0];
 
-        if ( paramAddressArray[1] == 'stage' ) {
+        if ( paramAddressArray[1] == 'stage' || paramAddressArray[1] == 'bootstrap-test' ) {
             rootDir += '/' + paramAddressArray[1];
         }
 

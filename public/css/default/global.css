@@ -238,3 +238,8 @@
 textarea {
     resize: none;
 }
+
+/* adds transparency to element by reducing opacity */
+.faded {
+    opacity: .3;
+}

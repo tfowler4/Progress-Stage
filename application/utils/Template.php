@@ -198,7 +198,7 @@ class Template {
         $html        = '';
         $columnCount = 0;
 
-        $html .= '<div class="panel panel-primary">';
+        $html .= '<div class="panel panel-default">';
         $html .= '<div class="panel-heading"><span class="h4">Glossary</span></div>';
         $html .= '<table class="table table-condensed">';
         /*$html .= '<thead>';
@@ -363,7 +363,7 @@ class Template {
         $html .= '</div>';
         $html .= '<div id="data" class="row">';
         $html .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
-        $html .= '<div class="panel panel-primary">';
+        $html .= '<div class="panel panel-default">';
         $html .= '<table class="table table-striped table-hover table-condensed">';
         //$html .= '<thead>';
         //$html .= '</thead>';
@@ -783,7 +783,7 @@ class Template {
         $searchResults = GuildSearch::getSearchResults($searchTerm);
 
         $html = '';
-        $html .= '<div class="panel panel-primary">';
+        $html .= '<div class="panel panel-default">';
         $html .= '<div class="panel-heading">Search Results</div>';
         $html .= '<table class="table table-condensed table-hover table-striped">';
         $html .= '<thead>';

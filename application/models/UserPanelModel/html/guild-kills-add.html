@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="col-lg-offset-3 col-lg-6 col-md-4 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+        <div class="panel-heading">New Kill Submission</div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_USER_PANEL; ?>" autocomplete="off" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Guild Name</label>
+                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                            <div class="input-group">
+                                <input id="user-form-guild" name="userpanel-guild" type="hidden" value="<?php echo $guildDetails->_guildId; ?>">
+                                <input type="text" disabled class="form-control" value="<?php echo $guildDetails->_name; ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Encounter</label>
+                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                            <select id="user-form-encounter" name="userpanel-encounter" class="form-control">
+                                <option value="">Select Encounter</option>
+                                <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails): ?>
+                                    <?php if( !isset($guildDetails->_encounterDetails->$encounterId) ): ?>
+                                        <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . '-' . $encounterDetails->_encounterName; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Date (M-D-Y)</label>
+                        <div class="form-inline col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                           <select id="user-form-popup-month" class="form-control" name="userpanel-month">
+                                <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
+                                    <?php if ( $month == date('m') ): ?> 
+                                        <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+
+                            <select id="user-form-popup-day" class="form-control" name="userpanel-day">
+                                <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
+                                    <?php if ( $day == date('d') ): ?> 
+                                        <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+
+                           <select id="user-form-popup-year" class="form-control" name="userpanel-year">
+                                <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
+                                    <?php if ( $year == date('Y') ): ?> 
+                                        <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Time (H:M UTC)</label>
+                        <div class="form-inline col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                            <select id="user-form-popup-hour" class="form-control"  name="userpanel-hour">
+                                <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
+                                    <?php if ( $hour == date('H') ): ?> 
+                                        <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $hour; ?>"><?php echo $hourValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+
+                           <select id="user-form-popup-minute" class="form-control"  name="userpanel-minute">
+                                <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
+                                    <?php if ( $minute == date('i') ): ?> 
+                                        <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
+                                    <?php else: ?>
+                                        <option value="<?php echo $minute; ?>"><?php echo $minuteValue; ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userpanel-screenshot" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Screenshot</label>
+                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                            <input id="user-form-screenshot" class="form-control" type="file" name="userpanel-screenshot">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="quick-videos" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Kill Videos</label>
+                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                            <div class="video-link-container"></div>
+                            <a class="btn btn-default new-video-link" href="#"><span class="glyphicon glyphicon-plus"></span>  Add New Video</a>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <input type="hidden" name="form-type" value="update-kills">
+                        <input type="hidden" name="userpanel-guild-id" value="<?php echo $guildDetails->_guildId; ?>">
+                        <input type="hidden" name='active' value="Active">
+                        <button type="submit" name="action" class="btn btn-default" value="add-kill"><span class="glyphicon glyphicon-check"></span>  Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
