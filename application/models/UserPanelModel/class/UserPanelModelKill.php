@@ -9,6 +9,7 @@ class UserPanelModelKill extends UserPanelModel {
     protected $_dialogOptions;
     protected $_guildDetails;
     protected $_encounterDetails;
+    protected $_formStatus = 0;
 
     const KILLS_ADD    = 'add-kill';
     const KILLS_REMOVE = 'remove-kill';
@@ -60,18 +61,18 @@ class UserPanelModelKill extends UserPanelModel {
             switch ( $this->_action ) {
                 case self::KILLS_ADD:
                     $this->_addKill();
+                    $this->_formStatus = 1;
                     break;
                 case self::KILLS_REMOVE:
                     $this->_removeKill();
-                    unset($_POST['action']);
+                    $this->_formStatus = 1;
                     break;
                 case self::KILLS_EDIT:
                     $this->_editKill();
+                    $this->_formStatus = 1;
                     break;
             }
         }
-
-        //$this->mergeOptionsToEncounters();
     }
 
     /**

@@ -143,12 +143,6 @@ var GlobalEventBinder = function() {
         }
 
         var html  = '<div class="video-link-wrapper">';
-            //html += 'Video #' + videoLinkNum + '<br>';
-            //html += '<div>';
-            //html += '<label class="video-link-label">Notes: </label>';
-            //html += '<input id="user-form-video-title-' + videoLinkNum + '" type="text" name="video-link-title[]" class="width-200" />';
-            //html += '</div>';
-            //html += '<div>';
             html += '<div class="form-group">';
                 html += '<label>' + 'Video #' + videoLinkNum + '</label>';
                 html += '<div class="input-group">';
@@ -162,27 +156,15 @@ var GlobalEventBinder = function() {
                     html += '<input type="text" class="form-control" id="user-form-video-url-' + videoLinkNum + '" name="video-link-url[]" placeholder="Video URL">';
                 html += '</div>';
             html += '</div>';
-            //html += '<label class="video-link-label">URL: </label>';
-            //html += '<input id="user-form-video-url-' + videoLinkNum + '" type="text" name="video-link-url[]" class="width-200" />';
-            //html += '</div>';
-            html += '<div class="form-inline">';
-                html += '<div class="form-group">';
-                    html += '<label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Type</label>';
-                    html += '<div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">';
-                        html += '<select id="user-form-video-type-' + videoLinkNum + '" name="video-link-type[]" class="form-control">';
-                            html += '<option value="0">General Kill</option>';
-                            html += '<option value="1">Encounter Guide</option>';
-                        html += '</select>';
-                    html += '</div>';
+            html += '<div class="form-group">';
+                html += '<label for="" class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-2">Type</label>';
+                html += '<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">';
+                    html += '<select id="user-form-video-type-' + videoLinkNum + '" name="video-link-type[]" class="form-control">';
+                        html += '<option value="0">General Kill</option>';
+                        html += '<option value="1">Encounter Guide</option>';
+                    html += '</select>';
                 html += '</div>';
             html += '</div>';
-            //html += '<div>';
-            //html += '<label class="video-link-label">Type: </label>';
-            //html += '<select id="user-form-video-type-' + videoLinkNum + '" name="video-link-type[]">';
-            //html += '<option value="0">General Kill</option>';
-            //html += '<option value="1">Encounter Guide</option>';
-            //html += '</select>';
-            //html += '</div>';
         html += '</div><br>';
 
         videoLinkContainer.append(html);

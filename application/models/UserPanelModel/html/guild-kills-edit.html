@@ -87,7 +87,37 @@
                     <div class="form-group">
                         <label for="quick-videos" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Kill Videos</label>
                         <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                            <div class="video-link-container"></div>
+                            <div class="video-link-container">
+                                <?php $videoNum = 1; foreach( $data->_encounterDetails->_videos as $videoId => $videoDetails ): ?>
+                                    <div class="video-link-wrapper">
+                                        <input type="hidden" name="video-link-id[]" value="<?php echo $videoId; ?>" />
+                                        <div class="form-group">
+                                            <label>Video # <?php echo $videoNum; ?></label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-film"></span></span>
+                                                <input type="text" class="form-control"  id="user-form-video-title-<?php echo $videoNum; ?>" name="video-link-title[]" placeholder="Notes/Title" value="<?php echo $videoDetails->_notes; ?>">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-globe"></span></span>
+                                                <input type="text" class="form-control" id="user-form-video-url-<?php echo $videoNum; ?>" name="video-link-url[]" value="<?php echo $videoDetails->_url; ?>">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-2">Type</label>
+                                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                                <select id="user-form-video-type-<?php echo $videoNum; ?>" class="form-control" name="video-link-type[]">
+                                                    <option value="0" <?php if ( $videoDetails->_type == '0'): ?>selected<?php endif; ?>>General Kill</option>
+                                                    <option value="1" <?php if ( $videoDetails->_type == '1'): ?>selected<?php endif; ?>>Encounter Guide</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php $videoNum++; ?>
+                                <?php endforeach;?>
+                            </div>
+
                             <a class="btn btn-default new-video-link" href="#"><span class="glyphicon glyphicon-plus"></span>  Add New Video</a>
                         </div>
                     </div>
@@ -95,7 +125,7 @@
                         <input type="hidden" name="form-type" value="update-kills">
                         <input type="hidden" name="userpanel-guild-id" value="<?php echo $guildDetails->_guildId; ?>">
                         <input type="hidden" name='active' value="Active">
-                        <button type="submit" name="action" class="btn btn-default" value="edit-kill"><span class="glyphicon glyphicon-check"></span>  Submit</button>
+                        <button type="submit" name="action" class="btn btn-default" value="edit-kill"><span class="glyphicon glyphicon-check"></span>  Update</button>
                     </div>
                 </form>
             </div>

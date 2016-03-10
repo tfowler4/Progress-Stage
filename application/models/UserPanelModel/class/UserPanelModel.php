@@ -59,8 +59,13 @@ class UserPanelModel extends Model {
                     $this->_formFields   = new KillSubmissionFormFields();
                     $this->_currentPanel = new UserPanelModelKill(Post::get('action'), $this->_formFields, $this->_userGuilds[Post::get('userpanel-guild-id')]);
                     $this->_setTab       = 'guild';
-                    $this->_setOption    = 'kills';
                     $this->_tabId        = Post::get('userpanel-guild-id');
+
+                    if ( Post::get('action') && Post::get('action') != 'add-kill' ) {
+                        $this->_setOption = 'kills-edit';
+                    } else {
+                        $this->_setOption = 'kills-add';
+                    }
 
                     $this->_encounterDetails = $this->_currentPanel->_encounterDetails;
                     break;
@@ -77,7 +82,7 @@ class UserPanelModel extends Model {
                     break;
                 case 'update-kills':
                     $this->_setTab       = 'guild';
-                    $this->_setOption    = 'kills';
+                    $this->_setOption    = 'kills-edit';
                     $this->_tabId        = Post::get('userpanel-guild-id');
 
                     if ( Post::get('userpanel-encounter-edit') ) {
@@ -89,11 +94,11 @@ class UserPanelModel extends Model {
             }
         }
 
-        unset($this->_raidTeams);
+        $this->_userGuilds  = array();
+        $this->_raidTeam    = array();
         $this->_numOfGuilds = 0;
-        $this->_userGuilds  = $this->_getUserGuilds($this->_userDetails->_userId);
         $this->_userDetails = $this->_getUpdatedUserDetails($this->_userDetails->_userId);
-
+        $this->_userGuilds  = $this->_getUserGuilds($this->_userDetails->_userId);
         /*
 
         if ( !empty($params) ) {
@@ -291,6 +296,7 @@ class UserPanelModel extends Model {
      * 
      * @return GuildDetails $guildDetails [ guild details object ]
      */
+    /*
     protected function _getCorrectGuild($guildId) {
         if ( !isset(CommonDataContainer::$guildArray[$guildId]) ) { return null; }
 
@@ -306,7 +312,7 @@ class UserPanelModel extends Model {
 
         return $guildDetails;
     }
-
+    */
     /**
      * get list of guilds based on user logged in
      * 
@@ -345,11 +351,12 @@ class UserPanelModel extends Model {
         $query->execute();
 
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
-            $guildDetails                 = new GuildDetails($row);
-            $guildDetails                 = $this->_getAllGuildDetails($guildDetails);
-            $guildArray[$row['guild_id']] = $guildDetails;
+            $guildDetails         = new GuildDetails($row);
+            $guildDetails         = $this->_getAllGuildDetails($guildDetails);
+            $guildId              = $row['guild_id'];
+            $guildArray[$guildId] = $guildDetails;
 
-            $this->_raidTeams[$row['guild_id']] = $this->_getRaidTeams($row['guild_id'], $guildArray[$row['guild_id']]);
+            $this->_raidTeams[$guildId] = $this->_getRaidTeams($guildId, $guildArray[$guildId]);
             $this->_numOfGuilds++;
         }
 

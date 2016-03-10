@@ -14,7 +14,7 @@ class UserPanelModelGuild extends UserPanelModel {
 
     const GUILD_ADD       = 'add';
     const GUILD_EDIT      = 'guild-edit';
-    const GUILD_RAID_TEAM = 'raid-team';
+    const GUILD_RAID_TEAM = 'raid-team-add';
     const GUILD_REMOVE    = 'remove';
 
     const MAX_GUILDS      = 3;
@@ -70,7 +70,7 @@ class UserPanelModelGuild extends UserPanelModel {
                     break;
             }
 
-            if ( FormValidator::$isFormInvalid ) {
+            if ( FormValidator::$isFormInvalid ) {echo "In here";
                 $this->_dialogOptions = array('title' => 'Error',
                                               'message' => FormValidator::$message,
                                               'type' => 'danger');
