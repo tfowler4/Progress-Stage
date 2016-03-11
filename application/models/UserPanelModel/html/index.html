@@ -17,15 +17,21 @@
 
                             <?php if ( count($data->_raidTeams[$guildId]) > 0 ): ?>
                                 <?php foreach ( $data->_raidTeams[$guildId] as $raidTeamId => $guildDetails ): ?>
-                                <li class="divider"></li>
-                                <li><a href="#"><?php echo $guildDetails->_name; ?></a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header"><?php echo $guildDetails->_name; ?></li>
+                                    <li><a href="#edit-guild-<?php echo $raidTeamId; ?>" role="tab" data-toggle="tab">Edit Raid Team Details</a></li>
+                                    <li><a href="#kill-submission-add-<?php echo $raidTeamId; ?>" role="tab" data-toggle="tab">Add New Kill Submission</a></li>
+                                    <li><a href="#kill-submission-edit-<?php echo $raidTeamId; ?>" role="tab" data-toggle="tab">Edit/Remove Kill Submissions</a></li>
+                                    <li><a href="#remove-guild-<?php echo $raidTeamId; ?>" role="tab" data-toggle="tab">Remove Raid Team</a></li>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </ul>
                     </li>
                 <?php endforeach; ?>
 
-                <li role="presentation"><a href="#new-guild" aria-controls="profile" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span>  Create New Guild</a></li>
+                <?php if ( count($data->_userGuilds) < UserPanelModelGuild::MAX_GUILDS ): ?>
+                    <li role="presentation"><a href="#new-guild" aria-controls="profile" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span>  Create New Guild</a></li>
+                <?php endif; ?>
             </ul>
 
             <div class="tab-content">
@@ -70,128 +76,52 @@
                     </div>
 
                     <div role="tabpanel" class="tab-pane fade" id="add-raid-team-<?php echo $guildId; ?>">
-                    <?php include 'guild-team-add.html'; ?>
+                        <?php include 'guild-team-add.html'; ?>
                     </div>
 
                     <div role="tabpanel" class="tab-pane fade" id="remove-guild-<?php echo $guildId; ?>">
-                        <div class="col-lg-offset-4 col-lg-4 col-md-offset-4 col-md-4 col-sm-12 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">Confirm Removal of Guild</div>
-                                <div class="panel-body text-center">
-                                    Are you sure you wish to remove <?php echo $guildDetails->_name; ?>?
-                                    <p>(Note: This will remove all uploaded data, screenshots, and rank information)</p>
-                                    <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-floppy-remove"></span>  Remove Guild</a>
-                                </div>
-                            </div>
-                        </div>
+                        <?php include 'guild-remove.html'; ?>
                     </div>
+
+                    <!-- Raid Team Tabs -->
+                    <?php if ( count($data->_raidTeams[$guildId]) > 0 ): ?>
+                        <?php foreach ( $data->_raidTeams[$guildId] as $raidTeamId => $raidTeamDetails ): ?>
+                            <?php $guildDetails = $raidTeamDetails; ?>
+                            <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'edit' && $raidTeamId == $data->_tabId ): ?>in active<?php endif; ?>" id="edit-guild-<?php echo $raidTeamId; ?>">
+                                <?php include 'guild-profile.html'; ?>
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'kills-add' && $raidTeamId == $data->_tabId ): ?>in active<?php endif; ?>" id="kill-submission-add-<?php echo $raidTeamId; ?>">
+                                <?php include 'guild-kills-add.html'; ?>
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'kills-edit' && $raidTeamId == $data->_tabId ): ?>in active<?php endif; ?>" id="kill-submission-edit-<?php echo $raidTeamId; ?>">
+                                <?php
+                                    if ( Post::get('action') && Post::get('action') == 'edit-kill' ) {
+                                        include 'guild-kills-edit.html';
+                                    } elseif ( Post::get('action') && Post::get('action') == 'remove-kill' ) {
+                                        if (  !isset($data->_currentPanel->_formStatus) || $data->_currentPanel->_formStatus == 0 ) {
+                                            include 'guild-kills-remove.html';
+                                        }
+                                    }
+
+                                    include 'guild-kills.html';
+                                ?>
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane fade" id="add-raid-team-<?php echo $raidTeamId; ?>">
+                                <?php include 'guild-team-add.html'; ?>
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane fade" id="remove-guild-<?php echo $raidTeamId; ?>">
+                                <?php include 'guild-remove.html'; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 <?php endforeach; ?>
 
-                <div role="tabpanel" class="tab-pane" id="new-guild">
-                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 text-center">
-                        <div id="faction-logo-preview-wrapper">
-                            <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
-                                <div class="thumbnail">
-                                    <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
-                                        <?php echo Functions::getImageFaction($factionDetails->_name); ?>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-
-                        <div id="guild-country-logo-preview-wrapper">
-                            <div class="thumbnail">
-                                <div id="guild-logo-preview"></div>
-                            </div>
-
-                            <div class="thumbnail">
-                                <div id="country-flag-preview"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <div class="panel">
-                            <div class="panel-body">
-                                <form class="form-horizontal" role="form">
-                                    <div class="form-group">
-                                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Guild Name</label>
-                                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                                            <input type="text" class="form-control" id="register-guild" placeholder="Enter guild name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Faction</label>
-                                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                                            <select id="user-form-faction" class="form-control" name="register-faction">
-                                                <option value="">Select Faction</option>
-                                                <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
-                                                    <option value="<?php echo $factionId; ?>" <?php if (!empty($data->_formFields->faction) && $data->_formFields->faction == $factionId): ?>selected<?php endif; ?>><?php echo $factionDetails->_name; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Server</label>
-                                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                                            <select id="user-form-server" class="form-control" name="register-server">
-                                                <option value="">Select Server</option>
-                                                <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
-                                                    <option value="<?php echo $serverId; ?>" <?php if (!empty($data->_formFields->server) && $data->_formFields->server == $serverId): ?>selected<?php endif; ?>><?php echo $serverDetails->_region . ' - ' . $serverDetails->_name; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Country</label>
-                                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                                            <select id="user-form-country" class="form-control" name="register-country">
-                                                <option value="">Select Country</option>
-                                                <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
-                                                    <option value="<?php echo $countryId; ?>" <?php if (!empty($data->_formFields->country) && $data->_formFields->country == $countryId): ?>selected<?php endif; ?>><?php echo $countryDetails->_name; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Guild Leader(s)</label>
-                                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                                            <input type="text" class="form-control" id="register-guild-leader" placeholder="Enter guild leader name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Website</label>
-                                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                                            <input type="text" class="form-control" id="register-website" placeholder="Enter guild website">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Facebook</label>
-                                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10"> 
-                                            <input type="text" class="form-control" id="register-facebook" placeholder="Enter Facebook handle">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Twitter</label>
-                                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10"> 
-                                            <input type="text" class="form-control" id="register-twitter" placeholder="Enter Twitter handle">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Guild Logo</label>
-                                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10"> 
-                                            <input type="file" class="form-control" id="register-logo">
-                                        </div>
-                                    </div>
-                                    <div class="form-group"> 
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-                                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>  Create Guild</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'add' ): ?>in active<?php endif; ?>" id="new-guild">
+                    <?php include 'guild-create.html'; ?>
                 </div>
             </div>
         </div>

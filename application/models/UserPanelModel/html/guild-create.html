@@ -1,0 +1,108 @@
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center">
+        <div id="faction-logo-preview-wrapper">
+            <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
+                <div id="faction-logo-<?php echo $factionId; ?>" class="thumbnail faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
+                    <?php echo Functions::getImageFaction($factionDetails->_name); ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Create New Guild</div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_USER_PANEL; ?>" autocomplete="off" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Guild Name</label>
+                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                            <input type="text" class="form-control" id="userpanel-guild" placeholder="Enter guild name" name="userpanel-guild-name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Faction</label>
+                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                            <select id="user-form-faction" class="form-control" name="userpanel-faction">
+                                <option value="">Select Faction</option>
+                                <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
+                                    <option value="<?php echo $factionId; ?>" <?php if (!empty($data->_formFields->faction) && $data->_formFields->faction == $factionId): ?>selected<?php endif; ?>><?php echo $factionDetails->_name; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Server</label>
+                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                            <select id="user-form-server" class="form-control" name="userpanel-server">
+                                <option value="">Select Server</option>
+                                <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
+                                    <option value="<?php echo $serverId; ?>" <?php if (!empty($data->_formFields->server) && $data->_formFields->server == $serverId): ?>selected<?php endif; ?>><?php echo $serverDetails->_region . ' - ' . $serverDetails->_name; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Country</label>
+                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                            <select id="user-form-country" class="form-control" name="userpanel-country">
+                                <option value="">Select Country</option>
+                                <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
+                                    <option value="<?php echo $countryId; ?>" <?php if (!empty($data->_formFields->country) && $data->_formFields->country == $countryId): ?>selected<?php endif; ?>><?php echo $countryDetails->_name; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Guild Leader(s)</label>
+                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                            <input type="text" class="form-control" id="userpanel-guild-leader" placeholder="Enter guild leader name" name="userpanel-guild-leader">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Website</label>
+                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                            <input type="text" class="form-control" id="userpanel-website" placeholder="Enter guild website" name="userpanel-website">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Facebook</label>
+                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10"> 
+                            <input type="text" class="form-control" id="userpanel-facebook" placeholder="Enter Facebook handle" name="userpanel-facebook">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Twitter</label>
+                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10"> 
+                            <input type="text" class="form-control" id="userpanel-twitter" placeholder="Enter Twitter handle" name="userpanel-twitter">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Guild Logo</label>
+                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10"> 
+                            <input type="file" class="form-control" id="userpanel-logo" name="userpanel-guild-logo">
+                        </div>
+                    </div>
+                    <div class="form-group"> 
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                            <input type="hidden" name="form-type" value="update-guild">
+                            <input type="hidden" name='active' value="Active">
+                            <button type="submit" name="action" class="btn btn-default" value="guild-add"><span class="glyphicon glyphicon-plus"></span>  Create Guild</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center">
+        <div id="guild-country-logo-preview-wrapper">
+            <div class="thumbnail" id="guild-logo-preview">
+                <?php echo $guildDetails->_logo; ?>
+            </div>
+            <div class="thumbnail" id="country-flag-preview">
+                <?php echo Functions::getImageFlag($guildDetails->_country, 'large'); ?>
+            </div>
+        </div>
+    </div>
+</div>

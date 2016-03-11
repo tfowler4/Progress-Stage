@@ -11,11 +11,12 @@ class UserPanelModelGuild extends UserPanelModel {
     protected $_userDetails;
     protected $_userGuilds;
     protected $_raidTeams;
+    protected $_formStatus = 0;
 
-    const GUILD_ADD       = 'add';
+    const GUILD_ADD       = 'guild-add';
     const GUILD_EDIT      = 'guild-edit';
     const GUILD_RAID_TEAM = 'raid-team-add';
-    const GUILD_REMOVE    = 'remove';
+    const GUILD_REMOVE    = 'guild-remove';
 
     const MAX_GUILDS      = 3;
     const MAX_RAID_TEAMS  = 3;
@@ -70,7 +71,7 @@ class UserPanelModelGuild extends UserPanelModel {
                     break;
             }
 
-            if ( FormValidator::$isFormInvalid ) {echo "In here";
+            if ( FormValidator::$isFormInvalid ) {
                 $this->_dialogOptions = array('title' => 'Error',
                                               'message' => FormValidator::$message,
                                               'type' => 'danger');
@@ -80,15 +81,19 @@ class UserPanelModelGuild extends UserPanelModel {
             switch($this->_action) {
                 case self::GUILD_ADD:
                     $this->_addGuild();
+                    $this->_formStatus = 1;
                     break;
                 case self::GUILD_REMOVE:
                     $this->_removeGuild();
+                    $this->_formStatus = 1;
                     break;
                 case self::GUILD_EDIT:
                     $this->_editGuild();
+                    $this->_formStatus = 1;
                     break;
                 case self::GUILD_RAID_TEAM:
                     $this->_addRaidTeam();
+                    $this->_formStatus = 1;
                     break;
             }
         }

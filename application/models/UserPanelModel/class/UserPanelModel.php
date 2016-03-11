@@ -49,11 +49,31 @@ class UserPanelModel extends Model {
                     $this->_setTab       = 'account';
                     break;
                 case 'update-guild':
+                    $guildDetails;
+
+                    if ( !empty($this->_userGuilds[Post::get('userpanel-guild-id')]) ) {
+                      $guildDetails = $this->_userGuilds[Post::get('userpanel-guild-id')];
+                    } elseif ( !empty($this->_raidTeams) ) {
+                        foreach ( $this->_raidTeams as $guildId => $guildRaidTeams ) {
+                            foreach ( $guildRaidTeams as $raidTeamId => $raidTeamDetails ) {
+                                if ( Post::get('userpanel-guild-id') == $raidTeamId ) {
+                                    $guildDetails = $raidTeamDetails;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
                     $this->_formFields   = new GuildFormFields();
-                    $this->_currentPanel = new UserPanelModelGuild(Post::get('action'), $this->_formFields, $this->_userGuilds[Post::get('userpanel-guild-id')], $this->_userDetails, $this->_userGuilds, $this->_raidTeams);
+                    $this->_currentPanel = new UserPanelModelGuild(Post::get('action'), $this->_formFields, $guildDetails, $this->_userDetails, $this->_userGuilds, $this->_raidTeams);
                     $this->_setTab       = 'guild';
                     $this->_setOption    = 'edit';
                     $this->_tabId        = Post::get('userpanel-guild-id');
+
+                    if ( Post::get('action') && Post::get('action') == 'guild-add' && $this->_currentPanel->_formStatus == 0 )
+                    {
+                        $this->_setOption = 'add';
+                    }
                     break;
                 case 'update-kills':
                     $this->_formFields   = new KillSubmissionFormFields();
