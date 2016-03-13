@@ -26,30 +26,30 @@ class StandingsModel extends Model {
         );
 
     const TABLE_HEADER_STANDINGS_DUNGEON = array(
-            'Rank'            => '_rank',
-            'Guild'           => '_nameLink',
-            'Server'          => '_serverLink',
-            'Progress'        => '_progress',
-            'Hard Modes'      => '_specialProgress',
-            'Conqueror'       => '_achievement',
-            'WF'              => '_worldFirst',
-            'RF'              => '_regionFirst',
-            'SF'              => '_serverFirst',
-            'Recent Activity' => '_recentActivity'
+            array('header' => 'Rank',            'key' => '_rank',            'class' => ''),
+            array('header' => 'Guild',           'key' => '_nameLink',        'class' => ''),
+            array('header' => 'Server',          'key' => '_serverLink',      'class' => ''),
+            array('header' => 'Progress',        'key' => '_progress',        'class' => ''),
+            array('header' => 'Hard Modes',      'key' => '_specialProgress', 'class' => 'text-center hidden-xs hidden-sm'),
+            array('header' => 'Conqueror',       'key' => '_achievement',     'class' => 'text-center hidden-xs hidden-sm'),
+            array('header' => 'WF',              'key' => '_worldFirst',      'class' => 'text-center hidden-xs'),
+            array('header' => 'RF',              'key' => '_regionFirst',     'class' => 'text-center hidden-xs'),
+            array('header' => 'SF',              'key' => '_serverFirst',     'class' => 'text-center hidden-xs'),
+            array('header' => 'Recent Activity', 'key' => '_recentActivity',  'class' => 'text-center hidden-xs hidden-sm hidden-md')
         );
 
     const TABLE_HEADER_STANDINGS_ENCOUNTER = array(
-            'Rank'            => '_rank',
-            'Guild'           => '_nameLink',
-            'Server'          => '_serverLink',
-            'Date Completed'  => '_datetime',
-            'Time Difference' => '_timeDiff',
-            'Server Achieved' => '_killServer',
-            'WR'              => '_worldRankImage',
-            'RR'              => '_regionRankImage',
-            'SR'              => '_serverRankImage',
-            'Kill Video'      => '_videoLink',
-            'Screenshot'      => '_screenshotLink'
+            array('header' => 'Rank',            'key' => '_rank',            'class' => ''),
+            array('header' => 'Guild',           'key' => '_nameLink',        'class' => ''),
+            array('header' => 'Server',          'key' => '_serverLink',      'class' => ''),
+            array('header' => 'Date Completed',  'key' => '_datetime',        'class' => 'text-center'),
+            array('header' => 'Time Difference', 'key' => '_timeDiff',        'class' => 'text-center hidden-xs hidden-sm'),
+            array('header' => 'Server Achieved', 'key' => '_killServer',      'class' => 'text-center hidden-xs hidden-sm'),
+            array('header' => 'WF',              'key' => '_worldRankImage',  'class' => 'text-center hidden-xs'),
+            array('header' => 'RF',              'key' => '_regionRankImage', 'class' => 'text-center hidden-xs'),
+            array('header' => 'SF',              'key' => '_serverRankImage', 'class' => 'text-center hidden-xs'),
+            array('header' => 'Kill Video',      'key' => '_videoLink',       'class' => 'text-center hidden-xs hidden-sm'),
+            array('header' => 'Screenshot',      'key' => '_screenshotLink',  'class' => 'text-center hidden-xs hidden-sm')
         );
 
     const PANE_DUNGEON = array(

@@ -38,29 +38,29 @@ class GuildModel extends Model {
         );
 
     const TABLE_HEADER_PROGRESSION = array(
-            'Encounter'      => '_encounterName',
-            'Date Completed' => '_datetime',
-            'Server'         => '_killServerLink',
-            'WR'             => '_worldRankImage',
-            'RR'             => '_regionRankImage',
-            'SR'             => '_serverRankImage',
-            'QP'             => '_QP',
-            'AP'             => '_AP',
-            'APF'            => '_APF',
-            'Kill Video'     => '_videoLink',
-            'Screenshot'     => '_screenshotLink'
+            array('header' => 'Encounter',      'key' => '_encounterName',   'class' => ''),
+            array('header' => 'Server',         'key' => '_killServerLink',  'class' => 'hidden-xs'),
+            array('header' => 'Date Completed', 'key' => '_datetime',        'class' => 'text-center '),
+            array('header' => 'WR',             'key' => '_worldRankImage',  'class' => 'text-center hidden-xs'),
+            array('header' => 'RR',             'key' => '_regionRankImage', 'class' => 'text-center hidden-xs'),
+            array('header' => 'SR',             'key' => '_serverRankImage', 'class' => 'text-center hidden-xs'),
+            array('header' => 'QP',             'key' => '_QP',              'class' => 'text-center hidden-xs hidden-sm'),
+            array('header' => 'AP',             'key' => '_AP',              'class' => 'text-center hidden-xs hidden-sm'),
+            array('header' => 'APF',            'key' => '_APF',             'class' => 'text-center hidden-xs hidden-sm'),
+            array('header' => 'Kill Videos',    'key' => '_videoLink',       'class' => 'text-center'),
+            array('header' => 'Screenshot',     'key' => '_screenshotLink',  'class' => 'text-center')
         );
 
     const TABLE_HEADER_TIMELINE = array(
-            'Encounter'      => '_encounterName',
-            'Dungeon'        => '_dungeon',
-            'Tier'           => '_tier',
-            'Date Completed' => '_datetime',
-            'Server'         => '_killServerLink',
-            'Time Diff'      => '_span',
-            'WR'             => '_worldRankImage',
-            'RR'             => '_regionRankImage',
-            'SR'             => '_serverRankImage'
+            array('header' => 'Encounter',      'key' => '_encounterName',   'class' => ''),
+            array('header' => 'Dungeon',        'key' => '_dungeon',         'class' => 'text-center hidden-xs'),
+            array('header' => 'Tier',           'key' => '_tier',            'class' => 'text-center hidden-xs'),
+            array('header' => 'Date Completed', 'key' => '_datetime',        'class' => 'text-center'),
+            array('header' => 'Server',         'key' => '_killServerLink',  'class' => 'text-center hidden-xs'),
+            array('header' => 'Time Diff',      'key' => '_span',            'class' => 'text-center hidden-sm'),
+            array('header' => 'WR',             'key' => '_worldRankImage',  'class' => 'text-center hidden-xs'),
+            array('header' => 'RR',             'key' => '_regionRankImage', 'class' => 'text-center hidden-xs'),
+            array('header' => 'SR',             'key' => '_serverRankImage', 'class' => 'text-center hidden-xs')
         );
 
     const PAGE_TITLE = 'Guild Profile';

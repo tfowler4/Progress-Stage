@@ -22,17 +22,17 @@ class RankingsModel extends Model {
     const LIMIT_TREND_TOTAL  = 15;
 
     const TABLE_HEADER_DEFAULT = array(
-            'Rank'          => '_rank',
-            'Guild'         => '_nameLink',
-            'Server'        => '_serverLink',
-            'Progress'      => '_progress',
-            'Points'        => '_points',
-            'Diff'          => '_pointDiff',
-            'WF'            => '_worldFirst',
-            'RF'            => '_regionFirst',
-            'SF'            => '_serverFirst',
-            'Trending'      => '_trendImage',
-            'Previous Rank' => '_prevRank'
+            array('header' => 'Rank',          'key' => '_rank',       'class' => ''),
+            array('header' => 'Guild',         'key' => '_nameLink',   'class' => ''),
+            array('header' => 'Server',        'key' => '_serverLink', 'class' => ''),
+            array('header' => 'Progress',      'key' => '_progress',   'class' => 'text-center hidden-xs hidden-sm'),
+            array('header' => 'Points',        'key' => '_points',     'class' => 'text-center'),
+            array('header' => 'Diff',          'key' => '_pointDiff',  'class' => 'text-center hidden-xs hidden-sm'),
+            array('header' => 'WF',            'key' => '_worldFirst', 'class' => 'text-center hidden-xs'),
+            array('header' => 'RF',            'key' => '_regionFirst','class' => 'text-center hidden-xs'),
+            array('header' => 'SF',            'key' => '_serverFirst','class' => 'text-center hidden-xs'),
+            array('header' => 'Trending',      'key' => '_trendImage', 'class' => 'text-center hidden-xs hidden-sm hidden-md'),
+            array('header' => 'Previous Rank', 'key' => '_prevRank',   'class' => 'text-center hidden-xs hidden-sm hidden-md')
         );
 
     const PANE_DUNGEON = array(

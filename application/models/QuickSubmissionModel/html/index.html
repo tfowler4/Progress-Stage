@@ -2,16 +2,18 @@
     <?php if (!empty($data->_dialogOptions)): ?>
         <div id="dialog-wrapper" class="row">
             <div class="col-lg-offset-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                <div class="panel panel-<?php echo $data->_dialogOptions['type']; ?>">
-                    <div class="panel-heading"><?php echo $data->_dialogOptions['title']; ?></div>
-                    <div class="panel-body text-center"><?php echo $data->_dialogOptions['message']; ?></div>
+                <div class="alert alert-<?php echo $data->_dialogOptions['type']; ?> text-center">
+                    <strong><?php echo $data->_dialogOptions['title']; ?></strong>
+                    <p>
+                        <?php echo $data->_dialogOptions['message']; ?>
+                    </p>
                 </div>
             </div>
         </div>
     <?php endif; ?>
     <div id="form-wrapper" class="row">
         <div class="col-lg-offset-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">Quick Kill Submission</div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_QUICK; ?>" autocomplete="off" enctype="multipart/form-data">

@@ -287,9 +287,10 @@ class Functions {
 
         if ( $size == 'large' ) { 
             $folder .= 'large/'; 
-            $class = 'class="img-responsive"';
+            $class = 'class="large-flag"';
         } elseif ( $size == 'medium' ) { 
             $folder .= 'medium/';
+            $class = 'class="medium-flag"';
         } elseif ( $size == 'small' ) {
             $folder .= 'medium/';
             $class  = 'class="flag-custom"';

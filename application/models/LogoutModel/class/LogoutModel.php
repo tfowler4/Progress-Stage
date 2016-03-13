@@ -19,7 +19,9 @@ class LogoutModel extends Model {
             unset($_SESSION['logged']);
             unset($_SESSION['userDetails']);
 
-            $this->_dialogOptions = array('title' => 'Success', 'message' => 'You have successfully logged out!');
+            $this->_dialogOptions = array('title' => 'Success',
+                                          'message' => 'You have successfully logged out!',
+                                          'type' => 'success');
         }
     }
 }

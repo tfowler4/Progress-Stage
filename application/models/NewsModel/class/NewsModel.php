@@ -21,10 +21,10 @@ class NewsModel extends Model {
     const STREAM_CHANNELS       = 20;
 
     const HEADER_STANDINGS = array(
-            'Rank'     => '_rank',
-            'Guild'    => '_nameLink',
-            'Server'   => '_serverLink',
-            'Progress' => '_progress'
+            array('header' => 'Rank',     'key' => '_rank',       'class' => ''),
+            array('header' => 'Guild',    'key' => '_nameLink',   'class' => ''),
+            array('header' => 'Server',   'key' => '_serverLink', 'class' => 'hidden-xs hidden-sm'),
+            array('header' => 'Progress', 'key' => '_progress',   'class' => 'text-center')
         );
 
     /**

@@ -2,16 +2,18 @@
     <?php if (!empty($data->_dialogOptions)): ?>
         <div id="dialog-wrapper" class="row">
             <div class="col-lg-offset-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                <div class="panel panel-<?php echo $data->_dialogOptions['type']; ?>">
-                    <div class="panel-heading"><?php echo $data->_dialogOptions['title']; ?></div>
-                    <div class="panel-body text-center"><?php echo $data->_dialogOptions['message']; ?></div>
+                <div class="alert alert-<?php echo $data->_dialogOptions['type']; ?> text-center">
+                    <strong><?php echo $data->_dialogOptions['title']; ?></strong>
+                    <p>
+                        <?php echo $data->_dialogOptions['message']; ?>
+                    </p>
                 </div>
             </div>
         </div>
     <?php endif; ?>
     <div id="form-wrapper" class="row">
         <div class="col-lg-offset-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <div class="panel-heading">Contact Us</div>
                 <div class="panel-body">
                     <form role="form" method="POST" action="<?php echo PAGE_CONTACTUS; ?>" autocomplete="off">
@@ -37,7 +39,7 @@
                             <label for="contact-message">Message</label>
                             <textarea class="form-control" id="contact-popup-message" name="contact-message" rows="5"></textarea>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group text-center">
                             <input id="contact-popup-active" type="hidden" name='active' value="Active">
                             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span>  Submit</button>
                         </div>

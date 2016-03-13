@@ -9,15 +9,15 @@ class GuildDirectoryModel extends Model {
     protected $_detailsPane;
 
     const PAGE_TITLE = 'Guild Directory';
+
     const TABLE_HEADER = array(
-            'Guild'           => '_nameLink',
-            'Server'          => '_serverLink',
-            'Raid Schedule'   => '_schedule',
-            'WF'              => '_worldFirst',
-            'RF'              => '_regionFirst',
-            'SF'              => '_serverFirst',
-            'Recent Activity' => '_recentActivity',
-            'Website'         => '_websiteLink',
+            array('header' => 'Guild',           'key' => '_nameLink',       'class' => ''),
+            array('header' => 'Server',          'key' => '_serverLink',     'class' => ''),
+            array('header' => 'WF',              'key' => '_worldFirst',     'class' => 'text-center hidden-xs'),
+            array('header' => 'RF',              'key' => '_regionFirst',    'class' => 'text-center hidden-xs'),
+            array('header' => 'SF',              'key' => '_serverFirst',    'class' => 'text-center hidden-xs'),
+            array('header' => 'Website',         'key' => '_websiteLink',    'class' => 'text-center'),
+            array('header' => 'Recent Activity', 'key' => '_recentActivity', 'class' => 'text-center hidden-xs hidden-sm hidden-md')
         );
 
     const PANE_DATA = array(

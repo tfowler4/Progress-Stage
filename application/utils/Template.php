@@ -34,6 +34,7 @@ class Template {
 
         $html .= '<tr>';
 
+        /*
         foreach( $tableHeader as $key => $value ) {
             $html .= '<th class="info';
 
@@ -42,6 +43,15 @@ class Template {
             }
 
             $html .= '">' . $key . '</th>';
+
+            $cellCount++;
+        }
+        */
+       
+        foreach( $tableHeader as $tableHeaderValues ) {
+            $html .= '<th class="info ' . $tableHeaderValues['class'];
+
+            $html .= '">' . $tableHeaderValues['header'] . '</th>';
 
             $cellCount++;
         }
@@ -76,7 +86,7 @@ class Template {
 
         if ( !empty($optionText) ) {
             $html .= '<div class="pull-right">';
-            $html .= '<a data-toggle="modal" data-target="#spreadsheetModal" id="' . $optionId . '" class="btn btn-default btn-xs ' . $optionClass . '" href="#"><span class="glyphicon glyphicon-th-list"></span>  ' . $optionText . '</a>';
+            $html .= '<a data-toggle="modal" data-target="#spreadsheetModal" id="' . $optionId . '" class="btn btn-default btn-xs ' . $optionClass . '" href="#"><span class="glyphicon glyphicon-th-list"></span></a>';
             $html .= '</div>';
         }
 
@@ -102,14 +112,20 @@ class Template {
 
         $html .= '<tr>';
 
-        foreach( $tableHeader as $key => $value ) {
+        //foreach( $tableHeader as $key => $value ) {
+        foreach( $tableHeader as $tableHeaderValues ) {
+            $value = $tableHeaderValues['key'];
             $columnValue = $columnObject->$value;
 
             $html .= '<td';
 
+            /*
             if ( $cellCount % 3 == 0 ) {
                 $html .= ' class="border-right"';
             } 
+            */
+           
+           $html .= ' class="' . $tableHeaderValues['class'] . '"';
 
             if ( strpos($value, '->') > 0 ) {
                 $objArray = explode('->', $value);
@@ -198,7 +214,7 @@ class Template {
         $html        = '';
         $columnCount = 0;
 
-        $html .= '<div class="panel panel-default">';
+        $html .= '<div class="panel panel-primary">';
         $html .= '<div class="panel-heading"><span class="h4">Glossary</span></div>';
         $html .= '<table class="table table-condensed">';
         /*$html .= '<thead>';
@@ -254,7 +270,7 @@ class Template {
                 }
             }
 
-            $html .= '<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 text-center">';
+            $html .= '<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">';
                 $html .= '<div class="thumbnail top-guild">';
                     $html .= self::getLogo($guildDetails);
                    /*$html .= '<div class="caption text-center">';
@@ -264,7 +280,7 @@ class Template {
                         $html .= '</h3>';
                     $html .= '</div>';*/
                 $html .= '</div>';
-                            $html .= '<h3><strong>' . Functions::shortName($guildDetails->_name, 20) . '</strong></h3>';
+                            $html .= '<h3><strong>' . Functions::getImageFlag($guildDetails->_country, 'medium') . ' <span>' . Functions::shortName($guildDetails->_name, 20) . '</span></strong></h3>';//Functions::getImageFlag($guildDetails->_country, 'medium')
                             $html .= '<p><small>' . Functions::convertToOrdinal($guildCount). ' - ' . $placeStr . '</small></p>';
             $html .= '</div>';
 
@@ -293,7 +309,9 @@ class Template {
             $class           = '';
 
             if ( $imageDimensions[0] > 300 ) { 
-                $class = 'class="guild-logo-medium"'; 
+                $class = 'class="guild-logo-medium"';
+            } else {
+                $class = 'class=""';
             }
 
             $logo  = '<img src="' . $src . '" ' . $class . '>';
@@ -363,7 +381,7 @@ class Template {
         $html .= '</div>';
         $html .= '<div id="data" class="row">';
         $html .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
-        $html .= '<div class="panel panel-default">';
+        $html .= '<div class="panel panel-primary">';
         $html .= '<table class="table table-striped table-hover table-condensed">';
         //$html .= '<thead>';
         //$html .= '</thead>';
@@ -411,19 +429,21 @@ class Template {
         $tierDetails    = CommonDataContainer::$tierArray[$dungeonDetails->_tier];
 
         $tableHeader = array(
-                'Rank'   => '_rank',
-                'Guild'  => '_nameLink',
-                'Server' => '_serverLink',
+                array('header' => 'Rank',   'key' => '_rank',       'class' => ''),
+                array('header' => 'Guild',  'key' => '_nameLink',   'class' => ''),
+                array('header' => 'Server', 'key' => '_serverLink', 'class' => '')
             );
 
         // Generate TableHeader of Encounters
         $encounterArray = array();
 
         foreach ( (array)$dungeonDetails->_encounters as $encounterId => $encounterDetails) {
-            $encounterArray[$encounterDetails->_encounterShortName] = '_encounterDetails->'. $encounterId . '->_datetime';
+            $header = $encounterDetails->_encounterShortName;
+            $key    = '_encounterDetails->'. $encounterId . '->_datetime';
+            $class  = 'text-center';
+            $arr = array('header' => $header, 'key' => $key, 'class' => $class);
+            array_push($tableHeader, $arr);
         }
-
-        $tableHeader = array_merge($tableHeader, $encounterArray);
 
         $params    = array();
         $params[] = $view;
@@ -783,7 +803,7 @@ class Template {
         $searchResults = GuildSearch::getSearchResults($searchTerm);
 
         $html = '';
-        $html .= '<div class="panel panel-default">';
+        $html .= '<div class="panel panel-primary">';
         $html .= '<div class="panel-heading">Search Results</div>';
         $html .= '<table class="table table-condensed table-hover table-striped">';
         $html .= '<thead>';

@@ -26,7 +26,7 @@ define('IMG_ARROW_DROPDOWN', "<img style='height:10px; width:10px; vertical-alig
 define('IMG_ARROW_EXPAND',   "<div style='display:inline-block; position:absolute; right:5px;'><img style='height:8px; width:8px;' src='" . FOLD_GRAPHICS . "icon-expand.png' alt='Expand'></div>");
 
 // game logos
-if ( defined('GAME_NAME_1') ) { define('IMG_GAME_LOGO_1', "<img style='width:225px;' src='" . FOLD_GAME_LOGOS . "game_logo_1.png' alt='" . GAME_NAME_1 . " Logo'>"); }
+if ( defined('GAME_NAME_1') ) { define('IMG_GAME_LOGO_1', "<img class='' style='width:225px;' src='" . FOLD_GAME_LOGOS . "game_logo_1.png' alt='" . GAME_NAME_1 . " Logo'>"); }
 if ( defined('GAME_NAME_2') ) { define('IMG_GAME_LOGO_2', "<img style='width:225px;' src='" . FOLD_GAME_LOGOS . "game_logo_2.png' alt='" . GAME_NAME_2 . " Logo'>"); }
 if ( defined('GAME_NAME_3') ) { define('IMG_GAME_LOGO_3', "<img style='width:225px;' src='" . FOLD_GAME_LOGOS . "game_logo_3.png' alt='" . GAME_NAME_3 . " Logo'>"); }
 
