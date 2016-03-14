@@ -14,11 +14,15 @@
     </head>
     <body>
         <?php include('header.html'); ?>
-        <div id="body-content">
-            <?php include($this->_contentFile); ?>
+        <div id="body-wrapper" class="container-fluid">
+            <div class="col-lg-offset-1 col-lg-10">
+                <div class="row">
+                    <?php include($this->_contentFile); ?>
+                    <div id="modal-wrapper"></div>
+                </div>
+            </div>
         </div>
         <?php include('footer.html'); ?>
-        <div id="modal-wrapper"></div>
     </body>
 </html>
 

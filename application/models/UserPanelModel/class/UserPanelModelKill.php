@@ -16,15 +16,15 @@ class UserPanelModelKill extends UserPanelModel {
     const KILLS_EDIT   = 'edit-kill';
 
     const TABLE_HEADER_PROGRESSION = array(
-            'Encounter'      => '_encounterName',
-            'Date Completed' => '_datetime',
-            'Server'         => '_serverLink',
-            'WR'             => '_worldRankImage',
-            'RR'             => '_regionRankImage',
-            'SR'             => '_serverRankImage',
-            'Kill Video'     => '_videoLink',
-            'Screenshot'     => '_screenshotLink',
-            'Options'        => '_options'
+            array('header' => 'Encounter',      'key' => '_encounterName',   'class' => ''),
+            array('header' => 'Server',         'key' => '_serverLink',      'class' => 'hidden-xs hidden-sm'),
+            array('header' => 'Date Completed', 'key' => '_datetime',        'class' => 'text-center hidden-xs'),
+            array('header' => 'WR',             'key' => '_worldRankImage',  'class' => 'text-center hidden-xs hidden-sm hidden-md'),
+            array('header' => 'RR',             'key' => '_regionRankImage', 'class' => 'text-center hidden-xs hidden-sm hidden-md'),
+            array('header' => 'SR',             'key' => '_serverRankImage', 'class' => 'text-center hidden-xs hidden-sm hidden-md'),
+            array('header' => 'Kill Video',     'key' => '_videoLink',       'class' => 'text-center hidden-xs'),
+            array('header' => 'Screenshot',     'key' => '_screenshotLink',  'class' => 'text-center hidden-xs'),
+            array('header' => 'Options',        'key' => '_options',         'class' => 'text-center')
         );
 
     public function __construct($action, $formFields, $guildDetails) {

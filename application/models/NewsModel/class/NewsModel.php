@@ -24,7 +24,7 @@ class NewsModel extends Model {
             array('header' => 'Rank',     'key' => '_rank',       'class' => ''),
             array('header' => 'Guild',    'key' => '_nameLink',   'class' => ''),
             array('header' => 'Server',   'key' => '_serverLink', 'class' => 'hidden-xs hidden-sm'),
-            array('header' => 'Progress', 'key' => '_progress',   'class' => 'text-center')
+            array('header' => 'Progress', 'key' => '_progress',   'class' => 'border-left text-center')
         );
 
     /**

@@ -1,40 +1,30 @@
 <div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center">
-        <div id="faction-logo-preview-wrapper">
-            <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
-                <div class="thumbnail">
-                    <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> <?php if( $factionDetails->_name != $guildDetails->_faction): ?>faded <?php endif; ?>">
-                        <?php echo Functions::getImageFaction($factionDetails->_name); ?>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-lg-push-3 ">
         <div class="panel panel-primary">
-        <div class="panel-heading">Add New Raid Team</div>
+            <div class="panel-heading">Add New Raid Team</div>
             <div class="panel-body">
-            <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_USER_PANEL; ?>" autocomplete="off" enctype="multipart/form-data">
+                <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_USER_PANEL; ?>" autocomplete="off" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Guild</label>
-                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                        <label for="" class="control-label col-lg-3 col-md-2">Guild Name</label>
+                        <div class="col-lg-7 col-md-10">
                             <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
                                 <input type="text" disabled class="form-control" value="<?php echo $guildDetails->_name; ?>">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Team Name</label>
-                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                        <label for="" class="control-label col-lg-3 col-md-2">Team Name</label>
+                        <div class="col-lg-7 col-md-10">
                             <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
                                 <input type="text" class="form-control" name="userpanel-guild-name" placeholder="Enter Team Name">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Faction</label>
-                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                        <label for="" class="control-label col-lg-3 col-md-2">Faction</label>
+                        <div class="col-lg-7 col-md-10">
                             <select id="user-form-faction" name="userpanel-faction" class="form-control">
                                 <option value="">Select Faction</option>
                                 <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
@@ -44,8 +34,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Server</label>
-                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                        <label for="" class="control-label col-lg-3 col-md-2">Server</label>
+                        <div class="col-lg-7 col-md-10">
                             <select id="user-form-server" name="userpanel-server" class="form-control">
                                 <option value="">Select Server</option>
                                 <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
@@ -55,8 +45,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Country</label>
-                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                        <label for="" class="control-label col-lg-3 col-md-2">Country</label>
+                        <div class="col-lg-7 col-md-10">
                             <select id="user-form-country" name="userpanel-country" class="form-control">
                                 <option value="">Select Country</option>
                                 <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
@@ -66,9 +56,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Team Leader(s)</label>
-                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                            <input id="user-form-guild-leader" type="text" name="userpanel-guild-leader" class="form-control" placeholder="Enter Team Leader Name">
+                        <label for="" class="control-label col-lg-3 col-md-2">Team Leader(s)</label>
+                        <div class="col-lg-7 col-md-10">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+                                <input id="user-form-guild-leader" type="text" name="userpanel-guild-leader" class="form-control" placeholder="Enter Team Leader Name">
+                            </div>
                         </div>
                     </div>
                     <div class="form-group text-center">
@@ -82,7 +75,19 @@
         </div>
     </div>
 
-    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center">
+    <div class="col-lg-3 col-lg-pull-6 col-md-6 text-center">
+        <div id="faction-logo-preview-wrapper">
+            <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
+                <div class="thumbnail">
+                    <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> <?php if( $factionDetails->_name != $guildDetails->_faction): ?>faded <?php endif; ?>">
+                        <?php echo Functions::getImageFaction($factionDetails->_name); ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 text-center">
         <div id="guild-country-logo-preview-wrapper">
             <div class="thumbnail" id="country-flag-preview"></div>
         </div>

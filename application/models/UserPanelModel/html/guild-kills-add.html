@@ -1,12 +1,12 @@
 <div class="row">
-    <div class="col-lg-offset-3 col-lg-6 col-md-4 col-sm-12 col-xs-12">
+    <div class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6">
         <div class="panel panel-primary">
-        <div class="panel-heading">New Kill Submission</div>
+            <div class="panel-heading">New Kill Submission</div>
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_USER_PANEL; ?>" autocomplete="off" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Guild Name</label>
-                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                    <div class="form-group text-left">
+                        <label for="" class="control-label col-lg-3 col-md-2">Guild Name</label>
+                        <div class="col-lg-7 col-md-10">
                             <div class="input-group">
                                 <input id="user-form-guild" name="userpanel-guild" type="hidden" value="<?php echo $guildDetails->_guildId; ?>">
                                 <input type="text" disabled class="form-control" value="<?php echo $guildDetails->_name; ?>">
@@ -14,8 +14,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Encounter</label>
-                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                        <label for="" class="control-label col-lg-3 col-md-2">Encounter</label>
+                        <div class="col-lg-7 col-md-10">
                             <select id="user-form-encounter" name="userpanel-encounter" class="form-control">
                                 <option value="">Select Encounter</option>
                                 <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails): ?>
@@ -27,8 +27,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Date (M-D-Y)</label>
-                        <div class="form-inline col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                        <label for="" class="control-label col-lg-3 col-md-2">Date (M-D-Y)</label>
+                        <div class="form-inline col-lg-7 col-md-10 0 ">
                            <select id="user-form-popup-month" class="form-control" name="userpanel-month">
                                 <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
                                     <?php if ( $month == date('m') ): ?> 
@@ -61,8 +61,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Time (H:M UTC)</label>
-                        <div class="form-inline col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                        <label for="" class="control-label col-lg-3 col-md-2">Time (H:M UTC)</label>
+                        <div class="form-inline col-lg-7 col-md-10">
                             <select id="user-form-popup-hour" class="form-control"  name="userpanel-hour">
                                 <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
                                     <?php if ( $hour == date('H') ): ?> 
@@ -85,14 +85,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="userpanel-screenshot" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Screenshot</label>
-                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                        <label for="userpanel-screenshot" class="control-label col-lg-3 col-md-2">Screenshot</label>
+                        <div class="col-lg-7 col-md-10">
                             <input id="user-form-screenshot" class="form-control" type="file" name="userpanel-screenshot">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="quick-videos" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Kill Videos</label>
-                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                        <label for="quick-videos" class="control-label col-lg-3 col-md-2">Kill Videos</label>
+                        <div class="col-lg-7 col-md-10">
                             <div class="video-link-container"></div>
                             <a class="btn btn-default new-video-link" href="#"><span class="glyphicon glyphicon-plus"></span>  Add New Video</a>
                         </div>

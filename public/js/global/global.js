@@ -144,21 +144,25 @@ var GlobalEventBinder = function() {
 
         var html  = '<div class="video-link-wrapper">';
             html += '<div class="form-group">';
-                html += '<label>' + 'Video #' + videoLinkNum + '</label>';
-                html += '<div class="input-group">';
-                    html += '<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-film"></span></span>';
-                    html += '<input type="text" class="form-control"  id="user-form-video-title-' + videoLinkNum + '" name="video-link-title[]" placeholder="Notes">';
+                html += '<label for="" class="control-label col-lg-2 col-md-2 col-sm-12 col-xs-12">' + 'Video #' + videoLinkNum + '</label>';
+                html += '<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">';
+                    html += '<div class="input-group">';
+                        html += '<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-film"></span></span>';
+                        html += '<input type="text" class="form-control"  id="user-form-video-title-' + videoLinkNum + '" name="video-link-title[]" placeholder="Notes">';
+                    html += '</div>';
                 html += '</div>';
             html += '</div>';
             html += '<div class="form-group">';
-                html += '<div class="input-group">';
-                    html += '<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-globe"></span></span>';
-                    html += '<input type="text" class="form-control" id="user-form-video-url-' + videoLinkNum + '" name="video-link-url[]" placeholder="Video URL">';
+                html += '<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">';
+                    html += '<div class="input-group">';
+                        html += '<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-globe"></span></span>';
+                        html += '<input type="text" class="form-control" id="user-form-video-url-' + videoLinkNum + '" name="video-link-url[]" placeholder="Video URL">';
+                    html += '</div>';
                 html += '</div>';
             html += '</div>';
             html += '<div class="form-group">';
-                html += '<label for="" class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-2">Type</label>';
-                html += '<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">';
+                html += '<label for="" class="control-label col-lg-2 col-md-2 col-sm-12 col-xs-12">Type</label>';
+                html += '<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">';
                     html += '<select id="user-form-video-type-' + videoLinkNum + '" name="video-link-type[]" class="form-control">';
                         html += '<option value="0">General Kill</option>';
                         html += '<option value="1">Encounter Guide</option>';
@@ -217,9 +221,14 @@ var GlobalEventBinder = function() {
 
     // on user clicking 'View' for videos to fetch all videos for that encounter/guild
     $(document).on('click touchstart', '.video-activator', function() {
-        $(".overlay").fadeToggle('fast');
+        event.preventDefault();
 
-        var currentPageUrl = document.URL;
+        var currentPageUrl   = document.URL;
+        var modalWrapper     = $('#modal-wrapper');
+        var modalBackdrop    = $('.modal-backdrop');
+        modalWrapper.empty();
+        modalBackdrop.remove();
+
         var guildId        = $(this).attr('data-guild');
         var encounterId    = $(this).attr('data-encounter');
 
@@ -227,18 +236,31 @@ var GlobalEventBinder = function() {
          $.ajax({
             url: currentPageUrl,
             type: 'POST',
-            data: { request: 'videoList', guild: guildId, encounter: encounterId},
-            success: function(data) {
-                var activeDiv = $('#popup-wrapper');
-
-                activeDiv.toggleClass('centered');
-                activeDiv.fadeToggle('fast');
-                activeDiv.html(data);
-                activePopup = activeDiv;
+            data: { request: 'modal', formId: 'videoModal'},
+            success: function(html) {
+                modalWrapper.html(html);
             },
             error: function(xhr, desc, err) {
                 console.log(xhr);
                 console.log("Details: " + desc + "\nError:" + err);
+            },
+            complete: function(data) {
+                $('#videoModal').modal("show");
+
+                $.ajax({
+                    url: currentPageUrl,
+                    type: 'POST',
+                    data: { request: 'videoList', guild: guildId, encounter: encounterId},
+                    success: function(data) {
+                        var spreadsheetDiv = $('#videoModal .modal-body');
+                        spreadsheetDiv.empty();
+                        spreadsheetDiv.html(data);
+                    },
+                    error: function(xhr, desc, err) {
+                        console.log(xhr);
+                        console.log("Details: " + desc + "\nError:" + err);
+                    }
+                });
             }
         });
     });
@@ -255,7 +277,6 @@ var GlobalEventBinder = function() {
         modalBackdrop.remove();
 
         // Ajax call to get the modal html
-
         $.ajax({
             url: currentPageUrl,
             type: 'POST',
@@ -287,4 +308,4 @@ var GlobalEventBinder = function() {
             }
         });
     });
-};
+}; 

@@ -19,6 +19,10 @@
     display: block;
 }
 
+.block {
+  display:block;
+}
+
 /* navbar hover menu */
 .dropdown-submenu>a:after {
     display: block;
@@ -54,8 +58,8 @@
 }
 
 /* navbar collapse width settings */
-/*
-@media (max-width: 1150px) {
+
+@media (max-width: 880px) {
     .navbar-collapse.collapse {
         display: none !important;
     }
@@ -69,7 +73,7 @@
         float: none;
     }
 }
-*/
+
 /* recent raid carousel resolution setting */
 @media (max-width: 1400px) {
     .hidden-1420px {
@@ -95,6 +99,10 @@
 .thumbnail.top-guild {
     height: 300px;
     padding-top: 50px;
+}
+
+.thumbnail.top-guild:hover {
+    border-color: #000000;
 }
 
 .thumbnail.top-guild img {
@@ -231,7 +239,7 @@
     color: #0000FF;
 }
 
-#body-content {
+#body-wrapper {
     min-height:65.3vh;
 }
 
@@ -258,7 +266,6 @@ textarea {
 
 .panel-primary > .panel-heading {
     background-color: #C0C0C0;
-
     background: -moz-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* ff3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #C0C0C0), color-stop(100%, #9C9C9C)); /* safari4+,chrome */
     background: -webkit-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* safari5.1+,chrome10+ */
@@ -276,10 +283,92 @@ textarea {
  */
 }
 
-.thumbnail {
-
+.panel-primary > .panel-heading > span.h4 {
+    color: #555555;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .medium-flag {
     height: 26px;
+}
+
+.modal-primary {
+    background-color: #C0C0C0;
+    background: -moz-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* ff3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #C0C0C0), color-stop(100%, #9C9C9C)); /* safari4+,chrome */
+    background: -webkit-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* safari5.1+,chrome10+ */
+    background: -o-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* opera 11.10+ */
+    background: -ms-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* ie10+ */
+    background: linear-gradient(180deg, #C0C0C0 0%, #9C9C9C 100%); /* w3c */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#C0C0C0', endColorstr='#9C9C9C',GradientType=0 ); /* ie6-9 */
+
+    border-radius: 4px 4px 0px 0px;
+}
+
+.bg-primary {
+    background-color: #C0C0C0;
+    background: -moz-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* ff3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #C0C0C0), color-stop(100%, #9C9C9C)); /* safari4+,chrome */
+    background: -webkit-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* safari5.1+,chrome10+ */
+    background: -o-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* opera 11.10+ */
+    background: -ms-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* ie10+ */
+    background: linear-gradient(180deg, #C0C0C0 0%, #9C9C9C 100%); /* w3c */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#C0C0C0', endColorstr='#9C9C9C',GradientType=0 ); /* ie6-9 */
+
+    border-radius: 4px 4px 0px 0px;
+}
+
+body { padding-top: 55px; }
+
+.table-hover tbody tr:hover td {
+    background-color: #CCCCCC !important;
+}
+
+.table-hover tbody tr:hover th {
+    background-color: none !important;
+}
+
+.table-striped {
+    background-color: #FFFFFF !important;
+}
+
+.table-striped > tbody > tr.table-data:nth-child(2n+1) > td {
+   background-color: #D9D9D9;
+}
+
+.table > tbody > tr > th {
+    font-weight: normal;
+    font-size: 12px;
+    color: #000000;
+    border: 0;
+    background-color: #FFFFFF !important;
+}
+
+.table > tbody > tr > th.subHeader {
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.table > tbody > tr > th.subTitle, .table > thead > tr > th.subTitle {
+    color: #555555;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.side-ranking-header {
+    font-family: Impact,sans-serif;
+    color: #777777;
+}
+
+.border-left {
+    border-left: 1px solid #CCCCCC !important;
+}
+
+.border-right {
+    border-right: 1px solid #CCCCCC;
+}
+
+.table.table-pane tbody > tr > th{
+    font-weight: bold;
+    font-size: 14px;
 }

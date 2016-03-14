@@ -73,7 +73,7 @@ class EncounterDetails extends DetailObject {
         if ( isset($params['videos']) && $params['videos'] > 0 ) {
             $this->_hasVideos = true;
             $this->_videos    = $this->getEncounterVideos($this->_encounterId, $guildDetails->_guildId);
-            $this->_videoLink = '<a class="video-activator clickable" data-guild="' . $guildDetails->_guildId . '" data-encounter="' . $this->_encounterId . '">View</a>';
+            $this->_videoLink = '<a class="video-activator" href="#" data-toggle="modal" data-target="#videoModal" data-guild="' . $guildDetails->_guildId . '" data-encounter="' . $this->_encounterId . '">View</a>';
         } else {
 
         }

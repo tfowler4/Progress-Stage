@@ -25,13 +25,13 @@ class RankingsModel extends Model {
             array('header' => 'Rank',          'key' => '_rank',       'class' => ''),
             array('header' => 'Guild',         'key' => '_nameLink',   'class' => ''),
             array('header' => 'Server',        'key' => '_serverLink', 'class' => ''),
-            array('header' => 'Progress',      'key' => '_progress',   'class' => 'text-center hidden-xs hidden-sm'),
+            array('header' => 'Progress',      'key' => '_progress',   'class' => 'border-left text-center hidden-xs hidden-sm'),
             array('header' => 'Points',        'key' => '_points',     'class' => 'text-center'),
             array('header' => 'Diff',          'key' => '_pointDiff',  'class' => 'text-center hidden-xs hidden-sm'),
-            array('header' => 'WF',            'key' => '_worldFirst', 'class' => 'text-center hidden-xs'),
+            array('header' => 'WF',            'key' => '_worldFirst', 'class' => 'border-left text-center hidden-xs'),
             array('header' => 'RF',            'key' => '_regionFirst','class' => 'text-center hidden-xs'),
             array('header' => 'SF',            'key' => '_serverFirst','class' => 'text-center hidden-xs'),
-            array('header' => 'Trending',      'key' => '_trendImage', 'class' => 'text-center hidden-xs hidden-sm hidden-md'),
+            array('header' => 'Trending',      'key' => '_trendImage', 'class' => 'border-left text-center hidden-xs hidden-sm hidden-md'),
             array('header' => 'Previous Rank', 'key' => '_prevRank',   'class' => 'text-center hidden-xs hidden-sm hidden-md')
         );
 

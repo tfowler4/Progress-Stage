@@ -33,23 +33,9 @@ class Template {
         $cellCount = 1;
 
         $html .= '<tr>';
-
-        /*
-        foreach( $tableHeader as $key => $value ) {
-            $html .= '<th class="info';
-
-            if ( $cellCount % 3 == 0 ) {
-                $html .= ' border-right';
-            }
-
-            $html .= '">' . $key . '</th>';
-
-            $cellCount++;
-        }
-        */
        
         foreach( $tableHeader as $tableHeaderValues ) {
-            $html .= '<th class="info ' . $tableHeaderValues['class'];
+            $html .= '<th class="subHeader ' . $tableHeaderValues['class'];
 
             $html .= '">' . $tableHeaderValues['header'] . '</th>';
 
@@ -110,20 +96,13 @@ class Template {
         $cellCount   = 1;
         $columnValue = '';
 
-        $html .= '<tr>';
+        $html .= '<tr class="table-data">';
 
-        //foreach( $tableHeader as $key => $value ) {
         foreach( $tableHeader as $tableHeaderValues ) {
             $value = $tableHeaderValues['key'];
             $columnValue = $columnObject->$value;
 
             $html .= '<td';
-
-            /*
-            if ( $cellCount % 3 == 0 ) {
-                $html .= ' class="border-right"';
-            } 
-            */
            
            $html .= ' class="' . $tableHeaderValues['class'] . '"';
 
@@ -270,7 +249,7 @@ class Template {
                 }
             }
 
-            $html .= '<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">';
+            $html .= '<div class="col-lg-4 col-md-4 col-sm-4  text-center">';
                 $html .= '<div class="thumbnail top-guild">';
                     $html .= self::getLogo($guildDetails);
                    /*$html .= '<div class="caption text-center">';
@@ -380,7 +359,7 @@ class Template {
         $html .= '</div>';
         $html .= '</div>';
         $html .= '<div id="data" class="row">';
-        $html .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
+        $html .= '<div class="   ">';
         $html .= '<div class="panel panel-primary">';
         $html .= '<table class="table table-striped table-hover table-condensed">';
         //$html .= '<thead>';
@@ -518,9 +497,9 @@ class Template {
         $dbh        = DbFactory::getDbh();
         $videoArray = array();
         $tableHeader = array(
-            'Notes'   => '_notes',
-            'URL'     => '_url',
-            'Action'  => '_videoLink'
+                array('header' => 'Notes', 'key' => '_notes', 'class' => ''),
+                array('header' => 'URL', 'key' => '_url', 'class' => ''),
+                array('header' => 'Action', 'key' => '_videoLink', 'class' => 'text-center')
             );
 
         $query = $dbh->prepare(sprintf(
@@ -543,11 +522,11 @@ class Template {
             $videoArray[$row['video_id']] = new VideoDetails($row);
         }
 
-        $html .= '<div class="vertical-separator"></div>';
-        $html .= '<div class="table-wrapper">';
-        $html .= '<table class="listing">';
-        $html .= '<thead>';
-        $html .= '</thead>';
+        $html .= '<div class="   ">';
+        $html .= '<div class="panel panel-primary">';
+        $html .= '<table class="table table-striped table-hover table-condensed">';
+        //$html .= '<thead>';
+        //$html .= '</thead>';
         $html .= '<tbody>';
         $html .= self::drawSubTitleTableRow($tableHeader, $guildDetails->_name . ' :: ' . $encounterDetails->_name . ' Kill Videos');
         $html .= self::drawSubHeaderTableRow($tableHeader);
@@ -561,6 +540,7 @@ class Template {
         }
         $html .= '</tbody>';
         $html .= '</table>';
+        $html .= '</div>';
         $html .= '</div>';
 
         return $html;
@@ -735,7 +715,7 @@ class Template {
                                                             $html .= '<li class="dropdown-header">' . $title . '</li>';
                                                         }
 
-                                                        if ( $modelName == 'standings') { $html .= '<li>' . Functions::generateInternalHyperlink('standings', $encounterDetails, 'world', $encounterDetails->_name, '') . '</li>'; }
+                                                        if ( $modelName == 'standings') { $html .= '<li class="dropdown-link">' . Functions::generateInternalHyperlink('standings', $encounterDetails, 'world', $encounterDetails->_name, '') . '</li>'; }
 
                                                         $encounterLevel++;
                                                     }

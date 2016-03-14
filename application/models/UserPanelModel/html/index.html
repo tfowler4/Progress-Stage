@@ -1,67 +1,99 @@
 <!--<script>var eventBinder = new UserPanelEventBinder();</script>-->
 
-<div class="container-fluid">
-    <div id="container-wrapper" class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" <?php if ( $data->_setTab == 'account' ): ?>class="active"<?php endif; ?> ><a href="#account-management" aria-controls="home" role="tab" data-toggle="tab">Account Management</a></li>
-                <?php foreach ( $data->_userGuilds as $guildId => $guildDetails ): ?>
-                    <li role="presentation" class="dropdown <?php if ( $data->_setTab == 'guild' ): ?>active<?php endif; ?>">
-                        <a href="#" aria-controls="profile" class="dropdown-toggle" data-toggle="dropdown">Guild Management - <?php echo $guildDetails->_name; ?> <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#edit-guild-<?php echo $guildId; ?>" role="tab" data-toggle="tab">Edit Guild Details</a></li>
-                            <li><a href="#kill-submission-add-<?php echo $guildId; ?>" role="tab" data-toggle="tab">Add New Kill Submission</a></li>
-                            <li><a href="#kill-submission-edit-<?php echo $guildId; ?>" role="tab" data-toggle="tab">Edit/Remove Kill Submissions</a></li>
-                            <li><a href="#add-raid-team-<?php echo $guildId; ?>" role="tab" data-toggle="tab">Add Raid Team</a></li>
-                            <li><a href="#remove-guild-<?php echo $guildId; ?>" role="tab" data-toggle="tab">Remove Guild</a></li>
+<div class="   ">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" <?php if ( $data->_setTab == 'account' ): ?>class="active"<?php endif; ?> ><a href="#account-management" aria-controls="home" role="tab" data-toggle="tab">Account Management</a></li>
+        <?php foreach ( $data->_userGuilds as $guildId => $guildDetails ): ?>
+            <li role="presentation" class="dropdown <?php if ( $data->_setTab == 'guild' ): ?>active<?php endif; ?>">
+                <a href="#" aria-controls="profile" class="dropdown-toggle" data-toggle="dropdown">Guild Management - <?php echo $guildDetails->_name; ?> <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#edit-guild-<?php echo $guildId; ?>" role="tab" data-toggle="tab">Edit Guild Details</a></li>
+                    <li><a href="#kill-submission-add-<?php echo $guildId; ?>" role="tab" data-toggle="tab">Add New Kill Submission</a></li>
+                    <li><a href="#kill-submission-edit-<?php echo $guildId; ?>" role="tab" data-toggle="tab">Edit/Remove Kill Submissions</a></li>
+                    <li><a href="#add-raid-team-<?php echo $guildId; ?>" role="tab" data-toggle="tab">Add Raid Team</a></li>
+                    <li><a href="#remove-guild-<?php echo $guildId; ?>" role="tab" data-toggle="tab">Remove Guild</a></li>
 
-                            <?php if ( count($data->_raidTeams[$guildId]) > 0 ): ?>
-                                <?php foreach ( $data->_raidTeams[$guildId] as $raidTeamId => $guildDetails ): ?>
-                                    <li class="divider"></li>
-                                    <li class="dropdown-header"><?php echo $guildDetails->_name; ?></li>
-                                    <li><a href="#edit-guild-<?php echo $raidTeamId; ?>" role="tab" data-toggle="tab">Edit Raid Team Details</a></li>
-                                    <li><a href="#kill-submission-add-<?php echo $raidTeamId; ?>" role="tab" data-toggle="tab">Add New Kill Submission</a></li>
-                                    <li><a href="#kill-submission-edit-<?php echo $raidTeamId; ?>" role="tab" data-toggle="tab">Edit/Remove Kill Submissions</a></li>
-                                    <li><a href="#remove-guild-<?php echo $raidTeamId; ?>" role="tab" data-toggle="tab">Remove Raid Team</a></li>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </ul>
-                    </li>
-                <?php endforeach; ?>
+                    <?php if ( count($data->_raidTeams[$guildId]) > 0 ): ?>
+                        <?php foreach ( $data->_raidTeams[$guildId] as $raidTeamId => $guildDetails ): ?>
+                            <li class="divider"></li>
+                            <li class="dropdown-header"><?php echo $guildDetails->_name; ?></li>
+                            <li><a href="#edit-guild-<?php echo $raidTeamId; ?>" role="tab" data-toggle="tab">Edit Raid Team Details</a></li>
+                            <li><a href="#kill-submission-add-<?php echo $raidTeamId; ?>" role="tab" data-toggle="tab">Add New Kill Submission</a></li>
+                            <li><a href="#kill-submission-edit-<?php echo $raidTeamId; ?>" role="tab" data-toggle="tab">Edit/Remove Kill Submissions</a></li>
+                            <li><a href="#remove-guild-<?php echo $raidTeamId; ?>" role="tab" data-toggle="tab">Remove Raid Team</a></li>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </ul>
+            </li>
+        <?php endforeach; ?>
 
-                <?php if ( count($data->_userGuilds) < UserPanelModelGuild::MAX_GUILDS ): ?>
-                    <li role="presentation"><a href="#new-guild" aria-controls="profile" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span>  Create New Guild</a></li>
-                <?php endif; ?>
-            </ul>
+        <?php if ( count($data->_userGuilds) < UserPanelModelGuild::MAX_GUILDS ): ?>
+            <li role="presentation"><a href="#new-guild" aria-controls="profile" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span>  Create New Guild</a></li>
+        <?php endif; ?>
+    </ul>
 
-            <div class="tab-content">
-                <br>
-                <?php if ( !empty($data->_currentPanel->_dialogOptions) ): ?>
-                    <div id="dialog-wrapper" class="row">
-                        <div class="col-lg-offset-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                            <div class="alert alert-<?php echo $data->_currentPanel->_dialogOptions['type']; ?> text-center">
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                <strong><?php echo $data->_currentPanel->_dialogOptions['title']; ?></strong>
-                                <div class="text-center"><?php echo $data->_currentPanel->_dialogOptions['message']; ?></div>
-                            </div>
-                        </div>
+    <div class="tab-content">
+        <br>
+        <?php if ( !empty($data->_currentPanel->_dialogOptions) ): ?>
+            <div id="dialog-wrapper" class="row">
+                <div class="col-lg-offset-4 col-lg-4   ">
+                    <div class="alert alert-<?php echo $data->_currentPanel->_dialogOptions['type']; ?> text-center">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong><?php echo $data->_currentPanel->_dialogOptions['title']; ?></strong>
+                        <div class="text-center"><?php echo $data->_currentPanel->_dialogOptions['message']; ?></div>
                     </div>
-                <?php endif; ?>
-
-                <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'account' ): ?>in active<?php endif; ?>" id="account-management">
-                    <?php include 'user-profile.html'; ?>
                 </div>
+            </div>
+        <?php endif; ?>
 
-                <?php foreach ( $data->_userGuilds as $guildId => $guildDetails ): ?>
-                    <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'edit' && $guildId == $data->_tabId ): ?>in active<?php endif; ?>" id="edit-guild-<?php echo $guildId; ?>">
+        <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'account' ): ?>in active<?php endif; ?>" id="account-management">
+            <?php include 'user-profile.html'; ?>
+        </div>
+
+        <?php foreach ( $data->_userGuilds as $guildId => $guildDetails ): ?>
+            <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'edit' && $guildId == $data->_tabId ): ?>in active<?php endif; ?>" id="edit-guild-<?php echo $guildId; ?>">
+                <?php include 'guild-profile.html'; ?>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'kills-add' && $guildId == $data->_tabId ): ?>in active<?php endif; ?>" id="kill-submission-add-<?php echo $guildId; ?>">
+                <?php include 'guild-kills-add.html'; ?>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'kills-edit' && $guildId == $data->_tabId ): ?>in active<?php endif; ?>" id="kill-submission-edit-<?php echo $guildId; ?>">
+                <?php
+                    if ( Post::get('action') && Post::get('action') == 'edit-kill' ) {
+                        include 'guild-kills-edit.html';
+                    } elseif ( Post::get('action') && Post::get('action') == 'remove-kill' ) {
+                        if (  !isset($data->_currentPanel->_formStatus) || $data->_currentPanel->_formStatus == 0 ) {
+                            include 'guild-kills-remove.html';
+                        }
+                    }
+
+                    include 'guild-kills.html';
+                ?>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="add-raid-team-<?php echo $guildId; ?>">
+                <?php include 'guild-team-add.html'; ?>
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="remove-guild-<?php echo $guildId; ?>">
+                <?php include 'guild-remove.html'; ?>
+            </div>
+
+            <!-- Raid Team Tabs -->
+            <?php if ( count($data->_raidTeams[$guildId]) > 0 ): ?>
+                <?php foreach ( $data->_raidTeams[$guildId] as $raidTeamId => $raidTeamDetails ): ?>
+                    <?php $guildDetails = $raidTeamDetails; ?>
+                    <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'edit' && $raidTeamId == $data->_tabId ): ?>in active<?php endif; ?>" id="edit-guild-<?php echo $raidTeamId; ?>">
                         <?php include 'guild-profile.html'; ?>
                     </div>
 
-                    <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'kills-add' && $guildId == $data->_tabId ): ?>in active<?php endif; ?>" id="kill-submission-add-<?php echo $guildId; ?>">
+                    <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'kills-add' && $raidTeamId == $data->_tabId ): ?>in active<?php endif; ?>" id="kill-submission-add-<?php echo $raidTeamId; ?>">
                         <?php include 'guild-kills-add.html'; ?>
                     </div>
 
-                    <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'kills-edit' && $guildId == $data->_tabId ): ?>in active<?php endif; ?>" id="kill-submission-edit-<?php echo $guildId; ?>">
+                    <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'kills-edit' && $raidTeamId == $data->_tabId ): ?>in active<?php endif; ?>" id="kill-submission-edit-<?php echo $raidTeamId; ?>">
                         <?php
                             if ( Post::get('action') && Post::get('action') == 'edit-kill' ) {
                                 include 'guild-kills-edit.html';
@@ -75,55 +107,19 @@
                         ?>
                     </div>
 
-                    <div role="tabpanel" class="tab-pane fade" id="add-raid-team-<?php echo $guildId; ?>">
+                    <div role="tabpanel" class="tab-pane fade" id="add-raid-team-<?php echo $raidTeamId; ?>">
                         <?php include 'guild-team-add.html'; ?>
                     </div>
 
-                    <div role="tabpanel" class="tab-pane fade" id="remove-guild-<?php echo $guildId; ?>">
+                    <div role="tabpanel" class="tab-pane fade" id="remove-guild-<?php echo $raidTeamId; ?>">
                         <?php include 'guild-remove.html'; ?>
                     </div>
-
-                    <!-- Raid Team Tabs -->
-                    <?php if ( count($data->_raidTeams[$guildId]) > 0 ): ?>
-                        <?php foreach ( $data->_raidTeams[$guildId] as $raidTeamId => $raidTeamDetails ): ?>
-                            <?php $guildDetails = $raidTeamDetails; ?>
-                            <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'edit' && $raidTeamId == $data->_tabId ): ?>in active<?php endif; ?>" id="edit-guild-<?php echo $raidTeamId; ?>">
-                                <?php include 'guild-profile.html'; ?>
-                            </div>
-
-                            <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'kills-add' && $raidTeamId == $data->_tabId ): ?>in active<?php endif; ?>" id="kill-submission-add-<?php echo $raidTeamId; ?>">
-                                <?php include 'guild-kills-add.html'; ?>
-                            </div>
-
-                            <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'kills-edit' && $raidTeamId == $data->_tabId ): ?>in active<?php endif; ?>" id="kill-submission-edit-<?php echo $raidTeamId; ?>">
-                                <?php
-                                    if ( Post::get('action') && Post::get('action') == 'edit-kill' ) {
-                                        include 'guild-kills-edit.html';
-                                    } elseif ( Post::get('action') && Post::get('action') == 'remove-kill' ) {
-                                        if (  !isset($data->_currentPanel->_formStatus) || $data->_currentPanel->_formStatus == 0 ) {
-                                            include 'guild-kills-remove.html';
-                                        }
-                                    }
-
-                                    include 'guild-kills.html';
-                                ?>
-                            </div>
-
-                            <div role="tabpanel" class="tab-pane fade" id="add-raid-team-<?php echo $raidTeamId; ?>">
-                                <?php include 'guild-team-add.html'; ?>
-                            </div>
-
-                            <div role="tabpanel" class="tab-pane fade" id="remove-guild-<?php echo $raidTeamId; ?>">
-                                <?php include 'guild-remove.html'; ?>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
                 <?php endforeach; ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
 
-                <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'add' ): ?>in active<?php endif; ?>" id="new-guild">
-                    <?php include 'guild-create.html'; ?>
-                </div>
-            </div>
+        <div role="tabpanel" class="tab-pane fade <?php if ( $data->_setTab == 'guild' && $data->_setOption == 'add' ): ?>in active<?php endif; ?>" id="new-guild">
+            <?php include 'guild-create.html'; ?>
         </div>
     </div>
 </div>

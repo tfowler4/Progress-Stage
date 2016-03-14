@@ -1,66 +1,62 @@
-<div class="container-fluid">
-    <div id="content-wrapper" class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div id="dialog-wrapper" class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <?php if ( !empty($data->_dialogOptions) ): ?>
-                        <?php echo Functions::showDialogWindow($data->_dialogOptions); ?>
-                    <?php endif; ?>
-                </div>
-            </div>
+<div class="   ">
+    <div id="dialog-wrapper" class="row">
+        <div class="   ">
+            <?php if ( !empty($data->_dialogOptions) ): ?>
+                <?php echo Functions::showDialogWindow($data->_dialogOptions); ?>
+            <?php endif; ?>
+        </div>
+    </div>
 
-            <div id="form-wrapper" class="row">
-                <div class="col-lg-offset-4 col-lg-4 col-md-offset-4 col-md-4 col-sm-12 col-xs-12">
-                    <?php if ( $data->_action == 'complete'): ?>
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">Password Recovery</div>
-                            <div class="panel-body">
-                                <form method="POST" action="<?php echo PAGE_RESET_PASSWORD . ResetModel::SUB_COMPLETE . '/' . $data->_confirmCode; ?>" autocomplete="off">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
-                                            <input type="password" class="form-control" id="reset-password" name="reset-password" placeholder="Enter Password">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
-                                            <input type="password" class="form-control" id="reset-password-confirm" name="reset-password-confirm" placeholder="Re-Enter Password">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <input id="reset-confirm-code" type="hidden" name='reset-confirm-code' value="<?php echo $data->_confirmCode; ?>">
-                                        <input id="reset-active" type="hidden" name='active' value="Active">
-                                        <button type="submit" class="btn btn-default">
-                                            <span class="glyphicon glyphicon-check"></span>  Submit
-                                        </button>
-                                    </div>
-                                </form>
+    <div id="form-wrapper" class="row">
+        <div class="col-lg-offset-4 col-lg-4 col-md-offset-4 col-md-4  ">
+            <?php if ( $data->_action == 'complete'): ?>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Password Recovery</div>
+                    <div class="panel-body">
+                        <form method="POST" action="<?php echo PAGE_RESET_PASSWORD . ResetModel::SUB_COMPLETE . '/' . $data->_confirmCode; ?>" autocomplete="off">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+                                    <input type="password" class="form-control" id="reset-password" name="reset-password" placeholder="Enter Password">
+                                </div>
                             </div>
-                        </div>
-                    <?php else: ?>
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">Password Recovery</div>
-                            <div class="panel-body">
-                                <form method="POST" action="<?php echo PAGE_RESET_PASSWORD; ?>" autocomplete="off">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
-                                            <input type="text" class="form-control" id="reset-email" name="reset-email" placeholder="Email Address">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <input id="reset-active" type="hidden" name='active' value="Active">
-                                        <button type="submit" class="btn btn-default">
-                                            <span class="glyphicon glyphicon-check"></span>  Submit
-                                        </button>
-                                    </div>
-                                </form>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+                                    <input type="password" class="form-control" id="reset-password-confirm" name="reset-password-confirm" placeholder="Re-Enter Password">
+                                </div>
                             </div>
-                        </div>
-                    <?php endif; ?>
+                            <div class="form-group">
+                                <input id="reset-confirm-code" type="hidden" name='reset-confirm-code' value="<?php echo $data->_confirmCode; ?>">
+                                <input id="reset-active" type="hidden" name='active' value="Active">
+                                <button type="submit" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-check"></span>  Submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            <?php else: ?>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Password Recovery</div>
+                    <div class="panel-body">
+                        <form method="POST" action="<?php echo PAGE_RESET_PASSWORD; ?>" autocomplete="off">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
+                                    <input type="text" class="form-control" id="reset-email" name="reset-email" placeholder="Email Address">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input id="reset-active" type="hidden" name='active' value="Active">
+                                <button type="submit" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-check"></span>  Submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

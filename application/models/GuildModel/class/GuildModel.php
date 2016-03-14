@@ -41,24 +41,24 @@ class GuildModel extends Model {
             array('header' => 'Encounter',      'key' => '_encounterName',   'class' => ''),
             array('header' => 'Server',         'key' => '_killServerLink',  'class' => 'hidden-xs'),
             array('header' => 'Date Completed', 'key' => '_datetime',        'class' => 'text-center '),
-            array('header' => 'WR',             'key' => '_worldRankImage',  'class' => 'text-center hidden-xs'),
+            array('header' => 'WR',             'key' => '_worldRankImage',  'class' => 'border-left text-center hidden-xs'),
             array('header' => 'RR',             'key' => '_regionRankImage', 'class' => 'text-center hidden-xs'),
             array('header' => 'SR',             'key' => '_serverRankImage', 'class' => 'text-center hidden-xs'),
-            array('header' => 'QP',             'key' => '_QP',              'class' => 'text-center hidden-xs hidden-sm'),
+            array('header' => 'QP',             'key' => '_QP',              'class' => 'border-left text-center hidden-xs hidden-sm'),
             array('header' => 'AP',             'key' => '_AP',              'class' => 'text-center hidden-xs hidden-sm'),
             array('header' => 'APF',            'key' => '_APF',             'class' => 'text-center hidden-xs hidden-sm'),
-            array('header' => 'Kill Videos',    'key' => '_videoLink',       'class' => 'text-center'),
+            array('header' => 'Kill Videos',    'key' => '_videoLink',       'class' => 'border-left text-center'),
             array('header' => 'Screenshot',     'key' => '_screenshotLink',  'class' => 'text-center')
         );
 
     const TABLE_HEADER_TIMELINE = array(
             array('header' => 'Encounter',      'key' => '_encounterName',   'class' => ''),
-            array('header' => 'Dungeon',        'key' => '_dungeon',         'class' => 'text-center hidden-xs'),
-            array('header' => 'Tier',           'key' => '_tier',            'class' => 'text-center hidden-xs'),
-            array('header' => 'Date Completed', 'key' => '_datetime',        'class' => 'text-center'),
             array('header' => 'Server',         'key' => '_killServerLink',  'class' => 'text-center hidden-xs'),
+            array('header' => 'Date Completed', 'key' => '_datetime',        'class' => 'text-center'),
+            array('header' => 'Dungeon',        'key' => '_dungeon',         'class' => 'border-left text-center hidden-xs'),
+            array('header' => 'Tier',           'key' => '_tier',            'class' => 'text-center hidden-xs'),
             array('header' => 'Time Diff',      'key' => '_span',            'class' => 'text-center hidden-sm'),
-            array('header' => 'WR',             'key' => '_worldRankImage',  'class' => 'text-center hidden-xs'),
+            array('header' => 'WR',             'key' => '_worldRankImage',  'class' => 'border-left text-center hidden-xs'),
             array('header' => 'RR',             'key' => '_regionRankImage', 'class' => 'text-center hidden-xs'),
             array('header' => 'SR',             'key' => '_serverRankImage', 'class' => 'text-center hidden-xs')
         );
