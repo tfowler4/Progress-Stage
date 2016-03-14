@@ -40,7 +40,7 @@ var GlobalEventBinder = function() {
     $(document).on('change', '#user-form-faction', function() { changeFactionLogo(this); });
     var changeFactionLogo = function(input) {
         var faction = input.value.toLowerCase();
-
+console.log("FactioN: "+faction);
         $('#faction-logo-preview-wrapper').children().fadeTo('fast', .3, function() {
             if ( faction != '' ) {
 

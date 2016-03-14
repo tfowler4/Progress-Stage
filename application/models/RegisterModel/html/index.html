@@ -133,10 +133,8 @@
         <div class="col-lg-4 text-center">
             <div id="faction-logo-preview-wrapper">
                 <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
-                    <div class="thumbnail">
-                        <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
-                            <?php echo Functions::getImageFaction($factionDetails->_name); ?>
-                        </div>
+                    <div id="faction-logo-<?php echo $factionId; ?>" class="thumbnail faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
+                        <?php echo Functions::getImageFaction($factionDetails->_name); ?>
                     </div>
                 <?php endforeach; ?>
             </div>
