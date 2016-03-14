@@ -11,7 +11,7 @@ var GlobalEventBinder = function() {
             reader.onload = function (e) {
                 var imgSrc = e.target.result;
 
-                $('#guild-logo-preview').html('<img id="guild-logo" src="' + imgSrc + '">');
+                $('#guild-logo-preview').html('<img class="img-responsive" id="guild-logo" src="' + imgSrc + '">');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -28,8 +28,8 @@ var GlobalEventBinder = function() {
             reader.onload = function (e) {
                 var imgSrc = e.target.result;
 
-                if ( id == 'user-form-popup-screenshot' ) { $('#popup-screenshot-preview').html('<img class="screenshot-medium" src="' + imgSrc + '">'); }
-                if ( id == 'user-form-screenshot' ) { $('#screenshot-preview').html('<img class="screenshot-large" src="' + imgSrc + '">'); }
+                if ( id == 'user-form-popup-screenshot' ) { $('#popup-screenshot-preview').html('<img class="img-responsive" src="' + imgSrc + '">'); }
+                if ( id == 'user-form-screenshot' ) { $('#screenshot-preview').html('<img class="img-responsive" src="' + imgSrc + '">'); }
             }
 
             reader.readAsDataURL(input.files[0]);

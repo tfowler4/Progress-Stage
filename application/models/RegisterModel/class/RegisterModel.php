@@ -30,7 +30,9 @@ class RegisterModel extends Model {
             FormValidator::validate('register', $this->_formFields);
 
             if ( FormValidator::$isFormInvalid ) {
-                $this->_dialogOptions = array('title' => 'Error', 'message' => FormValidator::$message);
+                $this->_dialogOptions = array('title' => 'Error',
+                                              'message' => FormValidator::$message,
+                                              'type' => 'danger');
                 return;
             }
 
