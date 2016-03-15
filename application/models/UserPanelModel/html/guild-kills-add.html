@@ -87,7 +87,7 @@
                     <div class="form-group">
                         <label for="userpanel-screenshot" class="control-label col-lg-3 col-md-2">Screenshot</label>
                         <div class="col-lg-7 col-md-10">
-                            <input id="user-form-screenshot" class="form-control" type="file" name="userpanel-screenshot">
+                            <input class="form-control form-screenshot" type="file" name="userpanel-screenshot" data-type="kill-add" data-id="<?php echo $guildDetails->_guildId; ?>">
                         </div>
                     </div>
                     <div class="form-group">
@@ -103,6 +103,7 @@
                         <input type="hidden" name='active' value="Active">
                         <button type="submit" name="action" class="btn btn-default" value="add-kill"><span class="glyphicon glyphicon-check"></span>  Submit</button>
                     </div>
+                    <div class="screenshot-preview text-center" data-type="kill-add" data-id="<?php echo $guildDetails->_guildId; ?>"></div>
                 </form>
             </div>
         </div>

@@ -47,7 +47,7 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Country</label>
                         <div class="col-lg-7 col-md-10">
-                            <select id="user-form-country" name="userpanel-country" class="form-control">
+                            <select name="userpanel-country" class="form-control form-country" data-type="team-add">
                                 <option value="">Select Country</option>
                                 <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
                                     <option value="<?php echo $countryId; ?>"><?php echo $countryDetails->_name; ?></option>
@@ -86,8 +86,6 @@
     </div>
 
     <div class="col-lg-3 col-md-6 text-center">
-        <div id="guild-country-logo-preview-wrapper">
-            <div class="thumbnail" id="country-flag-preview"></div>
-        </div>
+        <div class="thumbnail country-flag-preview" data-type="team-add"></div>
     </div>
 </div>

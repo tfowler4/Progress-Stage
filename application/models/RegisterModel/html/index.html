@@ -85,7 +85,7 @@
                         <div class="form-group">
                             <label class="control-label col-lg-3 col-md-2" for="register-country">Country</label>
                             <div class="col-lg-7 col-md-10">
-                                <select id="user-form-country" class="form-control" name="register-country">
+                                <select class="form-control form-country" name="register-country" data-type="register">
                                     <option value="">Select Country</option>
                                     <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
                                         <option value="<?php echo $countryId; ?>" <?php if (!empty($data->_formFields->country) && $data->_formFields->country == $countryId): ?>selected<?php endif; ?>><?php echo $countryDetails->_name; ?></option>
@@ -108,7 +108,7 @@
                         <div class="form-group">
                             <label class="control-label col-lg-3 col-md-2" for="register-logo">Guild Logo</label>
                             <div class="col-lg-7 col-md-10"> 
-                                <input type="file" name="register-guild-logo" class="form-control" id="user-form-guild-logo">
+                                <input type="file" name="register-guild-logo" class="form-control form-guild-logo" data-type="register">
                             </div>
                         </div>
                         <div class="form-group">
@@ -139,11 +139,9 @@
                 <?php endforeach; ?>
             </div>
 
-            <div id="guild-country-logo-preview-wrapper">
-                <div class="thumbnail" id="guild-logo-preview"></div>
+            <div class="thumbnail guild-logo-preview" data-type="register"></div>
 
-                <div class="thumbnail" id="country-flag-preview"></div>
-            </div>
+            <div class="thumbnail country-flag-preview" data-type="register"></div>
         </div>
     </div>
 

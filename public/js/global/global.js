@@ -3,15 +3,26 @@ var GlobalEventBinder = function() {
     var activePopup;
 
     // on user selecting a guild logo image, display a preview of the image
-    $(document).on('change', '#user-form-guild-logo', function() { changeGuildLogo(this); });
+    $(document).on('change', '.form-guild-logo', function() { changeGuildLogo(this); });
     var changeGuildLogo = function(input) {
+        var dataType = input.dataset.type;
+        var dataId;
+
+        if ( input.hasAttribute('data-id') ) {
+            dataId = input.dataset.id;
+        }
+
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
             reader.onload = function (e) {
                 var imgSrc = e.target.result;
 
-                $('#guild-logo-preview').html('<img class="img-responsive" src="' + imgSrc + '">');
+                if ( dataId ) {
+                    $('.guild-logo-preview[data-type="' + dataType + '"][data-id="' + dataId + '"]').html('<img class="img-responsive" src="' + imgSrc + '">');
+                } else {
+                    $('.guild-logo-preview[data-type="' + dataType + '"]').html('<img class="img-responsive" src="' + imgSrc + '">');
+                }
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -19,17 +30,28 @@ var GlobalEventBinder = function() {
     }
 
     // on user selecting a kill screenshot image, display a preview of the image
-    $(document).on('change', '#user-form-screenshot, #user-form-popup-screenshot', function() { changeScreenshot(this); });
+    $(document).on('change', '.form-screenshot', function() { changeScreenshot(this); });
     var changeScreenshot = function(input) {
+        var dataType = input.dataset.type;
+        var dataId;
+
+        if ( input.hasAttribute('data-id') ) {
+            dataId = input.dataset.id;
+        }
+
         if ( input.files && input.files[0] ) {
             var reader = new FileReader();
             var id     = input.id;
 
             reader.onload = function (e) {
                 var imgSrc = e.target.result;
+                var html   = '<img class="img-responsive" src="' + imgSrc + '">';
 
-                if ( id == 'user-form-popup-screenshot' ) { $('#popup-screenshot-preview').html('<img class="img-responsive" src="' + imgSrc + '">'); }
-                if ( id == 'user-form-screenshot' ) { $('#screenshot-preview').html('<img class="img-responsive" src="' + imgSrc + '">'); }
+                if ( dataId ) {
+                    $('.screenshot-preview[data-type="' + dataType + '"][data-id="' + dataId + '"]').html(html);
+                } else {
+                    $('.screenshot-preview[data-type="' + dataType + '"]').html(html);
+                }
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -50,17 +72,27 @@ var GlobalEventBinder = function() {
     }
 
     // on user selecting a country, display a preview of the country flag image
-    $(document).on('change', '#user-form-country', function() { changeCountryFlag(this); });
+    $(document).on('change', '.form-country', function() { changeCountryFlag(this); });
     var changeCountryFlag = function(input) {
-        var country = input.value.toLowerCase().replace(' ', '_');
+        var country  = input.value.toLowerCase().replace(' ', '_');
+        var dataType = input.dataset.type;
+        var html     = '';
+        var dataId;
+
+        if ( input.hasAttribute('data-id') ) {
+            dataId = input.dataset.id;
+        }
 
         if ( country != '' ) {
-            var dir = getFlagLargeDirectory();
+            var dir    = getFlagLargeDirectory();
             var imgSrc = dir + country + '.png';
+            html = '<img class="img-responsive" src="' + imgSrc + '">';
+        }
 
-            $('#country-flag-preview').html('<img class="img-responsive" src="' + imgSrc + '">');
+        if ( dataId ) {
+            $('.country-flag-preview[data-type="' + dataType + '"][data-id="' + dataId + '"]').html(html);
         } else {
-            $('#country-flag-preview').html('');
+            $('.country-flag-preview[data-type="' + dataType + '"]').html(html);
         }
     }
 

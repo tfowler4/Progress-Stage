@@ -70,7 +70,7 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Guild Logo</label>
                         <div class="col-lg-7 col-md-10"> 
-                            <input type="file" class="form-control" id="user-form-guild-logo" name="userpanel-guild-logo">
+                            <input type="file" class="form-control form-guild-logo" name="userpanel-guild-logo" data-type="guild-create">
                         </div>
                     </div>
                     <div class="form-group"> 
@@ -97,9 +97,9 @@
 
     <div class="col-lg-3 col-md-6 text-center">
         <div id="guild-country-logo-preview-wrapper">
-            <div class="thumbnail" id="guild-logo-preview"></div>
+            <div class="thumbnail guild-logo-preview" data-type="guild-create"></div>
 
-            <div class="thumbnail" id="country-flag-preview">
+            <div class="thumbnail country-flag-preview" data-type="guild-create">
                 <?php echo Functions::getImageFlag($guildDetails->_country, 'large'); ?>
             </div>
         </div>
