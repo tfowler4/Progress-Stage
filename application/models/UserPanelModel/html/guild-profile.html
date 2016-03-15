@@ -16,7 +16,7 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Faction</label>
                         <div class="col-lg-7 col-md-10">
-                            <select id="user-form-faction" name="userpanel-faction" class="form-control">
+                            <select name="userpanel-faction" class="form-control form-faction" data-type="guild-edit" data-id="<?php echo $guildDetails->_guildId; ?>">
                                 <option value="">Select Faction</option>
                                 <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
                                     <option value="<?php echo $factionId; ?>" <?php if ( $guildDetails->_faction == $factionDetails->_name ): ?>selected<?php endif; ?>><?php echo $factionDetails->_name; ?></option>
@@ -89,9 +89,9 @@
     </div>
 
     <div class="col-lg-3 col-lg-pull-6 col-md-6 text-center">
-        <div id="faction-logo-preview-wrapper">
+        <div class="faction-logo-preview-wrapper" data-type="guild-edit" data-id="<?php echo $guildDetails->_guildId; ?>">
             <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
-                <div id="faction-logo-<?php echo $factionId; ?>" class="thumbnail faction-logo <?php echo strtolower($factionDetails->_name); ?> <?php if( $factionDetails->_name != $guildDetails->_faction): ?>faded <?php endif; ?>">
+                <div class="thumbnail faction-logo <?php echo strtolower($factionDetails->_name); ?> <?php if( $factionDetails->_name != $guildDetails->_faction): ?>faded <?php endif; ?>">
                     <?php echo Functions::getImageFaction($factionDetails->_name); ?>
                 </div>
             <?php endforeach; ?>

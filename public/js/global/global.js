@@ -59,14 +59,28 @@ var GlobalEventBinder = function() {
     }
 
     // on user selecting a faction, fade in the selected faction and fade out other factions
-    $(document).on('change', '#user-form-faction', function() { changeFactionLogo(this); });
+    $(document).on('change', '.form-faction', function() { changeFactionLogo(this); });
     var changeFactionLogo = function(input) {
-        var faction = input.value.toLowerCase();
+        var faction  = input.value.toLowerCase();
+        var dataType = input.dataset.type;
+        var dataId;
 
-        $('#faction-logo-preview-wrapper').children().fadeTo('fast', .3, function() {
-            if ( faction != '' ) {
+        if ( input.hasAttribute('data-id') ) {
+            dataId = input.dataset.id;
+        }
 
-                $('.' + faction).fadeTo('fast', 1);
+        var selector;
+
+        if ( dataId ) {
+            selector = '.faction-logo-preview-wrapper[data-type="' + dataType + '"][data-id="' + dataId + '"]';
+        } else {
+            selector = '.faction-logo-preview-wrapper[data-type="' + dataType + '"]';
+        }
+
+        $(selector).children().fadeTo('fast', .3, function() {
+            if ( faction != '' && $(this).hasClass(faction)) {
+
+                $(this).fadeTo('fast', 1);
             }
         });
     }

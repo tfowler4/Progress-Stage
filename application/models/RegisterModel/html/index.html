@@ -63,7 +63,7 @@
                         <div class="form-group">
                             <label class="control-label col-lg-3 col-md-2" for="register-faction">Faction</label>
                             <div class="col-lg-7 col-md-10">
-                                <select id="user-form-faction" class="form-control" name="register-faction">
+                                <select class="form-control form-faction" name="register-faction" data-type="register">
                                     <option value="">Select Faction</option>
                                     <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
                                         <option value="<?php echo $factionId; ?>" <?php if (!empty($data->_formFields->faction) && $data->_formFields->faction == $factionId): ?>selected<?php endif; ?>><?php echo $factionDetails->_name; ?></option>
@@ -131,9 +131,9 @@
         </div>
 
         <div class="col-lg-4 text-center">
-            <div id="faction-logo-preview-wrapper">
+            <div class="faction-logo-preview-wrapper" data-type="register">
                 <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
-                    <div id="faction-logo-<?php echo $factionId; ?>" class="thumbnail faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
+                    <div class="thumbnail faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
                         <?php echo Functions::getImageFaction($factionDetails->_name); ?>
                     </div>
                 <?php endforeach; ?>

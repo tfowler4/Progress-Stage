@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Faction</label>
                         <div class="col-lg-7 col-md-10">
-                            <select id="user-form-faction" class="form-control" name="userpanel-faction">
+                            <select class="form-control form-faction" name="userpanel-faction" data-type="guild-create">
                                 <option value="">Select Faction</option>
                                 <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
                                     <option value="<?php echo $factionId; ?>" <?php if (!empty($data->_formFields->faction) && $data->_formFields->faction == $factionId): ?>selected<?php endif; ?>><?php echo $factionDetails->_name; ?></option>
@@ -35,7 +35,7 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Country</label>
                         <div class="col-lg-7 col-md-10">
-                            <select id="user-form-country" class="form-control" name="userpanel-country">
+                            <select class="form-control form-country" name="userpanel-country" data-type="guild-create">
                                 <option value="">Select Country</option>
                                 <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
                                     <option value="<?php echo $countryId; ?>" <?php if (!empty($data->_formFields->country) && $data->_formFields->country == $countryId): ?>selected<?php endif; ?>><?php echo $countryDetails->_name; ?></option>
@@ -86,9 +86,9 @@
     </div>
 
     <div class="col-lg-3 col-lg-pull-6 col-md-6 text-center">
-        <div id="faction-logo-preview-wrapper">
+        <div class="faction-logo-preview-wrapper" data-type="guild-create">
             <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
-                <div id="faction-logo-<?php echo $factionId; ?>" class="thumbnail faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
+                <div class="thumbnail faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
                     <?php echo Functions::getImageFaction($factionDetails->_name); ?>
                 </div>
             <?php endforeach; ?>
@@ -96,12 +96,8 @@
     </div>
 
     <div class="col-lg-3 col-md-6 text-center">
-        <div id="guild-country-logo-preview-wrapper">
-            <div class="thumbnail guild-logo-preview" data-type="guild-create"></div>
+        <div class="thumbnail guild-logo-preview" data-type="guild-create"></div>
 
-            <div class="thumbnail country-flag-preview" data-type="guild-create">
-                <?php echo Functions::getImageFlag($guildDetails->_country, 'large'); ?>
-            </div>
-        </div>
+        <div class="thumbnail country-flag-preview" data-type="guild-create"></div>
     </div>
 </div>
