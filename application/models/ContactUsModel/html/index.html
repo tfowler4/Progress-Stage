@@ -1,5 +1,5 @@
-<?php if (!empty($data->_dialogOptions)): ?>
-    <div id="dialog-wrapper" class="row">
+<?php if ( !empty($data->_dialogOptions) ): ?>
+    <div class="row">
         <div class="col-lg-offset-3 col-lg-6">
             <div class="alert alert-<?php echo $data->_dialogOptions['type']; ?> text-center">
                 <strong><?php echo $data->_dialogOptions['title']; ?></strong>
@@ -11,7 +11,7 @@
     </div>
 <?php endif; ?>
 
-<div id="form-wrapper" class="row">
+<div class="row">
     <div class="col-lg-offset-4 col-lg-4">
         <div class="panel panel-primary">
             <div class="panel-heading">Contact Us</div>
@@ -19,13 +19,13 @@
                 <form role="form" method="POST" action="<?php echo PAGE_CONTACTUS; ?>" autocomplete="off">
                     <div class="form-group">
                         <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
-                            <input type="text" class="form-control"  id="contact-email" name="contact-email" placeholder="Email Address" aria-describedby="basic-addon1">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                            <input type="email" class="form-control" name="contact-email" placeholder="Email Address" aria-describedby="basic-addon1">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="contact-feedback">Feedback Type</label>
-                        <select id="contact-popup-feedback" class="form-control" name="contact-feedback">
+                        <select class="form-control" name="contact-feedback">
                             <option value="">Select Feedback Type</option>
                             <option value="General Feedback">General Feedback</option>
                             <option value="Guild Details Request">Guild Details Request</option>
@@ -37,10 +37,10 @@
                     </div>
                     <div class="form-group">
                         <label for="contact-message">Message</label>
-                        <textarea class="form-control" id="contact-popup-message" name="contact-message" rows="5"></textarea>
+                        <textarea class="form-control" name="contact-message" rows="5"></textarea>
                     </div>
                     <div class="form-group text-center">
-                        <input id="contact-popup-active" type="hidden" name='active' value="Active">
+                        <input type="hidden" name='active' value="Active">
                         <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span>  Submit</button>
                     </div>
                 </form>

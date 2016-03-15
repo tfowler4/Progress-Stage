@@ -1,30 +1,4 @@
 <?php
-	$ROOT 			= dirname(dirname(__FILE__));
-	include_once 	$ROOT."/configuration.php";
-
-	draw_header("news", "Error", "");
-	echo "<div id=\"body_wrapper\">";
-		echo "<div id=\"body_content\">";
-			echo "<div class=\"content_separator\"><br></div>";
-			echo "<div id=\"content_center\">";
-				draw_message_banner("Error", "An error has occured on this page. Please report this to the site administrator so we can fix this ASAP! Thanks!");
-				echo "<div class=\"clear\"></div>";
-			echo "</div>";
-			echo "<div class=\"content_separator\"><br></div>";
-			echo "<div class=\"content_sidebars\">";
-				block_uni_draw_large_box_ad();
-				echo "<div class=\"clear\"></div>";
-				echo "<br>";
-				block_uni_draw_large_box_ad();
-				echo "<div class=\"clear\"></div>";
-			echo "</div>";
-			echo "<div class=\"content_separator\"><br></div>";
-		echo "</div>";
-		echo "<div class=\"clear\"></div>";
-	echo "<br></div>";
-
-	draw_footer();
-	draw_bottom();
 
 	/*
 		Informational
@@ -74,4 +48,3 @@
 		504 - Gateway Timeout
 		505 - HTTP Version Not Supported
 	*/
-?>

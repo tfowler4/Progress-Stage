@@ -11,7 +11,7 @@ var GlobalEventBinder = function() {
             reader.onload = function (e) {
                 var imgSrc = e.target.result;
 
-                $('#guild-logo-preview').html('<img class="img-responsive" id="guild-logo" src="' + imgSrc + '">');
+                $('#guild-logo-preview').html('<img class="img-responsive" src="' + imgSrc + '">');
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -40,7 +40,7 @@ var GlobalEventBinder = function() {
     $(document).on('change', '#user-form-faction', function() { changeFactionLogo(this); });
     var changeFactionLogo = function(input) {
         var faction = input.value.toLowerCase();
-console.log("FactioN: "+faction);
+
         $('#faction-logo-preview-wrapper').children().fadeTo('fast', .3, function() {
             if ( faction != '' ) {
 
@@ -58,7 +58,7 @@ console.log("FactioN: "+faction);
             var dir = getFlagLargeDirectory();
             var imgSrc = dir + country + '.png';
 
-            $('#country-flag-preview').html('<img class="img-responsive" id="country-flag" src="' + imgSrc + '">');
+            $('#country-flag-preview').html('<img class="img-responsive" src="' + imgSrc + '">');
         } else {
             $('#country-flag-preview').html('');
         }
@@ -147,7 +147,7 @@ console.log("FactioN: "+faction);
                 html += '<label for="" class="control-label col-lg-2 col-md-2 col-sm-12 col-xs-12">' + 'Video #' + videoLinkNum + '</label>';
                 html += '<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">';
                     html += '<div class="input-group">';
-                        html += '<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-film"></span></span>';
+                        html += '<span class="input-group-addon"><span class="glyphicon glyphicon-film"></span></span>';
                         html += '<input type="text" class="form-control"  id="user-form-video-title-' + videoLinkNum + '" name="video-link-title[]" placeholder="Notes">';
                     html += '</div>';
                 html += '</div>';
@@ -155,7 +155,7 @@ console.log("FactioN: "+faction);
             html += '<div class="form-group">';
                 html += '<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">';
                     html += '<div class="input-group">';
-                        html += '<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-globe"></span></span>';
+                        html += '<span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>';
                         html += '<input type="text" class="form-control" id="user-form-video-url-' + videoLinkNum + '" name="video-link-url[]" placeholder="Video URL">';
                     html += '</div>';
                 html += '</div>';
@@ -270,7 +270,7 @@ console.log("FactioN: "+faction);
         event.preventDefault();
 
         var currentPageUrl   = document.URL;
-        var dungeonId        = $(this).prop('id');
+        var dungeonId        = $(this).data('dungeon-id');
         var modalWrapper     = $('#modal-wrapper');
         var modalBackdrop    = $('.modal-backdrop');
         modalWrapper.empty();

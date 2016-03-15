@@ -8,7 +8,7 @@
                         <label for="" class="control-label col-lg-3 col-md-2">Guild Name</label>
                         <div class="col-lg-7 col-md-10">
                             <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
                                 <input type="text" disabled class="form-control" value="<?php echo $guildDetails->_name; ?>">
                             </div>
                         </div>
@@ -17,7 +17,7 @@
                         <label for="" class="control-label col-lg-3 col-md-2">Team Name</label>
                         <div class="col-lg-7 col-md-10">
                             <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
                                 <input type="text" class="form-control" name="userpanel-guild-name" placeholder="Enter Team Name">
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Server</label>
                         <div class="col-lg-7 col-md-10">
-                            <select id="user-form-server" name="userpanel-server" class="form-control">
+                            <select name="userpanel-server" class="form-control">
                                 <option value="">Select Server</option>
                                 <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
                                     <option value="<?php echo $serverId; ?>"><?php echo $serverDetails->_region . '-' . $serverDetails->_name; ?></option>
@@ -59,8 +59,8 @@
                         <label for="" class="control-label col-lg-3 col-md-2">Team Leader(s)</label>
                         <div class="col-lg-7 col-md-10">
                             <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
-                                <input id="user-form-guild-leader" type="text" name="userpanel-guild-leader" class="form-control" placeholder="Enter Team Leader Name">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                                <input type="text" name="userpanel-guild-leader" class="form-control" placeholder="Enter Team Leader Name">
                             </div>
                         </div>
                     </div>
@@ -78,10 +78,8 @@
     <div class="col-lg-3 col-lg-pull-6 col-md-6 text-center">
         <div id="faction-logo-preview-wrapper">
             <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
-                <div class="thumbnail">
-                    <div id="faction-logo-<?php echo $factionId; ?>" class="faction-logo <?php echo strtolower($factionDetails->_name); ?> <?php if( $factionDetails->_name != $guildDetails->_faction): ?>faded <?php endif; ?>">
-                        <?php echo Functions::getImageFaction($factionDetails->_name); ?>
-                    </div>
+                <div id="faction-logo-<?php echo $factionId; ?>" class="thumbnail faction-logo <?php echo strtolower($factionDetails->_name); ?> <?php if( $factionDetails->_name != $guildDetails->_faction): ?>faded <?php endif; ?>">
+                    <?php echo Functions::getImageFaction($factionDetails->_name); ?>
                 </div>
             <?php endforeach; ?>
         </div>

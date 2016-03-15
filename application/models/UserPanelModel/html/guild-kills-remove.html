@@ -8,10 +8,10 @@
                 </p>
                 <form method="POST" action="<?php echo PAGE_USER_PANEL; ?>">
                     <input type="hidden" name="form-type" value="update-kills">
-                    <input id="user-form-guild" type="hidden" name="userpanel-guild" value="<?php echo $guildDetails->_guildId; ?>">
-                    <input id="user-form-guild" type="hidden" name="userpanel-guild-id" value="<?php echo $guildDetails->_guildId; ?>">
-                    <input id="user-form-encounter" type="hidden" name="userpanel-encounter" value="<?php echo $data->_encounterDetails->_encounterId; ?>">
-                    <input id="user-form-active" type="hidden" name='active' value="Active">
+                    <input type="hidden" name="userpanel-guild" value="<?php echo $guildDetails->_guildId; ?>">
+                    <input type="hidden" name="userpanel-guild-id" value="<?php echo $guildDetails->_guildId; ?>">
+                    <input type="hidden" name="userpanel-encounter" value="<?php echo $data->_encounterDetails->_encounterId; ?>">
+                    <input type="hidden" name='active' value="Active">
                     <button type="submit" name="action" class="btn btn-danger" value="remove-kill"><span class="glyphicon glyphicon-remove"></span>  Remove Kill</button>
                 </form>
             </div>

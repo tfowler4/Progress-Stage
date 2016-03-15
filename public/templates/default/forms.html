@@ -11,18 +11,18 @@
                         <form role="form" method="POST" action="<?php echo PAGE_LOGIN; ?>" autocomplete="off">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
-                                    <input type="text" class="form-control" id="login-username" name="login-username" placeholder="Username/Email">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                    <input type="text" class="form-control" name="login-username" placeholder="Username/Email">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-briefcase"></span></span>
-                                    <input type="password" class="form-control" id="login-password" name="login-password" placeholder="Password">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
+                                    <input type="password" class="form-control" name="login-password" placeholder="Password">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input id="login-popup-active" type="hidden" name='active' value="Active">
+                                <input type="hidden" name='active' value="Active">
                                 <button type="submit" class="btn btn-default">
                                     <span class="glyphicon glyphicon-log-in"></span>  Log In
                                 </button>
@@ -55,8 +55,8 @@
                         <form role="form" method="POST" action="<?php echo PAGE_LOGOUT; ?>" autocomplete="off">
                             <h4>Are you sure you want to log out?</h4>
                             <div class="form-group">
-                                <input id="logout-popup-active" type="hidden" name='active' value="Active">
-                                <button id="logout-popup-confirm" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-log-out"></span>  Logout</button>
+                                <input type="hidden" name='active' value="Active">
+                                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-log-out"></span>  Logout</button>
                             </div>
                         </form>
                     </p>
@@ -80,13 +80,13 @@
                         <form role="form" method="POST" action="<?php echo PAGE_CONTACTUS; ?>" autocomplete="off">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-pencil"></span></span>
-                                    <input type="text" class="form-control"  id="contact-email" name="contact-email" placeholder="Email Address" aria-describedby="basic-addon1">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+                                    <input type="email" class="form-control" name="contact-email" placeholder="Email Address" aria-describedby="basic-addon1">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="contact-feedback">Feedback Type</label>
-                                <select id="contact-popup-feedback" class="form-control" name="contact-feedback">
+                                <select class="form-control" name="contact-feedback">
                                     <option value="">Select Feedback Type</option>
                                     <option value="General Feedback">General Feedback</option>
                                     <option value="Guild Details Request">Guild Details Request</option>
@@ -98,10 +98,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="contact-message">Message</label>
-                                <textarea class="form-control" id="contact-popup-message" name="contact-message" rows="5"></textarea>
+                                <textarea class="form-control" name="contact-message" rows="5"></textarea>
                             </div>
                             <div class="form-group text-center">
-                                <input id="contact-popup-active" type="hidden" name='active' value="Active">
+                                <input type="hidden" name='active' value="Active">
                                 <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span>  Submit</button>
                             </div>
                         </form>
@@ -126,7 +126,7 @@
                         <form role="form" method="POST" action="<?php echo PAGE_QUICK; ?>" autocomplete="off" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="username">Guild</label>
-                                <select id="user-form-popup-guild" class="form-control" name="quick-guild">
+                                <select class="form-control" name="quick-guild">
                                     <option value="">Select Guild</option>
                                     <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails): ?>
                                         <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name; ?></option>
@@ -135,14 +135,14 @@
                             </div>
                             <div class="form-group">
                                 <label for="user-form-popup-encounter">Encounter</label>
-                                <select id="user-form-popup-encounter" class="form-control" name="quick-encounter">
+                                <select class="form-control" name="quick-encounter">
                                     <option value="">Select Encounter</option>
                                 </select>
                             </div>
                             <label for="quick-date">Date (M-D-Y)</label>
                             <div class="form-inline">
                                 <div class="form-group">
-                                   <select id="user-form-popup-month" class="form-control" name="quick-month">
+                                   <select class="form-control" name="quick-month">
                                         <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
                                             <?php if ( $month == date('m') ): ?> 
                                                 <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
@@ -153,7 +153,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <select id="user-form-popup-day" class="form-control" name="quick-day">
+                                    <select class="form-control" name="quick-day">
                                         <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
                                             <?php if ( $day == date('d') ): ?> 
                                                 <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
@@ -164,7 +164,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                   <select id="user-form-popup-year" class="form-control" name="quick-year">
+                                   <select class="form-control" name="quick-year">
                                         <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
                                             <?php if ( $year == date('Y') ): ?> 
                                                 <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
@@ -179,7 +179,7 @@
                             <label for="quick-time">Time (H:M UTC)</label>
                             <div class="form-inline">
                                 <div class="form-group">
-                                    <select id="user-form-popup-hour" class="form-control"  name="quick-hour">
+                                    <select class="form-control"  name="quick-hour">
                                         <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
                                             <?php if ( $hour == date('H') ): ?> 
                                                 <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
@@ -190,7 +190,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                   <select id="user-form-popup-minute" class="form-control"  name="quick-minute">
+                                   <select class="form-control"  name="quick-minute">
                                         <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
                                             <?php if ( $minute == date('i') ): ?> 
                                                 <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
@@ -212,7 +212,7 @@
                                 <br><a class="btn btn-default new-video-link" href="#"><span class="glyphicon glyphicon-plus"></span>  Add New Video</a>
                             </div>
                             <div class="form-group text-center">
-                                <input id="quick-form-active" type="hidden" name='active' value="Active">
+                                <input type="hidden" name='active' value="Active">
                                 <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-check"></span>  Submit</button>
                             </div>
                             <div id="popup-screenshot-preview"></div>
@@ -237,13 +237,13 @@
                     <p>
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
                                 <input type="text" id="search-input" class="form-control" placeholder="Enter guild name..." aria-describedby="basic-addon1">
                             </div>
                         </div>
                         <div class="form-group text-center">
-                            <input id="search-form-active" type="hidden" name='active' value="Active">
-                            <button id="search-form-submit" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>  Search</button>
+                            <input type="hidden" name='active' value="Active">
+                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>  Search</button>
                         </div>
                     </p>
                     <div id="search-results"></div>

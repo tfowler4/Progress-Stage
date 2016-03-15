@@ -35,7 +35,7 @@ var NewsEventBinder = function() {
     $(document).on('click touchstart', 'button.clickable', function() {
         if( stopClickRankPanel ) { return; }
 
-        var systemId = $(this).prop('id').replace('system-selector-', '');
+        var systemId = $(this).data('system-id').replace('system-selector-', '');
         var numOfTables = $(document).find('.side-tables').length;
 
         if ( !$(this).hasClass('highlight') && numOfTables > 0 ) {

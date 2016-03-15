@@ -1,6 +1,4 @@
-<!--<script>var eventBinder = new UserPanelEventBinder();</script>-->
-
-<div class="   ">
+<div class="row">
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" <?php if ( $data->_setTab == 'account' ): ?>class="active"<?php endif; ?> ><a href="#account-management" aria-controls="home" role="tab" data-toggle="tab">Account Management</a></li>
         <?php foreach ( $data->_userGuilds as $guildId => $guildDetails ): ?>
@@ -35,7 +33,7 @@
     <div class="tab-content">
         <br>
         <?php if ( !empty($data->_currentPanel->_dialogOptions) ): ?>
-            <div id="dialog-wrapper" class="row">
+            <div class="row">
                 <div class="col-lg-offset-4 col-lg-4   ">
                     <div class="alert alert-<?php echo $data->_currentPanel->_dialogOptions['type']; ?> text-center">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>

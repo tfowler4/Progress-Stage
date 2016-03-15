@@ -1,8 +1,8 @@
-<div id="title-wrapper" class="row">
+<div class="row">
     <h2>RIFT Progress <small>"How Does it Work?"</small></h2>
 </div>
 
-<div id="data" class="row">
+<div class="row">
     <div class="   ">
         <div class="panel panel-primary">
             <table class='table table-striped'>
@@ -175,24 +175,8 @@
     </div>
 </div>
 
-<div id="glossary" class="row">
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading"><strong>Glossary</strong></div>
-            <table class="table table-condensed">
-                <tbody>
-                    <?php $count = 0; foreach( HowtoModel::GLOSSARY as $key => $value ): ?>
-                        <?php if ( $count == 0 ): ?>
-                            <tr>
-                        <?php elseif( $count > 0 && $count % 3 == 0 ) : ?>
-                            </tr>
-                            <tr>
-                        <?php endif; ?>
-
-                        <td><?php echo $key . ': ' . $value; $count++; ?></td>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+        <?php echo Template::drawGlossary(HowtoModel::GLOSSARY, 3); ?>
     </div>
 </div>

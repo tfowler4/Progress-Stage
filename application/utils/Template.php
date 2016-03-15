@@ -72,7 +72,7 @@ class Template {
 
         if ( !empty($optionText) ) {
             $html .= '<div class="pull-right">';
-            $html .= '<a data-toggle="modal" data-target="#spreadsheetModal" id="' . $optionId . '" class="btn btn-default btn-xs ' . $optionClass . '" href="#"><span class="glyphicon glyphicon-th-list"></span></a>';
+            $html .= '<a data-toggle="modal" data-target="#spreadsheetModal" data-dungeon-id="' . $optionId . '" class="btn btn-default btn-xs ' . $optionClass . '" href="#"><span class="glyphicon glyphicon-th-list"></span></a>';
             $html .= '</div>';
         }
 
@@ -196,11 +196,6 @@ class Template {
         $html .= '<div class="panel panel-primary">';
         $html .= '<div class="panel-heading"><span class="h4">Glossary</span></div>';
         $html .= '<table class="table table-condensed">';
-        /*$html .= '<thead>';
-        $html .= '<tr>';
-        $html .= '<th colspan="' . $numOfColumns . '">Glossary</th>';
-        $html .= '</tr>';
-        $html .= '</thead>';*/
         $html .= '<tbody>';
 
         foreach ( $glossaryArray as $name => $definition ) {
@@ -218,7 +213,6 @@ class Template {
         $html .= '</tbody>';
         $html .= '</table>';
         $html .= '</div>';
-        //$html .= '<div class="clear"></div>';
 
         return $html;
     }
@@ -235,8 +229,7 @@ class Template {
         $html       = '';
         $guildCount = 1;
 
-        //$html = '<div id="top-guild-wrapper" class="noselect">';
-        $html = '<div id="top-guild-wrapper" class="row">';
+        $html = '<div class="row">';
 
         foreach ( $topGuildArray as $guildId => $guildDetails ) {
             $placeStr = '';
@@ -252,14 +245,8 @@ class Template {
             $html .= '<div class="col-lg-4 col-md-4 col-sm-4  text-center">';
                 $html .= '<div class="thumbnail top-guild">';
                     $html .= self::getLogo($guildDetails);
-                   /*$html .= '<div class="caption text-center">';
-                        $html .= '<h3>';
-                            $html .= '<strong>' . Functions::shortName($guildDetails->_name, 20) . '</strong>';
-                            $html .= '<p><small>' . Functions::convertToOrdinal($guildCount). ' - ' . $placeStr . '</small></p>';
-                        $html .= '</h3>';
-                    $html .= '</div>';*/
                 $html .= '</div>';
-                            $html .= '<h3><strong>' . Functions::getImageFlag($guildDetails->_country, 'medium') . ' <span>' . Functions::shortName($guildDetails->_name, 20) . '</span></strong></h3>';//Functions::getImageFlag($guildDetails->_country, 'medium')
+                            $html .= '<h3><strong>' . Functions::getImageFlag($guildDetails->_country, 'medium') . ' <span>' . Functions::shortName($guildDetails->_name, 20) . '</span></strong></h3>';
                             $html .= '<p><small>' . Functions::convertToOrdinal($guildCount). ' - ' . $placeStr . '</small></p>';
             $html .= '</div>';
 
@@ -318,13 +305,7 @@ class Template {
 
             if ( file_exists($localSrc) && getimagesize($localSrc) ) {
                 $imageDimensions    = getimagesize($localSrc);
-                $class              = '';
-
-                //if ( $imageDimensions[0] > 600 ) {
-                //    $class = 'class="screenshot-large img-responsive"'; 
-                //} else {
-                    $class ='class="img-responsive"';
-                //}
+                $class              ='class="img-responsive"';
 
                 $screenshot = '<img src="' . $src . '" ' . $class . ' >';
 
@@ -353,17 +334,15 @@ class Template {
             );
 
         $html = '';
-        $html .= '<div id="glossary" class="row">';
+        $html .= '<div class="row">';
         $html .= '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">';
         $html .= self::drawGlossary($glossaryArray, 1);
         $html .= '</div>';
         $html .= '</div>';
-        $html .= '<div id="data" class="row">';
+        $html .= '<div class="row">';
         $html .= '<div class="   ">';
         $html .= '<div class="panel panel-primary">';
         $html .= '<table class="table table-striped table-hover table-condensed">';
-        //$html .= '<thead>';
-        //$html .= '</thead>';
         $html .= '<tbody>';
 
         foreach( $spreadsheet as $listType => $dataArray ) {
@@ -525,8 +504,6 @@ class Template {
         $html .= '<div class="   ">';
         $html .= '<div class="panel panel-primary">';
         $html .= '<table class="table table-striped table-hover table-condensed">';
-        //$html .= '<thead>';
-        //$html .= '</thead>';
         $html .= '<tbody>';
         $html .= self::drawSubTitleTableRow($tableHeader, $guildDetails->_name . ' :: ' . $encounterDetails->_name . ' Kill Videos');
         $html .= self::drawSubHeaderTableRow($tableHeader);

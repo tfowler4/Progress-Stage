@@ -7,7 +7,7 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Guild Name</label>
                         <div class="col-lg-7 col-md-10">
-                            <input type="text" class="form-control" id="userpanel-guild" placeholder="Enter guild name" name="userpanel-guild-name">
+                            <input type="text" class="form-control" placeholder="Enter guild name" name="userpanel-guild-name">
                         </div>
                     </div>
                     <div class="form-group">
@@ -24,7 +24,7 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Server</label>
                         <div class="col-lg-7 col-md-10">
-                            <select id="user-form-server" class="form-control" name="userpanel-server">
+                            <select class="form-control" name="userpanel-server">
                                 <option value="">Select Server</option>
                                 <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
                                     <option value="<?php echo $serverId; ?>" <?php if (!empty($data->_formFields->server) && $data->_formFields->server == $serverId): ?>selected<?php endif; ?>><?php echo $serverDetails->_region . ' - ' . $serverDetails->_name; ?></option>
@@ -46,25 +46,25 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Guild Leader(s)</label>
                         <div class="col-lg-7 col-md-10">
-                            <input type="text" class="form-control" id="userpanel-guild-leader" placeholder="Enter guild leader name" name="userpanel-guild-leader">
+                            <input type="text" class="form-control" placeholder="Enter guild leader name" name="userpanel-guild-leader">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Website</label>
                         <div class="col-lg-7 col-md-10">
-                            <input type="text" class="form-control" id="userpanel-website" placeholder="Enter guild website" name="userpanel-website">
+                            <input type="text" class="form-control" placeholder="Enter guild website" name="userpanel-website">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Facebook</label>
                         <div class="col-lg-7 col-md-10"> 
-                            <input type="text" class="form-control" id="userpanel-facebook" placeholder="Enter Facebook handle" name="userpanel-facebook">
+                            <input type="text" class="form-control" placeholder="Enter Facebook handle" name="userpanel-facebook">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Twitter</label>
                         <div class="col-lg-7 col-md-10"> 
-                            <input type="text" class="form-control" id="userpanel-twitter" placeholder="Enter Twitter handle" name="userpanel-twitter">
+                            <input type="text" class="form-control" placeholder="Enter Twitter handle" name="userpanel-twitter">
                         </div>
                     </div>
                     <div class="form-group">
@@ -97,9 +97,8 @@
 
     <div class="col-lg-3 col-md-6 text-center">
         <div id="guild-country-logo-preview-wrapper">
-            <div class="thumbnail" id="guild-logo-preview">
-                
-            </div>
+            <div class="thumbnail" id="guild-logo-preview"></div>
+
             <div class="thumbnail" id="country-flag-preview">
                 <?php echo Functions::getImageFlag($guildDetails->_country, 'large'); ?>
             </div>

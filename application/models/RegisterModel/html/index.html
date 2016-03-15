@@ -1,5 +1,5 @@
 <?php if ( !empty($data->_dialogOptions) ): ?>
-    <div id="dialog-wrapper" class="row">
+    <div class="row">
         <div class="col-lg-offset-3 col-lg-6">
             <div class="alert alert-<?php echo $data->_dialogOptions['type']; ?> text-center">
                 <strong><?php echo $data->_dialogOptions['title']; ?></strong>
@@ -12,7 +12,7 @@
 <?php endif; ?>
 
 <div class="col-lg-9">
-    <div id="form-wrapper" class="row">
+    <div class="row">
         <div class="col-lg-offset-1 col-lg-7">
             <div class="panel panel-primary">
                 <div class="panel-heading"><span class="h4">Registration</span></div>
@@ -21,43 +21,43 @@
                         <div class="form-group">
                             <label class="control-label col-lg-3 col-md-2" for="register-username">Username</label>
                             <div class="col-lg-7 col-md-10">
-                                <input type="text" name="register-username" class="form-control" id="register-username" placeholder="Enter username">
+                                <input type="text" name="register-username" class="form-control" placeholder="Enter username">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-lg-3 col-md-2" for="register-email">Email</label>
                             <div class="col-lg-7 col-md-10">
-                                <input type="email" name="register-email" class="form-control" id="register-email" placeholder="Enter email">
+                                <input type="email" name="register-email" class="form-control" placeholder="Enter email">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-lg-3 col-md-2" for="register-password">Password</label>
                             <div class="col-lg-7 col-md-10">
-                                <input type="password" name="register-password" class="form-control" id="register-password" placeholder="Enter password">
+                                <input type="password" name="register-password" class="form-control" placeholder="Enter password">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-lg-3 col-md-2" for="register-retype-password">Retype Password</label>
                             <div class="col-lg-7 col-md-10">
-                                <input type="password" name="register-retype-password" class="form-control" id="register-retype-password" placeholder="Retype password">
+                                <input type="password" name="register-retype-password" class="form-control" placeholder="Retype password">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-lg-3 col-md-2" for="register-guild">Guild Name</label>
                             <div class="col-lg-7 col-md-10">
-                                <input type="text" name="register-guild-name" class="form-control" id="register-guild" placeholder="Enter guild">
+                                <input type="text" name="register-guild-name" class="form-control" placeholder="Enter guild">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-lg-3 col-md-2" for="register-guild-leader">Guild Leader</label>
                             <div class="col-lg-7 col-md-10">
-                                <input type="text" name="register-guild-leader" class="form-control" id="register-guild-leader" placeholder="Enter guild leader name">
+                                <input type="text" name="register-guild-leader" class="form-control" placeholder="Enter guild leader name">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-lg-3 col-md-2" for="register-website">Website</label>
                             <div class="col-lg-7 col-md-10">
-                                <input type="text" name="register-website" class="form-control" id="register-website" placeholder="Enter guild website">
+                                <input type="text" name="register-website" class="form-control" placeholder="Enter guild website">
                             </div>
                         </div>
                         <div class="form-group">
@@ -96,13 +96,13 @@
                         <div class="form-group">
                             <label class="control-label col-lg-3 col-md-2" for="register-password">Facebook</label>
                             <div class="col-lg-7 col-md-10"> 
-                                <input type="text" name="register-facebook" class="form-control" id="register-password" placeholder="Enter Facebook handle">
+                                <input type="text" name="register-facebook" class="form-control" placeholder="Enter Facebook handle">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-lg-3 col-md-2" for="register-twitter">Twitter</label>
                             <div class="col-lg-7 col-md-10"> 
-                                <input type="text" name="register-twitter" class="form-control" id="register-twitter" placeholder="Enter Twitter handle">
+                                <input type="text" name="register-twitter" class="form-control" placeholder="Enter Twitter handle">
                             </div>
                         </div>
                         <div class="form-group">
@@ -121,7 +121,7 @@
                         </div>
                         <div class="form-group"> 
                             <div class="text-center">
-                                <input id="user-form-active" type="hidden" name='active' value="Active">
+                                <input type="hidden" name='active' value="Active">
                                 <button type="submit" class="btn btn-default">Submit</button>
                             </div>
                         </div>
@@ -140,18 +140,14 @@
             </div>
 
             <div id="guild-country-logo-preview-wrapper">
-                <div class="thumbnail">
-                    <div id="guild-logo-preview"></div>
-                </div>
+                <div class="thumbnail" id="guild-logo-preview"></div>
 
-                <div class="thumbnail">
-                    <div id="country-flag-preview"></div>
-                </div>
+                <div class="thumbnail" id="country-flag-preview"></div>
             </div>
         </div>
     </div>
 
-    <div id="tos-wrapper" class="row">
+    <div class="row">
         <div class="   ">
             <div class="panel panel-primary">
                 <div class="panel-heading"><span class="h4">Terms of Service</span></div>

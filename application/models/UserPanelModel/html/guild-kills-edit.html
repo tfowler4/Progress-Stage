@@ -8,7 +8,7 @@
                         <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Guild Name</label>
                         <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
                             <div class="input-group">
-                                <input id="user-form-guild" name="userpanel-guild" type="hidden" value="<?php echo $guildDetails->_guildId; ?>">
+                                <input name="userpanel-guild" type="hidden" value="<?php echo $guildDetails->_guildId; ?>">
                                 <input type="text" disabled class="form-control" value="<?php echo $guildDetails->_name; ?>">
                             </div>
                         </div>
@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Date (M-D-Y)</label>
                         <div class="form-inline col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                           <select id="user-form-popup-month" class="form-control" name="userpanel-month">
+                           <select class="form-control" name="userpanel-month">
                                 <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
                                     <?php if ( $month == $data->_encounterDetails->_month ): ?> 
                                         <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
@@ -33,7 +33,7 @@
                                 <?php endforeach; ?>
                             </select>
 
-                            <select id="user-form-popup-day" class="form-control" name="userpanel-day">
+                            <select class="form-control" name="userpanel-day">
                                 <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
                                     <?php if ( $day == $data->_encounterDetails->_day ): ?> 
                                         <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
@@ -43,7 +43,7 @@
                                 <?php endforeach; ?>
                             </select>
 
-                           <select id="user-form-popup-year" class="form-control" name="userpanel-year">
+                           <select class="form-control" name="userpanel-year">
                                 <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
                                     <?php if ( $year == $data->_encounterDetails->_year ): ?> 
                                         <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
@@ -57,7 +57,7 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Time (H:M UTC)</label>
                         <div class="form-inline col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                            <select id="user-form-popup-hour" class="form-control"  name="userpanel-hour">
+                            <select class="form-control"  name="userpanel-hour">
                                 <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
                                     <?php if ( $hour == $data->_encounterDetails->_hour ): ?> 
                                         <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
@@ -67,7 +67,7 @@
                                 <?php endforeach; ?>
                             </select>
 
-                           <select id="user-form-popup-minute" class="form-control"  name="userpanel-minute">
+                           <select class="form-control"  name="userpanel-minute">
                                 <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
                                     <?php if ( $minute == $data->_encounterDetails->_minute ): ?> 
                                         <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
@@ -94,13 +94,13 @@
                                         <div class="form-group">
                                             <label>Video # <?php echo $videoNum; ?></label>
                                             <div class="input-group">
-                                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-film"></span></span>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-film"></span></span>
                                                 <input type="text" class="form-control"  id="user-form-video-title-<?php echo $videoNum; ?>" name="video-link-title[]" placeholder="Notes/Title" value="<?php echo $videoDetails->_notes; ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-globe"></span></span>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>
                                                 <input type="text" class="form-control" id="user-form-video-url-<?php echo $videoNum; ?>" name="video-link-url[]" value="<?php echo $videoDetails->_url; ?>">
                                             </div>
                                         </div>

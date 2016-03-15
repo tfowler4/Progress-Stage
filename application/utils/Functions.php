@@ -658,9 +658,9 @@ class Functions {
      */
     public static function showDialogWindow($dialogOptions) {
         $html = '';
-        $html .= '<div id="dialog-wrapper">';
-        $html .= '<div id="dialog-title">' . $dialogOptions['title'] . '</div>';
-        $html .= '<div id="dialog-body">' . $dialogOptions['message'] . '</div>';
+        $html .= '<div>';
+        $html .= '<div>' . $dialogOptions['title'] . '</div>';
+        $html .= '<div>' . $dialogOptions['message'] . '</div>';
         $html .= '</div>';
         return $html;
     }
