@@ -350,4 +350,30 @@ var GlobalEventBinder = function() {
             }
         });
     });
+
+    /*
+    http://www.prowebdesign.ro/how-to-deal-with-hover-on-touch-screen-devices/
+    http://www.stampede-design.com/blog/2012/11/dropdown-menu-hover/#.Vul2WagrIWo
+    https://teamtreehouse.com/community/how-can-i-create-a-dropdown-menu-that-uses-hover-events-while-still-being-mobiletouch-friendly
+    http://stackoverflow.com/questions/11850466/mobile-touch-device-friendly-drop-down-menu-in-css-jquery
+    http://stackoverflow.com/questions/4755505/how-to-recognize-touch-events-using-jquery-in-safari-for-ipad-is-it-possible
+    function isTouchDevice(){
+        return typeof window.ontouchstart !== 'undefined';
+    }
+
+    jQuery(document).ready(function(){
+        /* If mobile browser, prevent click on parent nav item from redirecting to URL 
+        if(isTouchDevice()) {console.log('yeh');return;
+            // 1st click, add "clicked" class, preventing the location change. 2nd click will go through.
+            jQuery("#menu-main-menu > li > a").click(function(event) {
+                // Perform a reset - Remove the "clicked" class on all other menu items
+                jQuery("#menu-main-menu > li > a").not(this).removeClass("clicked");
+                jQuery(this).toggleClass("clicked");
+                if (jQuery(this).hasClass("clicked")) {
+                    event.preventDefault();
+                }
+            });
+        }
+    });
+    */
 }; 
