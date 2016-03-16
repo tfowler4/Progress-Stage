@@ -1,24 +1,24 @@
 <div class="row">
-    <div class="pull-left">
-        <?php echo Functions::getImageFlag($data->_detailsPane->_country, 'medium'); ?>
-    </div>
-    <div>
-        <span class="h2" style="margin-left:5px;"><?php echo '   ' . $data->_detailsPane->_name; ?></span>
-        <p>
-            <small class="h5" style="margin-left:5px;">
-                <?php echo $data->_tierDetails->_altTier . ' - ' . $data->_tierDetails->_name; ?>
-            </small>
-        </p>
+    <div class="col-xs-12">
+        <div class="pull-left">
+            <?php echo Functions::getImageFlag($data->_detailsPane->_country, 'medium'); ?>
+        </div>
+        <div>
+            <span class="h2" style="margin-left:5px;"><?php echo '   ' . $data->_detailsPane->_name; ?></span>
+            <p>
+                <small class="h5" style="margin-left:5px;">
+                    <?php echo $data->_tierDetails->_altTier . ' - ' . $data->_tierDetails->_name; ?>
+                </small>
+            </p>
+        </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-lg-3 col-lg-push-9   ">
+    <div class="col-lg-3 col-lg-push-9">
         <div class="panel panel-primary">
             <div class="panel-heading"><span class="h4">Server Details</span></div>
             <table class="table table-condensed table-pane">
-                <thead>
-                </thead>
                 <tbody>
                     <?php foreach( ServersModel::PANE_SERVER as $key => $value ): ?>
                         <tr>
@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <div class="col-lg-9 col-lg-pull-3   hidden-xs">
+    <div class="col-lg-9 col-lg-pull-3 hidden-xs">
         <?php if ( !empty($data->_topGuildsArray) ): ?>
             <?php echo Template::drawTopGuildPane($data->_topGuildsArray, array('_progress')); ?>
         <?php endif; ?>
@@ -39,10 +39,10 @@
 </div>
 
 <div class="row">
-    <div class="   ">
+    <div class="col-xs-12">
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-cog"></span>  Select Tier Content <span class="caret"></span>
+                <span class="glyphicon glyphicon-cog"></span>  Tier Content <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 <?php foreach ( CommonDataContainer::$tierArray as $tierId => $tierDetails ): ?>
@@ -56,7 +56,7 @@
 <div style="margin-top:10px;"></div>
 
 <div class="row">
-    <div class="   ">
+    <div class="col-xs-12">
         <div class="panel panel-primary">
             <table class="table table-striped table-hover">
                 <tbody>
@@ -80,7 +80,7 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8">
+    <div class="col-sm-6 col-xs-12">
         <?php echo Template::drawGlossary(ServersModel::GLOSSARY, 3); ?>
     </div>
 </div>

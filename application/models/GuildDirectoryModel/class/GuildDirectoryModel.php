@@ -13,11 +13,11 @@ class GuildDirectoryModel extends Model {
     const TABLE_HEADER = array(
             array('header' => 'Guild',           'key' => '_nameLink',       'class' => ''),
             array('header' => 'Server',          'key' => '_serverLink',     'class' => ''),
-            array('header' => 'WF',              'key' => '_worldFirst',     'class' => 'border-left text-center hidden-xs'),
+            array('header' => 'WF',              'key' => '_worldFirst',     'class' => 'text-center border-left hidden-xs'),
             array('header' => 'RF',              'key' => '_regionFirst',    'class' => 'text-center hidden-xs'),
             array('header' => 'SF',              'key' => '_serverFirst',    'class' => 'text-center hidden-xs'),
-            array('header' => 'Website',         'key' => '_websiteLink',    'class' => 'border-left text-center'),
-            array('header' => 'Recent Activity', 'key' => '_recentActivity', 'class' => 'border-left text-center hidden-xs hidden-sm hidden-md')
+            array('header' => 'Website',         'key' => '_websiteLink',    'class' => 'text-center border-left'),
+            array('header' => 'Recent Activity', 'key' => '_recentActivity', 'class' => 'text-center border-left hidden-xs hidden-sm hidden-md')
         );
 
     const PANE_DATA = array(

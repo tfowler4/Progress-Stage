@@ -1,50 +1,50 @@
 <script>var eventBinder = new GuildEventBinder();</script>
 
 <div class="row">
-    <div class="pull-left">
-        <?php echo Functions::getImageFlag($data->_guildDetails->_country, 'medium'); ?>
-    </div>
-    <div>
-        <span class="h2"style="margin-left:5px;"><?php echo $data->_guildDetails->_name; ?></span>
-        <p>
-            <small class="h5"style="margin-left:5px;">
-                <?php echo $data->_guildDetails->_region . ' - ' . $data->_guildDetails->_server; ?>
-            </small>
-        </p>
+    <div class="col-xs-12">
+        <div class="pull-left">
+            <?php echo Functions::getImageFlag($data->_guildDetails->_country, 'medium'); ?>
+        </div>
+        <div>
+            <span class="h2"style="margin-left:5px;"><?php echo $data->_guildDetails->_name; ?></span>
+            <p>
+                <small class="h5"style="margin-left:5px;">
+                    <?php echo $data->_guildDetails->_region . ' - ' . $data->_guildDetails->_server; ?>
+                </small>
+            </p>
+        </div>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-3 col-lg-push-9">
-        <div class="row">
-            <div class="panel panel-primary">
-                <div class="panel-heading text-center"><span class="h4"><?php echo $data->_guildDetails->_name; ?></span></div>
-                <div class="panel-body">
-                    <table class="table table-condensed table-pane">
-                        <thead>
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center"><span class="h4"><?php echo $data->_guildDetails->_name; ?></span></div>
+            <div class="panel-body">
+                <table class="table table-condensed table-pane">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="text-center"><?php echo $data->_guildDetails->_logo; ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach( GuildModel::PANE_PROFILE as $header => $key ): ?>
                             <tr>
-                                <th colspan="2" class="text-center"><?php echo $data->_guildDetails->_logo; ?></th>
+                                <th><?php echo $header; ?></th>
+                                <td><?php echo $data->_guildDetails->$key; ?></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach( GuildModel::PANE_PROFILE as $header => $key ): ?>
-                                <tr>
-                                    <th><?php echo $header; ?></th>
-                                    <td><?php echo $data->_guildDetails->$key; ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                            <tr>
-                                <td colspan="2" class="text-center"><?php echo Functions::getImageFaction($data->_guildDetails->_faction); ?></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        <?php endforeach; ?>
+                        <tr>
+                            <td colspan="2" class="text-center"><?php echo Functions::getImageFaction($data->_guildDetails->_faction); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
     <div class="col-lg-9 col-lg-pull-3">
         <div class="row text-center">
-            <div class="text-center">
+            <div class="col-xs-12">
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                     <div class="btn-group" role="group" aria-label="First group">
                         <?php foreach( GuildModel::PANE_NAVIGATION as $header => $key ): ?>
@@ -59,13 +59,13 @@
 
         <?php if( !empty($data->_latestScreenshot) ): ?>
             <div class="row">
-                <div class="col-lg-12 col-md-12 hidden-xs">
+                <div class="col-sm-12 hidden-xs">
                     <span id="recent-activity-anchor" class="anchor"></span>
                     <h3>Recent Activity</h3>
 
                     <div class="row">
                         <?php foreach( $data->_latestScreenshot as $index => $screenshot ): ?>
-                            <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="col-sm-4">
                                 <div class="thumbnail">
                                     <div class="screenshot">
                                         <?php echo $screenshot; ?>
@@ -87,7 +87,7 @@
         <?php endif; ?>
 
         <div class="row">
-            <div class="col-lg-12 col-md-12">
+            <div class="col-sm-12">
                 <span id="raid-progression-anchor" class="anchor"></span>
                 <h3>Raid Progression</h3>
 
@@ -117,7 +117,7 @@
 
 
         <div class="row">
-            <div class="col-lg-12 col-md-12">
+            <div class="col-sm-12">
                 <span id="activity-timeline-anchor" class="anchor"></span>
                 <h3>Activity Timeline</h3>
 
@@ -141,9 +141,9 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-12 col-md-12 hidden-xs">
+            <div class="col-md-12 hidden-sm hidden-xs">
                 <span id="guild-signature-anchor" class="anchor"></span>
-                <div class="col-lg-offset-2 col-lg-8">
+                <div class="col-lg-offset-1 col-lg-10">
                     <div class="panel panel-primary">
                         <div class="panel-heading"><span class="h4">Guild Signature</span></div>
                         <div class="panel-body">

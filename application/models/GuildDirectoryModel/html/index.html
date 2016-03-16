@@ -1,5 +1,7 @@
 <div class="row">
-    <h2>Guild Directory</h2>
+    <div class="col-xs-12">
+        <h2>Guild Directory</h2>
+    </div>
 </div>
 
 <div class="row">
@@ -23,19 +25,21 @@
 </div>
 
 <div class="row">
-    <table class="table table-striped table-hover table-curved">
-        <tbody>
-            <?php  $count = 1; foreach( $data->_guildListing as $active => $regionArray ): ?>
-                <?php foreach( $regionArray as $region => $guildArray ): ?>
-                    <?php echo Template::drawSubTitleTableRow(GuildDirectoryModel::TABLE_HEADER, $active . ' ' . CommonDataContainer::$regionArray[$region]->_style . ' Guilds'); ?>
+    <div class="col-xs-12">
+        <table class="table table-striped table-hover table-curved">
+            <tbody>
+                <?php  $count = 1; foreach( $data->_guildListing as $active => $regionArray ): ?>
+                    <?php foreach( $regionArray as $region => $guildArray ): ?>
+                        <?php echo Template::drawSubTitleTableRow(GuildDirectoryModel::TABLE_HEADER, $active . ' ' . CommonDataContainer::$regionArray[$region]->_style . ' Guilds'); ?>
 
-                    <?php echo Template::drawSubHeaderTableRow(GuildDirectoryModel::TABLE_HEADER); ?>
+                        <?php echo Template::drawSubHeaderTableRow(GuildDirectoryModel::TABLE_HEADER); ?>
 
-                    <?php foreach( $guildArray as $guildId => $guildDetails ): ?>
-                        <?php echo Template::drawBodyTableRow(GuildDirectoryModel::TABLE_HEADER, $guildDetails); ?>
+                        <?php foreach( $guildArray as $guildId => $guildDetails ): ?>
+                            <?php echo Template::drawBodyTableRow(GuildDirectoryModel::TABLE_HEADER, $guildDetails); ?>
+                        <?php endforeach; ?>
                     <?php endforeach; ?>
                 <?php endforeach; ?>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>

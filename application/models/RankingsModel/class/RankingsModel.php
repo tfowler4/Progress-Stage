@@ -22,44 +22,31 @@ class RankingsModel extends Model {
     const LIMIT_TREND_TOTAL  = 15;
 
     const TABLE_HEADER_DEFAULT = array(
-            array('header' => 'Rank',          'key' => '_rank',       'class' => ''),
+            array('header' => 'Rank',          'key' => '_rank',       'class' => 'text-center'),
             array('header' => 'Guild',         'key' => '_nameLink',   'class' => ''),
-            array('header' => 'Server',        'key' => '_serverLink', 'class' => ''),
-            array('header' => 'Progress',      'key' => '_progress',   'class' => 'border-left text-center hidden-xs hidden-sm'),
+            array('header' => 'Server',        'key' => '_serverLink', 'class' => 'hidden-xs'),
+            array('header' => 'Progress',      'key' => '_progress',   'class' => 'text-center border-left hidden-xs hidden-sm'),
             array('header' => 'Points',        'key' => '_points',     'class' => 'text-center'),
             array('header' => 'Diff',          'key' => '_pointDiff',  'class' => 'text-center hidden-xs hidden-sm'),
-            array('header' => 'WF',            'key' => '_worldFirst', 'class' => 'border-left text-center hidden-xs'),
+            array('header' => 'WF',            'key' => '_worldFirst', 'class' => 'text-center border-left hidden-xs'),
             array('header' => 'RF',            'key' => '_regionFirst','class' => 'text-center hidden-xs'),
             array('header' => 'SF',            'key' => '_serverFirst','class' => 'text-center hidden-xs'),
-            array('header' => 'Trending',      'key' => '_trendImage', 'class' => 'border-left text-center hidden-xs hidden-sm hidden-md'),
+            array('header' => 'Trending',      'key' => '_trendImage', 'class' => 'text-center border-left hidden-xs hidden-sm hidden-md'),
             array('header' => 'Previous Rank', 'key' => '_prevRank',   'class' => 'text-center hidden-xs hidden-sm hidden-md')
         );
 
     const PANE_DUNGEON = array(
-            'Name'              => '_name',
-            'Tier'              => '_tierFullTitle',
-            'Raid Size'         => '_raidSize',
-            'Encounters'        => '_numOfEncounters',
-            'Release Date'      => '_dateLaunch',
-            'EU Time Diff'      => '_euTimeDiffTitle',
-            'WW Clears'         => '_numOfDungeonClears',
-            'NA Clears'         => '_numOfNADungeonClears',
-            'EU Clears'         => '_numOfEUDungeonClears',
-            'First Clear'       => '_firstDungeonClear',
+            'Name'         => '_name',
+            'Tier'         => '_tierFullTitle',
+            'Raid Size'    => '_raidSize',
+            'Encounters'   => '_numOfEncounters',
+            'Release Date' => '_dateLaunch',
+            'EU Time Diff' => '_euTimeDiffTitle',
+            'WW Clears'    => '_numOfDungeonClears',
+            'NA Clears'    => '_numOfNADungeonClears',
+            'EU Clears'    => '_numOfEUDungeonClears',
+            'First Clear'  => '_firstDungeonClear',
             'Recent Clear' => '_recentDungeonClear'
-        );
-
-    const PANE_TIER = array(
-            'Name'              => '_name',
-            'Tier'              => '_tierFullNum',
-            'Encounters'        => '_numOfEncounters',
-            'Starting Date'     => '_dateStart',
-            'Ending Date'       => '_dateEnd',
-            'WW Clears'         => '_numOfTierClears',
-            'NA Clears'         => '_numOfNATierClears',
-            'EU Clears'         => '_numOfEUTierClears',
-            'First Clear'       => '_firstTierClear',
-            'Most Recent Clear' => '_recentTierClear'
         );
 
     const GLOSSARY = array(

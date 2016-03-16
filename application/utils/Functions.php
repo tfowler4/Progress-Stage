@@ -295,7 +295,7 @@ class Functions {
             $folder .= 'medium/';
             $class  = 'class="flag-custom"';
         } else {
-            $class  = 'class="flag-icon"';
+            $class  = 'class="flag-icon hidden-xs"';
         }
 
         $image  = '<img src="'. $folder . $name . '.png" alt="' . $name . '" ' . $class . '>';
