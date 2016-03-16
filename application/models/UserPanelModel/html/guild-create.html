@@ -7,13 +7,18 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Guild Name</label>
                         <div class="col-lg-7 col-md-10">
-                            <input type="text" class="form-control" placeholder="Enter guild name" name="userpanel-guild-name">
+                            <input type="text"
+                                   name="userpanel-guild-name"
+                                   class="form-control"
+                                   placeholder="Enter guild name">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Faction</label>
                         <div class="col-lg-7 col-md-10">
-                            <select class="form-control form-faction" name="userpanel-faction" data-type="guild-create">
+                            <select name="userpanel-faction"
+                                    class="form-control form-faction"
+                                    data-type="guild-create">
                                 <option value="">Select Faction</option>
                                 <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
                                     <option value="<?php echo $factionId; ?>" <?php if (!empty($data->_formFields->faction) && $data->_formFields->faction == $factionId): ?>selected<?php endif; ?>><?php echo $factionDetails->_name; ?></option>
@@ -24,7 +29,8 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Server</label>
                         <div class="col-lg-7 col-md-10">
-                            <select class="form-control" name="userpanel-server">
+                            <select name="userpanel-server"
+                                    class="form-control">
                                 <option value="">Select Server</option>
                                 <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
                                     <option value="<?php echo $serverId; ?>" <?php if (!empty($data->_formFields->server) && $data->_formFields->server == $serverId): ?>selected<?php endif; ?>><?php echo $serverDetails->_region . ' - ' . $serverDetails->_name; ?></option>
@@ -35,7 +41,9 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Country</label>
                         <div class="col-lg-7 col-md-10">
-                            <select class="form-control form-country" name="userpanel-country" data-type="guild-create">
+                            <select name="userpanel-country"
+                                    class="form-control form-country"
+                                    data-type="guild-create">
                                 <option value="">Select Country</option>
                                 <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
                                     <option value="<?php echo $countryId; ?>" <?php if (!empty($data->_formFields->country) && $data->_formFields->country == $countryId): ?>selected<?php endif; ?>><?php echo $countryDetails->_name; ?></option>
@@ -46,38 +54,62 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Guild Leader(s)</label>
                         <div class="col-lg-7 col-md-10">
-                            <input type="text" class="form-control" placeholder="Enter guild leader name" name="userpanel-guild-leader">
+                            <input type="text"
+                                   name="userpanel-guild-leader"
+                                   class="form-control"
+                                   placeholder="Enter guild leader name">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Website</label>
                         <div class="col-lg-7 col-md-10">
-                            <input type="text" class="form-control" placeholder="Enter guild website" name="userpanel-website">
+                            <input type="text"
+                                   name="userpanel-website"
+                                   class="form-control"
+                                   placeholder="Enter guild website">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Facebook</label>
                         <div class="col-lg-7 col-md-10"> 
-                            <input type="text" class="form-control" placeholder="Enter Facebook handle" name="userpanel-facebook">
+                            <input type="text"
+                                   name="userpanel-facebook"
+                                   class="form-control"
+                                   placeholder="Enter Facebook handle">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Twitter</label>
                         <div class="col-lg-7 col-md-10"> 
-                            <input type="text" class="form-control" placeholder="Enter Twitter handle" name="userpanel-twitter">
+                            <input type="text"
+                                   name="userpanel-twitter"
+                                   class="form-control"
+                                   placeholder="Enter Twitter handle">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Guild Logo</label>
                         <div class="col-lg-7 col-md-10"> 
-                            <input type="file" class="form-control form-guild-logo" name="userpanel-guild-logo" data-type="guild-create">
+                            <input type="file"
+                                   name="userpanel-guild-logo"
+                                   class="form-control form-guild-logo"
+                                   data-type="guild-create">
                         </div>
                     </div>
                     <div class="form-group"> 
-                        <div class="    text-center">
-                            <input type="hidden" name="form-type" value="update-guild">
-                            <input type="hidden" name='active' value="Active">
-                            <button type="submit" name="action" class="btn btn-default" value="guild-add"><span class="glyphicon glyphicon-plus"></span>  Create Guild</button>
+                        <div class="text-center">
+                            <input type="hidden"
+                                   name="form-type"
+                                   value="update-guild">
+                            <input type="hidden"
+                                   name="active"
+                                   value="Active">
+                            <button type="submit"
+                                    name="action"
+                                    class="btn btn-default"
+                                    value="guild-add">
+                                    <span class="glyphicon glyphicon-plus"></span>  Create Guild
+                            </button>
                         </div>
                     </div>
                 </form>

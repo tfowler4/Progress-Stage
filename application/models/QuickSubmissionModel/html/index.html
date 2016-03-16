@@ -20,7 +20,9 @@
                     <div class="form-group">
                         <label for="quick-guild" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Guild</label>
                         <div class="form-inline col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                            <select class="form-control" name="quick-guild">
+                            <select name="quick-guild"
+                                    class="form-control form-guild"
+                                    data-type="quick">
                                 <option value="">Select Guild</option>
                                 <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails): ?>
                                     <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name; ?></option>
@@ -32,7 +34,9 @@
                     <div class="form-group">
                         <label for="quick-form-encounter" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Encounter</label>
                         <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                            <select id="quick-form-encounter" class="form-control" name="quick-encounter">
+                            <select name="quick-encounter"
+                                    class="form-control form-encounter"
+                                    data-type="quick">
                                 <option value="">Select Encounter</option>
                             </select>
                         </div>
@@ -40,8 +44,9 @@
 
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Date (M-D-Y)</label>
-                        <div class="form-inline col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                           <select class="form-control" name="quick-month">
+                        <div class="form-inline col-lg-9 col-md-10 col-sm-10 col-xs-10">
+                           <select name="quick-month"
+                                   class="form-control">
                                 <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
                                     <?php if ( $month == date('m') ): ?> 
                                         <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
@@ -51,7 +56,8 @@
                                 <?php endforeach; ?>
                             </select>
 
-                            <select class="form-control" name="quick-day">
+                            <select name="quick-day"
+                                    class="form-control">
                                 <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
                                     <?php if ( $day == date('d') ): ?> 
                                         <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
@@ -61,7 +67,8 @@
                                 <?php endforeach; ?>
                             </select>
 
-                           <select class="form-control" name="quick-year">
+                           <select name="quick-year"
+                                   class="form-control">
                                 <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
                                     <?php if ( $year == date('Y') ): ?> 
                                         <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
@@ -76,7 +83,8 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Time (H:M UTC)</label>
                         <div class="form-inline col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                            <select class="form-control"  name="quick-hour">
+                            <select name="quick-hour"
+                                    class="form-control">
                                 <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
                                     <?php if ( $hour == date('H') ): ?> 
                                         <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
@@ -86,7 +94,8 @@
                                 <?php endforeach; ?>
                             </select>
 
-                           <select class="form-control"  name="quick-minute">
+                           <select name="quick-minute"
+                                   class="form-control">
                                 <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
                                     <?php if ( $minute == date('i') ): ?> 
                                         <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
@@ -101,7 +110,10 @@
                     <div class="form-group">
                         <label for="quick-screenshot" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Screenshot</label>
                         <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                            <input type="file" class="form-control form-screenshot" data-type="quick">
+                            <input type="file"
+                                   name="quick-screenshot"
+                                   class="form-control form-screenshot"
+                                   data-type="quick">
                         </div>
                     </div>
 
@@ -114,8 +126,13 @@
                     </div>
 
                     <div class="form-group text-center">
-                        <input type="hidden" name='active' value="Active">
-                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-check"></span>  Submit</button>
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
+                        <button type="submit"
+                                class="btn btn-default">
+                                <span class="glyphicon glyphicon-check"></span>  Submit
+                        </button>
                     </div>
                     <div class="screenshot-preview text-center" data-type="quick"></div>
                 </form>

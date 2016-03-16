@@ -12,28 +12,35 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                    <input type="text" class="form-control" name="login-username" placeholder="Username/Email">
+                                    <input type="text"
+                                           name="login-username"
+                                           class="form-control"
+                                           placeholder="Username/Email">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                                    <input type="password" class="form-control" name="login-password" placeholder="Password">
+                                    <input type="password"
+                                           name="login-password"
+                                           class="form-control"
+                                           placeholder="Password">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="hidden" name='active' value="Active">
-                                <button type="submit" class="btn btn-default">
-                                    <span class="glyphicon glyphicon-log-in"></span>  Log In
+                                <input type="hidden"
+                                       name="active"
+                                       value="Active">
+                                <button type="submit"
+                                        class="btn btn-default">
+                                        <span class="glyphicon glyphicon-log-in"></span>  Log In
                                 </button>
                             </div>
                         </form>
                     </p>
                     <p class="text-center">
-                        <?php echo '<a class="btn btn-default" href="' . Functions::generateInternalHyperlink('register', '', '', '', '', false) . '"><span class="glyphicon glyphicon-user"></span>  Create Account</a>'; 
-                        ?>
-                        <?php echo '<a class="btn btn-default" href="' . Functions::generateInternalHyperlink('reset', '', '', '', '', false) . '"><span class="glyphicon glyphicon-alert"></span>  Password Recovery</a>'; 
-                        ?>
+                        <?php echo '<a class="btn btn-default" href="' . Functions::generateInternalHyperlink('register', '', '', '', '', false) . '"><span class="glyphicon glyphicon-user"></span>  Create Account</a>'; ?>
+                        <?php echo '<a class="btn btn-default" href="' . Functions::generateInternalHyperlink('reset', '', '', '', '', false) . '"><span class="glyphicon glyphicon-alert"></span>  Password Recovery</a>'; ?>
                     </p>
                 </div>
                 <div class="modal-footer">
@@ -55,8 +62,13 @@
                         <form role="form" method="POST" action="<?php echo PAGE_LOGOUT; ?>" autocomplete="off">
                             <h4>Are you sure you want to log out?</h4>
                             <div class="form-group">
-                                <input type="hidden" name='active' value="Active">
-                                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-log-out"></span>  Logout</button>
+                                <input type="hidden"
+                                       name="active"
+                                       value="Active">
+                                <button type="submit"
+                                        class="btn btn-default">
+                                        <span class="glyphicon glyphicon-log-out"></span>  Logout
+                                </button>
                             </div>
                         </form>
                     </p>
@@ -81,12 +93,17 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-                                    <input type="email" class="form-control" name="contact-email" placeholder="Email Address" aria-describedby="basic-addon1">
+                                    <input type="email"
+                                           name="contact-email"
+                                           class="form-control"
+                                           placeholder="Email Address"
+                                           aria-describedby="basic-addon1">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="contact-feedback">Feedback Type</label>
-                                <select class="form-control" name="contact-feedback">
+                                <select name="contact-feedback"
+                                        class="form-control">
                                     <option value="">Select Feedback Type</option>
                                     <option value="General Feedback">General Feedback</option>
                                     <option value="Guild Details Request">Guild Details Request</option>
@@ -98,11 +115,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="contact-message">Message</label>
-                                <textarea class="form-control" name="contact-message" rows="5"></textarea>
+                                <textarea name="contact-message"
+                                          class="form-control"
+                                          rows="5">
+                                </textarea>
                             </div>
                             <div class="form-group text-center">
-                                <input type="hidden" name='active' value="Active">
-                                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span>  Submit</button>
+                                <input type='hidden'
+                                       name="active"
+                                       value='Active'>
+                                <button type="submit"
+                                        class="btn btn-default">
+                                        <span class="glyphicon glyphicon-envelope"></span>  Submit
+                                </button>
                             </div>
                         </form>
                     </p>
@@ -126,7 +151,9 @@
                         <form role="form" method="POST" action="<?php echo PAGE_QUICK; ?>" autocomplete="off" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="username">Guild</label>
-                                <select class="form-control" name="quick-guild">
+                                <select name="quick-guild"
+                                        class="form-control form-guild"
+                                        data-type="quick-modal">
                                     <option value="">Select Guild</option>
                                     <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails): ?>
                                         <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name; ?></option>
@@ -135,14 +162,17 @@
                             </div>
                             <div class="form-group">
                                 <label for="user-form-popup-encounter">Encounter</label>
-                                <select class="form-control" name="quick-encounter">
+                                <select name="quick-encounter"
+                                        class="form-control form-encounter"
+                                        data-type="quick-modal">
                                     <option value="">Select Encounter</option>
                                 </select>
                             </div>
                             <label for="quick-date">Date (M-D-Y)</label>
                             <div class="form-inline">
                                 <div class="form-group">
-                                   <select class="form-control" name="quick-month">
+                                   <select name="quick-month"
+                                           class="form-control">
                                         <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
                                             <?php if ( $month == date('m') ): ?> 
                                                 <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
@@ -153,7 +183,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <select class="form-control" name="quick-day">
+                                    <select name="quick-day"
+                                            class="form-control">
                                         <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
                                             <?php if ( $day == date('d') ): ?> 
                                                 <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
@@ -164,7 +195,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                   <select class="form-control" name="quick-year">
+                                   <select name="quick-year"
+                                           class="form-control">
                                         <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
                                             <?php if ( $year == date('Y') ): ?> 
                                                 <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
@@ -179,7 +211,8 @@
                             <label for="quick-time">Time (H:M UTC)</label>
                             <div class="form-inline">
                                 <div class="form-group">
-                                    <select class="form-control"  name="quick-hour">
+                                    <select name="quick-hour"
+                                            class="form-control">
                                         <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
                                             <?php if ( $hour == date('H') ): ?> 
                                                 <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
@@ -190,7 +223,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                   <select class="form-control"  name="quick-minute">
+                                   <select name="quick-minute"
+                                           class="form-control">
                                         <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
                                             <?php if ( $minute == date('i') ): ?> 
                                                 <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
@@ -204,7 +238,10 @@
 
                             <div class="form-group">
                                 <label for="quick-screenshot">Screenshot</label>
-                                <input type="file" name="quick-screenshot" class="form-control form-screenshot" data-type="quick-modal">
+                                <input type="file"
+                                       name="quick-screenshot"
+                                       class="form-control form-screenshot"
+                                       data-type="quick-modal">
                             </div>
                             <div class="form-group">
                                 <label for="quick-videos">Kill Videos</label>
@@ -212,7 +249,9 @@
                                 <br><a class="btn btn-default new-video-link" href="#"><span class="glyphicon glyphicon-plus"></span>  Add New Video</a>
                             </div>
                             <div class="form-group text-center">
-                                <input type="hidden" name='active' value="Active">
+                                <input type="hidden"
+                                       name="active"
+                                       value="Active">
                                 <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-check"></span>  Submit</button>
                             </div>
                             <div class="screenshot-preview" data-type="quick-modal"></div>
@@ -238,12 +277,18 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-                                <input type="text" id="search-input" class="form-control" placeholder="Enter guild name..." aria-describedby="basic-addon1">
+                                <input type="text"
+                                       id="search-input"
+                                       class="form-control"
+                                       placeholder="Enter guild name..." aria-describedby="basic-addon1">
                             </div>
                         </div>
                         <div class="form-group text-center">
-                            <input type="hidden" name='active' value="Active">
-                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>  Search</button>
+                            <input type="hidden"
+                                   name="active"
+                                   value="Active">
+                            <button type="submit"
+                                    class="btn btn-default"><span class="glyphicon glyphicon-search"></span>  Search</button>
                         </div>
                     </p>
                     <div id="search-results"></div>
@@ -264,8 +309,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h3 class="modal-title">Encounter Spreadsheet</h3>
                 </div>
-                <div class="modal-body">
-                </div>
+                <div class="modal-body"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span>  Close</button>
                 </div>
@@ -282,8 +326,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h3 class="modal-title">Kill Videos</h3>
                 </div>
-                <div class="modal-body">
-                </div>
+                <div class="modal-body"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span>  Close</button>
                 </div>

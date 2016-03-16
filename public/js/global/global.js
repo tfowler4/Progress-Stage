@@ -111,11 +111,12 @@ var GlobalEventBinder = function() {
     }
 
     // on user selecting a guild, send ajax call to fetch avaialble encounters to submit
-    $(document).on('change', '#user-form-guild, #user-form-popup-guild, #quick-form-guild', function() { updateGuildEncounters(this); });
+    $(document).on('change', '.form-guild', function() { updateGuildEncounters(this); });
     var updateGuildEncounters = function(input) {
         var currentPageUrl = document.URL;
         var guildId        = input.value;
         var elementId      = input.id;
+        var dataType       = input.dataset.type;
 
         // ajax call to retrieve new encounter dropdown select html
          $.ajax({
@@ -123,15 +124,8 @@ var GlobalEventBinder = function() {
             type: 'POST',
             data: { request: 'encounterList', guild: guildId},
             success: function(data) {
-                var selectElement;
-
-                if ( elementId == 'user-form-popup-guild' ) { selectElement = $('#user-form-popup-encounter') }
-                if ( elementId == 'user-form-guild' ) { selectElement = $('#user-form-encounter') }
-                if ( elementId == 'quick-form-guild' ) { selectElement = $('#quick-form-encounter') }
-
-                $("#" + elementId + " option[value='']").remove();
-
-                selectElement.html(data);
+                $(".form-encounter[data-type='" + dataType + "'] option[value='']").remove();
+                $(".form-encounter[data-type='" + dataType + "']").html(data)
             },
             error: function(xhr, desc, err) {
                 console.log(xhr);

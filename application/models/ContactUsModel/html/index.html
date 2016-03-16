@@ -20,12 +20,17 @@
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-                            <input type="email" class="form-control" name="contact-email" placeholder="Email Address" aria-describedby="basic-addon1">
+                            <input type="email"
+                                   name="contact-email"
+                                   class="form-control"
+                                   placeholder="Email Address"
+                                   aria-describedby="basic-addon1">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="contact-feedback">Feedback Type</label>
-                        <select class="form-control" name="contact-feedback">
+                        <select name="contact-feedback"
+                                class="form-control">
                             <option value="">Select Feedback Type</option>
                             <option value="General Feedback">General Feedback</option>
                             <option value="Guild Details Request">Guild Details Request</option>
@@ -37,10 +42,15 @@
                     </div>
                     <div class="form-group">
                         <label for="contact-message">Message</label>
-                        <textarea class="form-control" name="contact-message" rows="5"></textarea>
+                        <textarea name="contact-message"
+                                  class="form-control"
+                                  rows="5">
+                        </textarea>
                     </div>
                     <div class="form-group text-center">
-                        <input type="hidden" name='active' value="Active">
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
                         <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-envelope"></span>  Submit</button>
                     </div>
                 </form>

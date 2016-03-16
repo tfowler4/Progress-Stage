@@ -4,19 +4,25 @@
             <div class="panel-heading">New Kill Submission</div>
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_USER_PANEL; ?>" autocomplete="off" enctype="multipart/form-data">
-                    <div class="form-group text-left">
+                    <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Guild Name</label>
                         <div class="col-lg-7 col-md-10">
                             <div class="input-group">
-                                <input type="hidden" name="userpanel-guild" value="<?php echo $guildDetails->_guildId; ?>">
-                                <input type="text" disabled class="form-control" value="<?php echo $guildDetails->_name; ?>">
+                                <input type="hidden"
+                                       name="userpanel-guild"
+                                       value="<?php echo $guildDetails->_guildId; ?>">
+                                <input type="text"
+                                       class="form-control"
+                                       disabled
+                                       value="<?php echo $guildDetails->_name; ?>">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Encounter</label>
                         <div class="col-lg-7 col-md-10">
-                            <select id="user-form-encounter" name="userpanel-encounter" class="form-control">
+                            <select name="userpanel-encounter"
+                                    class="form-control">
                                 <option value="">Select Encounter</option>
                                 <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails): ?>
                                     <?php if( !isset($guildDetails->_encounterDetails->$encounterId) ): ?>
@@ -29,7 +35,8 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Date (M-D-Y)</label>
                         <div class="form-inline col-lg-7 col-md-10 0 ">
-                           <select class="form-control" name="userpanel-month">
+                           <select name="userpanel-month"
+                                   class="form-control">
                                 <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
                                     <?php if ( $month == date('m') ): ?> 
                                         <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
@@ -39,7 +46,8 @@
                                 <?php endforeach; ?>
                             </select>
 
-                            <select class="form-control" name="userpanel-day">
+                            <select name="userpanel-day"
+                                    class="form-control">
                                 <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
                                     <?php if ( $day == date('d') ): ?> 
                                         <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
@@ -49,7 +57,8 @@
                                 <?php endforeach; ?>
                             </select>
 
-                           <select class="form-control" name="userpanel-year">
+                           <select name="userpanel-year"
+                                   class="form-control">
                                 <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
                                     <?php if ( $year == date('Y') ): ?> 
                                         <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
@@ -63,7 +72,8 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Time (H:M UTC)</label>
                         <div class="form-inline col-lg-7 col-md-10">
-                            <select class="form-control"  name="userpanel-hour">
+                            <select name="userpanel-hour"
+                                    class="form-control">
                                 <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
                                     <?php if ( $hour == date('H') ): ?> 
                                         <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
@@ -73,7 +83,8 @@
                                 <?php endforeach; ?>
                             </select>
 
-                           <select class="form-control"  name="userpanel-minute">
+                           <select name="userpanel-minute"
+                                   class="form-control">
                                 <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
                                     <?php if ( $minute == date('i') ): ?> 
                                         <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
@@ -87,7 +98,11 @@
                     <div class="form-group">
                         <label for="userpanel-screenshot" class="control-label col-lg-3 col-md-2">Screenshot</label>
                         <div class="col-lg-7 col-md-10">
-                            <input class="form-control form-screenshot" type="file" name="userpanel-screenshot" data-type="kill-add" data-id="<?php echo $guildDetails->_guildId; ?>">
+                            <input type="file"
+                                   name="userpanel-screenshot"
+                                   class="form-control form-screenshot"
+                                   data-type="kill-add"
+                                   data-id="<?php echo $guildDetails->_guildId; ?>">
                         </div>
                     </div>
                     <div class="form-group">
@@ -98,10 +113,21 @@
                         </div>
                     </div>
                     <div class="form-group text-center">
-                        <input type="hidden" name="form-type" value="update-kills">
-                        <input type="hidden" name="userpanel-guild-id" value="<?php echo $guildDetails->_guildId; ?>">
-                        <input type="hidden" name='active' value="Active">
-                        <button type="submit" name="action" class="btn btn-default" value="add-kill"><span class="glyphicon glyphicon-check"></span>  Submit</button>
+                        <input type="hidden"
+                               name="form-type"
+                               value="update-kills">
+                        <input type="hidden"
+                               name="userpanel-guild-id"
+                               value="<?php echo $guildDetails->_guildId; ?>">
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
+                        <button type="submit"
+                                name="action"
+                                class="btn btn-default"
+                                value="add-kill">
+                                <span class="glyphicon glyphicon-check"></span>  Submit
+                        </button>
                     </div>
                     <div class="screenshot-preview text-center" data-type="kill-add" data-id="<?php echo $guildDetails->_guildId; ?>"></div>
                 </form>

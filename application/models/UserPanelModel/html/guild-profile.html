@@ -8,15 +8,23 @@
                         <label for="" class="control-label col-lg-3 col-md-2">Guild Name</label>
                         <div class="col-lg-7 col-md-10">
                             <div class="input-group">
-                                <input type="hidden" name="userpanel-guild-name" value="<?php echo $guildDetails->_name; ?>">
-                                <input type="text" disabled class="form-control" value="<?php echo $guildDetails->_name; ?>">
+                                <input type="hidden"
+                                       name="userpanel-guild-name"
+                                       value="<?php echo $guildDetails->_name; ?>">
+                                <input type="text"
+                                       class="form-control"
+                                       disabled
+                                       value="<?php echo $guildDetails->_name; ?>">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Faction</label>
                         <div class="col-lg-7 col-md-10">
-                            <select name="userpanel-faction" class="form-control form-faction" data-type="guild-edit" data-id="<?php echo $guildDetails->_guildId; ?>">
+                            <select name="userpanel-faction"
+                                    class="form-control form-faction"
+                                    data-type="guild-edit"
+                                    data-id="<?php echo $guildDetails->_guildId; ?>">
                                 <option value="">Select Faction</option>
                                 <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
                                     <option value="<?php echo $factionId; ?>" <?php if ( $guildDetails->_faction == $factionDetails->_name ): ?>selected<?php endif; ?>><?php echo $factionDetails->_name; ?></option>
@@ -27,7 +35,8 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Server</label>
                         <div class="col-lg-7 col-md-10">
-                            <select name="userpanel-server" class="form-control">
+                            <select name="userpanel-server"
+                                    class="form-control">
                                 <option value="">Select Server</option>
                                 <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
                                     <option value="<?php echo $serverId; ?>" <?php if ( $guildDetails->_server == $serverDetails->_name ): ?>selected<?php endif; ?>><?php echo $serverDetails->_region . '-' . $serverDetails->_name; ?></option>
@@ -38,7 +47,10 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Country</label>
                         <div class="col-lg-7 col-md-10">
-                            <select name="userpanel-country" class="form-control form-country" data-type="guild-edit" data-id="<?php echo $guildDetails->_guildId; ?>">
+                            <select name="userpanel-country"
+                                    class="form-control form-country"
+                                    data-type="guild-edit"
+                                    data-id="<?php echo $guildDetails->_guildId; ?>">
                                 <option value="">Select Country</option>
                                 <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
                                     <option value="<?php echo $countryId; ?>" <?php if ( $guildDetails->_country == $countryDetails->_name ): ?>selected<?php endif; ?>><?php echo $countryDetails->_name; ?></option>
@@ -49,39 +61,70 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Guild Leader(s)</label>
                         <div class="col-lg-7 col-md-10">
-                            <input type="text" name="userpanel-guild-leader" class="form-control" value="<?php echo $guildDetails->_leader; ?>">
+                            <input type="text"
+                                   name="userpanel-guild-leader"
+                                   class="form-control"
+                                   value="<?php echo $guildDetails->_leader; ?>">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Website</label>
                         <div class="col-lg-7 col-md-10">
-                            <input type="text" name="userpanel-website" class="form-control" value="<?php echo $guildDetails->_website; ?>">
+                            <input type="text"
+                                   name="userpanel-website"
+                                   class="form-control"
+                                   value="<?php echo $guildDetails->_website; ?>">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Facebook</label>
                         <div class="col-lg-7 col-md-10">
-                            <input type="text" name="userpanel-facebook" class="form-control" value="<?php echo $guildDetails->_facebook; ?>" placeholder="Enter Facebook handle">
+                            <input type="text"
+                                   name="userpanel-facebook"
+                                   class="form-control"
+                                   value="<?php echo $guildDetails->_facebook; ?>"
+                                   placeholder="Enter Facebook handle">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Twitter</label>
                         <div class="col-lg-7 col-md-10">
-                            <input type="text" name="userpanel-twitter" class="form-control" value="<?php echo $guildDetails->_twitter; ?>" placeholder="Enter Twitter handle">
+                            <input type="text"
+                                   name="userpanel-twitter"
+                                   class="form-control"
+                                   value="<?php echo $guildDetails->_twitter; ?>"
+                                   placeholder="Enter Twitter handle">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Guild Logo</label>
                         <div class="col-lg-7 col-md-10">
-                            <input type="file" name="userpanel-guild-logo" class="form-control form-guild-logo" data-type="guild-edit" data-id="<?php echo $guildDetails->_guildId; ?>">
+                            <input type="file"
+                                   name="userpanel-guild-logo"
+                                   class="form-control form-guild-logo"
+                                   data-type="guild-edit"
+                                   data-id="<?php echo $guildDetails->_guildId; ?>">
                         </div>
                     </div>
                     <div class="form-group text-center">
-                        <input type="hidden" name="form-type" value="update-guild">
-                        <input type="hidden" name="userpanel-guild-id" value="<?php echo $guildDetails->_guildId; ?>">
-                        <input type="hidden" name="userpanel-active" value="<?php echo $guildDetails->_active; ?>">
-                        <input type="hidden" name='active' value="Active">
-                        <button type="submit" name="action" class="btn btn-default" value="guild-edit"><span class="glyphicon glyphicon-check"></span>  Submit</button>
+                        <input type="hidden"
+                               name="form-type"
+                               value="update-guild">
+                        <input type="hidden"
+                               name="userpanel-guild-id"
+                               value="<?php echo $guildDetails->_guildId; ?>">
+                        <input type="hidden"
+                               name="userpanel-active"
+                               value="<?php echo $guildDetails->_active; ?>">
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
+                        <button type="submit"
+                                name="action"
+                                class="btn btn-default"
+                                value="guild-edit">
+                                <span class="glyphicon glyphicon-check"></span>  Submit
+                        </button>
                     </div>
                 </form>
             </div>

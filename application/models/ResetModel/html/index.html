@@ -16,20 +16,31 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-                                <input type="password" class="form-control" name="reset-password" placeholder="Enter Password">
+                                <input type="password"
+                                       name="reset-password"
+                                       class="form-control"
+                                       placeholder="Enter Password">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-                                <input type="password" class="form-control" name="reset-password-confirm" placeholder="Re-Enter Password">
+                                <input type="password"
+                                       name="reset-password-confirm"
+                                       class="form-control"
+                                       placeholder="Re-Enter Password">
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="hidden" name='reset-confirm-code' value="<?php echo $data->_confirmCode; ?>">
-                            <input type="hidden" name='active' value="Active">
-                            <button type="submit" class="btn btn-default">
-                                <span class="glyphicon glyphicon-check"></span>  Submit
+                            <input type="hidden"
+                                   name='reset-confirm-code'
+                                   value="<?php echo $data->_confirmCode; ?>">
+                            <input type="hidden"
+                                   name="active"
+                                   value="Active">
+                            <button type="submit"
+                                    class="btn btn-default">
+                                    <span class="glyphicon glyphicon-check"></span>  Submit
                             </button>
                         </div>
                     </form>
@@ -43,13 +54,19 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                <input type="text" class="form-control" name="reset-email" placeholder="Email Address">
+                                <input type="text"
+                                       name="reset-email"
+                                       class="form-control"
+                                       placeholder="Email Address">
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="hidden" name='active' value="Active">
-                            <button type="submit" class="btn btn-default">
-                                <span class="glyphicon glyphicon-check"></span>  Submit
+                            <input type="hidden"
+                                   name="active"
+                                   value="Active">
+                            <button type="submit"
+                                    class="btn btn-default">
+                                    <span class="glyphicon glyphicon-check"></span>  Submit
                             </button>
                         </div>
                     </form>

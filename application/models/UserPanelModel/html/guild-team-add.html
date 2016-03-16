@@ -9,7 +9,10 @@
                         <div class="col-lg-7 col-md-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-                                <input type="text" disabled class="form-control" value="<?php echo $guildDetails->_name; ?>">
+                                <input type="text"
+                                       class="form-control"
+                                       disabled
+                                       value="<?php echo $guildDetails->_name; ?>">
                             </div>
                         </div>
                     </div>
@@ -18,14 +21,19 @@
                         <div class="col-lg-7 col-md-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-                                <input type="text" class="form-control" name="userpanel-guild-name" placeholder="Enter Team Name">
+                                <input type="text"
+                                       name="userpanel-guild-name"
+                                       class="form-control"
+                                       placeholder="Enter Team Name">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Faction</label>
                         <div class="col-lg-7 col-md-10">
-                            <select name="userpanel-faction form-faction" class="form-control" data-type="team-add">
+                            <select name="userpanel-faction form-faction"
+                                    class="form-control"
+                                    data-type="team-add">
                                 <option value="">Select Faction</option>
                                 <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
                                     <option value="<?php echo $factionId; ?>"><?php echo $factionDetails->_name; ?></option>
@@ -36,7 +44,8 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Server</label>
                         <div class="col-lg-7 col-md-10">
-                            <select name="userpanel-server" class="form-control">
+                            <select name="userpanel-server"
+                                    class="form-control">
                                 <option value="">Select Server</option>
                                 <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
                                     <option value="<?php echo $serverId; ?>"><?php echo $serverDetails->_region . '-' . $serverDetails->_name; ?></option>
@@ -47,7 +56,9 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2">Country</label>
                         <div class="col-lg-7 col-md-10">
-                            <select name="userpanel-country" class="form-control form-country" data-type="team-add">
+                            <select name="userpanel-country"
+                                    class="form-control form-country"
+                                    data-type="team-add">
                                 <option value="">Select Country</option>
                                 <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
                                     <option value="<?php echo $countryId; ?>"><?php echo $countryDetails->_name; ?></option>
@@ -60,15 +71,29 @@
                         <div class="col-lg-7 col-md-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-                                <input type="text" name="userpanel-guild-leader" class="form-control" placeholder="Enter Team Leader Name">
+                                <input type="text"
+                                       name="userpanel-guild-leader"
+                                       class="form-control"
+                                       placeholder="Enter Team Leader Name">
                             </div>
                         </div>
                     </div>
                     <div class="form-group text-center">
-                        <input type="hidden" name="form-type" value="update-guild">
-                        <input type="hidden" name="userpanel-guild-id" value="<?php echo $guildDetails->_guildId; ?>">
-                        <input type="hidden" name='active' value="Active">
-                        <button type="submit" name="action" class="btn btn-default" value="raid-team-add"><span class="glyphicon glyphicon-check"></span>  Create Raid Team</button>
+                        <input type="hidden"
+                               name="form-type"
+                               value="update-guild">
+                        <input type="hidden"
+                               name="userpanel-guild-id"
+                               value="<?php echo $guildDetails->_guildId; ?>">
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
+                        <button type="submit"
+                                name="action"
+                                class="btn btn-default"
+                                value="raid-team-add">
+                                <span class="glyphicon glyphicon-check"></span>  Create Raid Team
+                        </button>
                     </div>
                 </form>
             </div>

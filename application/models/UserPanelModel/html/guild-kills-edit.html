@@ -1,29 +1,40 @@
 <div class="row">
     <div class="col-lg-offset-3 col-lg-6 col-md-4  ">
         <div class="panel panel-primary">
-        <div class="panel-heading">Edit Kill Submission</div>
+            <div class="panel-heading">Edit Kill Submission</div>
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_USER_PANEL; ?>" autocomplete="off" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Guild Name</label>
                         <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
                             <div class="input-group">
-                                <input name="userpanel-guild" type="hidden" value="<?php echo $guildDetails->_guildId; ?>">
-                                <input type="text" disabled class="form-control" value="<?php echo $guildDetails->_name; ?>">
+                                <input type="hidden"
+                                       name="userpanel-guild"
+                                       value="<?php echo $guildDetails->_guildId; ?>">
+                                <input type="text"
+                                       class="form-control"
+                                       disabled
+                                       value="<?php echo $guildDetails->_name; ?>">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Encounter</label>
                         <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                            <input name="userpanel-encounter" type="hidden" value="<?php echo $data->_encounterDetails->_encounterId; ?>">
-                            <input type="text" disabled class="form-control" value="<?php echo CommonDataContainer::$encounterArray[$data->_encounterDetails->_encounterId]->_encounterName; ?>">
+                            <input type="hidden"
+                                   name="userpanel-encounter"
+                                   value="<?php echo $data->_encounterDetails->_encounterId; ?>">
+                            <input type="text"
+                                   class="form-control"
+                                   disabled
+                                   value="<?php echo CommonDataContainer::$encounterArray[$data->_encounterDetails->_encounterId]->_encounterName; ?>">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Date (M-D-Y)</label>
                         <div class="form-inline col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                           <select class="form-control" name="userpanel-month">
+                           <select name="userpanel-month"
+                                   class="form-control">
                                 <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
                                     <?php if ( $month == $data->_encounterDetails->_month ): ?> 
                                         <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
@@ -33,7 +44,8 @@
                                 <?php endforeach; ?>
                             </select>
 
-                            <select class="form-control" name="userpanel-day">
+                            <select name="userpanel-day"
+                                    class="form-control">
                                 <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
                                     <?php if ( $day == $data->_encounterDetails->_day ): ?> 
                                         <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
@@ -43,7 +55,8 @@
                                 <?php endforeach; ?>
                             </select>
 
-                           <select class="form-control" name="userpanel-year">
+                           <select name="userpanel-year"
+                                   class="form-control">
                                 <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
                                     <?php if ( $year == $data->_encounterDetails->_year ): ?> 
                                         <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
@@ -57,7 +70,8 @@
                     <div class="form-group">
                         <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Time (H:M UTC)</label>
                         <div class="form-inline col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                            <select class="form-control"  name="userpanel-hour">
+                            <select name="userpanel-hour"
+                                    class="form-control">
                                 <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
                                     <?php if ( $hour == $data->_encounterDetails->_hour ): ?> 
                                         <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
@@ -67,7 +81,8 @@
                                 <?php endforeach; ?>
                             </select>
 
-                           <select class="form-control"  name="userpanel-minute">
+                           <select name="userpanel-minute"
+                                   class="form-control">
                                 <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
                                     <?php if ( $minute == $data->_encounterDetails->_minute ): ?> 
                                         <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
@@ -81,7 +96,11 @@
                     <div class="form-group">
                         <label for="userpanel-screenshot" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Screenshot</label>
                         <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
-                            <input type="file" class="form-control form-screenshot" name="userpanel-screenshot" data-type="kill-edit" data-id="<?php echo $guildDetails->_guildId; ?>">
+                            <input type="file"
+                                   name="userpanel-screenshot"
+                                   class="form-control form-screenshot"
+                                   data-type="kill-edit"
+                                   data-id="<?php echo $guildDetails->_guildId; ?>">
                         </div>
                     </div>
                     <div class="form-group">
@@ -90,24 +109,36 @@
                             <div class="video-link-container">
                                 <?php $videoNum = 1; foreach( $data->_encounterDetails->_videos as $videoId => $videoDetails ): ?>
                                     <div class="video-link-wrapper">
-                                        <input type="hidden" name="video-link-id[]" value="<?php echo $videoId; ?>" />
+                                        <input type="hidden"
+                                               name="video-link-id[]"
+                                               value="<?php echo $videoId; ?>" />
                                         <div class="form-group">
                                             <label>Video # <?php echo $videoNum; ?></label>
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-film"></span></span>
-                                                <input type="text" class="form-control"  id="user-form-video-title-<?php echo $videoNum; ?>" name="video-link-title[]" placeholder="Notes/Title" value="<?php echo $videoDetails->_notes; ?>">
+                                                <input type="text"
+                                                       name="video-link-title[]"
+                                                       class="form-control" 
+                                                       id="user-form-video-title-<?php echo $videoNum; ?>"
+                                                       placeholder="Notes/Title"
+                                                       value="<?php echo $videoDetails->_notes; ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>
-                                                <input type="text" class="form-control" id="user-form-video-url-<?php echo $videoNum; ?>" name="video-link-url[]" value="<?php echo $videoDetails->_url; ?>">
+                                                <input type="text"
+                                                       name="video-link-url[]"
+                                                       class="form-control" id="user-form-video-url-<?php echo $videoNum; ?>"
+                                                       value="<?php echo $videoDetails->_url; ?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="" class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-2">Type</label>
                                             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                                <select id="user-form-video-type-<?php echo $videoNum; ?>" class="form-control" name="video-link-type[]">
+                                                <select name="video-link-type[]"
+                                                        class="form-control"
+                                                        id="user-form-video-type-<?php echo $videoNum; ?>">
                                                     <option value="0" <?php if ( $videoDetails->_type == '0'): ?>selected<?php endif; ?>>General Kill</option>
                                                     <option value="1" <?php if ( $videoDetails->_type == '1'): ?>selected<?php endif; ?>>Encounter Guide</option>
                                                 </select>
@@ -122,10 +153,21 @@
                         </div>
                     </div>
                     <div class="form-group text-center">
-                        <input type="hidden" name="form-type" value="update-kills">
-                        <input type="hidden" name="userpanel-guild-id" value="<?php echo $guildDetails->_guildId; ?>">
-                        <input type="hidden" name='active' value="Active">
-                        <button type="submit" name="action" class="btn btn-default" value="edit-kill"><span class="glyphicon glyphicon-check"></span>  Update</button>
+                        <input type="hidden"
+                               name="form-type"
+                               value="update-kills">
+                        <input type="hidden"
+                               name="userpanel-guild-id"
+                               value="<?php echo $guildDetails->_guildId; ?>">
+                        <input type="hidden"
+                                name="active"
+                                value="Active">
+                        <button type="submit"
+                                name="action"
+                                class="btn btn-default"
+                                value="edit-kill">
+                                <span class="glyphicon glyphicon-check"></span>  Update
+                        </button>
                     </div>
                     <div class="screenshot-preview text-center" data-type="kill-edit" data-id="<?php echo $guildDetails->_guildId; ?>"></div>
                 </form>
