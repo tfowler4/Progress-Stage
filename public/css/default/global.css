@@ -222,7 +222,7 @@
 /* bootstrap override fix for modals shifting content to the left */
 .modal-open {
     padding-right: 0 !important;
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
 
 #footer a {
@@ -371,4 +371,8 @@ body { padding-top: 55px; }
 .table.table-pane tbody > tr > th{
     font-weight: bold;
     font-size: 14px;
+}
+
+.inactive {
+    color: #333333;
 }

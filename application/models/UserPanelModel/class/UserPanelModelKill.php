@@ -32,7 +32,7 @@ class UserPanelModelKill extends UserPanelModel {
         $this->_action           = $action;
         $this->_formFields       = $formFields;
 
-        if ( Post::get('userpanel-encounter') ) {
+        if ( Post::get('userpanel-encounter') && isset($guildDetails->_encounterDetails->{Post::get('userpanel-encounter')}) ) {
             $this->_encounterDetails = $guildDetails->_encounterDetails->{Post::get('userpanel-encounter')};
         }
 

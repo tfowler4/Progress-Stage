@@ -19,51 +19,79 @@
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_REGISTER; ?>" autocomplete="off" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="register-username">Username</label>
+                            <label class="control-label col-lg-3 col-md-2" for="">Username</label>
                             <div class="col-lg-7 col-md-10">
-                                <input type="text" name="register-username" class="form-control" placeholder="Enter username">
+                                <input type="text"
+                                       name="register-username"
+                                       class="form-control"
+                                       placeholder="Enter username"
+                                       value="<?php echo $data->_formFields->username; ?>">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="register-email">Email</label>
+                            <label class="control-label col-lg-3 col-md-2" for="">Email</label>
                             <div class="col-lg-7 col-md-10">
-                                <input type="email" name="register-email" class="form-control" placeholder="Enter email">
+                                <input type="email"
+                                       name="register-email"
+                                       class="form-control"
+                                       placeholder="Enter email"
+                                       value="<?php echo $data->_formFields->email; ?>">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="register-password">Password</label>
+                            <label class="control-label col-lg-3 col-md-2" for="">Password</label>
                             <div class="col-lg-7 col-md-10">
-                                <input type="password" name="register-password" class="form-control" placeholder="Enter password">
+                                <input type="password"
+                                       name="register-password"
+                                       class="form-control"
+                                       placeholder="Enter password">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="register-retype-password">Retype Password</label>
+                            <label class="control-label col-lg-3 col-md-2" for="">Retype Password</label>
                             <div class="col-lg-7 col-md-10">
-                                <input type="password" name="register-retype-password" class="form-control" placeholder="Retype password">
+                                <input type="password"
+                                       name="register-retype-password"
+                                       class="form-control"
+                                       placeholder="Retype password">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="register-guild">Guild Name</label>
+                            <label class="control-label col-lg-3 col-md-2" for="">Guild Name</label>
                             <div class="col-lg-7 col-md-10">
-                                <input type="text" name="register-guild-name" class="form-control" placeholder="Enter guild">
+                                <input type="text"
+                                       name="register-guild-name"
+                                       class="form-control"
+                                       placeholder="Enter guild"
+                                       value="<?php echo $data->_formFields->guildName; ?>">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="register-guild-leader">Guild Leader</label>
+                            <label class="control-label col-lg-3 col-md-2" for="">Guild Leader</label>
                             <div class="col-lg-7 col-md-10">
-                                <input type="text" name="register-guild-leader" class="form-control" placeholder="Enter guild leader name">
+                                <input type="text"
+                                       name="register-guild-leader"
+                                       class="form-control"
+                                       placeholder="Enter guild leader name"
+                                       value="<?php echo $data->_formFields->guildLeader; ?>">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="register-website">Website</label>
+                            <label class="control-label col-lg-3 col-md-2" for="">Website</label>
                             <div class="col-lg-7 col-md-10">
-                                <input type="text" name="register-website" class="form-control" placeholder="Enter guild website">
+                                <input type="text"
+                                       name="register-website"
+                                       class="form-control"
+                                       placeholder="Enter guild website"
+                                       value="<?php echo $data->_formFields->website; ?>">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="register-faction">Faction</label>
+                            <label class="control-label col-lg-3 col-md-2" for="">Faction</label>
                             <div class="col-lg-7 col-md-10">
-                                <select class="form-control form-faction" name="register-faction" data-type="register">
+                                <select name="register-faction"
+                                        class="form-control form-faction"
+                                        data-type="register">
                                     <option value="">Select Faction</option>
                                     <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
                                         <option value="<?php echo $factionId; ?>" <?php if (!empty($data->_formFields->faction) && $data->_formFields->faction == $factionId): ?>selected<?php endif; ?>><?php echo $factionDetails->_name; ?></option>
@@ -72,9 +100,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="register-server">Server</label>
+                            <label class="control-label col-lg-3 col-md-2" for="">Server</label>
                             <div class="col-lg-7 col-md-10">
-                                <select id="user-form-server" class="form-control" name="register-server">
+                                <select name="register-server"
+                                        class="form-control">
                                     <option value="">Select Server</option>
                                     <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
                                         <option value="<?php echo $serverId; ?>" <?php if (!empty($data->_formFields->server) && $data->_formFields->server == $serverId): ?>selected<?php endif; ?>><?php echo $serverDetails->_region . ' - ' . $serverDetails->_name; ?></option>
@@ -83,9 +112,11 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="register-country">Country</label>
+                            <label class="control-label col-lg-3 col-md-2" for="">Country</label>
                             <div class="col-lg-7 col-md-10">
-                                <select class="form-control form-country" name="register-country" data-type="register">
+                                <select name="register-country"
+                                        class="form-control form-country"
+                                        data-type="register">
                                     <option value="">Select Country</option>
                                     <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
                                         <option value="<?php echo $countryId; ?>" <?php if (!empty($data->_formFields->country) && $data->_formFields->country == $countryId): ?>selected<?php endif; ?>><?php echo $countryDetails->_name; ?></option>
@@ -94,35 +125,56 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="register-password">Facebook</label>
+                            <label class="control-label col-lg-3 col-md-2" for="">Facebook</label>
                             <div class="col-lg-7 col-md-10"> 
-                                <input type="text" name="register-facebook" class="form-control" placeholder="Enter Facebook handle">
+                                <input type="text"
+                                       name="register-facebook"
+                                       class="form-control"
+                                       placeholder="Enter Facebook handle"
+                                       value="<?php echo $data->_formFields->facebook; ?>">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="register-twitter">Twitter</label>
+                            <label class="control-label col-lg-3 col-md-2" for="">Twitter</label>
                             <div class="col-lg-7 col-md-10"> 
-                                <input type="text" name="register-twitter" class="form-control" placeholder="Enter Twitter handle">
+                                <input type="text"
+                                       name="register-twitter"
+                                       class="form-control"
+                                       placeholder="Enter Twitter handle"
+                                       value="<?php echo $data->_formFields->twitter; ?>">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="register-logo">Guild Logo</label>
+                            <label class="control-label col-lg-3 col-md-2" for="">Guild Logo</label>
                             <div class="col-lg-7 col-md-10"> 
-                                <input type="file" name="register-guild-logo" class="form-control form-guild-logo" data-type="register">
+                                <input type="file"
+                                       name="register-guild-logo"
+                                       class="form-control form-guild-logo"
+                                       data-type="register"
+                                       value="<?php echo $data->_formFields->guildLogo; ?>">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="register-important">Important Stuff</label>
+                            <label class="control-label col-lg-3 col-md-2" for="">Important Stuff</label>
                             <div class="col-lg-7 col-md-10"> 
                                 <div class="checkbox">
-                                    <label><input name="register-required-tos" type="checkbox"> I agree to the Terms of Service</label>
+                                    <label>
+                                        <input type="checkbox"
+                                               name="register-required-tos"
+                                               <?php if( $data->_formFields->isImportant == 'on' ): ?>checked<?php endif; ?> > I agree to the Terms of Service
+                                    </label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group"> 
                             <div class="text-center">
-                                <input type="hidden" name="active" value="Active">
-                                <button type="submit" class="btn btn-default">Submit</button>
+                                <input type="hidden"
+                                       name="active"
+                                       value="Active">
+                                <button type="submit" 
+                                        class="btn btn-default">
+                                        <span class="glyphicon glyphicon-log-in"></span>  Register
+                                </button>
                             </div>
                         </div>
                     </form>

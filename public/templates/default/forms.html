@@ -148,114 +148,120 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        <form role="form" method="POST" action="<?php echo PAGE_QUICK; ?>" autocomplete="off" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label for="username">Guild</label>
-                                <select name="quick-guild"
-                                        class="form-control form-guild"
-                                        data-type="quick-modal">
-                                    <option value="">Select Guild</option>
-                                    <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails): ?>
-                                        <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="user-form-popup-encounter">Encounter</label>
-                                <select name="quick-encounter"
-                                        class="form-control form-encounter"
-                                        data-type="quick-modal">
-                                    <option value="">Select Encounter</option>
-                                </select>
-                            </div>
-                            <label for="quick-date">Date (M-D-Y)</label>
-                            <div class="form-inline">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_QUICK; ?>" autocomplete="off" enctype="multipart/form-data">
                                 <div class="form-group">
-                                   <select name="quick-month"
-                                           class="form-control">
-                                        <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
-                                            <?php if ( $month == date('m') ): ?> 
-                                                <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
-                                            <?php else: ?>
-                                                <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <label for="" class="control-label col-lg-3 col-md-2">Guild</label>
+                                    <div class="col-lg-7 col-md-10">
+                                        <select name="quick-guild"
+                                                class="form-control form-guild"
+                                                data-type="quick-modal">
+                                            <option value="">Select Guild</option>
+                                            <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails): ?>
+                                                <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <select name="quick-day"
-                                            class="form-control">
-                                        <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
-                                            <?php if ( $day == date('d') ): ?> 
-                                                <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
-                                            <?php else: ?>
-                                                <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <label for="" class="control-label col-lg-3 col-md-2">Encounter</label>
+                                    <div class="col-lg-7 col-md-10">
+                                        <select name="quick-encounter"
+                                                class="form-control form-encounter"
+                                                data-type="quick-modal">
+                                            <option value="">Select Encounter</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                   <select name="quick-year"
-                                           class="form-control">
-                                        <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
-                                            <?php if ( $year == date('Y') ): ?> 
-                                                <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
-                                            <?php else: ?>
-                                                <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
+                                    <label for="" class="control-label col-lg-3 col-md-2">Date (M-D-Y)</label>
+                                    <div class="form-inline col-lg-7 col-md-10">
+                                       <select name="quick-month"
+                                               class="form-control">
+                                            <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
+                                                <?php if ( $month == date('m') ): ?> 
+                                                    <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
+                                                <?php else: ?>
+                                                    <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </select>
 
-                            <label for="quick-time">Time (H:M UTC)</label>
-                            <div class="form-inline">
-                                <div class="form-group">
-                                    <select name="quick-hour"
-                                            class="form-control">
-                                        <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
-                                            <?php if ( $hour == date('H') ): ?> 
-                                                <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
-                                            <?php else: ?>
-                                                <option value="<?php echo $hour; ?>"><?php echo $hourValue; ?></option>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                   <select name="quick-minute"
-                                           class="form-control">
-                                        <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
-                                            <?php if ( $minute == date('i') ): ?> 
-                                                <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
-                                            <?php else: ?>
-                                                <option value="<?php echo $minute; ?>"><?php echo $minuteValue; ?></option>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
+                                        <select name="quick-day"
+                                                class="form-control">
+                                            <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
+                                                <?php if ( $day == date('d') ): ?> 
+                                                    <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
+                                                <?php else: ?>
+                                                    <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </select>
 
-                            <div class="form-group">
-                                <label for="quick-screenshot">Screenshot</label>
-                                <input type="file"
-                                       name="quick-screenshot"
-                                       class="form-control form-screenshot"
-                                       data-type="quick-modal">
-                            </div>
-                            <div class="form-group">
-                                <label for="quick-videos">Kill Videos</label>
-                                <div class="video-link-container"></div>
-                                <br><a class="btn btn-default new-video-link" href="#"><span class="glyphicon glyphicon-plus"></span>  Add New Video</a>
-                            </div>
-                            <div class="form-group text-center">
-                                <input type="hidden"
-                                       name="active"
-                                       value="Active">
-                                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-check"></span>  Submit</button>
-                            </div>
-                            <div class="screenshot-preview" data-type="quick-modal"></div>
-                        </form>
+                                       <select name="quick-year"
+                                               class="form-control">
+                                            <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
+                                                <?php if ( $year == date('Y') ): ?> 
+                                                    <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
+                                                <?php else: ?>
+                                                    <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="control-label col-lg-3 col-md-2">Time (H:M UTC)</label>
+                                    <div class="form-inline col-lg-7 col-md-10">
+                                        <select name="quick-hour"
+                                                class="form-control">
+                                            <?php foreach( CommonDataContainer::$hoursArray as $hour => $hourValue): ?>
+                                                <?php if ( $hour == date('H') ): ?> 
+                                                    <option value="<?php echo $hour; ?>" selected><?php echo $hourValue; ?></option>
+                                                <?php else: ?>
+                                                    <option value="<?php echo $hour; ?>"><?php echo $hourValue; ?></option>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </select>
+
+                                       <select name="quick-minute"
+                                               class="form-control">
+                                            <?php foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue): ?>
+                                                <?php if ( $minute == date('i') ): ?> 
+                                                    <option value="<?php echo $minute; ?>" selected><?php echo $minuteValue; ?></option>
+                                                <?php else: ?>
+                                                    <option value="<?php echo $minute; ?>"><?php echo $minuteValue; ?></option>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="" class="control-label col-lg-3 col-md-2">Screenshot</label>
+                                    <div class="col-lg-7 col-md-10">
+                                        <input type="file"
+                                               name="quick-screenshot"
+                                               class="form-control form-screenshot"
+                                               data-type="quick-modal">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Kill Videos</label>
+                                    <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                                        <div class="video-link-container"></div>
+                                        <br><a class="btn btn-default new-video-link" href="#"><span class="glyphicon glyphicon-plus"></span>  Add New Video</a>
+                                    </div>
+                                </div>
+                                <div class="form-group text-center">
+                                    <input type="hidden"
+                                           name="active"
+                                           value="Active">
+                                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-check"></span>  Submit</button>
+                                </div>
+                                <div class="screenshot-preview" data-type="quick-modal"></div>
+                            </form>
+                        </div>
                     </p>
                 </div>
                 <div class="modal-footer">

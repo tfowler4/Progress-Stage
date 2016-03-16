@@ -24,8 +24,8 @@ define('ABS_FOLD_TEMPLATES',        ABSOLUTE_PATH . '/public/templates/');
 
 // image folder paths
 define('FOLD_IMAGES',      FOLD_PUBLIC .      '/images/');
-define('FOLD_GLOBAL',      FOLD_IMAGES .      '/global/');
-define('FOLD_FLAGS',       FOLD_IMAGES .      '/flags/');
+define('FOLD_GLOBAL',      FOLD_IMAGES .      'global/');
+define('FOLD_FLAGS',       FOLD_IMAGES .      'flags/');
 define('FOLD_GAME_IMAGES', FOLD_IMAGES .      strtolower(GAME_NAME_1) . '/');
 define('FOLD_FACTIONS',    FOLD_GAME_IMAGES . 'factions/');
 define('FOLD_GUILDS',      FOLD_GAME_IMAGES . 'guilds/');

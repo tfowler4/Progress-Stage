@@ -1,0 +1,7 @@
+/* page anchor to be used by page navigation to link */
+.anchor {
+    display: block; 
+    position: relative; 
+    top: -40px; 
+    visibility: hidden;
+}

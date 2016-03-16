@@ -184,8 +184,10 @@ var GlobalEventBinder = function() {
 
         var html  = '<div class="video-link-wrapper">';
             html += '<div class="form-group">';
-                html += '<label for="" class="control-label col-lg-2 col-md-2 col-sm-12 col-xs-12">' + 'Video #' + videoLinkNum + '</label>';
-                html += '<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">';
+                html += '<label for="" class="control-label col-lg-3 col-md-12 col-sm-12 col-xs-12">' + 'Video #' + videoLinkNum + '</label>';
+            html += '</div>';
+            html += '<div class="form-group">';
+                html += '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
                     html += '<div class="input-group">';
                         html += '<span class="input-group-addon"><span class="glyphicon glyphicon-film"></span></span>';
                         html += '<input type="text" class="form-control"  id="user-form-video-title-' + videoLinkNum + '" name="video-link-title[]" placeholder="Notes">';
@@ -193,7 +195,7 @@ var GlobalEventBinder = function() {
                 html += '</div>';
             html += '</div>';
             html += '<div class="form-group">';
-                html += '<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">';
+                html += '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
                     html += '<div class="input-group">';
                         html += '<span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>';
                         html += '<input type="text" class="form-control" id="user-form-video-url-' + videoLinkNum + '" name="video-link-url[]" placeholder="Video URL">';

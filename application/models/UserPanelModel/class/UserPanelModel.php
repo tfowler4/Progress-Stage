@@ -49,10 +49,10 @@ class UserPanelModel extends Model {
                     $this->_setTab       = 'account';
                     break;
                 case 'update-guild':
-                    $guildDetails;
+                    $guildDetails = new stdClass();
 
                     if ( !empty($this->_userGuilds[Post::get('userpanel-guild-id')]) ) {
-                      $guildDetails = $this->_userGuilds[Post::get('userpanel-guild-id')];
+                        $guildDetails = $this->_userGuilds[Post::get('userpanel-guild-id')];
                     } elseif ( !empty($this->_raidTeams) ) {
                         foreach ( $this->_raidTeams as $guildId => $guildRaidTeams ) {
                             foreach ( $guildRaidTeams as $raidTeamId => $raidTeamDetails ) {

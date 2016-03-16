@@ -5,8 +5,8 @@
             <div class="panel-body">
                 <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_USER_PANEL; ?>" autocomplete="off" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Guild Name</label>
-                        <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
+                        <label for="" class="control-label col-lg-3 col-md-2">Guild</label>
+                        <div class="col-lg-7 col-md-10">
                             <div class="input-group">
                                 <input type="hidden"
                                        name="userpanel-guild"
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="userpanel-screenshot" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Screenshot</label>
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Screenshot</label>
                         <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
                             <input type="file"
                                    name="userpanel-screenshot"
@@ -104,7 +104,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="quick-videos" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Kill Videos</label>
+                        <label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Kill Videos</label>
                         <div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">
                             <div class="video-link-container">
                                 <?php $videoNum = 1; foreach( $data->_encounterDetails->_videos as $videoId => $videoDetails ): ?>
