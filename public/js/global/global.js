@@ -351,6 +351,25 @@ var GlobalEventBinder = function() {
         });
     });
 
+    $(document).on('click touchstart tap', 'li.dropdown-submenu, li.dropdown-submenu a', function(event) {
+        console.log('prevnet link');
+        event.preventDefault();
+    });
+
+    $(document).on('click touchstart tap', 'li.dropdown-submenu', function(event) {
+        console.log('touch');
+
+        if ( $(this).children('ul.dropdown-menu').length > 0 ) {
+            if ( $(this).children('ul.dropdown-menu').css('display') != 'block' ) {
+                $(this).children('ul.dropdown-menu').css('display', 'block');
+            } else {
+                $(this).children('ul.dropdown-menu').css('display', 'none');
+            }
+        }
+
+        event.stopPropagation();
+    });
+
     /*
     http://www.prowebdesign.ro/how-to-deal-with-hover-on-touch-screen-devices/
     http://www.stampede-design.com/blog/2012/11/dropdown-menu-hover/#.Vul2WagrIWo
