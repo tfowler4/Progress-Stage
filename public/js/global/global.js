@@ -351,9 +351,25 @@ var GlobalEventBinder = function() {
         });
     });
 
-    $(document).on('click touchstart tap', 'li.dropdown-submenu, li.dropdown-submenu a', function(event) {
-        console.log('prevnet link');
+    $(document).on('click touchstart tap', 'li.dropdown-submenu a', function(event) {
         event.preventDefault();
+
+        console.log('prevnet link');
+        var href = $(this).prop("href");
+
+        if ( href.indexOf("#") == -1 ) {
+            console.log("no #");
+
+            //window.location.href = href;
+
+            if ( $(this).parent().find('ul.dropdown-menu').length > 0 ) {
+                console.log("has a menu");
+
+                if ( $(this).parent().find('ul.dropdown-menu').css('display') != 'block' ) {console.log($(this).parent().find('ul.dropdown-menu').css('display'));
+                    //window.location.href = href;
+                }
+            }
+        }
     });
 
     $(document).on('click touchstart tap', 'li.dropdown-submenu', function(event) {
