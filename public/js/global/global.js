@@ -351,39 +351,54 @@ var GlobalEventBinder = function() {
         });
     });
 
-    $(document).on('click touchstart tap', 'li.dropdown-submenu a', function(event) {
-        event.preventDefault();
-
-        console.log('prevnet link');
-        var href = $(this).prop("href");
-
-        if ( href.indexOf("#") == -1 ) {
-            console.log("no #");
-
-            //window.location.href = href;
-
-            if ( $(this).parent().find('ul.dropdown-menu').length > 0 ) {
-                console.log("has a menu");
-
-                if ( $(this).parent().find('ul.dropdown-menu').css('display') != 'block' ) {console.log($(this).parent().find('ul.dropdown-menu').css('display'));
-                    //window.location.href = href;
-                }
-            }
-        }
+    $(document).on('click touchstart tap', 'li.dropdown-link a', function(event) {
+        console.log('normal link');
     });
 
-    $(document).on('click touchstart tap', 'li.dropdown-submenu', function(event) {
-        console.log('touch');
+    $(document).on('click touchstart tap', 'li.dropdown-submenu a', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        //console.log('prevnet link');
 
-        if ( $(this).children('ul.dropdown-menu').length > 0 ) {
-            if ( $(this).children('ul.dropdown-menu').css('display') != 'block' ) {
-                $(this).children('ul.dropdown-menu').css('display', 'block');
-            } else {
-                $(this).children('ul.dropdown-menu').css('display', 'none');
-            }
+        // get link value
+        var href = $(this).prop("href");
+        var isLinkValid = false;
+
+        console.log("Link value: " + href);
+
+        // check if link is  valid location
+        if ( href.indexOf("#") == -1 ) {
+            console.log("valid link");
+            isLinkValid = true;
         }
 
-        event.stopPropagation();
+        //window.location.href = href;
+
+        if ( $(this).parent().find('ul.dropdown-menu').length > 0 ) {
+            console.log("has a menu");
+
+            if ( $(this).parent().children('ul.dropdown-menu').css('display') != 'block' ) {
+                console.log("menu is closed");
+                
+                $(this).parent().children('ul.dropdown-menu').css('display', 'block');
+                console.log('opening it');
+            } else {
+                console.log("menu is open");
+
+                if ( isLinkValid ) {
+                    console.log('following link since you are double tapping a menu that is already open: ' +href);
+                    //window.location.href = href;
+                } else {
+                    $(this).parent().children('ul.dropdown-menu').css('display', 'none');
+                    console.log('closing menu');
+                }
+            }
+        } else {
+            if ( isLinkValid ) {
+                console.log('following link since there is no dropdown and the link is valid: ' +href);
+                //window.location.href = href;
+            }
+        }
     });
 
     /*
