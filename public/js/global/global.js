@@ -351,79 +351,63 @@ var GlobalEventBinder = function() {
         });
     });
 
-    $(document).on('click touchstart tap', 'li.dropdown-link a', function(event) {
-        console.log('normal link');
-    });
-
-    $(document).on('click touchstart tap', 'li.dropdown-submenu a', function(event) {
+    $(document).on('touchstart tap', 'li.dropdown-first-level a.tab-index', function(event) {
         event.preventDefault();
         event.stopPropagation();
-        //console.log('prevnet link');
+
+        if ( $(this).prop('tabIndex').length == 0 ) {
+            console.log("length is 0");
+            return false;
+        }
+
+        console.log('first level');
+
+        // checking all other dropdowns
+        $(this).parent().parent().find('ul.dropdown-menu').css('display', 'none');
+
+        
+        if ( $(this).parent().children('ul.dropdown-menu').length > 0 ) {
+            $(this).parent().children('ul.dropdown-menu').css('display', 'block');
+        }
+    });
+
+    $(document).on('touchstart tap', 'li.dropdown-link', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
 
         // get link value
-        var href = $(this).prop("href");
-        var isLinkValid = false;
+        var href = $(this).children('a').prop("href");
+        window.location.href = href;
+    });
 
-        console.log("Link value: " + href);
+    $(document).on('touchstart tap', 'li.dropdown-submenu', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // get link value
+        var href = $(this).find('a').prop("href");
+        var isLinkValid = false;
 
         // check if link is  valid location
         if ( href.indexOf("#") == -1 ) {
-            console.log("valid link");
             isLinkValid = true;
         }
 
-        //window.location.href = href;
-
-        if ( $(this).parent().find('ul.dropdown-menu').length > 0 ) {
-            console.log("has a menu");
-
-            if ( $(this).parent().children('ul.dropdown-menu').css('display') != 'block' ) {
-                console.log("menu is closed");
+        if ( $(this).find('ul.dropdown-menu').length > 0 ) {
+            if ( $(this).children('ul.dropdown-menu').css('display') != 'block' ) {
                 
-                $(this).parent().children('ul.dropdown-menu').css('display', 'block');
-                console.log('opening it');
+                $(this).children('ul.dropdown-menu').css('display', 'block');
             } else {
-                console.log("menu is open");
-
                 if ( isLinkValid ) {
-                    console.log('following link since you are double tapping a menu that is already open: ' +href);
-                    //window.location.href = href;
+                    window.location.href = href;
                 } else {
-                    $(this).parent().children('ul.dropdown-menu').css('display', 'none');
-                    console.log('closing menu');
+                    $(this).children('ul.dropdown-menu').css('display', 'none');
                 }
             }
         } else {
             if ( isLinkValid ) {
-                console.log('following link since there is no dropdown and the link is valid: ' +href);
-                //window.location.href = href;
+                window.location.href = href;
             }
         }
     });
-
-    /*
-    http://www.prowebdesign.ro/how-to-deal-with-hover-on-touch-screen-devices/
-    http://www.stampede-design.com/blog/2012/11/dropdown-menu-hover/#.Vul2WagrIWo
-    https://teamtreehouse.com/community/how-can-i-create-a-dropdown-menu-that-uses-hover-events-while-still-being-mobiletouch-friendly
-    http://stackoverflow.com/questions/11850466/mobile-touch-device-friendly-drop-down-menu-in-css-jquery
-    http://stackoverflow.com/questions/4755505/how-to-recognize-touch-events-using-jquery-in-safari-for-ipad-is-it-possible
-    function isTouchDevice(){
-        return typeof window.ontouchstart !== 'undefined';
-    }
-
-    jQuery(document).ready(function(){
-        /* If mobile browser, prevent click on parent nav item from redirecting to URL 
-        if(isTouchDevice()) {console.log('yeh');return;
-            // 1st click, add "clicked" class, preventing the location change. 2nd click will go through.
-            jQuery("#menu-main-menu > li > a").click(function(event) {
-                // Perform a reset - Remove the "clicked" class on all other menu items
-                jQuery("#menu-main-menu > li > a").not(this).removeClass("clicked");
-                jQuery(this).toggleClass("clicked");
-                if (jQuery(this).hasClass("clicked")) {
-                    event.preventDefault();
-                }
-            });
-        }
-    });
-    */
-}; 
+};

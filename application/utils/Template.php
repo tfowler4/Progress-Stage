@@ -655,14 +655,14 @@ class Template {
                                 $html .= '<li class="dropdown-header">' . $currentEra . '</li>';
                             }
 
-                            $html .= '<li class="dropdown-submenu">';
-                                $html .= '<a tabindex="-1" href="#">';
+                            $html .= '<li class="dropdown-submenu dropdown-first-level">';
+                                $html .= '<a tabindex="-1" href="#" class="tab-index">';
                                     $html .= $tierDetails->_altTier . ' - ' . $tierDetails->_name;
                                 $html .= '</a>';
                                 $html .= '<ul class="dropdown-menu">';
                                     foreach( $tierDetails->_dungeons as $dungeonId => $dungeonDetails ) {
                                         if ( $modelName == 'standings') { $html .= '<li class="dropdown-submenu">' . Functions::generateInternalHyperlink('standings', $dungeonDetails, 'world', $dungeonDetails->_name, ''); }
-                                        if ( $modelName == 'rankings' ) { $html .= '<li>' . Functions::generateInternalHyperlink('rankings', $dungeonDetails, 'world/' . POINT_SYSTEM_DEFAULT, $dungeonDetails->_name, ''); }
+                                        if ( $modelName == 'rankings' ) { $html .= '<li class="dropdown-link">' . Functions::generateInternalHyperlink('rankings', $dungeonDetails, 'world/' . POINT_SYSTEM_DEFAULT, $dungeonDetails->_name, ''); }
                                             if ( $numOfLevels > 2 ) {
                                                 $html .= '<ul class="dropdown-menu">';
 
@@ -714,14 +714,14 @@ class Template {
                     $html .= '<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">';
                         foreach( $topLevelArray as $regionId => $regionDetails ) {
                             $html .= '<li class="dropdown-submenu">';
-                                $html .= '<a tabindex="-1" href="#">';
+                                $html .= '<a tabindex="-1" href="#" class="tab-index">';
                                     $html .= $regionDetails->_regionImage . '<span>' . $regionDetails->_name . '</span>';
                                 $html .= '</a>';
                                 $html .= '<ul class="dropdown-menu">';
                                     foreach( $regionDetails->_servers as $serverId => $serverDetails ) {
                                         if ( $serverDetails->_region != $regionDetails->_abbreviation ) { continue; }
 
-                                        $html .= '<li>' . $serverDetails->_navLink . '</li>';
+                                        $html .= '<li class="dropdown-link">' . $serverDetails->_navLink . '</li>';
                                     }
                                 $html .= '</ul>';
                             $html .= '</li>';
