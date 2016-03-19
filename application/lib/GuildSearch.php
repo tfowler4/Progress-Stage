@@ -19,7 +19,7 @@ class GuildSearch {
     public static function getSearchResults($searchTerm) {
         self::$_queryString = $searchTerm;
 
-        if ( empty(self::$_queryString) ) { return $searchResults; }
+        if ( empty(self::$_queryString) ) { return self::$searchResults; }
 
         $dbh = DbFactory::getDbh();
 

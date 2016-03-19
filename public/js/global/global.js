@@ -134,8 +134,12 @@ var GlobalEventBinder = function() {
         });
     }
 
-    // on click of submit on search modal
-    $(document).on('click touchstart', '#search-form-submit', function() {
+    $('#search-form').submit(function(event) {
+        event.preventDefault();
+        getSearchResults();
+    });
+
+    var getSearchResults = function() {
         var currentPageUrl = document.URL;
         var searchTerm     = $('#search-input').val();
 
@@ -153,6 +157,11 @@ var GlobalEventBinder = function() {
                 console.log("Details: " + desc + "\nError:" + err);
             }
         });
+    }
+
+    // on click of submit on search modal
+    $(document).on('click touchstart', '#search-form-submit', function() {
+        getSearchResults();
     });
 
     // on click of "Add New Video" text link, a new 

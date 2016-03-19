@@ -272,13 +272,7 @@ class Template {
 
         if ( file_exists($localSrc) && getimagesize($localSrc) ) {
             $imageDimensions = getimagesize($localSrc);
-            $class           = '';
-
-            if ( $imageDimensions[0] > 300 ) { 
-                $class = 'class="guild-logo-medium"';
-            } else {
-                $class = 'class=""';
-            }
+            $class           = 'class="img-responsive"';
 
             $logo  = '<img src="' . $src . '" ' . $class . '>';
         }
