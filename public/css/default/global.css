@@ -16,7 +16,7 @@
 
 /* navbar hover menu */
 .dropdown-submenu:hover>.dropdown-menu {
-    /*display: block;*/
+    display: block;
 }
 
 /* navbar hover menu */
