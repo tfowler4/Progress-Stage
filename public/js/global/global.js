@@ -134,11 +134,13 @@ var GlobalEventBinder = function() {
         });
     }
 
-    $('#search-form').submit(function(event) {
+    // get search results from navbar search modal
+    $(document).on('submit','#search-form', function(event) {
         event.preventDefault();
+        event.stopPropagation();
+
         getSearchResults();
     });
-
     var getSearchResults = function() {
         var currentPageUrl = document.URL;
         var searchTerm     = $('#search-input').val();
@@ -157,6 +159,8 @@ var GlobalEventBinder = function() {
                 console.log("Details: " + desc + "\nError:" + err);
             }
         });
+
+        return false;
     }
 
     // on click of submit on search modal
