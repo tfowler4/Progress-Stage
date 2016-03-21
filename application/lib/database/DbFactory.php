@@ -40,6 +40,7 @@ class DbFactory {
         self::_getTierRaidSizes();
         self::_getRankSystems();
         self::_getGuilds();
+        CommonDataContainer::$recentRaidsArray = self::_getRecentRaids();
     }
 
     /**
@@ -285,6 +286,91 @@ class DbFactory {
             self::TABLE_TWITCH
             ));
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) { CommonDataContainer::$twitchArray[$row['twitch_num']] = $row; }
+    }
+
+    /**
+     * get the most recent submitted encounters sorted by kill date
+     * 
+     * @param  integer $limit  [ maximum number of encounter entries ]
+     * 
+     * @return array [ array of encounter kill data entries ]
+     */
+    private static function _getRecentRaids($limit = 100) {
+        $dbh          = DbFactory::getDbh();
+        $dataArray    = array();
+        $enAlignArray = array();
+
+        $query = $dbh->prepare(sprintf(
+            "SELECT kill_id,
+                    guild_id,
+                    encounter_id,
+                    dungeon_id,
+                    tier,
+                    raid_size,
+                    datetime,
+                    date,
+                    time,
+                    time_zone,
+                    server,
+                    videos,
+                    server_rank,
+                    region_rank,
+                    world_rank,
+                    country_rank
+              FROM  %s
+          ORDER BY  datetime DESC
+             LIMIT  %s", 
+                    DbFactory::TABLE_KILLS,
+                    $limit
+        ));
+        $query->execute();
+
+        while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
+            $guildId        = $row['guild_id'];
+            $encounterId    = $row['encounter_id'];
+            $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
+            $dungeonId      = $row['dungeon_id'];
+            $dungeonId      = $encounterDetails->_dungeonId;
+            $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
+            $identifier     = $guildId . '|' . $encounterId;
+
+            if ( isset(CommonDataContainer::$guildArray[$guildId]) ) {
+                $guildDetails                             = CommonDataContainer::$guildArray[$guildId];
+                $arr                                      = $guildDetails->_progression;
+                $arr['dungeon'][$dungeonId][$encounterId] = $row;
+                $arr['encounter'][$encounterId]           = $row;
+                $guildDetails->_progression               = $arr;
+            } 
+
+            if ( !isset(CommonDataContainer::$guildArray[$guildId]) ) { continue; }
+
+            $guildDetails = CommonDataContainer::$guildArray[$guildId];
+            $guildDetails->generateEncounterDetails('encounter', $encounterId);
+
+            if ( !isset($guildDetails->_encounterDetails->$encounterId) ) { continue; }
+
+            $dataArray[$identifier] = new RecentKillObject($guildDetails, $encounterId);
+
+            // Apply EU Time Diff
+            $strtotime = strtotime($row['datetime']);
+            if ( $guildDetails->_region == 'EU' ) {
+                $strtotime = strtotime("-". EU_TIME_DIFF . ' minutes', $strtotime);
+            }
+
+            if ( $guildDetails->_region == 'EU' && $dungeonDetails->_euTimeDiff > 0 ) {
+                $strtotime = strtotime("-". ($dungeonDetails->_euTimeDiff) . ' minutes', $strtotime);
+            }
+
+            $euAlignArray[$identifier] = $strtotime;
+        }
+
+        arsort($euAlignArray);
+
+        foreach( $euAlignArray as $identifier => $strtotime) {
+            $euAlignArray[$identifier] = $dataArray[$identifier];
+        }
+
+        return $euAlignArray;
     }
 
     /**

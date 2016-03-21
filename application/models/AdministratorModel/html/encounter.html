@@ -1,155 +1,206 @@
-<span id="encounter-anchor" class="anchor"></span>
-<div id="pane-encounter">
-    <div id="encounter-title" class="pane-title">Encounter Admin</div>
+<div class="col-md-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Create A New Encounter</div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_ADMIN; ?>" autocomplete="off" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Encounter</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input type="text"
+                               name="adminpanel-encounter"
+                               class="form-control"
+                               placeholder="Enter Encounter Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Display Name</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input name="adminpanel-encounter-display-name"
+                               class="form-control"
+                               placeholder="Enter Display Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Short Name</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input name="adminpanel-encounter-short-name"
+                               class="form-control"
+                               placeholder="Enter Shortened Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Dungeon</label>
+                    <div class="col-lg-8 col-md-10">
+                       <select name="adminpanel-encounter-dungeon-id"
+                               class="form-control">
+                            <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
+                                <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Raid Size</label>
+                    <div class="col-lg-8 col-md-10">
+                       <select name="adminpanel-dungeon-players"
+                               class="form-control">
+                            <?php foreach ( unserialize (RAID_SIZES) as $raidSize ): ?>
+                                <option value="<?php echo $raidSize; ?>"><?php echo $raidSize . '-Man'; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Launch Date</label>
+                    <div class="form-inline col-lg-8 col-md-10">
+                       <select name="adminpanel-encounter-launch-month"
+                               class="form-control">
+                            <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
+                                <?php if ( $month == date('m') ): ?> 
+                                    <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
+                                <?php else: ?>
+                                    <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
 
-    <div class="vertical-separator"></div>
+                        <select name="adminpanel-encounter-launch-day"
+                                class="form-control">
+                            <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
+                                <?php if ( $day == date('d') ): ?> 
+                                    <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
+                                <?php else: ?>
+                                    <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
 
-    <div class="option-container">
-        <div class="option-title">Create Encounter</div>
-        <form class="admin-form encounter" id="form-encounter-add" method="POST" action="<?php echo PAGE_ADMIN; ?>">
-            <div class="option-content">
-                <table>
-                    <thead>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Encounter Name</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="admin-textbox" type="text" name="adminpanel-encounter" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Display Name</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="admin-textbox" type="text" name="adminpanel-encounter-display-name" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Encounter Short Name</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="admin-textbox" type="text" name="adminpanel-encounter-short-name" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Dungeon Name</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <select class="admin-select dungeon" name="adminpanel-encounter-dungeon-id">
-                                    <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
-                                        <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Launch Date</th>
-                        </tr>
-                        <tr>
-                            <td>
-                            <select class="admin-select month" name="adminpanel-encounter-launch-month">
-                                <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
-                                    <?php if ( $month == date('m') ): ?> 
-                                        <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
-                                    <?php else: ?>
-                                        <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </select>
-                            <select class="admin-select day" name="adminpanel-encounter-launch-day">
-                                <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
-                                    <?php if ( $day == date('d') ): ?> 
-                                        <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
-                                    <?php else: ?>
-                                        <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </select>
-                            <select class="admin-select year" name="adminpanel-encounter-launch-year">
-                                <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
-                                    <?php if ( $year == date('Y') ): ?> 
-                                        <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
-                                    <?php else: ?>
-                                        <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-            </div>
-            <div class="vertical-separator"></div>
-            <div class="option-footer"><input class="admin-submit encounter" id="admin-submit-encounter" type="submit" value="Add Encounter" /></div>
-        </form>
+                       <select name="adminpanel-encounter-launch-year"
+                               class="form-control">
+                            <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
+                                <?php if ( $year == date('Y') ): ?> 
+                                    <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
+                                <?php else: ?>
+                                    <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Type</label>
+                    <div class="col-lg-8 col-md-10">
+                       <select name="adminpanel-encounter-type"
+                               class="form-control">
+                            <?php foreach ( unserialize (ENCOUNTER_TYPES) as $typeId => $type ): ?>
+                                <option value="<?php echo $typeId; ?>"><?php echo $typeId . ' - ' .$type; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Mob Order</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input name="adminpanel-encounter-mob-order"
+                               class="form-control"
+                               placeholder="Enter Mob Order">
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <div class="text-center">
+                        <input type="hidden"
+                               name="form-type"
+                               value="encounter-admin">
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
+                        <button type="submit"
+                                name="action"
+                                class="btn btn-default"
+                                value="encounter-add">
+                                <span class="glyphicon glyphicon-plus"></span>  Create Encounter
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 
-    <div class="option-container">
-        <div class="option-title">Edit Encounter Details</div>
-            <div class="option-content">
-                <table>
-                    <thead>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Encounter</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <select class="admin-select encounter edit" name="adminpanel-encounter">
-                                    <option value="">Select Encounter</option>
-                                    <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ): ?>
-                                        <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . ' - ' . $encounterDetails->_name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-                <div id="admin-encounter-listing"></div>
-            </div>
-            <div class="vertical-separator"></div>
-            <div class="option-footer"></div>
+<div class="col-md-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Edit Encounter Details</div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_ADMIN; ?>" autocomplete="off" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Encounter</label>
+                    <div class="col-lg-8 col-md-10">
+                        <select name="adminpanel-encounter"
+                                id="encounter-edit-select"
+                                class="form-control">
+                            <option value="">Select Encounter</option>
+                            <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ): ?>
+                                <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . ' - ' . $encounterDetails->_name; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div id="encounter-edit-content"></div>
+                <div class="form-group"> 
+                    <div class="text-center">
+                        <input type="hidden"
+                               name="form-type"
+                               value="encounter-admin">
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
+                        <button type="submit"
+                                name="action"
+                                class="btn btn-default"
+                                value="encounter-edit">
+                                <span class="glyphicon glyphicon-ok"></span>  Edit Encounter Details
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 
-    <div class="option-container">
-        <div class="option-title">Remove Existing Encounter</div>
-        <form class="admin-form encounter remove" id="form-encounter-remove" method="POST" action="<?php echo PAGE_ADMIN; ?>">
-            <div class="option-content">
-                <table>
-                    <thead>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Encounter Name</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <select class="admin-select encounter" name="adminpanel-encounter">
-                                    <option value="">Select Encounter</option>
-                                    <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ): ?>
-                                        <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . ' - ' . $encounterDetails->_name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-            </div>
-            <div class="vertical-separator"></div>
-            <div class="option-footer"><input class="admin-submit encounter remove" id="admin-submit-encounter-remove" type="submit" value="Remove Encounter" /></div>
-        </form>
+<div class="col-md-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Remove Existing Encounter</div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_ADMIN; ?>" autocomplete="off" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Encounter</label>
+                    <div class="col-lg-8 col-md-10">
+                        <select name="adminpanel-encounter"
+                                class="form-control">
+                            <option value="">Select Encounter</option>
+                            <?php foreach( CommonDataContainer::$encounterArray as $encounterId => $encounterDetails ): ?>
+                                <option value="<?php echo $encounterId; ?>"><?php echo $encounterDetails->_dungeon . ' - ' . $encounterDetails->_name; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <div class="text-center">
+                        <input type="hidden"
+                               name="form-type"
+                               value="encounter-admin">
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
+                        <button type="submit"
+                                name="action"
+                                class="btn btn-default"
+                                value="encounter-remove">
+                                <span class="glyphicon glyphicon-remove"></span>  Remove Encounter
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

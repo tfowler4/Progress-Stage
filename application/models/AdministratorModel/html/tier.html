@@ -1,153 +1,173 @@
-<span id="tier-anchor" class="anchor"></span>
-<div id="pane-tier">
-    <div id="tier-title" class="pane-title">Tier Admin</div>
+<div class="col-md-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Create A New Tier</div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_ADMIN; ?>" autocomplete="off" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Tier Name</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input type="text"
+                               name="adminpanel-tier-name"
+                               class="form-control"
+                               placeholder="Enter Tier Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Alt Tier Name</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input type="text"
+                               name="adminpanel-tier-alt-name"
+                               class="form-control"
+                               placeholder="Enter Shortened Tier Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Tier #</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input name="adminpanel-tier"
+                               class="form-control"
+                               value="<?php echo (reset(CommonDataContainer::$tierArray)->_tier+1); ?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Alt Tier #</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input name="adminpanel-tier-alt-number"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Start Date</label>
+                    <div class="form-inline col-lg-8 col-md-10">
+                       <select name="adminpanel-tier-start-month"
+                               class="form-control">
+                            <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
+                                <?php if ( $month == date('m') ): ?> 
+                                    <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
+                                <?php else: ?>
+                                    <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
 
-    <div class="vertical-separator"></div>
+                        <select name="adminpanel-tier-start-day"
+                                class="form-control">
+                            <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
+                                <?php if ( $day == date('d') ): ?> 
+                                    <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
+                                <?php else: ?>
+                                    <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
 
-    <div class="option-container">
-        <div class="option-title">Create New Tier</div>
-        <form class="admin-form tier" id="form-tier-add" method="POST" action="<?php echo PAGE_ADMIN; ?>">
-            <div class="option-content">
-                <table>
-                    <thead>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Tier Number (Base Number)</th>
-                        </tr>
-                         <tr>
-                            <td>
-                                <select class="admin-select tier number" name="adminpanel-tier">
-                                    <option value="<?php echo (reset(CommonDataContainer::$tierArray)->_tier+1); ?>"><?php echo (reset(CommonDataContainer::$tierArray)->_tier+1); ?></option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Alt Tier Number (Expansion Abbreviation + #)</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="admin-textbox tier name" name="adminpanel-tier-alt-number" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Tier Name</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="admin-textbox tier name" name="adminpanel-tier-name" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Alt Tier Name (Shortened Tier Name)</th>
-                        </tr>
-                            <td>
-                                <input class="admin-textbox" type="text" name="adminpanel-tier-alt-name" />
-                            </td>
-                        <tr>
-                        </tr>
-                        <tr>
-                            <th>Start Date</th>
-                        </tr>
-                        <tr>
-                            <td>
-                            <select class="admin-select month" name="adminpanel-tier-start-month">
-                                <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
-                                    <?php if ( $month == date('m') ): ?> 
-                                        <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
-                                    <?php else: ?>
-                                        <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
-                                    <?php endif; ?>
+                       <select name="adminpanel-tier-start-year"
+                               class="form-control">
+                            <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
+                                <?php if ( $year == date('Y') ): ?> 
+                                    <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
+                                <?php else: ?>
+                                    <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <div class="text-center">
+                        <input type="hidden"
+                               name="form-type"
+                               value="tier-admin">
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
+                        <button type="submit"
+                                name="action"
+                                class="btn btn-default"
+                                value="tier-add">
+                                <span class="glyphicon glyphicon-plus"></span>  Create Tier
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Edit Tier Details</div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_ADMIN; ?>" autocomplete="off" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2">Tier</label>
+                        <div class="col-lg-8 col-md-10">
+                            <select name="adminpanel-tier"
+                                    id="tier-edit-select"
+                                    class="form-control">
+                                <option value="">Select Tier</option>
+                                <?php foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ): ?>
+                                    <option value="<?php echo $tier; ?>"><?php echo $tier . ' - ' . $tierDetails->_name; ?></option>
                                 <?php endforeach; ?>
                             </select>
-                            <select class="admin-select day" name="adminpanel-tier-start-day">
-                                <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
-                                    <?php if ( $day == date('d') ): ?> 
-                                        <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
-                                    <?php else: ?>
-                                        <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
-                                    <?php endif; ?>
+                        </div>
+                    </div>
+                    <div id="tier-edit-content"></div>
+                    <div class="form-group"> 
+                        <div class="text-center">
+                            <input type="hidden"
+                                   name="form-type"
+                                   value="tier-admin">
+                            <input type="hidden"
+                                   name="active"
+                                   value="Active">
+                            <button type="submit"
+                                    name="action"
+                                    class="btn btn-default"
+                                    value="tier-edit">
+                                    <span class="glyphicon glyphicon-ok"></span>  Edit Tier Details
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
+
+<div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Remove Existing Tier</div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_ADMIN; ?>" autocomplete="off" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="" class="control-label col-lg-3 col-md-2">Tier</label>
+                        <div class="col-lg-8 col-md-10">
+                            <select name="adminpanel-tier"
+                                    class="form-control">
+                                <option value="">Select Tier</option>
+                                <?php foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ): ?>
+                                    <option value="<?php echo $tierDetails->_tierId; ?>"><?php echo $tier . ' - ' . $tierDetails->_name; ?></option>
                                 <?php endforeach; ?>
                             </select>
-                            <select class="admin-select year" name="adminpanel-tier-start-year">
-                                <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
-                                    <?php if ( $year == date('Y') ): ?> 
-                                        <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
-                                    <?php else: ?>
-                                        <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
+                        </div>
+                    </div>
+                    <div class="form-group"> 
+                        <div class="text-center">
+                            <input type="hidden"
+                                   name="form-type"
+                                   value="tier-admin">
+                            <input type="hidden"
+                                   name="active"
+                                   value="Active">
+                            <button type="submit"
+                                    name="action"
+                                    class="btn btn-default"
+                                    value="tier-remove">
+                                    <span class="glyphicon glyphicon-remove"></span>  Remove Tier
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="vertical-separator"></div>
-            <div class="option-footer"><input class="admin-submit tier" id="admin-submit-tier" type="submit" value="Add Tier" /></div>
-        </form>
-    </div>
-
-    <div class="option-container">
-        <div class="option-title">Edit Tier Details</div>
-            <div class="option-content">
-                <table>
-                    <thead>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Tier Name</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <select class="admin-select tier edit" name="adminpanel-tier">
-                                    <option value="">Select Tier</option>
-                                    <?php foreach( CommonDataContainer::$tierArray as $tierId => $tierDetails ): ?>
-                                        <option value="<?php echo $tierId; ?>"><?php echo $tierId . ' - ' . $tierDetails->_name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-                <div id="admin-tier-listing"></div>
-            </div>
-            <div class="vertical-separator"></div>
-            <div class="option-footer"></div>
-    </div>
-
-    <div class="option-container">
-        <div class="option-title">Remove Existing Tier</div>
-        <form class="admin-form tier remove" id="form-tier-remove" method="POST" action="<?php echo PAGE_ADMIN; ?>">
-            <div class="option-content">
-                <table>
-                    <thead>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Tier Name</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <select class="admin-select tier" name="adminpanel-tier">
-                                    <option value="">Select Tier</option>
-                                    <?php foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ): ?>
-                                        <option value="<?php echo $tierDetails->_tierId; ?>"><?php echo $tier . ' - ' . $tierDetails->_name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-            </div>
-            <div class="vertical-separator"></div>
-            <div class="option-footer"><input class="admin-submit tier remove" id="admin-submit-tier-remove" type="submit" value="Remove Tier" /></div>
-        </form>
-    </div>
+        </div>
 </div>

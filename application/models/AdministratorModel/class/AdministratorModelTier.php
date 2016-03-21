@@ -83,6 +83,107 @@ class AdministratorModelTier {
         $endDate   = explode(' ', $tierDetails->_dateEnd);
 
         $html = '';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Tier Name</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input type="hidden" name="adminpanel-tier-id" value="' . $tierDetails->_tierId . '">';
+        $html .= '<input type="text" name="adminpanel-tier-name" class="form-control" placeholder="Enter Tier Name" value="' . $tierDetails->_name . '">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Alt Tier Name</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input type="text" name="adminpanel-tier-alt-name" class="form-control" placeholder="Enter Shortened Tier Name" value="' . $tierDetails->_altTitle . '">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Tier #</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input type="text" name="adminpanel-tier-alt-name" class="form-control" placeholder="Enter Tier #" value="' . $tierDetails->_tier . '">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Alt Tier #</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input type="text" name="adminpanel-tier-alt-name" class="form-control" placeholder="Enter Alt Tier #" value="' . $tierDetails->_altTier . '">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Start Date</label>';
+        $html .= '<div class="form-inline col-lg-8 col-md-10">';
+        $html .= '<select name="adminpanel-tier-start-month" class="form-control">';
+        foreach( CommonDataContainer::$monthsArray as $month => $monthValue ) {
+            if ( $month == date('m', strtotime($tierDetails->_dateStart)) ) {
+                $html .= '<option value="<?php echo $month; ?>" selected>' . $monthValue . '</option>';
+            } else {
+                $html .= '<option value="<?php echo $month; ?>">' . $monthValue . '</option>';
+            }
+        }
+        $html .= '</select>';
+
+        $html .= '<select name="adminpanel-tier-start-day" class="form-control">';
+        foreach( CommonDataContainer::$daysArray as $day => $dayValue) {
+            if ( $day == $startDate[1] ) {
+                $html .= '<option value="<?php echo $day; ?>" selected>' . $dayValue . '</option>';
+            } else {
+                $html .= '<option value="<?php echo $day; ?>">' . $dayValue . '</option>';
+            }
+        }
+        $html .= '</select>';
+
+       $html .= '<select name="adminpanel-tier-start-year" class="form-control">';
+       foreach( CommonDataContainer::$yearsArray as $year => $yearValue) {
+           if ( $year == $startDate[2] ) {
+                $html .= '<option value="<?php echo $year; ?>" selected>' . $yearValue . '</option>';
+            } else {
+                $html .= '<option value="<?php echo $year; ?>">' . $yearValue . '</option>';
+            }
+        }
+        $html .= '</select>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">End Date</label>';
+        $html .= '<div class="form-inline col-lg-8 col-md-10">';
+        $html .= '<select name="adminpanel-tier-end-month" class="form-control">';
+        foreach( CommonDataContainer::$monthsArray as $month => $monthValue ) {
+             if ( ($tierDetails->_dateEnd != 'Currently Active') && ($month == date('m', strtotime($tierDetails->_dateEnd))) ) {
+                $html .= '<option value="<?php echo $month; ?>" selected>' . $monthValue . '</option>';
+            } else {
+                $html .= '<option value="<?php echo $month; ?>">' . $monthValue . '</option>';
+            }
+        }
+        $html .= '</select>';
+
+        $html .= '<select name="adminpanel-tier-end-day" class="form-control">';
+        foreach( CommonDataContainer::$daysArray as $day => $dayValue) {
+           if ( ($tierDetails->_dateEnd != 'Currently Active') && ($day == $endDate[1]) ) {
+                $html .= '<option value="<?php echo $day; ?>" selected>' . $dayValue . '</option>';
+            } else {
+                $html .= '<option value="<?php echo $day; ?>">' . $dayValue . '</option>';
+            }
+        }
+        $html .= '</select>';
+
+       $html .= '<select name="adminpanel-tier-end-year" class="form-control">';
+       foreach( CommonDataContainer::$yearsArray as $year => $yearValue) {
+            if ( ($tierDetails->_dateEnd != 'Currently Active') && ($year == $endDate[2]) ) {
+                $html .= '<option value="<?php echo $year; ?>" selected>' . $yearValue . '</option>';
+            } else {
+                $html .= '<option value="<?php echo $year; ?>">' . $yearValue . '</option>';
+            }
+        }
+        $html .= '</select>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        /*
         $html .= '<form class="admin-form tier edit details" id="form-tier-edit-details" method="POST" action="' . PAGE_ADMIN . '">';
         $html .= '<table class="admin-tier-listing">';
         $html .= '<thead>';
@@ -158,6 +259,7 @@ class AdministratorModelTier {
         $html .= '<input id="admin-submit-tier-edit-action" type="hidden" name="submit" value="submit" />';
         $html .= '<input id="admin-submit-tier-edit" type="submit" value="Submit" />';
         $html .= '</form>';
+        */
 
         return $html;
     }

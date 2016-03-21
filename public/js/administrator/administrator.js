@@ -1,7 +1,88 @@
-var Administrator = function() {
+var AdministratorEventBinder = function() {
     var activeDiv;
     var currentPageUrl;
 
+    // Display tier details from drop down selection
+    $(document).on('change', '#tier-edit-select', function() {
+        var tierId     = $(this).val();
+        currentPageUrl = document.URL;
+
+        $.ajax({
+            type:    'POST',
+            url:     currentPageUrl,
+            data:    {request: 'tier-edit', 'adminpanel-tier':tierId},
+            encode:  true,
+            success: function(data) {
+                activeDiv = $('#tier-edit-content');
+                activeDiv.html(data);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    });
+
+    // Display dungeon details from drop down selection
+    $(document).on('change', '#dungeon-edit-select', function() {
+        var dungeonId  = $(this).val();
+        currentPageUrl = document.URL;
+
+        $.ajax({
+            type:    'POST',
+            url:     currentPageUrl,
+            data:    {request: 'dungeon-edit', 'adminpanel-dungeon':dungeonId},
+            encode:  true,
+            success: function(data) {
+                activeDiv = $('#dungeon-edit-content');
+                activeDiv.html(data);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    });
+
+    // Display encounter details from drop down selection
+    $(document).on('change', '#encounter-edit-select', function() {
+        var encounterId = $(this).val();
+        currentPageUrl  = document.URL;
+
+        $.ajax({
+            type:    'POST',
+            url:     currentPageUrl,
+            data:    {request: 'encounter-edit', 'adminpanel-encounter':encounterId},
+            encode:  true,
+            success: function(data) {
+                activeDiv = $('#encounter-edit-content');
+                activeDiv.html(data);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    });
+
+    // Display guild details from drop down selection
+    $(document).on('change', '#guild-edit-select', function() {
+        var guildId    = $(this).val();
+        currentPageUrl = document.URL;
+
+        $.ajax({
+            type:    'POST',
+            url:     currentPageUrl,
+            data:    {request: 'guild-edit', 'adminpanel-guild':guildId},
+            encode:  true,
+            success: function(data) {
+                activeDiv = $('#admin-guild-listing');
+                activeDiv.html(data);
+            },
+            error:  function(data) {
+                console.log(data);
+            }
+        });
+    });
+
+    /*
     // Submit admin forms
     $(document).on('submit', '.admin-form', function(event) {
         event.preventDefault();
@@ -40,85 +121,11 @@ var Administrator = function() {
         });
     });
 
-    // Display guild details from drop down selection
-    $(document).on('change', '.admin-select.guild.edit', function() {
-        var guildId    = $(this).val();
-        currentPageUrl = document.URL;
 
-        $.ajax({
-            type:    'POST',
-            url:     currentPageUrl,
-            data:    {request: 'guild-edit', 'adminpanel-guild':guildId},
-            encode:  true,
-            success: function(data) {
-                activeDiv = $('#admin-guild-listing');
-                activeDiv.html(data);
-            },
-            error:  function(data) {
-                console.log(data);
-            }
-        });
-    });
 
-    // Display tier details from drop down selection
-    $(document).on('change', '.admin-select.tier.edit', function() {
-        var tierId     = $(this).val();
-        currentPageUrl = document.URL;
 
-        $.ajax({
-            type:    'POST',
-            url:     currentPageUrl,
-            data:    {request: 'tier-edit', 'adminpanel-tier':tierId},
-            encode:  true,
-            success: function(data) {
-                activeDiv = $('#admin-tier-listing');
-                activeDiv.html(data);
-            },
-            error: function(data) {
-                console.log(data);
-            }
-        });
-    });
 
-    // Display dungeon details from drop down selection
-    $(document).on('change', '.admin-select.dungeon.edit', function() {
-        var dungeonId  = $(this).val();
-        currentPageUrl = document.URL;
 
-        $.ajax({
-            type:    'POST',
-            url:     currentPageUrl,
-            data:    {request: 'dungeon-edit', 'adminpanel-dungeon':dungeonId},
-            encode:  true,
-            success: function(data) {
-                activeDiv = $('#admin-dungeon-listing');
-                activeDiv.html(data);
-            },
-            error: function(data) {
-                console.log(data);
-            }
-        });
-    });
-
-    // Display encounter details from drop down selection
-    $(document).on('change', '.admin-select.encounter.edit', function() {
-        var encounterId = $(this).val();
-        currentPageUrl  = document.URL;
-
-        $.ajax({
-            type:    'POST',
-            url:     currentPageUrl,
-            data:    {request: 'encounter-edit', 'adminpanel-encounter':encounterId},
-            encode:  true,
-            success: function(data) {
-                activeDiv = $('#admin-encounter-listing');
-                activeDiv.html(data);
-            },
-            error: function(data) {
-                console.log(data);
-            }
-        });
-    });
 
     // Display guild details from drop down selection
     $(document).on('change', '#admin-select-edit-kill', function() {
@@ -206,4 +213,5 @@ var Administrator = function() {
             }
         });
     });
+    */
 };

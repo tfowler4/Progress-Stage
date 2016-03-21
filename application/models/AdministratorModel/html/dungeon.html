@@ -1,172 +1,190 @@
-<span id="dungeon-anchor" class="anchor"></span>
-<div id="pane-dungeon">
-    <div id="dungeon-title" class="pane-title">Dungeon Admin</div>
+<div class="col-md-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Create A New Dungeon</div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_ADMIN; ?>" autocomplete="off" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Dungeon</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input type="text"
+                               name="adminpanel-dungeon"
+                               class="form-control"
+                               placeholder="Enter Dungeon Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Abbreviation</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input name="adminpanel-dungeon-abbreviation"
+                               class="form-control"
+                               placeholder="Enter Dungeon Abbreviation">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Tier Name</label>
+                    <div class="col-lg-8 col-md-10">
+                       <select name="adminpanel-dungeon-tier"
+                               class="form-control">
+                            <?php foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ): ?>
+                                <option value="<?php echo $tierDetails->_tier; ?>"><?php echo $tier . ' - ' . $tierDetails->_name; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Raid Size</label>
+                    <div class="col-lg-8 col-md-10">
+                       <select name="adminpanel-dungeon-players"
+                               class="form-control">
+                            <?php foreach ( unserialize (RAID_SIZES) as $raidSize ): ?>
+                                <option value="<?php echo $raidSize; ?>"><?php echo $raidSize . '-Man'; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Start Date</label>
+                    <div class="form-inline col-lg-8 col-md-10">
+                       <select name="adminpanel-tier-launch-month"
+                               class="form-control">
+                            <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
+                                <?php if ( $month == date('m') ): ?> 
+                                    <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
+                                <?php else: ?>
+                                    <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
 
-    <div class="vertical-separator"></div>
+                        <select name="adminpanel-tier-launch-day"
+                                class="form-control">
+                            <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
+                                <?php if ( $day == date('d') ): ?> 
+                                    <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
+                                <?php else: ?>
+                                    <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
 
-    <div class="option-container">
-        <div class="option-title">Create Dungeon</div>
-        <form class="admin-form dungeon" id="form-dungeon-add" method="POST" action="<?php echo PAGE_ADMIN; ?>">
-            <div class="option-content">
-                <table>
-                    <thead>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Dungeon Name</th>
-                        </tr>
-                        <tr>
-                            <td><input class="admin-textbox" type="text" name="adminpanel-dungeon" /></td>
-                        </tr>
-                        <tr>
-                            <th>Tier Name</th>
-                        </tr>
-                         <tr>
-                            <td>
-                                <select class="admin-select tier name" name="adminpanel-dungeon-tier">
-                                    <?php foreach( CommonDataContainer::$tierArray as $tier => $tierDetails ): ?>
-                                        <option value="<?php echo $tierDetails->_tier; ?>"><?php echo $tier . ' - ' . $tierDetails->_name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Abbreviation</th>
-                        </tr>
-                         <tr>
-                            <td><input class="admin-textbox" type="text" name="adminpanel-dungeon-abbreviation" /></td>
-                        </tr>
-                        <tr>
-                            <th>Raid Size</th>
-                        </tr>
-                         <tr>
-                            <td>
-                                <select class="admin-select raid-size name" name="adminpanel-dungeon-players">
-                                    <?php foreach ( unserialize (RAID_SIZES) as $raidSize ): ?>
-                                        <option value="<?php echo $raidSize; ?>"><?php echo $raidSize . '-Man'; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Launch Date</th>
-                        </tr>
-                        <tr>
-                            <td>
-                            <select class="admin-select month" name="adminpanel-dungeon-launch-month">
-                                <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
-                                    <?php if ( $month == date('m') ): ?> 
-                                        <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
-                                    <?php else: ?>
-                                        <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </select>
-                            <select class="admin-select day" name="adminpanel-dungeon-launch-day">
-                                <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
-                                    <?php if ( $day == date('d') ): ?> 
-                                        <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
-                                    <?php else: ?>
-                                        <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </select>
-                            <select class="admin-select year" name="adminpanel-dungeon-launch-year">
-                                <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
-                                    <?php if ( $year == date('Y') ): ?> 
-                                        <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
-                                    <?php else: ?>
-                                        <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Dungeon Type</th>
-                        </tr>
-                         <tr>
-                            <td>
-                                <select class="admin-select type name" name="adminpanel-dungeon-type">
-                                    <option value="0">0 - Standard Dungeon</option>
-                                    <option value="1">1 - Special Dungeon (Unranked)</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>EU Time Difference</th>
-                        </tr>
-                         <tr>
-                            <td><input class="admin-textbox" type="text" name="adminpanel-eu-diff" value="0" /></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-            </div>
-            <div class="vertical-separator"></div>
-            <div class="option-footer"><input class="admin-submit dungeon" id="admin-submit-dungeon" type="submit" value="Add Dungeon" /></div>
-        </form>
+                       <select name="adminpanel-tier-launch-year"
+                               class="form-control">
+                            <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
+                                <?php if ( $year == date('Y') ): ?> 
+                                    <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
+                                <?php else: ?>
+                                    <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Type</label>
+                    <div class="col-lg-8 col-md-10">
+                       <select name="adminpanel-dungeon-type"
+                               class="form-control">
+                            <?php foreach ( unserialize (DUNGEON_TYPES) as $typeId => $type ): ?>
+                                <option value="<?php echo $typeId; ?>"><?php echo $typeId . ' - ' .$type; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <div class="text-center">
+                        <input type="hidden"
+                               name="form-type"
+                               value="dungeon-admin">
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
+                        <button type="submit"
+                                name="action"
+                                class="btn btn-default"
+                                value="dungeon-add">
+                                <span class="glyphicon glyphicon-plus"></span>  Create Dungeon
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 
-    <div class="option-container">
-        <div class="option-title">Edit Dungeon Details</div>
-            <div class="option-content">
-                <table>
-                    <thead>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Dungeon Name</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <select class="admin-select dungeon edit" name="adminpanel-dungeon">
-                                    <option value="">Select Dungeon</option>
-                                    <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
-                                        <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-                <div id="admin-dungeon-listing"></div>
-            </div>
-            <div class="vertical-separator"></div>
-            <div class="option-footer"></div>
+<div class="col-md-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Edit Dungeon Details</div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_ADMIN; ?>" autocomplete="off" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Dungeon</label>
+                    <div class="col-lg-8 col-md-10">
+                        <select name="adminpanel-dungeon"
+                                id="dungeon-edit-select"
+                                class="form-control">
+                            <option value="">Select Dungeon</option>
+                            <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
+                                <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div id="dungeon-edit-content"></div>
+                <div class="form-group"> 
+                    <div class="text-center">
+                        <input type="hidden"
+                               name="form-type"
+                               value="dungeon-admin">
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
+                        <button type="submit"
+                                name="action"
+                                class="btn btn-default"
+                                value="dungeon-edit">
+                                <span class="glyphicon glyphicon-ok"></span>  Edit Dungeon Details
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 
-    <div class="option-container">
-        <div class="option-title">Remove Existing Dungeon</div>
-        <form class="admin-form dungeon remove" id="form-dungeon-remove" method="POST" action="<?php echo PAGE_ADMIN; ?>">
-            <div class="option-content">
-                <table>
-                    <thead>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Dungeon Name</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <select class="admin-select dungeon" name="adminpanel-dungeon">
-                                    <option value="">Select Dungeon</option>
-                                    <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
-                                        <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-            </div>
-            <div class="vertical-separator"></div>
-            <div class="option-footer"><input class="admin-submit dungeon remove" id="admin-submit-dungeon-remove" type="submit" value="Remove Dungeon" /></div>
-        </form>
+<div class="col-md-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Remove Existing Dungeon</div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_ADMIN; ?>" autocomplete="off" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Dungeon</label>
+                    <div class="col-lg-8 col-md-10">
+                        <select name="adminpanel-dungeon"
+                                class="form-control">
+                            <option value="">Select Dungeon</option>
+                            <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
+                                <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <div class="text-center">
+                        <input type="hidden"
+                               name="form-type"
+                               value="dungeon-admin">
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
+                        <button type="submit"
+                                name="action"
+                                class="btn btn-default"
+                                value="dungeon-remove">
+                                <span class="glyphicon glyphicon-remove"></span>  Remove Dungeon
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

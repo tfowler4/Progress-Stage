@@ -5,7 +5,7 @@
  */
 class NewsModel extends Model {
     protected $_article;
-    protected $_recentRaids       = array();
+    //protected $_recentRaids       = array();
     protected $_newsArticles      = array();
     protected $_videoLinks        = array();
     protected $_guildRankings     = array();
@@ -45,7 +45,7 @@ class NewsModel extends Model {
         $this->_newsArticles   = $this->_getArticles($this->_article, self::LIMIT_NEWS);
         $this->_guildStandings = $this->_getStandings(self::STANDINGS_DISPLAY, self::LIMIT_GUILD_STANDINGS);
         $this->_guildRankings  = $this->_getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
-        $this->_recentRaids    = $this->_getRecentRaids(self::LIMIT_RECENT_RAIDS);
+        //$this->_recentRaids    = $this->_getRecentRaids(self::LIMIT_RECENT_RAIDS);
     }
 
     /**
@@ -253,6 +253,7 @@ class NewsModel extends Model {
      * 
      * @return array [ array of encounter kill data entries ]
      */
+    /*
     private function _getRecentRaids($limit) {
         $dbh          = DbFactory::getDbh();
         $dataArray    = array();
@@ -330,6 +331,7 @@ class NewsModel extends Model {
 
         return $euAlignArray;
     }
+    */
 
     /**
      * get news article query

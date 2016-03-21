@@ -27,5 +27,72 @@
     </div>
 </nav>
 
-
 <?php echo Advertisement::getLeaderboardAd(); ?>
+
+<?php if ( !empty(CommonDataContainer::$recentRaidsArray) ): ?>
+    <div class="container-fluid">
+        <div class="col-lg-offset-1 col-lg-10">
+            <div class="row">
+                <div class="col-md-12 hidden-xs hidden-sm" style="margin-top:5px; margin-bottom:5px;">
+                    <div id="carouselLatestKills" class="carousel slide" data-interval="false" data-ride="carousel" style="width:100%; height:80px; z-index:1000;">
+                        <div class="carousel-inner" role="listbox" style="height:80px; margin:0 auto; padding-left:25px; padding-right:25px;">
+                            <?php $numOfKills  = count(CommonDataContainer::$recentRaidsArray); ?>
+                            <?php $numOfSlides = floor($numOfKills / 9); ?>
+                            <?php $slideArray  = array(); ?>
+                            <?php $slideCount  = 0; ?>
+                            <?php $killCount   = 0; ?>
+                            <?php $html        = ''; ?>
+
+                            <?php foreach( CommonDataContainer::$recentRaidsArray as $key => $timestamp ): ?>
+                                <?php
+                                    $html .= '<div class="text-cut" style="float:left; width:150px; padding-left: 5px; padding-right: 5px; border-right: 1px solid #000;">
+                                        <a href="' . Functions::generateInternalHyperLink('guild', '', CommonDataContainer::$recentRaidsArray[$key]->server, CommonDataContainer::$recentRaidsArray[$key]->name, 0, false) . '"></a>
+                                        <div class="latest-guild">' . CommonDataContainer::$recentRaidsArray[$key]->guild . '</div>
+                                        <div class="latest-kill">' . CommonDataContainer::$recentRaidsArray[$key]->encounter . '</div>
+                                        <div class="latest-time">' . CommonDataContainer::$recentRaidsArray[$key]->time . '</div>
+                                        <div class="latest-media">
+                                            SS: ' . CommonDataContainer::$recentRaidsArray[$key]->screenshot . '
+                                              |  
+                                            Vid: ' . CommonDataContainer::$recentRaidsArray[$key]->video . '
+                                        </div>
+                                    </div>';
+                                ?>
+
+                                <?php $killCount++; ?>
+
+                                <?php if ( $killCount % $numOfSlides == 0 ): ?>
+                                    <?php $slideArray[] = $html; ?>
+                                    <?php $html = ''; ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+
+                            <?php $slideCount = 0; ?>
+                            <?php foreach( $slideArray as $slide ): ?>
+                                <?php $activeClass = ''; ?>
+
+                                <?php if ( $slideCount == 0 ): ?>
+                                    <?php $activeClass = ' active'; ?>
+                                <?php endif; ?>
+
+                                <div class="item<?php echo $activeClass; ?>">
+                                    <?php echo $slide; ?>
+                                </div>
+
+                                <?php $slideCount++; ?>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <a class="left carousel-control" href="#carouselLatestKills" role="button" data-slide="prev" style="width:20px;">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#carouselLatestKills" role="button" data-slide="next" style="width:20px;">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>

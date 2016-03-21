@@ -33,8 +33,10 @@ define('DEFAULT_SKIN',         'default');
 // supported skins
 define('SITE_SKINS', serialize(array('default' => 'Default', 'rift' => 'Classic (Dark Red/Black)')));
 
-define('FACTIONS',   serialize(array('Defiant', 'Guardian')));
-define('RAID_SIZES', serialize(array('20', '10')));
+define('FACTIONS',        serialize(array('Defiant', 'Guardian')));
+define('RAID_SIZES',      serialize(array('20', '10')));
+define('ENCOUNTER_TYPES', serialize(array('0' => 'Standard Encounter', '1' => 'Hard Mode / Increased Difficulty', '2' => 'Special Event / Achievement')));
+define('DUNGEON_TYPES',   serialize(array('0' => 'Standard Dungeon', '1' => 'Special Dungeon (Unranked)')));
 
 define('GOOGLE_ANALYTICS', "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

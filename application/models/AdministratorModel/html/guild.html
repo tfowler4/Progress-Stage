@@ -1,157 +1,207 @@
-<span id="guild-anchor" class="anchor"></span>
-<div id="pane-guild">
-    <div id="guild-title" class="pane-title">Guild Admin</div>
+<div class="col-md-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Create A New Guild</div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_ADMIN; ?>" autocomplete="off" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Guild Name</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input type="text"
+                               name="adminpanel-encounter"
+                               class="form-control"
+                               placeholder="Enter Encounter Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Display Name</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input name="adminpanel-encounter-display-name"
+                               class="form-control"
+                               placeholder="Enter Display Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Short Name</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input name="adminpanel-encounter-short-name"
+                               class="form-control"
+                               placeholder="Enter Shortened Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Dungeon</label>
+                    <div class="col-lg-8 col-md-10">
+                       <select name="adminpanel-encounter-dungeon-id"
+                               class="form-control">
+                            <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
+                                <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Raid Size</label>
+                    <div class="col-lg-8 col-md-10">
+                       <select name="adminpanel-dungeon-players"
+                               class="form-control">
+                            <?php foreach ( unserialize (RAID_SIZES) as $raidSize ): ?>
+                                <option value="<?php echo $raidSize; ?>"><?php echo $raidSize . '-Man'; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Launch Date</label>
+                    <div class="form-inline col-lg-8 col-md-10">
+                       <select name="adminpanel-encounter-launch-month"
+                               class="form-control">
+                            <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
+                                <?php if ( $month == date('m') ): ?> 
+                                    <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
+                                <?php else: ?>
+                                    <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
 
-    <div class="vertical-separator"></div>
+                        <select name="adminpanel-encounter-launch-day"
+                                class="form-control">
+                            <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
+                                <?php if ( $day == date('d') ): ?> 
+                                    <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
+                                <?php else: ?>
+                                    <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
 
-    <div class="option-container">
-        <div class="option-title">Add Guild</div>
-        <form class="admin-form guild" id="form-guild-add" method="POST" action="<?php echo PAGE_ADMIN; ?>" enctype="multipart/form-data">
-            <div class="option-content">
-                <table>
-                    <thead>
-                    </thead>
-                    <tbody>
-                         <tr>
-                            <th>Guild Name</th>
-                        </tr>
-                            <td><input class="admin-textbox" type="text" name="adminpanel-guild" /></td>
-                        <tr>
-                        <tr>
-                            <th>Server</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <select class="admin-select server" name="adminpanel-server">
-                                    <option value="">Select Server</option>
-                                    <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails ): ?>
-                                        <option value="<?php echo $serverId; ?>"><?php echo $serverDetails->_region . ' - ' . $serverDetails->_name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Country</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <select class="admin-select country" name="adminpanel-country">
-                                    <option value="">Select Country</option>
-                                    <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails ): ?>
-                                        <option value="<?php echo $countryId; ?>"><?php echo $countryDetails->_name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Faction</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <select class="admin-select faction" name="adminpanel-faction">
-                                    <option value="">Select Faction</option>
-                                    <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
-                                        <option value="<?php echo $factionId; ?>"><?php echo $factionDetails->_name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Guild Leader</th>
-                        </tr>
-                        <tr>
-                            <td><input class="admin-textbox" type="text" name="adminpanel-guild-leader"></td>
-                        </tr>
-                        <tr>
-                            <th>Website</th>
-                        </tr>
-                        <tr>
-                            <td><input class="admin-textbox" type="text" name="adminpanel-website"></td>
-                        </tr>
-                        <tr>
-                            <th>Facebook</th>
-                        </tr>
-                        <tr>
-                            <td><input class="admin-textbox" type="text" name="adminpanel-facebook"></td>
-                        </tr>
-                        <tr>
-                            <th>Twitter</th>
-                        </tr>
-                        <tr>
-                            <td><input class="admin-textbox" type="text" name="adminpanel-twitter"></td>
-                        </tr>
-                        <tr>
-                            <th>Guild Logo</th>
-                        </tr>
-                        <tr>
-                            <td><input class="admin-textbox" type="file" name="adminpanel-screenshot"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="vertical-separator"></div>
-            <div class="option-footer"><input class="admin-submit guild" id="admin-submit-guild" type="submit" value="Add Guild" /></div>
-        </form>
+                       <select name="adminpanel-encounter-launch-year"
+                               class="form-control">
+                            <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
+                                <?php if ( $year == date('Y') ): ?> 
+                                    <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
+                                <?php else: ?>
+                                    <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Type</label>
+                    <div class="col-lg-8 col-md-10">
+                       <select name="adminpanel-encounter-type"
+                               class="form-control">
+                            <?php foreach ( unserialize (ENCOUNTER_TYPES) as $typeId => $type ): ?>
+                                <option value="<?php echo $typeId; ?>"><?php echo $typeId . ' - ' .$type; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Mob Order</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input name="adminpanel-encounter-mob-order"
+                               class="form-control"
+                               placeholder="Enter Mob Order">
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <div class="text-center">
+                        <input type="hidden"
+                               name="form-type"
+                               value="encounter-admin">
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
+                        <button type="submit"
+                                name="action"
+                                class="btn btn-default"
+                                value="encounter-add">
+                                <span class="glyphicon glyphicon-plus"></span>  Create Encounter
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 
-    <div class="option-container">
-        <div class="option-title">Edit Guild Details</div>
-            <div class="option-content">
-                <table>
-                    <thead>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Guild Name</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <select class="admin-select guild edit" name="adminpanel-guild">
-                                    <option value="">Select Guild</option>
-                                    <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
-                                        <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-                <div id="admin-guild-listing"></div>
-            </div>
-            <div class="vertical-separator"></div>
-            <div class="option-footer"></div>
+<div class="col-md-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Edit Guild Details</div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_ADMIN; ?>" autocomplete="off" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Guild</label>
+                    <div class="col-lg-8 col-md-10">
+                        <select name="adminpanel-guild"
+                                id="guild-edit-select"
+                                class="form-control">
+                            <option value="">Select Guild</option>
+                            <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
+                                <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div id="guild-edit-content"></div>
+                <div class="form-group"> 
+                    <div class="text-center">
+                        <input type="hidden"
+                               name="form-type"
+                               value="guild-admin">
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
+                        <button type="submit"
+                                name="action"
+                                class="btn btn-default"
+                                value="guild-edit">
+                                <span class="glyphicon glyphicon-ok"></span>  Edit Guild Details
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 
-    <div class="option-container">
-        <div class="option-title">Remove Existing Guild</div>
-        <form class="admin-form guild remove" id="form-guild-remove" method="POST" action="<?php echo PAGE_ADMIN; ?>">
-            <div class="option-content">
-                <table>
-                    <thead>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Guild Name</th>
-                        </tr>
-                        <tr>
-                            <td>
-                            <select name="adminpanel-guild">
-                                <option value="">Select Guild</option>
-                                <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
-                                    <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-            </div>
-            <div class="vertical-separator"></div>
-            <div class="option-footer"><input class="admin-submit guild remove" id="admin-submit-guild-remove" type="submit" value="Remove Guild" /></div>
-        </form>
+<div class="col-md-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Remove Existing Guild</div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_ADMIN; ?>" autocomplete="off" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Guild</label>
+                    <div class="col-lg-8 col-md-10">
+                        <select name="adminpanel-guild"
+                                class="form-control">
+                            <option value="">Select Guild</option>
+                            <?php foreach( CommonDataContainer::$guildArray as $guildId => $guildDetails ): ?>
+                                <option value="<?php echo $guildId; ?>"><?php echo $guildDetails->_name . ' - ' . $guildDetails->_server; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <div class="text-center">
+                        <input type="hidden"
+                               name="form-type"
+                               value="
+                               admin">
+                        <input type="hidden"
+                               name="active"
+                               value="Active">
+                        <button type="submit"
+                                name="action"
+                                class="btn btn-default"
+                                value="guild-remove">
+                                <span class="glyphicon glyphicon-remove"></span>  Remove Guild
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

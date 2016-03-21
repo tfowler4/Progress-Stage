@@ -699,9 +699,9 @@ class UpdateAllPointRankings extends Script {
                     $pointValues = explode('_', self::$_dungeonPointArray[$dungeonId]['QP'][$guildId]);
 
                     // If Final Encounter, make point value the final dungeon value
-                    if ( $dungeonDetails->_finalEncounterId == $encounterId && !isset($dungeonFinalEncounterCheck[$dungeonId]) ) {
+                    if ( $dungeonDetails->_finalEncounterId == $encounterId && !isset($dungeonFinalEncounterCheck[$dungeonId][$guildId] ) ) {
                         self::$_dungeonPointArray[$dungeonId]['QP'][$guildId]  = $qpValue . '_' . $pointValues[1];
-                        $dungeonFinalEncounterCheck[$dungeonId] = true;
+                        $dungeonFinalEncounterCheck[$dungeonId][$guildId] = true;
                     } else {
                         self::$_dungeonPointArray[$dungeonId]['QP'][$guildId]  = ($qpValue + $pointValues[0]) . '_' . $pointValues[1];
                     }

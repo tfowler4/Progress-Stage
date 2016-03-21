@@ -1,3 +1,50 @@
+<script>var eventBinder = new AdministratorEventBinder();</script>
+
+<div class="row">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#tier-admin" aria-controls="home" role="tab" data-toggle="tab">Tier Administration</a></li>
+        <li role="presentation"><a href="#dungeon-admin" aria-controls="home" role="tab" data-toggle="tab">Dungeon Administration</a></li>
+        <li role="presentation"><a href="#encounter-admin" aria-controls="home" role="tab" data-toggle="tab">Encounter Administration</a></li>
+        <li role="presentation"><a href="#guild-admin" aria-controls="home" role="tab" data-toggle="tab">Guild Administration</a></li>
+        <li role="presentation"><a href="#kill-admin" aria-controls="home" role="tab" data-toggle="tab">Kill Administration</a></li>
+        <li role="presentation"><a href="#news-admin" aria-controls="home" role="tab" data-toggle="tab">News Administration</a></li>
+        <li role="presentation"><a href="#site-admin" aria-controls="home" role="tab" data-toggle="tab">Site Utility</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <br>
+        <div role="tabpanel" class="tab-pane fade in active" id="tier-admin">
+            <?php include 'tier.html'; ?>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="dungeon-admin">
+            <?php include 'dungeon.html'; ?>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="encounter-admin">
+            <?php include 'encounter.html'; ?>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="guild-admin">
+            <?php include 'guild.html'; ?>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="kill-admin">
+            <!--<?php include 'user-profile.html'; ?>-->
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="news-admin">
+            <!--<?php include 'user-profile.html'; ?>-->
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="site-admin">
+            <!--<?php include 'user-profile.html'; ?>-->
+        </div>
+    </div>
+</div>
+
+
+<!--
 <script>var administrator = new Administrator();</script>
 
 <script type="text/javascript" src="<?php echo FOLD_INDEX; ?>/library/tinymce/tinymce.min.js"></script>
@@ -83,3 +130,4 @@
         <div class="vertical-separator"></div>
     </div>
 </div>
+-->

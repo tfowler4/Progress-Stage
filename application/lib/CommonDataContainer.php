@@ -23,6 +23,7 @@ class CommonDataContainer {
     public static $minutesArray;
     public static $timezonesArray;
     public static $encounterKillsArray;
+    public static $recentRaidsArray;
 
     /**
      * initialize
@@ -48,6 +49,7 @@ class CommonDataContainer {
         self::$hoursArray        = array();
         self::$minutesArray      = array();
         self::$timezonesArray    = array();
+        self::$recentRaidsArray  = array();
     }
 }
 

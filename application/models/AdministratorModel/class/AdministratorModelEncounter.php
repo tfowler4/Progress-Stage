@@ -112,6 +112,114 @@ class AdministratorModelEncounter {
         $launchDate = explode('-', $encounterDetails->_dateLaunch);
 
         $html = '';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Encounter</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input type="text" name="adminpanel-encounter" class="form-control" placeholder="Enter Encounter Name" value="' . $encounterDetails->_name . '">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Display Name</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input name="adminpanel-encounter-display-name" class="form-control" placeholder="Enter Display Name" value="' . $encounterDetails->_encounterName . '">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Short Name</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input name="adminpanel-encounter-short-name" class="form-control" placeholder="Enter Shortened Name" value="' . $encounterDetails->_encounterShortName . '">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Dungeon</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<select name="adminpanel-encounter-dungeon-id" class="form-control">';
+        foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ) {
+            $html .= '<option value="' . $dungeonId . '">' . $dungeonDetails->_name . '</option>';
+        }
+        $html .= '</select>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Raid Size</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<select name="adminpanel-dungeon-players" class="form-control">';
+        foreach ( unserialize (RAID_SIZES) as $raidSize ) {
+            if ( $raidSize == $encounterDetails->_raidSize ) {
+                $html .= '<option value="' . $raidSize . '" selected>' . $raidSize . '-Man</option>';
+            } else {
+                $html .= '<option value="' . $raidSize . '">' . $raidSize . '-Man</option>';
+            }
+        }
+        $html .= '</select>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Launch Date</label>';
+        $html .= '<div class="form-inline col-lg-8 col-md-10">';
+        $html .= '<select name="adminpanel-encounter-launch-month" class="form-control">';
+        foreach( CommonDataContainer::$monthsArray as $month => $monthValue ) {
+            if ( $month == date('m', strtotime($encounterDetails->_dateLaunch)) ) {
+                $html .= '<option value="' . $month . '" selected>' . $monthValue . '</option>';
+            } else {
+                $html .= '<option value="' . $month . '">' . $monthValue . '</option>';
+            }
+        }
+        $html .= '</select>';
+
+        $html .= '<select name="adminpanel-encounter-launch-day" class="form-control">';
+        foreach( CommonDataContainer::$daysArray as $day => $dayValue ) {
+            if ( $day == $launchDate[1] ) {
+                $html .= '<option value="' . $day . '" selected>' . $dayValue . '</option>';
+            } else {
+                $html .= '<option value="' . $day . '">' . $dayValue . '</option>';
+            }
+        }
+        $html .= '</select>';
+
+        $html .= '<select name="adminpanel-encounter-launch-year" class="form-control">';
+        foreach( CommonDataContainer::$yearsArray as $year => $yearValue ) {
+            if ( $year == $launchDate[0] ) {
+                $html .= '<option value="' . $year . '" selected>' . $yearValue . '</option>';
+            } else {
+                $html .= '<option value="' . $year . '">' . $yearValue . '</option>';
+            }
+        }
+        $html .= '</select>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Type</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<select name="adminpanel-encounter-type" class="form-control">';
+        foreach ( unserialize (ENCOUNTER_TYPES) as $typeId => $type ) {
+            $html .= '<option value="' . $typeId . '">' . $typeId . ' - ' .$type . '</option>';
+
+            if ( $typeId == $encounterDetails->_type ) {
+                $html .= '<option value="' . $typeId . '" selected>' . $typeId . ' - ' .$type . '</option>';
+            } else {
+                $html .= '<option value="' . $typeId . '">' . $typeId . ' - ' .$type . '</option>';
+            }
+        }
+        $html .= '</select>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Mob Order</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input name="adminpanel-encounter-mob-order" class="form-control" placeholder="Enter Mob Order" value="' . $encounterDetails->_encounterOrder . '">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        /*
         $html .= '<form class="admin-form encounter edit details" id="form-encounter-edit-details" method="POST" action="' . PAGE_ADMIN . '">';
         $html .= '<table class="admin-encounter-listing">';
         $html .= '<thead>';
@@ -159,6 +267,7 @@ class AdministratorModelEncounter {
         $html .= '<input id="admin-submit-tier-edit-action" type="hidden" name="submit" value="submit" />';
         $html .= '<input id="admin-submit-encounter-edit" type="submit" value="Submit" />';
         $html .= '</form>';
+        */
 
         return $html;
     }
