@@ -19,7 +19,7 @@ class RecentKillObject extends DataObject {
     public function __construct($guildDetails, $encounterId) {
         $encounterDetails   = $guildDetails->_encounterDetails->$encounterId;
         $encounterSpecifics = CommonDataContainer::$encounterArray[$encounterId];
-        $guildDetails->nameLength(10);
+        //$guildDetails->nameLength(20);
 
         $this->name       = $guildDetails->_name;
         $this->guild      = $guildDetails->_nameLink;
