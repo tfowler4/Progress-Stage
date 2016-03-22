@@ -73,10 +73,30 @@ var AdministratorEventBinder = function() {
             data:    {request: 'guild-edit', 'adminpanel-guild':guildId},
             encode:  true,
             success: function(data) {
-                activeDiv = $('#admin-guild-listing');
+                activeDiv = $('#guild-edit-content');
                 activeDiv.html(data);
             },
             error:  function(data) {
+                console.log(data);
+            }
+        });
+    });
+
+    // Display guild details from drop down selection
+    $(document).on('change', '#guild-remove-select', function() {
+        var guildId = $(this).val();
+        currentPageUrl  = document.URL;
+
+        $.ajax({
+            type:    'POST',
+            url:     currentPageUrl,
+            data:    {request: 'kill-remove-listing', 'adminpanel-kill-guild-id':guildId},
+            encode:  true,
+            success: function(data) {
+                activeDiv = $('#kill-remove-guild');
+                activeDiv.html(data);
+            },
+            error: function(data) {
                 console.log(data);
             }
         });

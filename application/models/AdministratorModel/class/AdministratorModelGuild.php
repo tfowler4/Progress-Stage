@@ -77,6 +77,111 @@ class AdministratorModelGuild {
      */
     public function editGuildHtml($guildDetails) {
         $html = '';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Name</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input hidden type="text" name="adminpanel-dungeon-id" value="' . $guildDetails->_guildId . '"/>';
+        $html .= '<input type="text" name="adminpanel-dungeon" class="form-control" placeholder="Enter Guild Name" value="' . $guildDetails->_name . '" readonly>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Guild Leader</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input type="text" name="adminpanel-dungeon" class="form-control" placeholder="Enter Guild Leader Name" value="' . $guildDetails->_leader . '">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Website</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input type="text" name="adminpanel-dungeon" class="form-control" placeholder="Enter Guild Website" value="' . $guildDetails->_website . '">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Faction</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<select name="adminpanel-dungeon-tier" class="form-control">';
+        foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ) {
+            if ( $factionDetails->_name == $guildDetails->_faction ) {
+                $html .= '<option value="' . $factionId . '" selected>' .  $factionDetails->_name . '</option>';
+            } else {
+                $html .= '<option value="' . $factionId . '">' .$factionDetails->_name . '</option>';
+            }
+        }
+        $html .= '</select>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Server</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<select name="adminpanel-dungeon-tier" class="form-control">';
+        foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails ) {
+            if ( $serverDetails->_name == $guildDetails->_server ) {
+                $html .= '<option value="' . $serverId . '" selected>' . $serverDetails->_region . ' - ' . $serverDetails->_name . '</option>';
+            } else {
+                $html .= '<option value="' . $serverId . '">' . $serverDetails->_region . ' - ' . $serverDetails->_name . '</option>';
+            }
+        }
+        $html .= '</select>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Country</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<select name="adminpanel-dungeon-tier" class="form-control">';
+        foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails ) {
+            if ( $countryDetails->_name == $guildDetails->_country ) {
+                $html .= '<option value="' . $countryId . '" selected>' .  $countryDetails->_name . '</option>';
+            } else {
+                $html .= '<option value="' . $countryId . '">' .$countryDetails->_name . '</option>';
+            }
+        }
+        $html .= '</select>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Facebook</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input type="text" name="adminpanel-dungeon" class="form-control" placeholder="Enter Facebook Handle" value="' . $guildDetails->_facebook . '">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Twitter</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input type="text" name="adminpanel-dungeon" class="form-control" placeholder="Enter Twitter Handle" value="' . $guildDetails->_twitter . '">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Guild Logo</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input type="file" name="adminpanel-guild-logo" class="form-control">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Active</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<select name="adminpanel-dungeon-tier" class="form-control">';
+        foreach( unserialize(GUILD_STATUS) as $statusId => $status ) {
+            if ( $statusId == $guildDetails->_active ) {
+                $html .= '<option value="' . $statusId . '" selected>' .  $statusId . ' - ' . $status . '</option>';
+            } else {
+                $html .= '<option value="' . $statusId . '">' .$statusId . ' - ' . $status . '</option>';
+            }
+        }
+        $html .= '</select>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        /*
         $html .= '<form class="admin-form guild edit details" id="form-guild-edit-details" method="POST" action="' . PAGE_ADMIN . '" >';
         $html .= '<table class="admin-guild-listing">';
         $html .= '<thead>';
@@ -134,7 +239,7 @@ class AdministratorModelGuild {
         $html .= '<input id="admin-submit-tier-edit-action" type="hidden" name="submit" value="submit" />';
         $html .= '<input id="admin-submit-guild-edit" type="submit" value="Submit" />';
         $html .= '</form>';
-
+        */
         return $html;
     }
 

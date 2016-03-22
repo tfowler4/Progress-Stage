@@ -268,6 +268,21 @@ class AdministratorModelKill {
      */
     public function removeKillHtml($guildDetails) {
         $html = '';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Encounter</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<select name="adminpanel-encounter-dungeon-id" id="guild-remove-kill-select" class="form-control">';
+        foreach ( (array)$guildDetails->_encounterDetails as $encounterId => $encounterDetails ) {
+            if ( isset($encounterDetails->_encounterId) ) {
+                $html .= '<option value="' . $encounterDetails->_encounterId . '">' . $encounterDetails->_dungeon . '-' . $encounterDetails->_encounterName . '</option>';
+            }
+        }
+        $html .= '</select>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        /*
         $html .= '<form class="admin-form kill remove" id="form-kill-remove" method="POST" action="' . PAGE_ADMIN . '">';
         $html .= '<table class="admin-remove-kill-listing">';
         $html .= '<tr><th>Encounter Name</th></tr>';
@@ -284,6 +299,7 @@ class AdministratorModelKill {
         $html .= '<input id="admin-submit-tier-edit-action" type="hidden" name="submit" value="submit" />';
         $html .= '<input id="admin-submit-kill-remove" type="submit" value="Remove" />';
         $html .='</form>';
+        */
 
         return $html;
     }

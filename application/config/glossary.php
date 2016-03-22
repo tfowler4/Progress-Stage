@@ -17,3 +17,5 @@
 
     define('SPREADSHEET_GLOSSARY_WORLD_FIRST',  serialize(array('World First', 'First guild to complete encounter in the world')));
     define('SPREADSHEET_GLOSSARY_REGION_FIRST', serialize(array('Region First', 'First guild to complete encounter in the region')));
+
+    define('GUILD_STATUS', serialize(array('0' => 'Inactive', '1' => 'Active')));

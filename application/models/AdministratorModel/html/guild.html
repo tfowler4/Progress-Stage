@@ -9,101 +9,85 @@
                         <input type="text"
                                name="adminpanel-encounter"
                                class="form-control"
-                               placeholder="Enter Encounter Name">
+                               placeholder="Enter Guild Name">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="" class="control-label col-lg-3 col-md-2">Display Name</label>
+                    <label for="" class="control-label col-lg-3 col-md-2">Guild Leader</label>
                     <div class="col-lg-8 col-md-10">
                         <input name="adminpanel-encounter-display-name"
                                class="form-control"
-                               placeholder="Enter Display Name">
+                               placeholder="Enter Guild Leader Name">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="" class="control-label col-lg-3 col-md-2">Short Name</label>
+                    <label for="" class="control-label col-lg-3 col-md-2">Website</label>
                     <div class="col-lg-8 col-md-10">
                         <input name="adminpanel-encounter-short-name"
                                class="form-control"
-                               placeholder="Enter Shortened Name">
+                               placeholder="Enter Guild Website">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="" class="control-label col-lg-3 col-md-2">Dungeon</label>
+                    <label for="" class="control-label col-lg-3 col-md-2">Faction</label>
                     <div class="col-lg-8 col-md-10">
                        <select name="adminpanel-encounter-dungeon-id"
                                class="form-control">
-                            <?php foreach( CommonDataContainer::$dungeonArray as $dungeonId => $dungeonDetails ): ?>
-                                <option value="<?php echo $dungeonId; ?>"><?php echo $dungeonDetails->_name; ?></option>
+                            <option value="">Select Faction</option>
+                            <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails): ?>
+                                <option value="<?php echo $factionId; ?>"><?php echo $factionDetails->_name; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="" class="control-label col-lg-3 col-md-2">Raid Size</label>
+                    <label for="" class="control-label col-lg-3 col-md-2">Server</label>
                     <div class="col-lg-8 col-md-10">
                        <select name="adminpanel-dungeon-players"
                                class="form-control">
-                            <?php foreach ( unserialize (RAID_SIZES) as $raidSize ): ?>
-                                <option value="<?php echo $raidSize; ?>"><?php echo $raidSize . '-Man'; ?></option>
+                            <option value="">Select Server</option>
+                            <?php foreach( CommonDataContainer::$serverArray as $serverId => $serverDetails): ?>
+                                <option value="<?php echo $serverId; ?>"><?php echo $serverDetails->_region . ' - ' . $serverDetails->_name; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="" class="control-label col-lg-3 col-md-2">Launch Date</label>
-                    <div class="form-inline col-lg-8 col-md-10">
-                       <select name="adminpanel-encounter-launch-month"
-                               class="form-control">
-                            <?php foreach( CommonDataContainer::$monthsArray as $month => $monthValue): ?>
-                                <?php if ( $month == date('m') ): ?> 
-                                    <option value="<?php echo $month; ?>" selected><?php echo $monthValue; ?></option>
-                                <?php else: ?>
-                                    <option value="<?php echo $month; ?>"><?php echo $monthValue; ?></option>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </select>
-
-                        <select name="adminpanel-encounter-launch-day"
-                                class="form-control">
-                            <?php foreach( CommonDataContainer::$daysArray as $day => $dayValue): ?>
-                                <?php if ( $day == date('d') ): ?> 
-                                    <option value="<?php echo $day; ?>" selected><?php echo $dayValue; ?></option>
-                                <?php else: ?>
-                                    <option value="<?php echo $day; ?>"><?php echo $dayValue; ?></option>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </select>
-
-                       <select name="adminpanel-encounter-launch-year"
-                               class="form-control">
-                            <?php foreach( CommonDataContainer::$yearsArray as $year => $yearValue): ?>
-                                <?php if ( $year == date('Y') ): ?> 
-                                    <option value="<?php echo $year; ?>" selected><?php echo $yearValue; ?></option>
-                                <?php else: ?>
-                                    <option value="<?php echo $year; ?>"><?php echo $yearValue; ?></option>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="" class="control-label col-lg-3 col-md-2">Type</label>
+                    <label for="" class="control-label col-lg-3 col-md-2">Country</label>
                     <div class="col-lg-8 col-md-10">
-                       <select name="adminpanel-encounter-type"
+                       <select name="adminpanel-dungeon-players"
                                class="form-control">
-                            <?php foreach ( unserialize (ENCOUNTER_TYPES) as $typeId => $type ): ?>
-                                <option value="<?php echo $typeId; ?>"><?php echo $typeId . ' - ' .$type; ?></option>
+                            <option value="">Select Country</option>
+                            <?php foreach( CommonDataContainer::$countryArray as $countryId => $countryDetails): ?>
+                                <option value="<?php echo $countryId; ?>"><?php echo $countryDetails->_name; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="" class="control-label col-lg-3 col-md-2">Mob Order</label>
+                    <label for="" class="control-label col-lg-3 col-md-2">Facebook</label>
                     <div class="col-lg-8 col-md-10">
-                        <input name="adminpanel-encounter-mob-order"
+                        <input name="adminpanel-encounter-short-name"
                                class="form-control"
-                               placeholder="Enter Mob Order">
+                               placeholder="Enter Facebook Handle">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-lg-3 col-md-2">Twitter</label>
+                    <div class="col-lg-8 col-md-10">
+                        <input name="adminpanel-encounter-short-name"
+                               class="form-control"
+                               placeholder="Enter Twitter Handle">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-lg-3 col-md-2" for="">Guild Logo</label>
+                    <div class="col-lg-8 col-md-10"> 
+                        <input type="file"
+                               name="register-guild-logo"
+                               class="form-control form-guild-logo"
+                               data-type="register"
+                               value="<?php echo $data->_formFields->guildLogo; ?>">
                     </div>
                 </div>
                 <div class="form-group"> 
@@ -118,7 +102,7 @@
                                 name="action"
                                 class="btn btn-default"
                                 value="encounter-add">
-                                <span class="glyphicon glyphicon-plus"></span>  Create Encounter
+                                <span class="glyphicon glyphicon-plus"></span>  Create Guild
                         </button>
                     </div>
                 </div>
