@@ -164,12 +164,12 @@ var GlobalEventBinder = function() {
     }
 
     // on click of submit on search modal
-    $(document).on('click touchstart', '#search-form-submit', function() {
+    $(document).on('click touchstart tap', '#search-form-submit', function() {
         getSearchResults();
     });
 
     // on click of "Add New Video" text link, a new 
-    $(document).on('click touchstart', '.new-video-link', function(event) {
+    $(document).on('click touchstart tap', '.new-video-link', function(event) {
         event.preventDefault();
 
         var videoLinkContainer     = $(this).parent().find('.video-link-container');
@@ -246,7 +246,7 @@ var GlobalEventBinder = function() {
     }
 
     // on click of modal activator link to process html before displaying modal
-    $(document).on('click touchstart', '.modal-activator', function() {
+    $(document).on('click touchstart tap', '.modal-activator', function(event) {
         var currentPageUrl = document.URL;
         var modalId        = $(this).attr('data-target');
         var modal          = modalId.replace("#", "");
@@ -269,13 +269,16 @@ var GlobalEventBinder = function() {
                 console.log("Details: " + desc + "\nError:" + err);
             },
             complete: function(data) {
-                $(modalId).modal("show");
+                $(modalId).modal("toggle");
             }
         });
+
+        event.preventDefault();
+        event.stopPropagation();
     });
 
     // on user clicking 'View' for videos to fetch all videos for that encounter/guild
-    $(document).on('click touchstart', '.video-activator', function() {
+    $(document).on('click touchstart tap', '.video-activator', function() {
         event.preventDefault();
 
         var currentPageUrl   = document.URL;
@@ -321,7 +324,7 @@ var GlobalEventBinder = function() {
     });
 
     // on click of "View as Spreadsheet" button, make ajax call to display spreadsheet popup
-    $(document).on('click touchstart', '.spreadsheet', function(event) {
+    $(document).on('click touchstart tap', '.spreadsheet', function(event) {
         event.preventDefault();
 
         var currentPageUrl   = document.URL;
