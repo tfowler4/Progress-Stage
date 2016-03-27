@@ -243,7 +243,9 @@ class GuildDetails extends DetailObject {
         }
 
         $this->_isEncounterDetailsSet[$encounterId] = true;
-        $this->_isDungeonDetailsSet[$dungeonId]     = true;
+
+        // Commented out as it was preventing spreadsheets from populating fully
+        //$this->_isDungeonDetailsSet[$dungeonId]     = true;
     }
 
     /**

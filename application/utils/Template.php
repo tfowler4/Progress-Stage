@@ -99,12 +99,12 @@ class Template {
         $html .= '<tr class="table-data">';
 
         foreach( $tableHeader as $tableHeaderValues ) {
-            $value = $tableHeaderValues['key'];
+            $value       = $tableHeaderValues['key'];
             $columnValue = $columnObject->$value;
 
             $html .= '<td';
-           
-           $html .= ' class="' . $tableHeaderValues['class'] . '"';
+
+            $html .= ' class="' . $tableHeaderValues['class'] . '"';
 
             if ( strpos($value, '->') > 0 ) {
                 $objArray = explode('->', $value);
@@ -162,7 +162,7 @@ class Template {
                                         $columnValue = '<a ' . $class . ' href="' . FOLD_KILLSHOTS . $columnObject->_guildId . '-' . $columnDetails[1]  . '" rel="lightbox["kill_shots"]">' . $objDetails->_datetime . '</a>';
                                     }
                                 } else {
-                                    $columnValue = '--';;
+                                    $columnValue = '--';
                                 }
                             }
                         }
@@ -381,7 +381,7 @@ class Template {
         $tierDetails    = CommonDataContainer::$tierArray[$dungeonDetails->_tier];
 
         $tableHeader = array(
-                array('header' => 'Rank',   'key' => '_rank',       'class' => ''),
+                array('header' => 'Rank',   'key' => '_rank',       'class' => 'text-center'),
                 array('header' => 'Guild',  'key' => '_nameLink',   'class' => ''),
                 array('header' => 'Server', 'key' => '_serverLink', 'class' => '')
             );
