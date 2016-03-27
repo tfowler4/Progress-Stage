@@ -187,7 +187,8 @@
 }
 
 .media-guild-logo {
-    margin-top: -60px;
+    max-height: 95px;
+    max-width: 400px;
 }
 
 #spreadsheetModal .modal-dialog {
