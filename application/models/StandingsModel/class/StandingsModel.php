@@ -136,6 +136,19 @@ class StandingsModel extends Model {
                     }
                 }
                 break;
+            case 'country':
+                foreach ( CommonDataContainer::$countryArray as $countryId => $countryDetails ) {
+                    $country = $countryDetails->_name;
+
+                    if ( isset($guildListing->listArray->country[$country]) ) {
+                        $this->_standingsArray[$country] = $guildListing->listArray->country[$country];
+                        $this->_standingsArray[$country]->tableFields = $this->_setTableFields($this->_tier, $this->_dungeon, $this->_encounter);
+                        $this->_standingsArray[$country]->headerText  = $country . ' Standings';
+
+                        $this->_dataDetails->setClears($this->_standingsArray[$country]->data);
+                    }
+                }
+                break;
         }
 
         if ( $this->_encounter ) {

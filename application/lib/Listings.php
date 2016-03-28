@@ -366,8 +366,8 @@ class Listings extends DataObject {
                 $guildListing->country = array();
 
                 foreach ( CommonDataContainer::$countryArray as $countryId => $countryDetails ) {
-                    $guildListing->country[$countryId]        = new GuildListingDetails();
-                    $guildListing->$country[$countryId]->data = (!empty($sortGuildArray['country'][$countryId]) ? $sortGuildArray['country'][$countryId] : array());
+                    $guildListing->country[$countryId]       = new GuildListingDetails();
+                    $guildListing->country[$countryId]->data = (!empty($sortGuildArray['country'][$countryId]) ? $sortGuildArray['country'][$countryId] : array());
                 }
 
                 break;

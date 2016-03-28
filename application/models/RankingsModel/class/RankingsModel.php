@@ -117,6 +117,19 @@ class RankingsModel extends Model {
                     }
                 }
                 break;
+            case 'country':
+                foreach ( CommonDataContainer::$countryArray as $countryId => $countryDetails ) {
+                    $country = $countryDetails->_name;
+
+                    if ( isset($guildListing->listArray->country[$country]) ) {
+                        $this->_rankingsArray[$country] = $guildListing->listArray->country[$country];
+                        $this->_rankingsArray[$country]->tableFields = $this->_setTableFields($this->_tier, $this->_dungeon, $this->_encounter);
+                        $this->_rankingsArray[$country]->headerText  = $country . ' Rankings';
+
+                        $this->_dataDetails->setClears($this->_rankingsArray[$country]->data);
+                    }
+                }
+                break;
         }
 
         $this->_setRankSystemDetails();
