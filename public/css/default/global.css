@@ -51,16 +51,16 @@
     font-size: 13px;
 }
 
-.dropdown-menu {
+.navbar-inverse .dropdown-menu {
     background-color: #222222;
 
 }
 
-.dropdown-menu li a {
+.navbar-inverse .dropdown-menu li a {
     color: #9d9d9d;
 }
 
-.dropdown-menu .divider {
+.navbar-inverse .dropdown-menu .divider {
     background-color: #9d9d9d;
     width: 90%;
     margin-left: auto;
@@ -79,7 +79,7 @@
 
 /* navbar collapse width settings */
 
-@media (max-width: 880px) {
+@media (max-width: 900px) {
     .navbar-collapse.collapse {
         display: none !important;
     }
@@ -94,16 +94,9 @@
     }
 }
 
-/* recent raid carousel resolution setting */
-@media (max-width: 1400px) {
-    .hidden-1420px {
-        display: none !important;
-    }
-}
-
 /* TEMPORARY HIGHLIGHT CLASS */
 .highlight {
-    color:red;
+    color: red;
 }
 
 /* remove element from display */

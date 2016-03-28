@@ -85,6 +85,22 @@ class AdministratorModelKill {
      */
     public function editKillSelectHtml($guildDetails) {
         $html = '';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Encounter</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<select id="kill-edit-encounter-select" name="adminpanel-kill-guild-id" class="form-control">';
+        $html .= '<option value="">Select Encounter</option>';
+        foreach ( (array)$guildDetails->_encounterDetails as $encounterId => $encounterDetails ) {
+            if ( isset($encounterDetails->_encounterId) ) {
+                $html .= '<option value="' . $encounterDetails->_encounterId . '">' . $encounterDetails->_dungeon . '-' . $encounterDetails->_encounterName . '</option>';
+            }
+        }
+        $html .= '</select>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        /*
         $html .= '<form class="admin-form kill edit" id="form-kill-edit" method="POST" action="' . PAGE_ADMIN . '">';
         $html .= '<table class="admin-edit-kill-listing">';
         $html .= '<tr><th>Encounter Name</th></tr>';
@@ -98,6 +114,7 @@ class AdministratorModelKill {
         $html .= '</select></td></tr>';
         $html .= '</table>';
         $html .='</form>';
+        */
 
         return $html;
     }
@@ -109,17 +126,144 @@ class AdministratorModelKill {
      * 
      * @return string [ return html containing specified dungeon details ]
      */
-    public function editKillDetailsHtml($encounterDetails) {
-        $videoArray = $encounterDetails['videos'];
+    public function editKillDetailsHtml($killDetails) {
+        $encounterDetails = CommonDataContainer::$encounterArray[$killDetails['encounter_id']];
+        print_r($encounterDetails);
 
-        $date = explode('-', $encounterDetails['date']);
-        $time = explode(':', $encounterDetails['time']);
+        $videoArray = $killDetails['videos'];
+
+        $date = explode('-', $killDetails['date']);
+        $time = explode(':', $killDetails['time']);
 
         $videoTypeArray      = array();
         $videoTypeArray['0'] = 'General Kill';
         $videoTypeArray['1'] = 'Encounter Guide';
 
         $html = '';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2">Encounter</label>';
+        $html .= '<div class="col-lg-8 col-md-10">';
+        $html .= '<input type="text" name="adminpanel-encounter" class="form-control" placeholder="Enter Encounter Name" readonly value="' . $encounterDetails->_name . '">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Date (M-D-Y)</label>';
+        $html .= '<div class="form-inline col-lg-7 col-md-10 col-sm-10 col-xs-10">';
+        $html .= '<select name="userpanel-month" class="form-control">';
+        foreach( CommonDataContainer::$monthsArray as $month => $monthValue ) {
+            if ( $month == $encounterDetails->_month ) {
+                $html .= '<option value="' . $month . '" selected>' . $monthValue . '</option>';
+            } else {
+                $html .= '<option value="' . $month . '">' . $monthValue . '</option>';
+            }
+        }
+        $html .= '</select>';
+
+        $html .= '<select name="userpanel-day" class="form-control">';
+        foreach( CommonDataContainer::$daysArray as $day => $dayValue ) {
+            if ( $day == $encounterDetails->_day ) {
+                $html .= '<option value="' . $day . '" selected>' . $dayValue . '</option>';
+            } else {
+                $html .= '<option value="' . $day . '">' . $dayValue . '</option>';
+            }
+        }
+        $html .= '</select>';
+
+        $html .= '<select name="userpanel-year" class="form-control">';
+        foreach( CommonDataContainer::$yearsArray as $year => $yearValue ) {
+            if ( $year == $encounterDetails->_year ) {
+                $html .= '<option value="' . $year . '" selected>' . $yearValue . '</option>';
+            } else {
+                $html .= '<option value="' . $year . '">' . $yearValue . '</option>';
+            }
+        }
+        $html .= '</select>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Time (H:M UTC)</label>';
+        $html .= '<div class="form-inline col-lg-7 col-md-10 col-sm-10 col-xs-10">';
+        $html .= '<select name="userpanel-hour" class="form-control">';
+        foreach( CommonDataContainer::$hoursArray as $hour => $hourValue ) {
+            if ( $hour == $encounterDetails->_hour ) {
+                $html .= '<option value="' . $hour . '" selected>' . $hourValue . '</option>';
+            } else {
+                $html .= '<option value="' . $hour . '">' . $hourValue . '</option>';
+            }
+        }
+        $html .= '</select>';
+
+        $html .= '<select name="userpanel-minute" class="form-control">';
+        foreach( CommonDataContainer::$minutesArray as $minute => $minuteValue ) {
+            if ( $minute == $encounterDetails->_minute ) {
+                $html .= '<option value="' . $minute . '" selected>' . $minuteValue . '</option>';
+            } else {
+                $html .= '<option value="' . $minute . '">' . $minuteValue . '</option>';
+            }
+        }
+        $html .= '</select>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+        $html .= '<label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Screenshot</label>';
+        $html .= '<div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">';
+        //$html .= '<input type="file" name="userpanel-screenshot" class="form-control form-screenshot" data-type="kill-edit" data-id="' . $guildDetails->_guildId . '">';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        $html .= '<div class="form-group">';
+            $html .= '<label for="" class="control-label col-lg-3 col-md-2 col-sm-2 col-xs-2">Kill Videos</label>';
+            $html .= '<div class="col-lg-7 col-md-10 col-sm-10 col-xs-10">';
+                $html .= '<div class="video-link-container">';
+                    $videoNum = 1;
+
+                    foreach( $encounterDetails->_videos as $videoId => $videoDetails ) {
+                        $html .= '<div class="video-link-wrapper">';
+                            $html .= '<input type="hidden" name="video-link-id[]" value="' . $videoId . '" />';
+                            $html .= '<div class="form-group">';
+                                $html .= '<label>Video # ' . $videoNum . '></label>';
+                                $html .= '<div class="input-group">';
+                                    $html .= '<span class="input-group-addon"><span class="glyphicon glyphicon-film"></span></span>';
+                                    $html .= '<input type="text" name="video-link-title[]" class="form-control"  id="user-form-video-title-' . $videoNum . '" placeholder="Notes/Title" value="' . $videoDetails->_notes . '">';
+                                $html .= '</div>';
+                            $html .= '</div>';
+                            $html .= '<div class="form-group">';
+                                $html .= '<div class="input-group">';
+                                    $html .= '<span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>';
+                                    $html .= '<input type="text" name="video-link-url[]" class="form-control" id="user-form-video-url-' . $videoNum . '" value="' . $videoDetails->_url . '">';
+                                $html .= '</div>';
+                            $html .= '</div>';
+                            $html .= '<div class="form-group">';
+                                $html .= '<label for="" class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-2">Type</label>';
+                                $html .= '<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">';
+                                    $html .= '<select name="video-link-type[]" class="form-control" id="user-form-video-type-' . $videoNum . '">';
+                                        foreach ( $videoTypeArray as $typeId => $type ) {
+                                            if ( $videoDetails->_type == $typeId ) {
+                                                $html .= '<option value="' . $typeId . '" selected>' . $type . '</option>';
+                                            } else {
+                                                $html .= '<option value="' . $typeId . '">' . $type . '</option>';
+                                            }
+                                        }
+
+                                        //$html .= '<option value="0" if ( $videoDetails->_type == '0' ) {selected}>General Kill</option>';
+                                        //$html .= '<option value="1" if ( $videoDetails->_type == '1' ) {selected}>Encounter Guide</option>';
+                                    $html .= '</select>';
+                                $html .= '</div>';
+                            $html .= '</div>';
+                        $html .= '</div>';
+
+                        $videoNum++;
+                    }
+                $html .= '</div>';
+
+                $html .= '<a class="btn btn-default new-video-link" href="#"><span class="glyphicon glyphicon-plus"></span>  Add New Video</a>';
+            $html .= '</div>';
+
+        /*
         $html .= '<form class="admin-form kill edit" id="form-kill-edit-details" method="POST" action="' . PAGE_ADMIN . '">';
         $html .= '<table class="admin-edit-kill-listing">';
         $html .= '<input hidden type="text" id="edit-kill-id" name="adminpanel-kill-id" value="' . $encounterDetails['kill_id'] . '"/>';
@@ -215,6 +359,7 @@ class AdministratorModelKill {
         $html .= '<input id="admin-submit-tier-edit-action" type="hidden" name="submit" value="submit" />';
         $html .= '<input id="admin-submit-kill-edit" type="submit" value="Submit" />';
         $html .='</form>';
+        */
 
         return $html;
     }

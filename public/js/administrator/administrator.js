@@ -82,9 +82,9 @@ var AdministratorEventBinder = function() {
         });
     });
 
-    // Display guild details from drop down selection
-    $(document).on('change', '#guild-remove-select', function() {
-        var guildId = $(this).val();
+    // Display kill details from drop down selection
+    $(document).on('change', '#kill-remove-select', function() {
+        var guildId     = $(this).val();
         currentPageUrl  = document.URL;
 
         $.ajax({
@@ -94,6 +94,47 @@ var AdministratorEventBinder = function() {
             encode:  true,
             success: function(data) {
                 activeDiv = $('#kill-remove-guild');
+                activeDiv.html(data);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    });
+
+    // Display guild encounters from drop down selection
+    $(document).on('change', '#kill-edit-guild-select', function() {
+        var guildId     = $(this).val();
+        currentPageUrl  = document.URL;
+
+        $.ajax({
+            type:    'POST',
+            url:     currentPageUrl,
+            data:    {request: 'kill-edit-listing', 'adminpanel-kill-guild-id':guildId},
+            encode:  true,
+            success: function(data) {
+                activeDiv = $('#kill-edit-guild-content');
+                activeDiv.html(data);
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    });
+
+    // Display encounter details from drop down selection
+    $(document).on('change', '#kill-edit-encounter-select', function() {
+        var guildId     = $('#kill-edit-guild-select').val();
+        var encounterId = $(this).val();
+        currentPageUrl  = document.URL;
+
+        $.ajax({
+            type:    'POST',
+            url:     currentPageUrl,
+            data:    {request: 'kill-edit-listing', 'adminpanel-kill-guild-id':guildId, 'adminpanel-kill-encounter-id' :encounterId},
+            encode:  true,
+            success: function(data) {
+                activeDiv = $('#kill-edit-content');
                 activeDiv.html(data);
             },
             error: function(data) {
@@ -159,29 +200,6 @@ var AdministratorEventBinder = function() {
             encode:  true,
             success: function(data) {
                 activeDiv = $('#admin-edit-kill-guild-listing');
-                activeDiv.html(data);
-            },
-            error: function(data) {
-                console.log(data);
-            }
-        });
-    });
-
-    // Display encounter details from drop down selection
-    $(document).on('change', '#kill-edit-encounter', function() {
-        var encounterId = $(this).val();
-        currentPageUrl  = document.URL;
-
-        var form    = $(this).closest('form');
-        var guildId = form.find("input[name=adminpanel-kill-guild-id]").val();
-
-        $.ajax({
-            type:    'POST',
-            url:     currentPageUrl,
-            data:    {request: 'kill-edit-listing', 'adminpanel-kill-guild-id':guildId, 'adminpanel-kill-encounter-id':encounterId},
-            encode:  true,
-            success: function(data) {
-                activeDiv = $('#admin-edit-kill-encounter-listing');
                 activeDiv.html(data);
             },
             error: function(data) {
