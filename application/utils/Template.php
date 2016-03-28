@@ -246,9 +246,11 @@ class Template {
 
             $html .= '<div class="col-lg-4 col-md-4 col-sm-4 text-center">';
                 $html .= '<div class="thumbnail top-guild">';
-                    $html .= self::getLogo($guildDetails);
+                    $html .= '<a href="' . Functions::generateInternalHyperLink('guild', $guildDetails->_faction, $guildDetails->_server, $guildDetails->_name, '', false) . '">' . self::getLogo($guildDetails) . '</a>';
                 $html .= '</div>';
-                    $html .= '<h3><strong>' . Functions::getImageFlag($guildDetails->_country, 'medium') . ' <span>' . Functions::shortName($guildDetails->_name, 20) . '</span></strong></h3>';
+                    $html .= '<h3><strong>';
+                        $html .= Functions::getImageFlag($guildDetails->_country, 'medium') . ' <span>' . Functions::shortName($guildDetails->_name, 20);
+                    $html .= '</span></strong></h3>';
                     
                     $html .= '<p><small style="font-size:100%;">';
                         if ( !empty($placeStr) && in_array('_dateCreated', $guildProperties) ) {
