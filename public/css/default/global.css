@@ -12,6 +12,7 @@
     -webkit-border-radius: 0 6px 6px 6px;
     -moz-border-radius: 0 6px 6px;
     border-radius: 0 6px 6px 6px;
+    color: #FFFFFF;
 }
 
 /* navbar hover menu */
@@ -42,6 +43,29 @@
 /* navbar hover menu */
 .dropdown-submenu.pull-left {
     float: none;
+}
+
+.dropdown-header {
+    color: #9d9d9d;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.dropdown-menu {
+    background-color: #222222;
+
+}
+
+.dropdown-menu li a {
+    color: #9d9d9d;
+}
+
+.dropdown-menu .divider {
+    background-color: #9d9d9d;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: .50;
 }
 
 /* navbar hover menu */
