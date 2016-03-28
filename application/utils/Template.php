@@ -234,20 +234,29 @@ class Template {
         foreach ( $topGuildArray as $guildId => $guildDetails ) {
             $placeStr = '';
 
-            foreach( $guildProperties as $property) {
-                if ( empty($placeStr) ) {
-                    $placeStr = $guildDetails->$property;
-                } else {
-                    $placeStr .= ' ' . $guildDetails->$property;
+            if ( !empty($guildProperties) ) {
+                foreach( $guildProperties as $property) {
+                    if ( empty($placeStr) ) {
+                        $placeStr = $guildDetails->$property;
+                    } else {
+                        $placeStr .= ' ' . $guildDetails->$property;
+                    }
                 }
             }
 
-            $html .= '<div class="col-lg-4 col-md-4 col-sm-4  text-center">';
+            $html .= '<div class="col-lg-4 col-md-4 col-sm-4 text-center">';
                 $html .= '<div class="thumbnail top-guild">';
                     $html .= self::getLogo($guildDetails);
                 $html .= '</div>';
-                            $html .= '<h3><strong>' . Functions::getImageFlag($guildDetails->_country, 'medium') . ' <span>' . Functions::shortName($guildDetails->_name, 20) . '</span></strong></h3>';
-                            $html .= '<p><small>' . Functions::convertToOrdinal($guildCount). ' - ' . $placeStr . '</small></p>';
+                    $html .= '<h3><strong>' . Functions::getImageFlag($guildDetails->_country, 'medium') . ' <span>' . Functions::shortName($guildDetails->_name, 20) . '</span></strong></h3>';
+                    
+                    $html .= '<p><small style="font-size:100%;">';
+                        if ( !empty($placeStr) && in_array('_dateCreated', $guildProperties) ) {
+                            $html .= 'Joined ' . $placeStr;
+                        } elseif ( !empty($placeStr) ) {
+                            $html .= Functions::convertToOrdinal($guildCount). ' - ' . $placeStr;
+                        }
+                    $html .= '</small></p>';
             $html .= '</div>';
 
             $guildCount++;

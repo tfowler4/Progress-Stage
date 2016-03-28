@@ -21,7 +21,11 @@
         </div>
     </div>
 
-    <div class="col-lg-9 col-lg-pull-3 hidden-xs"></div>
+    <div class="col-lg-9 col-lg-pull-3 hidden-xs">
+        <?php if ( !empty($data->_newGuildsArray) ): ?>
+            <?php echo Template::drawTopGuildPane($data->_newGuildsArray, array('_dateCreated')); ?>
+        <?php endif; ?>
+    </div>
 </div>
 
 <div class="row">
