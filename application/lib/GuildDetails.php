@@ -124,7 +124,7 @@ class GuildDetails extends DetailObject {
 
         // set country image and text
         $countryDetails     = CommonDataContainer::$countryArray[$this->_country];
-        $this->_countryLink = $this->_countryImage . '<span class="hidden-xs hidden-sm">' . $countryDetails->_name . '</span>';
+        $this->_countryLink = $this->_countryImage . '<span>' . $countryDetails->_name . '</span>';
 
         // set other guild options to either N/A or actual links
         if ( empty($this->_leader) )    { $this->_leader       = 'N/A'; }
