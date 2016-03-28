@@ -2,24 +2,14 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <div class="pull-left">
-            <?php echo Functions::getImageFlag($data->_guildDetails->_country, 'medium'); ?>
-        </div>
-        <div>
-            <span class="h2"style="margin-left:5px;"><?php echo $data->_guildDetails->_name; ?></span>
-            <p>
-                <small class="h5"style="margin-left:5px;">
-                    <?php echo $data->_guildDetails->_region . ' - ' . $data->_guildDetails->_server; ?>
-                </small>
-            </p>
-        </div>
+        <h2><?php echo $data->_guildDetails->_name; ?> <small><?php echo $data->_guildDetails->_region . ' - ' . $data->_guildDetails->_server; ?></small></h2>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-3 col-lg-push-9">
         <div class="panel panel-primary">
-            <div class="panel-heading text-center"><span class="h4"><?php echo $data->_guildDetails->_name; ?></span></div>
+            <div class="panel-heading text-center"><span class="h4">Guild Details</span></div>
             <div class="panel-body">
                 <table class="table table-condensed table-pane">
                     <thead>

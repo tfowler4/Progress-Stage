@@ -1,16 +1,6 @@
 <div class="row">
     <div class="col-xs-12">
-        <div class="pull-left">
-            <?php echo Functions::getImageFlag($data->_detailsPane->_country, 'medium'); ?>
-        </div>
-        <div>
-            <span class="h2" style="margin-left:5px;"><?php echo '   ' . $data->_detailsPane->_name; ?></span>
-            <p>
-                <small class="h5" style="margin-left:5px;">
-                    <?php echo $data->_tierDetails->_altTier . ' - ' . $data->_tierDetails->_name; ?>
-                </small>
-            </p>
-        </div>
+        <h2><?php echo $data->_detailsPane->_name; ?> <small><?php echo $data->_tierDetails->_altTier . ' - ' . $data->_tierDetails->_name; ?></small></h2>
     </div>
 </div>
 
