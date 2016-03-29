@@ -244,9 +244,11 @@ class Template {
                 }
             }
 
+            $href = Functions::generateInternalHyperLink('guild', $guildDetails->_faction, $guildDetails->_server, $guildDetails->_name, '', false);
+
             $html .= '<div class="col-lg-4 col-md-4 col-sm-4 text-center">';
                 $html .= '<div class="thumbnail top-guild">';
-                    $html .= '<a href="' . Functions::generateInternalHyperLink('guild', $guildDetails->_faction, $guildDetails->_server, $guildDetails->_name, '', false) . '">' . self::getLogo($guildDetails) . '</a>';
+                    $html .= '<a href="' . $href . '">' . self::getLogo($guildDetails) . '</a>';
                 $html .= '</div>';
                     $html .= '<h3><strong>';
                         $html .= Functions::getImageFlag($guildDetails->_country, 'medium') . ' <span>' . Functions::shortName($guildDetails->_name, 20);
