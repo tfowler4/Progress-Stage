@@ -15,6 +15,12 @@
     color: #FFFFFF;
 }
 
+.dropdown-submenu a:hover {
+    background-image: none !important;
+    background-color: transparent !important;
+    color: #FFFFFF !important;
+}
+
 /* navbar hover menu */
 .dropdown-submenu:hover>.dropdown-menu {
     display: block;
