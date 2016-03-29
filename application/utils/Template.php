@@ -254,13 +254,13 @@ class Template {
                         $html .= Functions::getImageFlag($guildDetails->_country, 'medium') . ' <span>' . Functions::shortName($guildDetails->_name, 20);
                     $html .= '</span></strong></h3>';
                     
-                    $html .= '<p><small style="font-size:100%;">';
+                    $html .= '<p>';
                         if ( !empty($placeStr) && in_array('_dateCreated', $guildProperties) ) {
                             $html .= 'Joined ' . $placeStr;
                         } elseif ( !empty($placeStr) ) {
                             $html .= Functions::convertToOrdinal($guildCount). ' - ' . $placeStr;
                         }
-                    $html .= '</small></p>';
+                    $html .= '</p>';
             $html .= '</div>';
 
             $guildCount++;

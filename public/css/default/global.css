@@ -15,6 +15,7 @@
     color: #FFFFFF;
 }
 
+/* navbar link hover effect for dropdown */
 .dropdown-submenu a:hover {
     background-image: none !important;
     background-color: transparent !important;
@@ -51,21 +52,25 @@
     float: none;
 }
 
+/* navbar dropdown header text that is unselectable */
 .dropdown-header {
     color: #9d9d9d;
     font-weight: bold;
     font-size: 13px;
 }
 
+/* background for navbar dropdown */
 .navbar-inverse .dropdown-menu {
     background-color: #222222;
 
 }
 
+/* text color for inverse navbar dropdown menu*/
 .navbar-inverse .dropdown-menu li a {
     color: #9d9d9d;
 }
 
+/* divider styling on a dropdown menu in an inverse navbar */
 .navbar-inverse .dropdown-menu .divider {
     background-color: #9d9d9d;
     width: 90%;
@@ -84,7 +89,6 @@
 }
 
 /* navbar collapse width settings */
-
 @media (max-width: 900px) {
     .navbar-collapse.collapse {
         display: none !important;
@@ -115,11 +119,13 @@
     margin-right: 4px;
 }
 
+/* thumbnail for top guild pane */
 .thumbnail.top-guild {
     height: 300px;
     padding-top: 50px;
 }
 
+/* hover effect for top guild pane logo */
 .thumbnail.top-guild:hover {
     border-color: #C0C0C0;
 }
@@ -209,6 +215,11 @@
     position: absolute;
 }
 
+.media-text-content h3 {
+    margin:-4px 0px 0px 5px;
+    color:#FFFFFF;
+}
+
 .media-guild-logo {
     max-height: 95px;
     max-width: 400px;
@@ -274,10 +285,6 @@ textarea {
 
 .panel-heading {
     background-color: #C0C0C0;
-}
-
-.bg-primary {
-    /* background-color: #C0C0C0; */
 }
 
 .panel {
@@ -396,4 +403,91 @@ body { padding-top: 55px; }
 
 .inactive {
     color: #333333;
+}
+
+.medal-icon {
+    height: 16px;
+    width: 16px;
+}
+
+.trend-icon-lrg {
+    height: 30px;
+    width: 30px;
+}
+
+.trend-icon-sml {
+    height: 20px;
+    width: 20px;
+}
+
+.footer-logo {
+    width: 225px;
+}
+
+.default-logo {
+    height: 200px;
+    width: 200px;
+}
+
+.social-media-icon-lrg {
+    height: 35px;
+    width: 35px;
+}
+
+.social-media-icon-sml {
+    height: 20px;
+    width: 20px;
+}
+
+hr {
+    height: 10px;
+    width: 0px;
+    padding: 0;
+    margin: 0;
+}
+
+.no-border {
+    border: 0;
+}
+
+.media-guild-logo {
+    max-height: 75px;
+    margin-top: 5px;
+}
+
+.ph-ad-leaderboard {
+    display: inline-block;
+    width: 728px;
+    height: 90px;
+    background-color: #000000;
+}
+
+.ph-ad-sidebar-lrg {
+    display: inline-block;
+    width: 300px;
+    height: 600px;
+    background-color:#000000;
+}
+
+.ph-ad-sidebar-med {
+    display: inline-block;
+    width: 300px;
+    height: 250px;
+    background-color: #000000;
+}
+
+.carousel-control {
+    width: 18%;
+}
+
+.panel-body.article {
+    padding: 0px 15px 10px 15px
+}
+
+.panel-footer.article {
+    padding: 6px 15px 6px 15px;
+}
+
+.clickable {
+    cursor: pointer;
 }

@@ -32,7 +32,7 @@ class TwitchDetails extends DetailObject {
             $height = $imageDimensions[1];
 
             if ( $width > 200 ) {
-                $class = 'class="img-responsive" style="margin-top:5px; max-height:75px;"';
+                $class = 'class="img-responsive media-guild-logo"';
             } else {
                 $class = 'style="margin-top: ' . (($height/4)*-1 - 10) . 'px;"';
             }

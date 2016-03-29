@@ -13,7 +13,7 @@ class Advertisement {
         $html .= '<div class="text-center">';
 
          if ( WEBSERVER == 0 ) {
-            $html .= '<div style="display:inline-block;width:728px;height:90px; background-color:#000000;" class="hidden-xs"></div>';
+            $html .= '<div class="ph-ad-leaderboard hidden-xs"></div>';
          } elseif ( WEBSERVER == 1 && AD_HEADER == 1 ) {
             $html .= '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                     <!-- Leaderboard - General -->
@@ -40,7 +40,7 @@ class Advertisement {
         $html .= '<div class="text-center">';
 
          if ( WEBSERVER == 0 ) {
-            $html .= '<div style="display:inline-block; width:300px;height:250px; background-color:#000000;"></div>';
+            $html .= '<div class="ph-ad-sidebar-med"></div>';
          } elseif ( WEBSERVER == 1 && AD_HEADER == 1 ) {
             $html = '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                     <!-- Sidebar - Medium -->
@@ -67,7 +67,7 @@ class Advertisement {
         $html .= '<div class="text-center">';
 
          if ( WEBSERVER == 0 ) {
-            $html .= '<div style="display:inline-block; width:300px;height:600px; background-color:#000000;"></div>';
+            $html .= '<div class="ph-ad-sidebar-lrg"></div>';
          } elseif ( WEBSERVER == 1 && AD_HEADER == 1 ) {
             $html .= '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                     <!-- Sidebar - Large -->
