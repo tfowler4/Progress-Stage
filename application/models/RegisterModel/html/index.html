@@ -13,14 +13,24 @@
 
 <div class="col-lg-9">
     <div class="row">
-        <div class="col-lg-offset-1 col-lg-7">
+        <div class="col-lg-3 text-center hidden-md hidden-sm hidden-xs">
+            <div class="faction-logo-preview-wrapper" data-type="register">
+                <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
+                    <div class="thumbnail faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
+                        <?php echo Functions::getImageFaction($factionDetails->_name); ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-xs-12">
             <div class="panel panel-primary">
                 <div class="panel-heading"><span class="h4">Registration</span></div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="<?php echo PAGE_REGISTER; ?>" autocomplete="off" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="">Username</label>
-                            <div class="col-lg-7 col-md-10">
+                            <label class="control-label col-lg-4 col-md-4" for="">Username</label>
+                            <div class="col-lg-8 col-md-8">
                                 <input type="text"
                                        name="register-username"
                                        class="form-control"
@@ -29,8 +39,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="">Email</label>
-                            <div class="col-lg-7 col-md-10">
+                            <label class="control-label col-lg-4 col-md-4" for="">Email</label>
+                            <div class="col-lg-8 col-md-8">
                                 <input type="email"
                                        name="register-email"
                                        class="form-control"
@@ -39,8 +49,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="">Password</label>
-                            <div class="col-lg-7 col-md-10">
+                            <label class="control-label col-lg-4 col-md-4" for="">Password</label>
+                            <div class="col-lg-8 col-md-8">
                                 <input type="password"
                                        name="register-password"
                                        class="form-control"
@@ -48,8 +58,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="">Retype Password</label>
-                            <div class="col-lg-7 col-md-10">
+                            <label class="control-label col-lg-4 col-md-4" for="">Retype Password</label>
+                            <div class="col-lg-8 col-md-8">
                                 <input type="password"
                                        name="register-retype-password"
                                        class="form-control"
@@ -57,8 +67,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="">Guild Name</label>
-                            <div class="col-lg-7 col-md-10">
+                            <label class="control-label col-lg-4 col-md-4" for="">Guild Name</label>
+                            <div class="col-lg-8 col-md-8">
                                 <input type="text"
                                        name="register-guild-name"
                                        class="form-control"
@@ -67,8 +77,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="">Guild Leader</label>
-                            <div class="col-lg-7 col-md-10">
+                            <label class="control-label col-lg-4 col-md-4" for="">Guild Leader</label>
+                            <div class="col-lg-8 col-md-8">
                                 <input type="text"
                                        name="register-guild-leader"
                                        class="form-control"
@@ -77,8 +87,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="">Website</label>
-                            <div class="col-lg-7 col-md-10">
+                            <label class="control-label col-lg-4 col-md-4" for="">Website</label>
+                            <div class="col-lg-8 col-md-8">
                                 <input type="text"
                                        name="register-website"
                                        class="form-control"
@@ -87,8 +97,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="">Faction</label>
-                            <div class="col-lg-7 col-md-10">
+                            <label class="control-label col-lg-4 col-md-4" for="">Faction</label>
+                            <div class="col-lg-8 col-md-8">
                                 <select name="register-faction"
                                         class="form-control form-faction"
                                         data-type="register">
@@ -100,8 +110,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="">Server</label>
-                            <div class="col-lg-7 col-md-10">
+                            <label class="control-label col-lg-4 col-md-4" for="">Server</label>
+                            <div class="col-lg-8 col-md-8">
                                 <select name="register-server"
                                         class="form-control">
                                     <option value="">Select Server</option>
@@ -112,8 +122,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="">Country</label>
-                            <div class="col-lg-7 col-md-10">
+                            <label class="control-label col-lg-4 col-md-4" for="">Country</label>
+                            <div class="col-lg-8 col-md-8">
                                 <select name="register-country"
                                         class="form-control form-country"
                                         data-type="register">
@@ -125,8 +135,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="">Facebook</label>
-                            <div class="col-lg-7 col-md-10"> 
+                            <label class="control-label col-lg-4 col-md-4" for="">Facebook</label>
+                            <div class="col-lg-8 col-md-8"> 
                                 <input type="text"
                                        name="register-facebook"
                                        class="form-control"
@@ -135,8 +145,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="">Twitter</label>
-                            <div class="col-lg-7 col-md-10"> 
+                            <label class="control-label col-lg-4 col-md-4" for="">Twitter</label>
+                            <div class="col-lg-8 col-md-8"> 
                                 <input type="text"
                                        name="register-twitter"
                                        class="form-control"
@@ -145,8 +155,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="">Guild Logo</label>
-                            <div class="col-lg-7 col-md-10"> 
+                            <label class="control-label col-lg-4 col-md-4" for="">Guild Logo</label>
+                            <div class="col-lg-8 col-md-8"> 
                                 <input type="file"
                                        name="register-guild-logo"
                                        class="form-control form-guild-logo"
@@ -155,8 +165,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-lg-3 col-md-2" for="">Important Stuff</label>
-                            <div class="col-lg-7 col-md-10"> 
+                            <label class="control-label col-lg-4 col-md-4" for="">Important Stuff</label>
+                            <div class="col-lg-8 col-md-8"> 
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox"
@@ -182,15 +192,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4 text-center">
-            <div class="faction-logo-preview-wrapper" data-type="register">
-                <?php foreach( CommonDataContainer::$factionArray as $factionId => $factionDetails ): ?>
-                    <div class="thumbnail faction-logo <?php echo strtolower($factionDetails->_name); ?> faded">
-                        <?php echo Functions::getImageFaction($factionDetails->_name); ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-
+        <div class="col-lg-3 text-center hidden-md hidden-sm hidden-xs">
             <div class="thumbnail guild-logo-preview" data-type="register"></div>
 
             <div class="thumbnail country-flag-preview" data-type="register"></div>
