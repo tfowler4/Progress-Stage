@@ -45,7 +45,6 @@ class NewsModel extends Model {
         $this->_newsArticles   = $this->_getArticles($this->_article, self::LIMIT_NEWS);
         $this->_guildStandings = $this->_getStandings(self::STANDINGS_DISPLAY, self::LIMIT_GUILD_STANDINGS);
         $this->_guildRankings  = $this->_getRankings(POINT_SYSTEM_DEFAULT, self::LIMIT_GUILD_RANKINGS);
-        //$this->_recentRaids    = $this->_getRecentRaids(self::LIMIT_RECENT_RAIDS);
     }
 
     /**

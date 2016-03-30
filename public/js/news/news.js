@@ -40,12 +40,13 @@ var NewsEventBinder = function() {
             $(this).parent().children('.highlight').removeClass('highlight');
             $(this).addClass('highlight');
 
-            hideAndShowSideRankings(this, 'rank-pane-details', systemId, 300, true);
+            hideAndShowSideRankings(this, 'rank-pane-details', systemId, 300, false);
+            hideAndShowSideRankings(this, 'rank-pane-details-image', systemId, 300, true);
         }
     });
     var hideAndShowSideRankings = function(me, detailsClass, systemId, delay, enableClick) {
         var identifier    = '.' + detailsClass + '.active-rank';
-        var newIdentifier = '.' + systemId + '.' + detailsClass + '';
+        var newIdentifier = '.' + systemId + '.' + detailsClass;
 
         me = $(me).parent().parent();
 

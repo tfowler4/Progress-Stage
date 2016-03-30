@@ -8,6 +8,7 @@ class NewsSideRankings extends DataObject {
     public $progress;
     public $guild;
     public $rank;
+    public $image;
 
     /**
      * constructor
@@ -16,6 +17,7 @@ class NewsSideRankings extends DataObject {
         $this->points   = $points;
         $this->progress = $guildDetails->_progress;
         $this->guild    = $guildDetails->_nameLink;
-        $this->rank     = $image . ' ' . $rank;
+        $this->rank     = $rank;
+        $this->image    = $image;
     }
 }

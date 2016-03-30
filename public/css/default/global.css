@@ -511,15 +511,23 @@ hr {
     height: 50px;
 }
 
+.rank-pane .rank-pane-details-image img {
+    margin-top: -20px;
+}
+
 .rank-pane-details {
     height: 25px;
 }
 
 .rank-pane-details-rank {
-    height: 50px;
+    width: 30px;
+    margin-top: -10px;
 }
 
-.rank-pane-details-rank h2 {
-    text-align: right;
-    margin-top: 10px;
+.rank-pane-details-image {
+    background-color:none;
+    position: absolute;
+    display: block;
+    float: right;
+    right: 50px;
 }
