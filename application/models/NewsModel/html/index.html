@@ -127,51 +127,61 @@
                     <?php if ( !empty(CommonDataContainer::$rankSystemArray) ): ?>
                         <div class="text-center">
                             <div class="btn-group" role="group" aria-label="">
-
                                 <?php $count = 0; foreach( CommonDataContainer::$rankSystemArray as $systemId => $rankSystemDetails ): ?>
-                                    <button data-system-id="system-selector-<?php echo $rankSystemDetails->_abbreviation; ?>"
+                                    <button data-system-id="<?php echo $rankSystemDetails->_abbreviation; ?>"
                                             type="button"
-                                            class="btn btn-default clickable <?php if ( $count == 0 ): ?> highlight<?php endif; ?> noselect side-ranking-systems-buttons">
+                                            class="btn btn-default clickable <?php if ( $count == 0 ): ?> highlight<?php endif; ?>">
                                             <?php echo $rankSystemDetails->_abbreviation; ?>
                                     </button>
+
                                     <?php $count++; ?>
                                 <?php endforeach; ?>
                             </div>
                         </div>
 
-                        <div>
-                            <?php $count = 0; foreach( $data->_guildRankings as $dungeonId => $dungeonDetails ): ?>
-                                <div id ="dungeon-rankings-clicker-<?php echo $dungeonId; ?>" class="side-ranking-header clickable noselect"><h4><?php echo $dungeonDetails['name']; ?></h4></div>
-                                <div <?php if ( $count > 0 ): ?> style="display:none;"<?php endif; ?> id="dungeon-rankings-wrapper-<?php echo $dungeonId; ?>" class="side-tables <?php if ( $count == 0 ): ?> active-dungeon <?php endif; ?>">
-                                    <?php if ( !empty($dungeonDetails['data']) ): ?>
-                                         <?php $rankCount = 1; foreach( $dungeonDetails['data'] as $guildId => $systemArray ): ?>
-                                            <div class="row" style="background-color:none; height:50px;">
-                                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="background-color:none; height:50px;">
-                                                    <?php $system = 0; foreach( $systemArray as $systemId => $guildDetails ): ?>
-                                                        <div style="height:25px;" class="text-cut side-rankings-details <?php echo $systemId; ?> <?php if ( $system > 0 ): ?>hidden <?php else: ?>active-rank <?php endif; ?>">
-                                                            <?php echo $guildDetails->guild; $system++; ?>
-                                                        </div>
-                                                    <?php endforeach; ?>
+                        <?php $count = 0; foreach( $data->_guildRankings as $dungeonId => $dungeonDetails ): ?>
+                            <div data-dungeon-id="<?php echo $dungeonId; ?>"
+                                 class="side-ranking-header clickable">
+                                <h4><?php echo $dungeonDetails['name']; ?></h4>
+                            </div>
 
-                                                    <?php $system = 0; foreach( $systemArray as $systemId => $guildDetails ): ?>
-                                                        <div style="height:25px;" class="side-rankings-details-small <?php echo $systemId; ?> <?php if ( $system > 0 ): ?>hidden <?php else: ?>active-rank <?php endif; ?>">
-                                                            <strong><?php echo $guildDetails->points; ?></strong> <span><?php echo $guildDetails->progress; $system++; ?></span>
-                                                        </div>
-                                                    <?php endforeach; ?>
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="height:50px;">
-                                                    <h2 class="text-right" style="margin-top:10px;"><?php echo $guildDetails->rank;?></h2>
-                                                </div>
+                            <div data-pane-dungeon-id="<?php echo $dungeonId; ?>"
+                                 class="rank-panes <?php if ( $count == 0 ): ?> active-dungeon <?php endif; ?>"
+                                 <?php if ( $count > 0 ): ?> style="display:none;"<?php endif; ?>>
+                                <?php if ( !empty($dungeonDetails['data']) ): ?>
+                                     <?php $rankCount = 1; foreach( $dungeonDetails['data'] as $guildId => $systemArray ): ?>
+                                        <div class="row">
+                                            <div data-pane-system-id="<?php echo $systemId; ?>"
+                                                 class="col-xs-8 rank-pane">
+                                                <?php $system = 0; foreach( $systemArray as $systemId => $guildDetails ): ?>
+                                                    <div data-pane-system-id="<?php echo $systemId; ?>"
+                                                         class="text-cut rank-pane-details <?php echo $systemId; ?> <?php if ( $system == 0 ): ?>active-rank<?php endif; ?>"
+                                                         <?php if ( $system > 0 ): ?>style="display:none;"<?php endif; ?>>
+                                                        <?php echo $guildDetails->guild; $system++; ?>
+                                                    </div>
+                                                <?php endforeach; ?>
+
+                                                <?php $system = 0; foreach( $systemArray as $systemId => $guildDetails ): ?>
+                                                    <div data-pane-system-id="<?php echo $systemId; ?>"
+                                                         class="rank-pane-details <?php echo $systemId; ?> <?php if ( $system == 0 ): ?>active-rank <?php endif; ?>"
+                                                         <?php if ( $system > 0 ): ?>style="display:none;"<?php endif; ?>>
+                                                        <strong><?php echo $guildDetails->points; ?></strong> <span><?php echo $guildDetails->progress; $system++; ?></span>
+                                                    </div>
+                                                <?php endforeach; ?>
                                             </div>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        Ranking data currently unavailable
-                                    <?php endif; ?>
-                                </div>
+                                            <div class="col-xs-4 rank-pane-details-rank">
+                                                <h2><?php echo $guildDetails->rank;?></h2>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    Ranking data currently unavailable
+                                <?php endif; ?>
+                            </div>
 
-                                <?php $count++; ?>
-                            <?php endforeach; ?>
-                        </div>
+                            <?php $count++; ?>
+                        <?php endforeach; ?>
+
                     <?php else: ?>
                         Ranking data currently unavailable
                     <?php endif; ?>

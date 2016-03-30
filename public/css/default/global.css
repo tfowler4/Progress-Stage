@@ -506,3 +506,20 @@ hr {
 .clickable {
     cursor: pointer;
 }
+
+.rank-pane {
+    height: 50px;
+}
+
+.rank-pane-details {
+    height: 25px;
+}
+
+.rank-pane-details-rank {
+    height: 50px;
+}
+
+.rank-pane-details-rank h2 {
+    text-align: right;
+    margin-top: 10px;
+}

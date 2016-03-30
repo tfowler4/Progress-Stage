@@ -1,10 +1,6 @@
 // news model event binder
 var NewsEventBinder = function() {
-    var stopClickRecent    = false;
-    var stopClickMedia     = false;
     var stopClickRankPanel = false;
-    var userClicked = false;
-    var autoSliding = true;
 
     // side rankings system click to display different dungeons
     $(document).on('click touchstart', '.side-ranking-header.clickable', function() {
@@ -13,12 +9,12 @@ var NewsEventBinder = function() {
 
         if( stopClickRankPanel ) { return; }
 
-        var paneTitleId = $(this).prop('id').replace('dungeon-rankings-clicker-', '');
-        var currentPane = $('#dungeon-rankings-wrapper-' + paneTitleId);
+        var paneTitleId = $(this).data('dungeon-id');
+        var currentPane = $("div").find("[data-pane-dungeon-id='" + paneTitleId + "']");
 
         if ( currentPane.css('display') == 'none' ) {
             stopClickRankPanel = true;
-            
+
             var activePane = $(document).find('.active-dungeon');
             activePane.slideToggle(slideDelay, 'linear', function() {
                 activePane.removeClass('active-dungeon');
@@ -35,8 +31,8 @@ var NewsEventBinder = function() {
     $(document).on('click touchstart', 'button.clickable', function() {
         if( stopClickRankPanel ) { return; }
 
-        var systemId = $(this).data('system-id').replace('system-selector-', '');
-        var numOfTables = $(document).find('.side-tables').length;
+        var systemId    = $(this).data('system-id');
+        var numOfTables = $(document).find('.rank-panes').length;
 
         if ( !$(this).hasClass('highlight') && numOfTables > 0 ) {
             stopClickRankPanel = true;
@@ -44,28 +40,25 @@ var NewsEventBinder = function() {
             $(this).parent().children('.highlight').removeClass('highlight');
             $(this).addClass('highlight');
 
-            hideAndShowSideRankings(this, 'side-rankings-details', systemId, 300, false);
-            hideAndShowSideRankings(this, 'side-rankings-details-small', systemId, 300, true);
+            hideAndShowSideRankings(this, 'rank-pane-details', systemId, 300, true);
         }
     });
     var hideAndShowSideRankings = function(me, detailsClass, systemId, delay, enableClick) {
         var identifier    = '.' + detailsClass + '.active-rank';
-        var newIdentifier = '.' + systemId + '.' + detailsClass + '.hidden';
+        var newIdentifier = '.' + systemId + '.' + detailsClass + '';
+
         me = $(me).parent().parent();
 
         $(me).parent().find(identifier).slideToggle(delay, 'linear', function() {
-            $(this).addClass('hidden');
             $(this).removeClass('active-rank');
         });
 
-        $(me).parent().find(newIdentifier).each(function() {
+        $(newIdentifier).slideToggle(delay, 'linear', function() {
             $(this).addClass('active-rank');
-            $(this).removeClass('hidden');
-            $(this).css('display', 'block');
-        });
 
-        if ( enableClick ) {
-            stopClickRankPanel = false;
-        }
+            if ( enableClick ) {
+                stopClickRankPanel = false;
+            }
+        });
     };
 };
