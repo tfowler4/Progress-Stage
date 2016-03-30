@@ -3,7 +3,7 @@
 <div class="col-lg-9 col-xs-12">
     <?php if ( !empty($data->_videoLinks) ): ?>
         <div class="row">
-            <div class=" ">
+            <div class="hidden-xs">
                 <div id="carouselStreams" class="carousel slide" data-ride="carousel">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
@@ -35,9 +35,16 @@
                                         </div>
                                         <div class="media-text-content">
                                             <h3>
-                                                <div><small>Now Streaming via Twitch</small></div>
-                                                <div><small><?php echo $twitchDetails->_twitchId; ?></small></div>
-                                                <div><?php echo $twitchDetails->_guildDetails->_name; ?>
+                                                <div>
+                                                    <small>Now Streaming via Twitch</small>
+                                                </div>
+                                                <div>
+                                                    <small>
+                                                        <?php echo $twitchDetails->_twitchId; ?>
+                                                    </small>
+                                                </div>
+                                                <div>
+                                                    <?php echo $twitchDetails->_guildDetails->_name; ?>
                                                     <small>
                                                         (<?php echo $twitchDetails->_guildDetails->_region . '-' . $twitchDetails->_guildDetails->_server; ?>)
                                                     </small>

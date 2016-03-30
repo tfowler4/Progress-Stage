@@ -216,13 +216,33 @@
 }
 
 .media-text-content h3 {
-    margin:-4px 0px 0px 5px;
-    color:#FFFFFF;
+    margin: -4px 0px 0px 5px;
+    color: #FFFFFF;
+}
+
+.carousel-indicators {
+    background-color: none;
+    display: inline-block;
+    width: auto;
+    max-height: 12px;
+    top: 0;
+    right: -100px;
+    margin: 0;
+    margin-top: 15px;
+    text-align:center;
+}
+
+.carousel-indicators li {
+    height: 10px;
+}
+
+.media-text-content small {
+    color: #FFFFFF;
 }
 
 .media-guild-logo {
     max-height: 95px;
-    max-width: 400px;
+    max-width: 550px;
 }
 
 #spreadsheetModal .modal-dialog {
@@ -448,11 +468,6 @@ hr {
 
 .no-border {
     border: 0;
-}
-
-.media-guild-logo {
-    max-height: 75px;
-    margin-top: 5px;
 }
 
 .ph-ad-leaderboard {

@@ -21,9 +21,9 @@ class TwitchDetails extends DetailObject {
         $this->_active       = $params['active'];
         $this->_guildDetails = CommonDataContainer::$guildArray[$params['guild_id']];
 
-        $imgSrc              = FOLD_GUILD_LOGOS . 'logo-' . $this->_guildDetails->_guildId;
-        $localSrc            = ABS_FOLD_SITE_GUILD_LOGOS . 'logo-' .  $this->_guildDetails->_guildId;
-        $class = '';
+        $imgSrc   = FOLD_GUILD_LOGOS . 'logo-' . $this->_guildDetails->_guildId;
+        $localSrc = ABS_FOLD_SITE_GUILD_LOGOS . 'logo-' .  $this->_guildDetails->_guildId;
+        $class    = '';
 
         if ( file_exists($localSrc) && getimagesize($localSrc) ) {
             $imageDimensions = getimagesize($localSrc);
@@ -37,11 +37,11 @@ class TwitchDetails extends DetailObject {
                 $class = 'style="margin-top: ' . (($height/4)*-1 - 10) . 'px;"';
             }
 
-            $this->_guildLogo    = '<img src="' . $imgSrc . '" ' .  $class . ' >';
+            $this->_guildLogo = '<img src="' . $imgSrc . '" ' .  $class . ' >';
         }
 
-        $path = ABS_FOLD_TWITCH . $params['twitch_id'];
-        $this->_image = '<img src="' . FOLD_TWITCH . $params['twitch_id'] . '">';
+        $path             = ABS_FOLD_TWITCH . $params['twitch_id'];
+        $this->_image     = '<img src="' . FOLD_TWITCH . $params['twitch_id'] . '">';
         $this->_hyperlink = Functions::generateExternalHyperLink($this->_url, $this->_image, '', false);
     }
 }
