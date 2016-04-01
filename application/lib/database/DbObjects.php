@@ -255,6 +255,9 @@ class DbObjects {
                 self::addKillVideo($fields, $count);
             }
         }
+
+        Rankings::update($fields->guildId, $fields->encounter, $encounterDetails->_dungeonId);
+        Standings::update();
     }
 
     /**
