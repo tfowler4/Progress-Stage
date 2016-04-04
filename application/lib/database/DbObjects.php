@@ -256,8 +256,8 @@ class DbObjects {
             }
         }
 
-        Rankings::update($fields->guildId, $fields->encounter, $encounterDetails->_dungeonId);
-        Standings::update();
+        RankingsHandler::update($fields->guildId, $fields->encounter, $encounterDetails->_dungeonId);
+        //StandingsHandler::update();
     }
 
     /**
