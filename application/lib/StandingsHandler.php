@@ -56,7 +56,18 @@ class StandingsHandler {
         $updateSQL      = "SET";
         $updateWhereSQL = "WHERE guild_id IN (";
         $insertSQL      = sprintf("INSERT INTO %s
-                                   (guild_id, dungeon_id, complete, progress, special_progress, achievement, world_first, region_first, server_first, country_first, recent_activity, recent_time)
+                                   (guild_id,
+                                    dungeon_id,
+                                    complete,
+                                    progress,
+                                    special_progress,
+                                    achievement,
+                                    world_first,
+                                    region_first,
+                                    server_first,
+                                    country_first,
+                                    recent_activity,
+                                    recent_time)
                                     values", DbFactory::TABLE_STANDINGS);
         $insertValueSQL = '';
         $guildIds       = array();

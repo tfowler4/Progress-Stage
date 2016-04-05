@@ -670,30 +670,34 @@ class RankingsHandler {
 
         ksort(self::$_rankArrayForEncounters);
 
-        $update         = sprintf("UPDATE %s", DbFactory::TABLE_ENCOUNTER_RANKINGS);
-        $updateSQL      = "SET";
-        $updateWhereSQL = "WHERE guild_id IN (";
-        $insertSQL      = "";
+        $insertSQL      = sprintf("INSERT INTO %s
+                               (qp_points,
+                                qp_world_rank,
+                                qp_region_rank,
+                                qp_server_rank,
+                                qp_country_rank,
+                                ap_points,
+                                ap_world_rank,
+                                ap_region_rank,
+                                ap_server_rank,
+                                ap_country_rank,
+                                apf_points,
+                                apf_world_rank,
+                                apf_region_rank,
+                                apf_server_rank,
+                                apf_country_rank,
+                                guild_id,
+                                dungeon_id,
+                                encounter_id)
+                          values", DbFactory::TABLE_ENCOUNTER_RANKINGS);
+        $insertValueSQL = '';
         $guildIds       = array();
 
         foreach ( self::RANKING_ENCOUNTER_MAPPER as $columnName => $value ) {
-            if ( $updateSQL != 'SET' ) {
-                $updateSQL .= ',';
-            }
-
-            $updateSQL .= ' ' . $columnName . ' = CASE';
 
             foreach ( self::$_rankArrayForEncounters as $guildId => $encounterArray ) {
                 $guildDetails = CommonDataContainer::$guildArray[$guildId];
                 $detailsArray = array();
-
-                if ( $updateWhereSQL != "WHERE guild_id IN (" ) {
-                    $updateWhereSQL .= ',';
-                }
-
-                if ( !in_array($guildId, $guildIds) ) {
-                    $updateWhereSQL .= "'" . $guildId . "'";
-                }
 
                 foreach ( $encounterArray as $encounter => $rankValue ) {
                     $encounter        = explode('_', $encounter);
@@ -717,68 +721,30 @@ class RankingsHandler {
                     $detailsArray[$encounterId][$system . '_country_rank'] = $rankValue[5];
                 }
 
-                // new rankings table code
-                foreach ( $detailsArray as $encounterId => $details ) {
-                    if ( isset(self::$_existingEncounterRankingsArray[$guildId][$encounterId]) ) {
-
-                        $updateSQL .= " WHEN guild_id = '" . $guildId . "' AND encounter_id = '" . $encounterId . "' THEN '" . $details[$value] . "'";
-                    } else {
-                        /*
-                        $query = $dbh->prepare(sprintf(
-                            "INSERT INTO %s
-                                   (qp_points,
-                                    qp_world_rank,
-                                    qp_region_rank,
-                                    qp_server_rank,
-                                    qp_country_rank,
-                                    ap_points,
-                                    ap_world_rank,
-                                    ap_region_rank,
-                                    ap_server_rank,
-                                    ap_country_rank,
-                                    apf_points,
-                                    apf_world_rank,
-                                    apf_region_rank,
-                                    apf_server_rank,
-                                    apf_country_rank,
-                                    guild_id,
-                                    dungeon_id,
-                                    encounter_id)
-                              values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
-                            DbFactory::TABLE_ENCOUNTER_RANKINGS,
-                            $details['qp_points'],
-                            $details['qp_world_rank'],
-                            $details['qp_region_rank'],
-                            $details['qp_server_rank'],
-                            $details['qp_country_rank'],
-                            $details['ap_points'],
-                            $details['ap_world_rank'],
-                            $details['ap_region_rank'],
-                            $details['ap_server_rank'],
-                            $details['ap_country_rank'],
-                            $details['apf_points'],
-                            $details['apf_world_rank'],
-                            $details['apf_region_rank'],
-                            $details['apf_server_rank'],
-                            $details['apf_country_rank'],
-                            $details['guild_id'],
-                            $details['dungeon_id'],
-                            $details['encounter_id']
-                        ));
-                        $query->execute();
-                        */
-                    }
+                if ( !empty($insertValueSQL) ) {
+                    $insertValueSQL .= ',';
                 }
-            }
 
-            $updateSQL .= ' END';
+                $insertValueSQL    .= '(';
+                $encounterValueSQL =  $guildId . ', ' . $encounterId;
+
+                foreach ( self::RANKING_ENCOUNTER_MAPPER as $columnName => $value ) {
+                    if ( !empty($encounterValueSQL) ) {
+                        $encounterValueSQL .= ',';
+                    }
+
+                    $encounterValueSQL .= "'" .  $detailsArray[$encounterId][$value] . "'";
+                }
+
+                $insertValueSQL .= $encounterValueSQL . ')';
+            }
         }
 
-        $updateWhereSQL .= ") AND encounter_id IN ('" . self::$_encounterDetails->_encounterId . "')";
+        $insertSQL = $insertSQL . ' ' . $insertValueSQL;
+        $insertSQL .= 'ON DUPLICATE KEY UPDATE';
+        echo "ENCOUNTER STRING: $insertSQL<br><br><br><br>"; exit;
 
-        $updateSQL = $update . ' ' . $updateSQL . ' ' . $updateWhereSQL;
-        echo "ENCOUNTER STRING: $updateSQL<br><br><br><br>";
-        //$query = $dbh->prepare($updateSQL);
-        //$query->execute();
+        $query = $dbh->prepare($insertSQL);
+        $query->execute();
     }
 }
