@@ -671,7 +671,10 @@ class RankingsHandler {
         ksort(self::$_rankArrayForEncounters);
 
         $insertSQL      = sprintf("INSERT INTO %s
-                               (qp_points,
+                               (guild_id,
+                                encounter_id,
+                                dungeon_id,
+                                qp_points,
                                 qp_world_rank,
                                 qp_region_rank,
                                 qp_server_rank,
@@ -685,48 +688,51 @@ class RankingsHandler {
                                 apf_world_rank,
                                 apf_region_rank,
                                 apf_server_rank,
-                                apf_country_rank,
-                                guild_id,
-                                dungeon_id,
-                                encounter_id)
+                                apf_country_rank)
                           values", DbFactory::TABLE_ENCOUNTER_RANKINGS);
         $insertValueSQL = '';
+        $updateSQL      = '';
         $guildIds       = array();
 
-        foreach ( self::RANKING_ENCOUNTER_MAPPER as $columnName => $value ) {
+        foreach ( self::$_rankArrayForEncounters as $guildId => $encounterArray ) {
+            $guildDetails = CommonDataContainer::$guildArray[$guildId];
+            $detailsArray = array();
 
-            foreach ( self::$_rankArrayForEncounters as $guildId => $encounterArray ) {
-                $guildDetails = CommonDataContainer::$guildArray[$guildId];
-                $detailsArray = array();
+            // testing
+            //if ( $guildId != 1 ) { continue; }
 
-                foreach ( $encounterArray as $encounter => $rankValue ) {
-                    $encounter        = explode('_', $encounter);
-                    $rankValue        = explode('||', $rankValue);
-                    $encounterId      = $encounter[0];
-                    $system           = strtolower($encounter[1]);
-                    $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
+            foreach ( $encounterArray as $encounter => $rankValue ) {
+                $encounter        = explode('_', $encounter);
+                $rankValue        = explode('||', $rankValue);
+                $encounterId      = $encounter[0];
+                $system           = strtolower($encounter[1]);
+                $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
 
-                    // new rankings table code
-                    if ( empty($detailsArray[$encounterId]) ) {
-                        $detailsArray[$encounterId]                 = array();
-                        $detailsArray[$encounterId]['guild_id']     = $guildId;
-                        $detailsArray[$encounterId]['encounter_id'] = $encounterId;
-                        $detailsArray[$encounterId]['dungeon_id']   = $encounterDetails->_dungeonId;
-                    }
-
-                    $detailsArray[$encounterId][$system . '_points']       = $rankValue[1];
-                    $detailsArray[$encounterId][$system . '_world_rank']   = $rankValue[2];
-                    $detailsArray[$encounterId][$system . '_server_rank']  = $rankValue[3];
-                    $detailsArray[$encounterId][$system . '_region_rank']  = $rankValue[4];
-                    $detailsArray[$encounterId][$system . '_country_rank'] = $rankValue[5];
+                // new rankings table code
+                if ( empty($detailsArray[$encounterId]) ) {
+                    $detailsArray[$encounterId]                 = array();
+                    $detailsArray[$encounterId]['guild_id']     = $guildId;
+                    $detailsArray[$encounterId]['encounter_id'] = $encounterId;
+                    $detailsArray[$encounterId]['dungeon_id']   = $encounterDetails->_dungeonId;
                 }
+
+                $detailsArray[$encounterId][$system . '_points']       = $rankValue[1];
+                $detailsArray[$encounterId][$system . '_world_rank']   = $rankValue[2];
+                $detailsArray[$encounterId][$system . '_server_rank']  = $rankValue[3];
+                $detailsArray[$encounterId][$system . '_region_rank']  = $rankValue[4];
+                $detailsArray[$encounterId][$system . '_country_rank'] = $rankValue[5];
+            }
+
+            // handle insert
+            foreach ( $detailsArray as $encounterId => $encounters ) {
+                $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
 
                 if ( !empty($insertValueSQL) ) {
                     $insertValueSQL .= ',';
                 }
 
                 $insertValueSQL    .= '(';
-                $encounterValueSQL =  $guildId . ', ' . $encounterId;
+                $encounterValueSQL =  $guildId . ', ' . $encounterId . ', ' . $encounterDetails->_dungeonId;
 
                 foreach ( self::RANKING_ENCOUNTER_MAPPER as $columnName => $value ) {
                     if ( !empty($encounterValueSQL) ) {
@@ -738,11 +744,28 @@ class RankingsHandler {
 
                 $insertValueSQL .= $encounterValueSQL . ')';
             }
+
+            // handle update
+            foreach ( self::RANKING_ENCOUNTER_MAPPER as $columnName => $value ) {
+                if ( !empty($updateSQL) ) {
+                    $updateSQL .= ',';
+                }
+
+                $updateSQL .= ' ' . $columnName . ' = CASE';
+
+                foreach ( $detailsArray as $encounterId => $encounters ) {
+                    foreach ( $encounters as $key => $detailValue ) {
+                        $updateSQL .= " WHEN guild_id = '" . $guildId . "' AND encounter_id = '" . $encounterId . "' THEN '" . $encounters[$value] . "'";
+                    }
+                }
+
+                $updateSQL .= ' END';
+            }
         }
 
         $insertSQL = $insertSQL . ' ' . $insertValueSQL;
-        $insertSQL .= 'ON DUPLICATE KEY UPDATE';
-        echo "ENCOUNTER STRING: $insertSQL<br><br><br><br>"; exit;
+        $insertSQL .= ' ON DUPLICATE KEY UPDATE ' . $updateSQL;
+        echo "ENCOUNTER STRING: <br>$insertSQL<br><br><br><br>"; //exit;
 
         $query = $dbh->prepare($insertSQL);
         $query->execute();
