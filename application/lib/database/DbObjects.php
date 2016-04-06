@@ -338,6 +338,10 @@ class DbObjects {
                 self::addKillVideo($fields, $count);
             }
         }
+
+        $encounterDetails = CommonDataContainer::$encounterArray[$fields->encounter];
+        StandingsHandler::update($fields->guildId, $fields->encounter, $encounterDetails->_dungeonId);
+        RankingsHandler::update($fields->guildId, $fields->encounter, $encounterDetails->_dungeonId);
     }
 
     /**
@@ -363,6 +367,10 @@ class DbObjects {
         self::_execute();
 
         self::removeKillVideos($fields->guildId, $fields->encounter);
+
+        $encounterDetails = CommonDataContainer::$encounterArray[$fields->encounter];
+        StandingsHandler::update($fields->guildId, $fields->encounter, $encounterDetails->_dungeonId);
+        RankingsHandler::update($fields->guildId, $fields->encounter, $encounterDetails->_dungeonId);
     }
 
     /**

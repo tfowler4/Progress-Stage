@@ -204,10 +204,6 @@ class RankingsHandler {
         self::_createEncounterInsertStrings();
 
         self::_createDungeonInsertStrings();
-
-        // checking performance
-        echo ' <br>Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.'; 
-        echo ' <br>Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
     }
 
     protected static function _setKillEntry($encounterId) {
@@ -554,6 +550,7 @@ class RankingsHandler {
 
         ksort(self::$_rankArrayForDungeons);
 
+        /*
         $insertSQL = sprintf("INSERT INTO %s
                              (guild_id,
                               dungeon_id,
@@ -599,6 +596,7 @@ class RankingsHandler {
                               apf_server_prev_rank,
                               apf_country_prev_rank)
                               values", DbFactory::TABLE_RANKINGS);
+        */
 
         $insertQPSQL = sprintf("INSERT INTO %s
                              (guild_id,
@@ -669,8 +667,9 @@ class RankingsHandler {
         $insertQPValueSQL  = '';
         $insertAPValueSQL  = '';
         $insertAPFValueSQL = '';
-        $guildIds          = array();
+
         $dungeonDetailsArray = array();
+
         foreach ( self::$_rankArrayForDungeons as $guildId => $dungeonArray ) {
             $guildDetails = CommonDataContainer::$guildArray[$guildId];
             $detailsArray = array();
@@ -678,8 +677,6 @@ class RankingsHandler {
             if ( !isset($dungeonDetailsArray[$guildId]) ) {
                 $dungeonDetailsArray[$guildId] = array();
             }
-
-            //if ( $guildId != 1 ) { continue; }
 
             foreach ( $dungeonArray as $dungeon => $rankValue ) {
                 $dungeonVals    = explode('_', $dungeon);
@@ -919,7 +916,6 @@ class RankingsHandler {
                              values", DbFactory::TABLE_ENCOUNTER_RANKINGS);
         $insertValueSQL = '';
         $updateSQL      = '';
-        $guildIds       = array();
 
         foreach ( self::$_rankArrayForEncounters as $guildId => $encounterArray ) {
             $guildDetails = CommonDataContainer::$guildArray[$guildId];
@@ -992,9 +988,7 @@ class RankingsHandler {
 
         $insertSQL = $insertSQL . ' ' . $insertValueSQL;
         $insertSQL .= ' ON DUPLICATE KEY UPDATE ' . $updateSQL;
-        //echo "ENCOUNTER STRING: <br>$insertSQL<br><br><br><br>"; //exit;
-
         $query = $dbh->prepare($insertSQL);
-        //$query->execute();
+        $query->execute();
     }
 }

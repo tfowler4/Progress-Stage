@@ -9,9 +9,16 @@ class StandingsHandler {
     protected static $_currentDungeonStandings = array();
     protected static $_currentEncounterStandings = array();
     protected static $_newDungeonStandings = array();
+    protected static $_guildsWithKills = array();
     protected static $_killTimeArray = array();
 
     const ENCOUNTER_MAPPER = array(
+            'datetime'     => '_datetime',
+            'date'         => '_date',
+            'time'         => '_time',
+            'time_zone'    => '_timezone',
+            'server'       => '_server',
+            'videos'       => '_numOfVideos',
             'server_rank'  => '_serverRank',
             'region_rank'  => '_regionRank',
             'world_rank'   => '_worldRank',
@@ -38,10 +45,6 @@ class StandingsHandler {
         self::_updateEncounterStandings();
 
         self::_updateDungeonStandings();
-
-        // checking performance
-        echo ' <br>Load Time: '.(round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"])/1, 2)).' seconds.'; 
-        echo ' <br>Memory Usage: ' .round(memory_get_usage(true)/1048576,2) . 'mb';
     }
 
     protected static function _updateDungeonStandings() {
@@ -52,85 +55,66 @@ class StandingsHandler {
 
         self::_createStandings();
 
-        $update         = sprintf("UPDATE %s", DbFactory::TABLE_STANDINGS);
-        $updateSQL      = "SET";
-        $updateWhereSQL = "WHERE guild_id IN (";
         $insertSQL      = sprintf("INSERT INTO %s
-                                   (guild_id,
-                                    dungeon_id,
-                                    complete,
-                                    progress,
-                                    special_progress,
-                                    achievement,
-                                    world_first,
-                                    region_first,
-                                    server_first,
-                                    country_first,
-                                    recent_activity,
-                                    recent_time)
-                                    values", DbFactory::TABLE_STANDINGS);
+                                 (guild_id,
+                                  dungeon_id,
+                                  complete,
+                                  progress,
+                                  special_progress,
+                                  achievement,
+                                  world_first,
+                                  region_first,
+                                  server_first,
+                                  country_first,
+                                  recent_activity,
+                                  recent_time)
+                                  values", DbFactory::TABLE_STANDINGS);
         $insertValueSQL = '';
-        $guildIds       = array();
+        $updateSQL      = '';
 
-        if ( !empty(self::$_currentDungeonStandings) ) {
-            foreach ( self::DUNGEON_MAPPER as $columnName => $value ) {
-                if ( $updateSQL != 'SET' ) {
-                    $updateSQL .= ',';
-                }
+        // handle insert
+        foreach ( self::$_newDungeonStandings as $guildId => $dungeonDetails ) {
+            $guildDetails = CommonDataContainer::$guildArray[$guildId];
 
-                $updateSQL .= ' ' . $columnName . ' = CASE';
-
-                foreach ( self::$_newDungeonStandings as $guildId => $dungeonDetails ) {
-                    $guildDetails = CommonDataContainer::$guildArray[$guildId];
-
-                    if ( $updateWhereSQL != "WHERE guild_id IN (" ) {
-                        $updateWhereSQL .= ',';
-                    }
-
-                    if ( !in_array($guildId, $guildIds) ) {
-                        $updateWhereSQL .= "'" . $guildId . "'";
-                    }
-
-                    $updateSQL .= " WHEN guild_id = '" . $guildId . "' AND dungeon_id = '" . self::$_dungeonDetails->_dungeonId . "' THEN '" . $dungeonDetails[$value] . "'";
-                }
-
-                $updateSQL .= ' END';
+            if ( !empty($insertValueSQL) ) {
+                $insertValueSQL .= ',';
             }
 
-            $updateWhereSQL .= ") AND dungeon_id IN ('" . self::$_dungeonDetails->_dungeonId . "')";
+            $insertValueSQL    .= '(';
+            $dungeonValueSQL =  $guildId . ', ' . self::$_dungeonDetails->_dungeonId;
 
-            $updateSQL = $update . ' ' . $updateSQL . ' ' . $updateWhereSQL;
+            foreach ( self::DUNGEON_MAPPER as $columnName => $value ) {
+                if ( !empty($dungeonValueSQL) ) {
+                    $dungeonValueSQL .= ',';
+                }
 
-            $query = $dbh->prepare($updateSQL);
-            $query->execute();
-        } else {
+                $dungeonValueSQL .= "'" . $dungeonDetails[$value] . "'";
+            }
+
+            $insertValueSQL .= $dungeonValueSQL . ')';
+        }
+
+        // handle update
+        foreach ( self::DUNGEON_MAPPER as $columnName => $value ) {
+            if ( !empty($updateSQL) ) {
+                $updateSQL .= ',';
+            }
+
+            $updateSQL .= ' ' . $columnName . ' = CASE';
+
             foreach ( self::$_newDungeonStandings as $guildId => $dungeonDetails ) {
                 $guildDetails = CommonDataContainer::$guildArray[$guildId];
 
-                if ( !empty($insertValueSQL) ) {
-                    $insertValueSQL .= ',';
-                }
-
-                $insertValueSQL  .= '(';
-                $dungeonValueSQL =  $guildId . ', ' . self::$_dungeonDetails->_dungeonId;
-
-                foreach ( self::DUNGEON_MAPPER as $columnName => $value ) {
-                    if ( !empty($dungeonValueSQL) ) {
-                        $dungeonValueSQL .= ',';
-                    }
-
-                    $dungeonValueSQL .= "'" . $dungeonDetails[$value] . "'";
-                }
-
-                $insertValueSQL .= $dungeonValueSQL . ')';
+                $updateSQL .= " WHEN guild_id = '" . $guildId . "' AND dungeon_id = '" . self::$_dungeonDetails->_dungeonId . "' THEN '" . $dungeonDetails[$value] . "'";
             }
 
-
-            $insertSQL = $insertSQL . ' ' . $insertValueSQL;
-
-            $query = $dbh->prepare($insertSQL);
-            $query->execute();
+            $updateSQL .= ' END';
         }
+
+        $insertSQL = $insertSQL . ' ' . $insertValueSQL;
+        $insertSQL .= ' ON DUPLICATE KEY UPDATE ' . $updateSQL;
+        $query = $dbh->prepare($insertSQL);
+        $query->execute();
     }
 
     protected static function _getAllDungeonEncounterKills() {
@@ -170,6 +154,10 @@ class StandingsHandler {
                 $arr['dungeon'][$dungeonId][$encounterId] = $row;
                 $arr['encounter'][$encounterId]           = $row;
                 $guildDetails->_progression               = $arr;
+
+                if ( !isset(self::$_guildsWithKills[$guildId]) ) {
+                    self::$_guildsWithKills[$guildId] = $guildDetails;
+                }
             }
         }
     }
@@ -184,6 +172,8 @@ class StandingsHandler {
                 if ( !isset($guildDetails->_progression['dungeon']) ) { continue; }
 
                 foreach ( $guildDetails->_progression['dungeon'] as $dungeonId => $dungeonEncounterArray ) {
+                    if ( $dungeonId != self::$_dungeonDetails->_dungeonId ) { continue; }
+
                     $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
                     $detailsArray   = array();
 
@@ -226,17 +216,26 @@ class StandingsHandler {
 
                     $detailsArray['progress']         .= '/' . $dungeonDetails->_numOfEncounters . ' ' . $dungeonDetails->_abbreviation;
                     $detailsArray['special_progress'] .= '/' . $dungeonDetails->_numOfSpecialEncounters;
+
+                    // if any error occurs, or if complete is 0, scrap and dont add
+                    if ( $detailsArray['complete'] == 0 ) {
+                        $detailsArray = array();
+                    }
                 }
 
-                self::$_newDungeonStandings[$guildId] = $detailsArray;
+                if ( !empty($detailsArray) ) {
+                    self::$_newDungeonStandings[$guildId] = $detailsArray;
+                }
             }
         } else {
-            foreach ( CommonDataContainer::$guildArray as $guildId => $guildDetails ) {
+            foreach ( self::$_guildsWithKills as $guildId => $guildDetails ) {
                 if ( !isset($guildDetails->_progression['dungeon']) ) { continue; }
 
                 self::$_newDungeonStandings[$guildId] = array();
 
                 foreach ( $guildDetails->_progression['dungeon'] as $dungeonId => $dungeonEncounterArray ) {
+                    if ( $dungeonId != self::$_dungeonDetails->_dungeonId ) { continue; }
+
                     $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
                     $detailsArray   = array();
 
@@ -279,9 +278,16 @@ class StandingsHandler {
 
                     $detailsArray['progress']         .= '/' . $dungeonDetails->_numOfEncounters . ' ' . $dungeonDetails->_abbreviation;
                     $detailsArray['special_progress'] .= '/' . $dungeonDetails->_numOfSpecialEncounters;
+
+                    // if any error occurs, or if complete is 0, scrap and dont add
+                    if ( $detailsArray['complete'] == 0 ) {
+                        $detailsArray = array();
+                    }
                 }
 
-                self::$_newDungeonStandings[$guildId] = $detailsArray;
+                if ( !empty($detailsArray) ) {
+                    self::$_newDungeonStandings[$guildId] = $detailsArray;
+                }
             }
         }
 
@@ -316,14 +322,56 @@ class StandingsHandler {
         self::_sortKillsByTime();
         self::_setNewKillRanks();
 
-        $update         = sprintf("UPDATE %s", DbFactory::TABLE_KILLS);
-        $updateSQL      = "SET";
-        $updateWhereSQL = "WHERE guild_id IN (";
-        $insertSQL      = "";
-        $guildIds       = array();
+        $insertSQL      = sprintf("INSERT INTO %s
+                                 (guild_id,
+                                  encounter_id,
+                                  dungeon_id,
+                                  tier,
+                                  raid_size,
+                                  datetime,
+                                  date,
+                                  time,
+                                  time_zone,
+                                  server,
+                                  videos,
+                                  server_rank,
+                                  region_rank,
+                                  world_rank,
+                                  country_rank)
+                                  values", DbFactory::TABLE_KILLS);
+        $insertValueSQL = '';
+        $updateSQL      = '';
 
+        // handle insert
+        foreach ( self::$_killTimeArray as $guildId => $killTime ) {
+            $guildDetails     = CommonDataContainer::$guildArray[$guildId];
+            $encounterDetails = $guildDetails->_encounterDetails->{self::$_encounterDetails->_encounterId};
+
+            if ( !empty($insertValueSQL) ) {
+                $insertValueSQL .= ',';
+            }
+
+            $insertValueSQL    .= '(';
+            $encounterValueSQL =  $guildId . ', ' . $encounterDetails->_encounterId . ', ' . $encounterDetails->_dungeonId . ', ' . $encounterDetails->_tier . ', ' . $encounterDetails->_raidSize;
+
+            foreach ( self::ENCOUNTER_MAPPER as $columnName => $value ) {
+                if ( !empty($encounterValueSQL) ) {
+                    $encounterValueSQL .= ',';
+                }
+
+                if ( $columnName == 'datetime' ) {
+                    $encounterDetails->$value = $encounterDetails->_date . ' ' . $encounterDetails->_time;
+                }
+
+                $encounterValueSQL .= "'" . $encounterDetails->$value . "'";
+            }
+
+            $insertValueSQL .= $encounterValueSQL . ')';
+        }
+
+        // handle update
         foreach ( self::ENCOUNTER_MAPPER as $columnName => $value ) {
-            if ( $updateSQL != 'SET' ) {
+            if ( !empty($updateSQL) ) {
                 $updateSQL .= ',';
             }
 
@@ -333,25 +381,19 @@ class StandingsHandler {
                 $guildDetails     = CommonDataContainer::$guildArray[$guildId];
                 $encounterDetails = $guildDetails->_encounterDetails->{self::$_encounterDetails->_encounterId};
 
-                if ( $updateWhereSQL != "WHERE guild_id IN (" ) {
-                    $updateWhereSQL .= ',';
+                if ( $columnName == 'datetime' ) {
+                    $encounterDetails->$value = $encounterDetails->_date . ' ' . $encounterDetails->_time;
                 }
 
-                if ( !in_array($guildId, $guildIds) ) {
-                    $updateWhereSQL .= "'" . $guildId . "'";
-                }
-
-                $updateSQL .= " WHEN guild_id = '" . $guildId . "' AND encounter_id = '" . self::$_encounterDetails->_encounterId . "' THEN '" . $encounterDetails->$value . "'";
+                $updateSQL .= " WHEN guild_id = '" . $guildId . "' AND encounter_id = '" . $encounterDetails->_encounterId . "' THEN '" . $encounterDetails->$value . "'";
             }
 
             $updateSQL .= ' END';
         }
 
-        $updateWhereSQL .= ") AND encounter_id IN ('" . self::$_encounterDetails->_encounterId . "')";
-
-        $updateSQL = $update . ' ' . $updateSQL . ' ' . $updateWhereSQL;
-
-        $query = $dbh->prepare($updateSQL);
+        $insertSQL = $insertSQL . ' ' . $insertValueSQL;
+        $insertSQL .= ' ON DUPLICATE KEY UPDATE ' . $updateSQL;
+        $query = $dbh->prepare($insertSQL);
         $query->execute();
     }
 

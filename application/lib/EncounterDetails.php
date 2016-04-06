@@ -37,6 +37,7 @@ class EncounterDetails extends DetailObject {
     protected $_screenshotLink = '--';
     protected $_hasVideo;
     protected $_videos = array();
+    protected $_numOfVideos = 0;
     protected $_videoLink = '--';
     protected $_worldRank;
     protected $_regionRank;
@@ -71,9 +72,10 @@ class EncounterDetails extends DetailObject {
         $this->_killServerLink = $serverDetails->_nameLink;
 
         if ( isset($params['videos']) && $params['videos'] > 0 ) {
-            $this->_hasVideos = true;
-            $this->_videos    = $this->getEncounterVideos($this->_encounterId, $guildDetails->_guildId);
-            $this->_videoLink = '<a class="video-activator" href="#" data-toggle="modal" data-target="#videoModal" data-guild="' . $guildDetails->_guildId . '" data-encounter="' . $this->_encounterId . '">View</a>';
+            $this->_hasVideos   = true;
+            $this->_videos      = $this->getEncounterVideos($this->_encounterId, $guildDetails->_guildId);
+            $this->_numOfVideos = count($this->_videos);
+            $this->_videoLink   = '<a class="video-activator" href="#" data-toggle="modal" data-target="#videoModal" data-guild="' . $guildDetails->_guildId . '" data-encounter="' . $this->_encounterId . '">View</a>';
         } else {
 
         }
