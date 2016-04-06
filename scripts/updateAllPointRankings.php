@@ -16,9 +16,9 @@ class UpdateAllPointRankings extends Script {
 
     public static function init() {
         echo "Running Standings<br>";
-        //StandingsHandler::update(1, 216, 41);
+        StandingsHandler::update(1, 216, 41);
         echo "<br>Ending Run of Standings";
-        //exit;
+
         echo "<br>Running Rankings<br>";
         RankingsHandler::update(1, 216, 41);
         echo "<br>Ending Run of Rankings";
