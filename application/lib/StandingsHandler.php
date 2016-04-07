@@ -163,135 +163,67 @@ class StandingsHandler {
     }
 
     protected static function _createStandings() {
-        if ( !empty(self::$_currentDungeonStandings) ) {
-            foreach ( self::$_currentDungeonStandings as $guildId => $details ) {
-                self::$_newDungeonStandings[$guildId] = array();
+        foreach ( self::$_guildsWithKills as $guildId => $guildDetails ) {
+            if ( !isset($guildDetails->_progression['dungeon']) ) { continue; }
 
-                $guildDetails = CommonDataContainer::$guildArray[$guildId];
+            self::$_newDungeonStandings[$guildId] = array();
 
-                if ( !isset($guildDetails->_progression['dungeon']) ) { continue; }
+            foreach ( $guildDetails->_progression['dungeon'] as $dungeonId => $dungeonEncounterArray ) {
+                if ( $dungeonId != self::$_dungeonDetails->_dungeonId ) { continue; }
 
-                foreach ( $guildDetails->_progression['dungeon'] as $dungeonId => $dungeonEncounterArray ) {
-                    if ( $dungeonId != self::$_dungeonDetails->_dungeonId ) { continue; }
+                $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
+                $detailsArray   = array();
 
-                    $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
-                    $detailsArray   = array();
+                $detailsArray['guild_id']         = $guildId;
+                $detailsArray['dungeon_id']       = $dungeonId;
+                $detailsArray['complete']         = 0;
+                $detailsArray['progress']         = 0;
+                $detailsArray['special_progress'] = 0;
+                $detailsArray['achievement']      = 'No';
+                $detailsArray['world_first']      = 0;
+                $detailsArray['region_first']     = 0;
+                $detailsArray['server_first']     = 0;
+                $detailsArray['country_first']    = 0;
+                $detailsArray['recent_time']      = 0;
+                $detailsArray['recent_activity']  = '';
 
-                    $detailsArray['guild_id']         = $guildId;
-                    $detailsArray['dungeon_id']       = $dungeonId;
-                    $detailsArray['complete']         = 0;
-                    $detailsArray['progress']         = 0;
-                    $detailsArray['special_progress'] = 0;
-                    $detailsArray['achievement']      = 'No';
-                    $detailsArray['world_first']      = 0;
-                    $detailsArray['region_first']     = 0;
-                    $detailsArray['server_first']     = 0;
-                    $detailsArray['country_first']    = 0;
-                    $detailsArray['recent_time']      = 0;
-                    $detailsArray['recent_activity']  = '';
+                foreach ( $dungeonEncounterArray as $encounterId => $encounterDetails ) {
+                    $encounter        = CommonDataContainer::$encounterArray[$encounterId];
+                    $encounterDetails = new EncounterDetails($encounterDetails, $guildDetails, $dungeonDetails);
 
-                    foreach ( $dungeonEncounterArray as $encounterId => $encounterDetails ) {
-                        $encounter        = CommonDataContainer::$encounterArray[$encounterId];
-                        $encounterDetails = new EncounterDetails($encounterDetails, $guildDetails, $dungeonDetails);
+                    if ( $encounter->_type == 0 && $encounterDetails->_worldRank == 1 ) { $detailsArray['world_first']++; }
+                    if ( $encounter->_type == 0 && $encounterDetails->_regionRank == 1 ) { $detailsArray['region_first']++; }
+                    if ( $encounter->_type == 0 && $encounterDetails->_serverRank == 1 ) { $detailsArray['server_first']++; }
+                    if ( $encounter->_type == 0 && $encounterDetails->_countryRank == 1 ) { $detailsArray['country_first']++; }
 
-                        if ( $encounter->_type == 0 && $encounterDetails->_worldRank == 1 ) { $detailsArray['world_first']++; }
-                        if ( $encounter->_type == 0 && $encounterDetails->_regionRank == 1 ) { $detailsArray['region_first']++; }
-                        if ( $encounter->_type == 0 && $encounterDetails->_serverRank == 1 ) { $detailsArray['server_first']++; }
-                        if ( $encounter->_type == 0 && $encounterDetails->_countryRank == 1 ) { $detailsArray['country_first']++; }
-
-                        if ( $encounter->_type == 0 ) {
-                            $detailsArray['progress']++;
-                            $detailsArray['complete']++;
-                        } elseif ( $encounter->_type == 1 ) {
-                            $detailsArray['achievement'] = 'Yes';
-                        } elseif ( $encounter->_type == 2 ) {
-                            $detailsArray['special_progress']++;
-                        }
-
-                        if ( $encounter->_type == 0 && ($detailsArray['recent_time'] == 0 || $encounterDetails->_strtotime > $detailsArray['recent_time']) ) {
-                            $detailsArray['recent_time']     = $encounterDetails->_strtotime;
-                            $detailsArray['recent_activity'] = $encounter->_encounterName . ' @ ' . $encounterDetails->_datetime;
-                        }
+                    if ( $encounter->_type == 0 ) {
+                        $detailsArray['progress']++;
+                        $detailsArray['complete']++;
+                    } elseif ( $encounter->_type == 1 ) {
+                        $detailsArray['achievement'] = 'Yes';
+                    } elseif ( $encounter->_type == 2 ) {
+                        $detailsArray['special_progress']++;
                     }
 
-                    $detailsArray['progress']         .= '/' . $dungeonDetails->_numOfEncounters . ' ' . $dungeonDetails->_abbreviation;
-                    $detailsArray['special_progress'] .= '/' . $dungeonDetails->_numOfSpecialEncounters;
-
-                    // if any error occurs, or if complete is 0, scrap and dont add
-                    if ( $detailsArray['complete'] == 0 ) {
-                        $detailsArray = array();
+                    if ( $encounter->_type == 0 && ($detailsArray['recent_time'] == 0 || $encounterDetails->_strtotime > $detailsArray['recent_time']) ) {
+                        $detailsArray['recent_time']     = $encounterDetails->_strtotime;
+                        $detailsArray['recent_activity'] = $encounter->_encounterName . ' @ ' . $encounterDetails->_datetime;
                     }
                 }
 
-                if ( !empty($detailsArray) ) {
-                    self::$_newDungeonStandings[$guildId] = $detailsArray;
+                $detailsArray['progress']         .= '/' . $dungeonDetails->_numOfEncounters . ' ' . $dungeonDetails->_abbreviation;
+                $detailsArray['special_progress'] .= '/' . $dungeonDetails->_numOfSpecialEncounters;
+
+                // if any error occurs, or if complete is 0, scrap and dont add
+                if ( $detailsArray['complete'] == 0 ) {
+                    $detailsArray = array();
                 }
             }
-        } else {
-            foreach ( self::$_guildsWithKills as $guildId => $guildDetails ) {
-                if ( !isset($guildDetails->_progression['dungeon']) ) { continue; }
 
-                self::$_newDungeonStandings[$guildId] = array();
-
-                foreach ( $guildDetails->_progression['dungeon'] as $dungeonId => $dungeonEncounterArray ) {
-                    if ( $dungeonId != self::$_dungeonDetails->_dungeonId ) { continue; }
-
-                    $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
-                    $detailsArray   = array();
-
-                    $detailsArray['guild_id']         = $guildId;
-                    $detailsArray['dungeon_id']       = $dungeonId;
-                    $detailsArray['complete']         = 0;
-                    $detailsArray['progress']         = 0;
-                    $detailsArray['special_progress'] = 0;
-                    $detailsArray['achievement']      = 'No';
-                    $detailsArray['world_first']      = 0;
-                    $detailsArray['region_first']     = 0;
-                    $detailsArray['server_first']     = 0;
-                    $detailsArray['country_first']    = 0;
-                    $detailsArray['recent_time']      = 0;
-                    $detailsArray['recent_activity']  = '';
-
-                    foreach ( $dungeonEncounterArray as $encounterId => $encounterDetails ) {
-                        $encounter        = CommonDataContainer::$encounterArray[$encounterId];
-                        $encounterDetails = new EncounterDetails($encounterDetails, $guildDetails, $dungeonDetails);
-
-                        if ( $encounter->_type == 0 && $encounterDetails->_worldRank == 1 ) { $detailsArray['world_first']++; }
-                        if ( $encounter->_type == 0 && $encounterDetails->_regionRank == 1 ) { $detailsArray['region_first']++; }
-                        if ( $encounter->_type == 0 && $encounterDetails->_serverRank == 1 ) { $detailsArray['server_first']++; }
-                        if ( $encounter->_type == 0 && $encounterDetails->_countryRank == 1 ) { $detailsArray['country_first']++; }
-
-                        if ( $encounter->_type == 0 ) {
-                            $detailsArray['progress']++;
-                            $detailsArray['complete']++;
-                        } elseif ( $encounter->_type == 1 ) {
-                            $detailsArray['achievement'] = 'Yes';
-                        } elseif ( $encounter->_type == 2 ) {
-                            $detailsArray['special_progress']++;
-                        }
-
-                        if ( $encounter->_type == 0 && ($detailsArray['recent_time'] == 0 || $encounterDetails->_strtotime > $detailsArray['recent_time']) ) {
-                            $detailsArray['recent_time']     = $encounterDetails->_strtotime;
-                            $detailsArray['recent_activity'] = $encounter->_encounterName . ' @ ' . $encounterDetails->_datetime;
-                        }
-                    }
-
-                    $detailsArray['progress']         .= '/' . $dungeonDetails->_numOfEncounters . ' ' . $dungeonDetails->_abbreviation;
-                    $detailsArray['special_progress'] .= '/' . $dungeonDetails->_numOfSpecialEncounters;
-
-                    // if any error occurs, or if complete is 0, scrap and dont add
-                    if ( $detailsArray['complete'] == 0 ) {
-                        $detailsArray = array();
-                    }
-                }
-
-                if ( !empty($detailsArray) ) {
-                    self::$_newDungeonStandings[$guildId] = $detailsArray;
-                }
+            if ( !empty($detailsArray) ) {
+                self::$_newDungeonStandings[$guildId] = $detailsArray;
             }
         }
-
-        //print_r(self::$_newDungeonStandings);
     }
 
     protected static function _getExistingDungeonStandings() {

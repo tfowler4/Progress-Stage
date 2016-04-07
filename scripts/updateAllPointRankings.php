@@ -15,13 +15,13 @@ class UpdateAllPointRankings extends Script {
     protected static $_existingEncounterRankingsArray = array();
 
     public static function init() {
-        /*
+        
         echo "Running Standings<br>";
         StandingsHandler::update(1, 216, 41);
         echo "<br>Ending Run of Standings";
-
+        /*
         echo "<br>Running Rankings<br>";
-        RankingsHandler::update(1, 216, 41);
+        RankingsHandler::update(286, 236, 45);
         echo "<br>Ending Run of Rankings";
         exit;
         */

@@ -176,6 +176,8 @@ class RankingsHandler {
         foreach( self::$_dungeonDetails->_encounters as $encounter ) {
             $encounterId = $encounter->_encounterId;
 
+            if ( $encounter->_type != 0 ) { continue; }
+
             $encounterKillArray = DbFactory::getStandingsForEncounter($encounterId);
 
             foreach($encounterKillArray as $guildId => $guildDetails) {
@@ -322,7 +324,8 @@ class RankingsHandler {
                     if ( $dungeonDetails->_finalEncounterId == $encounterId && !isset($dungeonFinalEncounterCheck[$dungeonId][$guildId] ) ) {
                         self::$_dungeonPointArray[$dungeonId]['QP'][$guildId]  = $qpValue . '_' . $pointValues[1];
                         $dungeonFinalEncounterCheck[$dungeonId][$guildId] = true;
-                    } else {
+
+                    } else if ( $dungeonFinalEncounterCheck[$dungeonId][$guildId] == false) {
                         self::$_dungeonPointArray[$dungeonId]['QP'][$guildId]  = ($qpValue + $pointValues[0]) . '_' . $pointValues[1];
                     }
                 }
@@ -916,10 +919,15 @@ class RankingsHandler {
                              values", DbFactory::TABLE_ENCOUNTER_RANKINGS);
         $insertValueSQL = '';
         $updateSQL      = '';
+        $encounterDetailsArray = array();
 
         foreach ( self::$_rankArrayForEncounters as $guildId => $encounterArray ) {
             $guildDetails = CommonDataContainer::$guildArray[$guildId];
             $detailsArray = array();
+
+            if ( !isset($encouterDetailsArray[$guildId]) ) {
+                $encounterDetailsArray[$guildId] = array();
+            }
 
             foreach ( $encounterArray as $encounter => $rankValue ) {
                 $encounterVals    = explode('_', $encounter);
@@ -946,6 +954,8 @@ class RankingsHandler {
                 $detailsArray[$encounterId][$system . '_country_rank'] = $rankValue[5];
             }
 
+            $encounterDetailsArray[$guildId] = $detailsArray;
+
             // handle insert
             foreach ( $detailsArray as $encounterId => $encounters ) {
                 $encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
@@ -967,23 +977,24 @@ class RankingsHandler {
 
                 $insertValueSQL .= $encounterValueSQL . ')';
             }
+        }
 
-            // handle update
-            foreach ( self::RANKING_ENCOUNTER_MAPPER as $columnName => $value ) {
-                if ( !empty($updateSQL) ) {
-                    $updateSQL .= ',';
-                }
-
-                $updateSQL .= ' ' . $columnName . ' = CASE';
-
-                foreach ( $detailsArray as $encounterId => $encounters ) {
-                    foreach ( $encounters as $key => $detailValue ) {
-                        $updateSQL .= " WHEN guild_id = '" . $guildId . "' AND encounter_id = '" . $encounterId . "' THEN '" . $encounters[$value] . "'";
-                    }
-                }
-
-                $updateSQL .= ' END';
+        // handle update
+        foreach ( self::RANKING_ENCOUNTER_MAPPER as $columnName => $value ) {
+            if ( !empty($updateSQL) ) {
+                $updateSQL .= ',';
             }
+
+            $updateSQL .= ' ' . $columnName . ' = CASE';
+
+
+            foreach ( $encounterDetailsArray as $guildId => $detailsArray ) {
+                foreach ( $detailsArray as $encounterId => $encounters ) {
+                    $updateSQL .= " WHEN guild_id = '" . $guildId . "' AND encounter_id = '" . $encounterId . "' THEN '" . $encounters[$value] . "'";
+                }
+            }
+
+            $updateSQL .= ' END';
         }
 
         $insertSQL = $insertSQL . ' ' . $insertValueSQL;
