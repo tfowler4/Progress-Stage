@@ -24,6 +24,7 @@ class DungeonDetails extends DetailObject {
     protected $_worldFirst = 0;
     protected $_regionFirst = 0;
     protected $_serverFirst = 0;
+    protected $_countryFirst = 0;
     protected $_trend;
     protected $_prevRank;
     protected $_pointDiff;

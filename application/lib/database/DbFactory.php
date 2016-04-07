@@ -668,7 +668,15 @@ class DbFactory {
                     server_first,
                     country_first,
                     recent_time,
-                    recent_activity
+                    recent_activity,
+                    world_rank,
+                    region_rank,
+                    server_rank,
+                    country_rank,
+                    world_trend,
+                    region_trend,
+                    server_trend,
+                    country_trend
                FROM %s
               WHERE dungeon_id = %d
            ORDER BY complete DESC,
@@ -710,7 +718,15 @@ class DbFactory {
                     server_first,
                     country_first,
                     recent_time,
-                    recent_activity
+                    recent_activity,
+                    world_rank,
+                    region_rank,
+                    server_rank,
+                    country_rank,
+                    world_trend,
+                    region_trend,
+                    server_trend,
+                    country_trend
                FROM %s
               WHERE dungeon_id = %d
                 AND guild_id = %d

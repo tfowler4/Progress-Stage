@@ -35,7 +35,15 @@ class StandingsHandler {
             'server_first'     => 'server_first',
             'country_first'    => 'country_first',
             'recent_activity'  => 'recent_activity',
-            'recent_time'      => 'recent_time'
+            'recent_time'      => 'recent_time',
+            'world_rank'       => 'world_rank',
+            'region_rank'      => 'region_rank',
+            'server_rank'      => 'server_rank',
+            'country_rank'     => 'country_rank',
+            'world_trend'      => 'world_trend',
+            'region_trend'     => 'region_trend',
+            'server_trend'     => 'server_trend',
+            'country_trend'    => 'country_trend'
         );
 
     public static function update($guildId, $encounterId, $dungeonId) {
@@ -67,7 +75,15 @@ class StandingsHandler {
                                   server_first,
                                   country_first,
                                   recent_activity,
-                                  recent_time)
+                                  recent_time,
+                                  world_rank,
+                                  region_rank,
+                                  server_rank,
+                                  country_rank,
+                                  world_trend,
+                                  region_trend,
+                                  server_trend,
+                                  country_trend)
                                   values", DbFactory::TABLE_STANDINGS);
         $insertValueSQL = '';
         $updateSQL      = '';
@@ -112,7 +128,7 @@ class StandingsHandler {
         }
 
         $insertSQL = $insertSQL . ' ' . $insertValueSQL;
-        $insertSQL .= ' ON DUPLICATE KEY UPDATE ' . $updateSQL;
+        $insertSQL .= ' ON DUPLICATE KEY UPDATE ' . $updateSQL;echo $insertSQL;
         $query = $dbh->prepare($insertSQL);
         $query->execute();
     }
@@ -224,6 +240,109 @@ class StandingsHandler {
                 self::$_newDungeonStandings[$guildId] = $detailsArray;
             }
         }
+
+        // adding new ranking and trending
+        $sortArray = array();
+
+        foreach( self::$_newDungeonStandings as $guildId => $standingsDetails ) {
+            $complete = $standingsDetails['complete'];
+            $time     = $standingsDetails['recent_time'];
+
+            if ( !isset($sortArray[$complete]) ) {
+                $sortArray[$complete] = array();
+            }
+
+            $sortArray[$complete][$guildId] = $time;
+        }
+
+        krsort($sortArray);
+
+        foreach ( $sortArray as $complete => $guildArray ) {
+            asort($guildArray);
+
+            $sortArray[$complete] = $guildArray;
+        }
+
+        $overallStandingsArray = array();
+
+        foreach ( $sortArray as $complete => $guildArray ) {
+            foreach ( $guildArray as $guildId => $time ) {
+                array_push($overallStandingsArray, $guildId);
+            }
+        }
+
+        $rankArray  = array();
+        foreach ( $overallStandingsArray as $guildId ) {
+            $guildDetails = CommonDataContainer::$guildArray[$guildId];
+            $server       = $guildDetails->_server;
+            $region       = $guildDetails->_region;
+            $country      = $guildDetails->_country;
+
+            if ( !isset($rankArray['world']) ) {             $rankArray['world'] = 0; }
+            if ( !isset($rankArray['server'][$server]) ) {   $rankArray['server'][$server] = 0; }
+            if ( !isset($rankArray['region'][$region]) ) {   $rankArray['region'][$region] = 0; }
+            if ( !isset($rankArray['country'][$country]) ) { $rankArray['country'][$country] = 0; }
+
+            $rankArray['world']++;
+            $rankArray['region'][$region]++;
+            $rankArray['server'][$server]++;
+            $rankArray['country'][$country]++;
+
+            // check for trending
+            if ( isset(self::$_currentDungeonStandings[$guildId]) ) {
+                $newStandingsDetails     = self::$_newDungeonStandings[$guildId];
+                $currentStandingsDetails = self::$_currentDungeonStandings[$guildId];
+
+                // current ranks and trends
+                $currentWorldRank   = $currentStandingsDetails->_worldRank;
+                $currentRegionRank  = $currentStandingsDetails->_regionRank;
+                $currentServerRank  = $currentStandingsDetails->_serverRank;
+                $currentCountryRank = $currentStandingsDetails->_countryRank;
+
+                $currentWorldTrend   = $currentStandingsDetails->_worldTrend;
+                $currentRegionTrend  = $currentStandingsDetails->_regionTrend;
+                $currentServerTrend  = $currentStandingsDetails->_serverTrend;
+                $currentCountryTrend = $currentStandingsDetails->_countryTrend;
+
+                // new ranks
+                $newStandingsDetails['world_rank']   =  $rankArray['world'];
+                $newStandingsDetails['region_rank']  =  $rankArray['region'][$region];
+                $newStandingsDetails['server_rank']  =  $rankArray['server'][$server];
+                $newStandingsDetails['country_rank'] =  $rankArray['country'][$country];
+
+                // setting trend
+                if ( empty($currentWorldRank) )    { $newStandingsDetails['world_trend'] = 'NEW'; }
+                if ( empty($currentRegionRank) )   { $newStandingsDetails['region_trend'] = 'NEW'; }
+                if ( empty($currentServerRank) )   { $newStandingsDetails['server_trend'] = 'NEW'; }
+                if ( empty($ccurrentCountryRank) ) { $newStandingsDetails['country_trend'] = 'NEW'; }
+
+                if ( !empty($currentWorldRank) ) {
+                    if ( $currentWorldRank > $rankArray['world'] ) {  $newStandingsDetails['world_trend'] = $currentWorldRank - $rankArray['world']; }
+                    if ( $currentWorldRank < $rankArray['world'] ) {  $newStandingsDetails['world_trend'] = -1 * ($rankArray['world'] - $currentWorldRank); }
+                    if ( $currentWorldRank == $rankArray['world'] ) { $newStandingsDetails['world_trend'] = '--'; }
+                }
+
+                if ( !empty($currentRegionRank) ) {
+                    if ( $currentRegionRank > $rankArray['region'][$region] ) {  $newStandingsDetails['region_trend'] = $currentRegionRank - $rankArray['region'][$region]; }
+                    if ( $currentRegionRank < $rankArray['region'][$region] ) {  $newStandingsDetails['region_trend'] = -1 * ($rankArray['region'][$region] - $currentRegionRank); }
+                    if ( $currentRegionRank == $rankArray['region'][$region] ) { $newStandingsDetails['region_trend'] = '--'; }
+                }
+
+                if ( !empty($currentServerRank) ) {
+                    if ( $currentServerRank > $rankArray['server'][$server] ) {  $newStandingsDetails['server_trend'] = $currentServerRank - $rankArray['server'][$server]; }
+                    if ( $currentServerRank < $rankArray['server'][$server] ) {  $newStandingsDetails['server_trend'] = -1 * ($rankArray['server'][$server] - $currentServerRank); }
+                    if ( $currentServerRank == $rankArray['server'][$server] ) { $newStandingsDetails['server_trend'] = '--'; }
+                }
+
+                if ( !empty($currentCountryRank) ) {
+                    if ( $currentCountryRank > $rankArray['country'][$country] ) {  $newStandingsDetails['country_trend'] = $currentCountryRank - $rankArray['country'][$country]; }
+                    if ( $currentCountryRank < $rankArray['country'][$country] ) {  $newStandingsDetails['country_trend'] = -1 * ($rankArray['country'][$country] - $currentCountryRank); }
+                    if ( $currentCountryRank == $rankArray['country'][$country] ) { $newStandingsDetails['country_trend'] = '--'; }
+                }
+
+                self::$_newDungeonStandings[$guildId] = $newStandingsDetails;
+            }
+        }
     }
 
     protected static function _getExistingDungeonStandings() {
@@ -246,6 +365,8 @@ class StandingsHandler {
 
             self::$_currentDungeonStandings[$guildId] = $row;
         }
+
+        self::$_currentDungeonStandings = DbFactory::getStandingsForDungeon(self::$_dungeonDetails->_dungeonId, self::$_currentDungeonStandings);
     }
 
     protected static function _updateEncounterStandings() {

@@ -35,7 +35,8 @@ class StandingsModel extends Model {
             array('header' => 'WF',              'key' => '_worldFirst',      'class' => 'text-center border-left hidden-xs'),
             array('header' => 'RF',              'key' => '_regionFirst',     'class' => 'text-center hidden-xs'),
             array('header' => 'SF',              'key' => '_serverFirst',     'class' => 'text-center hidden-xs'),
-            array('header' => 'Recent Activity', 'key' => '_recentActivity',  'class' => 'text-center border-left hidden-xs hidden-sm hidden-md')
+            array('header' => 'Trending',        'key' => '_trendImage',      'class' => 'text-center border-left hidden-xs'),
+            array('header' => 'Recent Activity', 'key' => '_recentActivity',  'class' => 'text-center hidden-xs hidden-sm hidden-md')
         );
 
     const TABLE_HEADER_STANDINGS_ENCOUNTER = array(
