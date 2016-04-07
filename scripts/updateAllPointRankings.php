@@ -15,6 +15,7 @@ class UpdateAllPointRankings extends Script {
     protected static $_existingEncounterRankingsArray = array();
 
     public static function init() {
+        /*
         echo "Running Standings<br>";
         StandingsHandler::update(1, 216, 41);
         echo "<br>Ending Run of Standings";
@@ -23,6 +24,7 @@ class UpdateAllPointRankings extends Script {
         RankingsHandler::update(1, 216, 41);
         echo "<br>Ending Run of Rankings";
         exit;
+        */
 
         Logger::log('INFO', 'Starting Update All Point Rankings...', 'dev');
 

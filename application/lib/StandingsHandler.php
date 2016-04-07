@@ -310,6 +310,8 @@ class StandingsHandler {
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
             $guildId = $row['guild_id'];
 
+            if ( !isset(CommonDataContainer::$guildArray[$guildId]) ) { continue; }
+
             self::$_currentDungeonStandings[$guildId] = $row;
         }
     }

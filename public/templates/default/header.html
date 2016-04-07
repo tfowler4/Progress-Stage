@@ -32,13 +32,13 @@
 
 <?php if ( !empty(CommonDataContainer::$recentRaidsArray) ): ?>
     <div class="container-fluid">
-        <div class="col-lg-offset-1 col-lg-10">
+        <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12 hidden-xs hidden-sm" style="margin-top:5px; margin-bottom:5px;">
                     <div id="carouselLatestKills" class="carousel slide" data-interval="false" data-ride="carousel" style="width:100%; height:80px; z-index:1000;">
                         <div class="carousel-inner" role="listbox" style="height:80px; margin:0 auto; padding-left:25px; padding-right:25px;">
                             <?php $numOfKills  = count(CommonDataContainer::$recentRaidsArray); ?>
-                            <?php $numOfSlides = floor($numOfKills / 9); ?>
+                            <?php $numOfSlides = floor($numOfKills / 8); ?>
                             <?php $slideArray  = array(); ?>
                             <?php $slideCount  = 0; ?>
                             <?php $killCount   = 0; ?>
