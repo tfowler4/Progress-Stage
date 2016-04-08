@@ -128,7 +128,7 @@ class StandingsHandler {
         }
 
         $insertSQL = $insertSQL . ' ' . $insertValueSQL;
-        $insertSQL .= ' ON DUPLICATE KEY UPDATE ' . $updateSQL;echo $insertSQL;
+        $insertSQL .= ' ON DUPLICATE KEY UPDATE ' . $updateSQL;
         $query = $dbh->prepare($insertSQL);
         $query->execute();
     }
@@ -202,6 +202,10 @@ class StandingsHandler {
                 $detailsArray['country_first']    = 0;
                 $detailsArray['recent_time']      = 0;
                 $detailsArray['recent_activity']  = '';
+                $detailsArray['world_rank']       = '';
+                $detailsArray['region_rank']      = '';
+                $detailsArray['server_rank']      = '';
+                $detailsArray['country_rank']     = '';
 
                 foreach ( $dungeonEncounterArray as $encounterId => $encounterDetails ) {
                     $encounter        = CommonDataContainer::$encounterArray[$encounterId];
@@ -340,6 +344,13 @@ class StandingsHandler {
                     if ( $currentCountryRank == $rankArray['country'][$country] ) { $newStandingsDetails['country_trend'] = '--'; }
                 }
 
+                self::$_newDungeonStandings[$guildId] = $newStandingsDetails;
+            } else {
+                $newStandingsDetails                  = self::$_newDungeonStandings[$guildId];
+                $newStandingsDetails['world_trend']   = 'NEW';
+                $newStandingsDetails['region_trend']  = 'NEW';
+                $newStandingsDetails['server_trend']  = 'NEW';
+                $newStandingsDetails['country_trend'] = 'NEW';
                 self::$_newDungeonStandings[$guildId] = $newStandingsDetails;
             }
         }

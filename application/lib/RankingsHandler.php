@@ -19,25 +19,6 @@ class RankingsHandler {
     protected static $_dungeonDetails;
     protected static $_encounterDetails;
 
-    /*
-    const RANKING_MAPPER = array(
-        'progress'              => 'progress',
-        'special_progress'      => 'special_progress',
-        '_points'             => '_points',
-        '_world_rank'         => '_world_rank',
-        '_region_rank'        => '_region_rank',
-        '_server_rank'        => '_server_rank',
-        '_country_rank'       => '_country_rank',
-        '_world_trend'        => '_world_trend',
-        '_region_trend'       => '_region_trend',
-        '_server_trend'       => '_server_trend',
-        '_country_trend'      => '_country_trend',
-        '_world_prev_rank'    => '_world_prev_rank',
-        '_region_prev_rank'   => '_region_prev_rank',
-        '_server_prev_rank'   => '_server_prev_rank',
-        '_country_prev_rank'  => '_country_prev_rank'
-        );
-    */
     const RANKING_QP_MAPPER = array(
         'progress'              => 'progress',
         'special_progress'      => 'special_progress',
@@ -274,11 +255,19 @@ class RankingsHandler {
             $dungeonId        = $encounterDetails->_dungeonId;
             $dungeonDetails   = CommonDataContainer::$dungeonArray[$dungeonId];
 
+            if ( !isset($dungeonFinalEncounterCheck[$dungeonId]) ) {
+                $dungeonFinalEncounterCheck[$dungeonId] = array();
+            }
+
             foreach ( $guildArray as $guildId => $strtotime ) {
                 $guildDetails = CommonDataContainer::$guildArray[$guildId];
                 $apBaseValue  = POINT_BASE;
                 $apfBaseValue = POINT_BASE_MOD;
                 $qpBaseValue  = POINT_BASE;
+
+                if ( !isset($dungeonFinalEncounterCheck[$dungeonId][$guildId]) ) {
+                    $dungeonFinalEncounterCheck[$dungeonId][$guildId] = false;
+                }
 
                 // Apply Special Rules 1 by 1 before generating points
                 
@@ -321,11 +310,12 @@ class RankingsHandler {
                     $pointValues = explode('_', self::$_dungeonPointArray[$dungeonId]['QP'][$guildId]);
 
                     // If Final Encounter, make point value the final dungeon value
-                    if ( $dungeonDetails->_finalEncounterId == $encounterId && !isset($dungeonFinalEncounterCheck[$dungeonId][$guildId] ) ) {
+                    //if ( $dungeonDetails->_finalEncounterId == $encounterId && !isset($dungeonFinalEncounterCheck[$dungeonId][$guildId] ) ) {
+                    if ( $dungeonDetails->_finalEncounterId == $encounterId && $dungeonFinalEncounterCheck[$dungeonId][$guildId] == false ) {
                         self::$_dungeonPointArray[$dungeonId]['QP'][$guildId]  = $qpValue . '_' . $pointValues[1];
                         $dungeonFinalEncounterCheck[$dungeonId][$guildId] = true;
 
-                    } else if ( $dungeonFinalEncounterCheck[$dungeonId][$guildId] == false) {
+                    } else {
                         self::$_dungeonPointArray[$dungeonId]['QP'][$guildId]  = ($qpValue + $pointValues[0]) . '_' . $pointValues[1];
                     }
                 }
@@ -553,54 +543,6 @@ class RankingsHandler {
 
         ksort(self::$_rankArrayForDungeons);
 
-        /*
-        $insertSQL = sprintf("INSERT INTO %s
-                             (guild_id,
-                              dungeon_id,
-                              progress,
-                              special_progress,
-                              qp_points,
-                              qp_world_rank,
-                              qp_region_rank,
-                              qp_server_rank,
-                              qp_country_rank,
-                              qp_world_trend,
-                              qp_region_trend,
-                              qp_server_trend,
-                              qp_country_trend,
-                              qp_world_prev_rank,
-                              qp_region_prev_rank,
-                              qp_server_prev_rank,
-                              qp_country_prev_rank,
-                              ap_points,
-                              ap_world_rank,
-                              ap_region_rank,
-                              ap_server_rank,
-                              ap_country_rank,
-                              ap_world_trend,
-                              ap_region_trend,
-                              ap_server_trend,
-                              ap_country_trend,
-                              ap_world_prev_rank,
-                              ap_region_prev_rank,
-                              ap_server_prev_rank,
-                              ap_country_prev_rank,
-                              apf_points,
-                              apf_world_rank,
-                              apf_region_rank,
-                              apf_server_rank,
-                              apf_country_rank,
-                              apf_world_trend,
-                              apf_region_trend,
-                              apf_server_trend,
-                              apf_country_trend,
-                              apf_world_prev_rank,
-                              apf_region_prev_rank,
-                              apf_server_prev_rank,
-                              apf_country_prev_rank)
-                              values", DbFactory::TABLE_RANKINGS);
-        */
-
         $insertQPSQL = sprintf("INSERT INTO %s
                              (guild_id,
                               dungeon_id,
@@ -751,18 +693,6 @@ class RankingsHandler {
                 $dungeonValueAPSQL  =  $guildId . ', ' . $dungeonId;
                 $dungeonValueAPFSQL =  $guildId . ', ' . $dungeonId;
 
-                /*
-                foreach ( self::RANKING_MAPPER as $columnName => $value ) {
-                    if ( !empty($dungeonValueSQL) ) {
-                        $dungeonValueSQL .= ',';
-                    }
-
-                    $dungeonValueSQL .= "'" .  $detailsArray[$dungeonId][$value] . "'";
-                }
-
-                $insertValueSQL .= $dungeonValueSQL . ')';
-                */
-
                 // QP
                 foreach ( self::RANKING_QP_MAPPER as $columnName => $value ) {
                     if ( !empty($dungeonValueQPSQL) ) {
@@ -799,25 +729,7 @@ class RankingsHandler {
         }
 
         // handle update
-        /*
-        foreach ( self::RANKING_MAPPER as $columnName => $value ) {
-            if ( !empty($updateSQL) ) {
-                $updateSQL .= ',';
-            }
 
-            $updateSQL .= ' ' . $columnName . ' = CASE';
-
-            foreach ( $dungeonDetailsArray as $guildId => $detailsArray ) {
-                foreach ( $detailsArray as $dungeonId => $dungeons ) {
-                    foreach ( $dungeons as $key => $detailValue ) {
-                        $updateSQL .= " WHEN guild_id = '" . $guildId . "' AND dungeon_id = '" . $dungeonId . "' THEN '" . $dungeons[$value] . "'";
-                    }
-                }
-            }
-
-            $updateSQL .= ' END';
-        }
-        */
         // QP
         foreach ( self::RANKING_QP_MAPPER as $columnName => $value ) {
             if ( !empty($updateQPSQL) ) {
@@ -868,13 +780,6 @@ class RankingsHandler {
 
             $updateAPFSQL .= ' END';
         }
-
-        /*
-        $insertSQL = $insertSQL . ' ' . $insertValueSQL;
-        $insertSQL .= ' ON DUPLICATE KEY UPDATE ' . $updateSQL;
-        $query = $dbh->prepare($insertSQL);
-        $query->execute();
-        */
 
         $insertQPSQL = $insertQPSQL . ' ' . $insertQPValueSQL;
         $insertQPSQL .= ' ON DUPLICATE KEY UPDATE ' . $updateQPSQL;

@@ -77,10 +77,10 @@ class StandingsDataObject extends DetailObject {
                 $this->_trend = $this->_worldTrend;
                 break;
             case 'region':
-                $this->_trend = $this->_worldTrend;
+                $this->_trend = $this->_regionTrend;
                 break;
             case 'server':
-                $this->_trend = $this->_regionTrend;
+                $this->_trend = $this->_serverTrend;
                 break;
             case 'country':
                 $this->_trend = $this->_countryTrend;

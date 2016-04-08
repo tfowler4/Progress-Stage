@@ -652,7 +652,7 @@ class DbFactory {
      * 
      * @return void
      */
-    public static function getStandingsForDungeon($dungeonId, $acceptableGuilds) {
+    public static function getStandingsForDungeon($dungeonId, $acceptableGuilds, $view = 'world') {
         $guildArray = array();
 
         $query = self::$_dbh->query(sprintf(
@@ -690,7 +690,7 @@ class DbFactory {
 
             if ( !isset($acceptableGuilds[$guildId]) ) { continue; }
 
-            $guildArray[$guildId] = new StandingsDataObject($row);
+            $guildArray[$guildId] = new StandingsDataObject($row, $view);
         }
 
         return $guildArray;

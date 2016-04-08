@@ -214,7 +214,7 @@ class Listings extends DataObject {
         if ( $this->_encounter ) {
             $temporaryGuildArray = DbFactory::getStandingsForEncounter($this->_identifier, $this->_guildArray);
         } else {
-            $temporaryGuildArray = DbFactory::getStandingsForDungeon($this->_identifier, $this->_guildArray);
+            $temporaryGuildArray = DbFactory::getStandingsForDungeon($this->_identifier, $this->_guildArray, $this->_view);
         }
 
         if ( $this->_isSpreadsheet ) {
