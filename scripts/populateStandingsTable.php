@@ -7,6 +7,7 @@ class PopulateStandingsTable extends Script {
     protected static $_existingStandingsArray = array();
 
     public static function init() {
+        exit; //Until removed
         Logger::log('INFO', 'Starting Populate Standings Table...', 'dev');
 
         self::getAllEncounterKills();

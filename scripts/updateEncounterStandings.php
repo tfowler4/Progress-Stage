@@ -7,6 +7,7 @@ class UpdateEncounterStandings extends Script {
     protected static $_sortedEncounterKillArray;
 
     public static function init() {
+        exit; // Until Removed
         Logger::log('INFO', 'Starting Update Encounter Standings...', 'dev');
 
         self::getAllEncounterKills();
