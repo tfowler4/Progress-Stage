@@ -4,13 +4,13 @@
  * standings object to handle the creation and updating process of guild dungeon/encounter standings
  */
 class StandingsHandler {
-    protected static $_encounterDetails;
-    protected static $_dungeonDetails;
-    protected static $_currentDungeonStandings = array();
-    protected static $_currentEncounterStandings = array();
-    protected static $_newDungeonStandings = array();
-    protected static $_guildsWithKills = array();
-    protected static $_killTimeArray = array();
+    protected $_encounterDetails;
+    protected $_dungeonDetails;
+    protected $_currentDungeonStandings = array();
+    protected $_currentEncounterStandings = array();
+    protected $_newDungeonStandings = array();
+    protected $_guildsWithKills = array();
+    protected $_killTimeArray = array();
 
     const ENCOUNTER_MAPPER = array(
             'datetime'     => '_datetime',
@@ -46,22 +46,22 @@ class StandingsHandler {
             'country_trend'    => 'country_trend'
         );
 
-    public static function update($guildId, $encounterId, $dungeonId) {
-        self::$_encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
-        self::$_dungeonDetails   = CommonDataContainer::$dungeonArray[$dungeonId];
+    public function update($encounterId, $dungeonId) {
+        $this->_encounterDetails = CommonDataContainer::$encounterArray[$encounterId];
+        $this->_dungeonDetails   = CommonDataContainer::$dungeonArray[$dungeonId];
 
-        self::_updateEncounterStandings();
+        $this->_updateEncounterStandings();
 
-        self::_updateDungeonStandings();
+        $this->_updateDungeonStandings();
     }
 
-    protected static function _updateDungeonStandings() {
+    protected function _updateDungeonStandings() {
         $dbh = DbFactory::getDbh();
 
-        self::_getExistingDungeonStandings();
-        self::_getAllDungeonEncounterKills();
+        $this->_getExistingDungeonStandings();
+        $this->_getAllDungeonEncounterKills();
 
-        self::_createStandings();
+        $this->_createStandings();
 
         $insertSQL      = sprintf("INSERT INTO %s
                                  (guild_id,
@@ -89,7 +89,7 @@ class StandingsHandler {
         $updateSQL      = '';
 
         // handle insert
-        foreach ( self::$_newDungeonStandings as $guildId => $dungeonDetails ) {
+        foreach ( $this->_newDungeonStandings as $guildId => $dungeonDetails ) {
             $guildDetails = CommonDataContainer::$guildArray[$guildId];
 
             if ( !empty($insertValueSQL) ) {
@@ -97,14 +97,14 @@ class StandingsHandler {
             }
 
             $insertValueSQL    .= '(';
-            $dungeonValueSQL =  $guildId . ', ' . self::$_dungeonDetails->_dungeonId;
+            $dungeonValueSQL =  $guildId . ', ' . $this->_dungeonDetails->_dungeonId;
 
             foreach ( self::DUNGEON_MAPPER as $columnName => $value ) {
                 if ( !empty($dungeonValueSQL) ) {
                     $dungeonValueSQL .= ',';
                 }
 
-                $dungeonValueSQL .= "'" . $dungeonDetails[$value] . "'";
+                $dungeonValueSQL .= '"' . $dungeonDetails[$value] . '"';
             }
 
             $insertValueSQL .= $dungeonValueSQL . ')';
@@ -118,22 +118,24 @@ class StandingsHandler {
 
             $updateSQL .= ' ' . $columnName . ' = CASE';
 
-            foreach ( self::$_newDungeonStandings as $guildId => $dungeonDetails ) {
+            foreach ( $this->_newDungeonStandings as $guildId => $dungeonDetails ) {
                 $guildDetails = CommonDataContainer::$guildArray[$guildId];
 
-                $updateSQL .= " WHEN guild_id = '" . $guildId . "' AND dungeon_id = '" . self::$_dungeonDetails->_dungeonId . "' THEN '" . $dungeonDetails[$value] . "'";
+                $updateSQL .= ' WHEN guild_id = "' . $guildId . '" AND dungeon_id = "' . $this->_dungeonDetails->_dungeonId . '" THEN "' .  $dungeonDetails[$value] . '"';
             }
 
             $updateSQL .= ' END';
         }
 
-        $insertSQL = $insertSQL . ' ' . $insertValueSQL;
-        $insertSQL .= ' ON DUPLICATE KEY UPDATE ' . $updateSQL;
-        $query = $dbh->prepare($insertSQL);
-        $query->execute();
+        if ( !empty($this->_newDungeonStandings) ) {
+            $insertSQL = $insertSQL . ' ' . $insertValueSQL;
+            $insertSQL .= ' ON DUPLICATE KEY UPDATE ' . $updateSQL;
+            $query = $dbh->prepare($insertSQL);
+            $query->execute();
+        }
     }
 
-    protected static function _getAllDungeonEncounterKills() {
+    protected function _getAllDungeonEncounterKills() {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->query(sprintf(
@@ -156,7 +158,7 @@ class StandingsHandler {
                FROM %s
               WHERE dungeon_id ='%d'",
                     DbFactory::TABLE_KILLS,
-                    self::$_dungeonDetails->_dungeonId
+                    $this->_dungeonDetails->_dungeonId
             ));
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
             $guildId          = $row['guild_id'];
@@ -171,21 +173,21 @@ class StandingsHandler {
                 $arr['encounter'][$encounterId]           = $row;
                 $guildDetails->_progression               = $arr;
 
-                if ( !isset(self::$_guildsWithKills[$guildId]) ) {
-                    self::$_guildsWithKills[$guildId] = $guildDetails;
+                if ( !isset($this->_guildsWithKills[$guildId]) ) {
+                    $this->_guildsWithKills[$guildId] = $guildDetails;
                 }
             }
         }
     }
 
-    protected static function _createStandings() {
-        foreach ( self::$_guildsWithKills as $guildId => $guildDetails ) {
+    protected function _createStandings() {
+        foreach ( $this->_guildsWithKills as $guildId => $guildDetails ) {
             if ( !isset($guildDetails->_progression['dungeon']) ) { continue; }
 
-            self::$_newDungeonStandings[$guildId] = array();
+            $this->_newDungeonStandings[$guildId] = array();
 
             foreach ( $guildDetails->_progression['dungeon'] as $dungeonId => $dungeonEncounterArray ) {
-                if ( $dungeonId != self::$_dungeonDetails->_dungeonId ) { continue; }
+                if ( $dungeonId != $this->_dungeonDetails->_dungeonId ) { continue; }
 
                 $dungeonDetails = CommonDataContainer::$dungeonArray[$dungeonId];
                 $detailsArray   = array();
@@ -241,14 +243,19 @@ class StandingsHandler {
             }
 
             if ( !empty($detailsArray) ) {
-                self::$_newDungeonStandings[$guildId] = $detailsArray;
+                $this->_newDungeonStandings[$guildId] = $detailsArray;
             }
         }
 
         // adding new ranking and trending
         $sortArray = array();
 
-        foreach( self::$_newDungeonStandings as $guildId => $standingsDetails ) {
+        foreach( $this->_newDungeonStandings as $guildId => $standingsDetails ) {
+            if ( empty($standingsDetails) ) {
+                unset($this->_newDungeonStandings[$guildId]);
+                continue;
+            }
+
             $complete = $standingsDetails['complete'];
             $time     = $standingsDetails['recent_time'];
 
@@ -293,9 +300,9 @@ class StandingsHandler {
             $rankArray['country'][$country]++;
 
             // check for trending
-            if ( isset(self::$_currentDungeonStandings[$guildId]) ) {
-                $newStandingsDetails     = self::$_newDungeonStandings[$guildId];
-                $currentStandingsDetails = self::$_currentDungeonStandings[$guildId];
+            if ( isset($this->_currentDungeonStandings[$guildId]) ) {
+                $newStandingsDetails     = $this->_newDungeonStandings[$guildId];
+                $currentStandingsDetails = $this->_currentDungeonStandings[$guildId];
 
                 // current ranks and trends
                 $currentWorldRank   = $currentStandingsDetails->_worldRank;
@@ -344,19 +351,19 @@ class StandingsHandler {
                     if ( $currentCountryRank == $rankArray['country'][$country] ) { $newStandingsDetails['country_trend'] = '--'; }
                 }
 
-                self::$_newDungeonStandings[$guildId] = $newStandingsDetails;
+                $this->_newDungeonStandings[$guildId] = $newStandingsDetails;
             } else {
-                $newStandingsDetails                  = self::$_newDungeonStandings[$guildId];
+                $newStandingsDetails                  = $this->_newDungeonStandings[$guildId];
                 $newStandingsDetails['world_trend']   = 'NEW';
                 $newStandingsDetails['region_trend']  = 'NEW';
                 $newStandingsDetails['server_trend']  = 'NEW';
                 $newStandingsDetails['country_trend'] = 'NEW';
-                self::$_newDungeonStandings[$guildId] = $newStandingsDetails;
+                $this->_newDungeonStandings[$guildId] = $newStandingsDetails;
             }
         }
     }
 
-    protected static function _getExistingDungeonStandings() {
+    protected function _getExistingDungeonStandings() {
         $dbh = DbFactory::getDbh();
 
         $query = $dbh->query(sprintf(
@@ -366,7 +373,7 @@ class StandingsHandler {
                FROM %s
               WHERE dungeon_id = '%d'",
                     DbFactory::TABLE_STANDINGS,
-                    self::$_dungeonDetails->_dungeonId
+                    $this->_dungeonDetails->_dungeonId
         ));
 
         while ( $row = $query->fetch(PDO::FETCH_ASSOC) ) {
@@ -374,19 +381,19 @@ class StandingsHandler {
 
             if ( !isset(CommonDataContainer::$guildArray[$guildId]) ) { continue; }
 
-            self::$_currentDungeonStandings[$guildId] = $row;
+            $this->_currentDungeonStandings[$guildId] = $row;
         }
 
-        self::$_currentDungeonStandings = DbFactory::getStandingsForDungeon(self::$_dungeonDetails->_dungeonId, self::$_currentDungeonStandings);
+        $this->_currentDungeonStandings = DbFactory::getStandingsForDungeon($this->_dungeonDetails->_dungeonId, $this->_currentDungeonStandings);
     }
 
-    protected static function _updateEncounterStandings() {
+    protected function _updateEncounterStandings() {
         $dbh = DbFactory::getDbh();
 
-        self::$_currentEncounterStandings = DbFactory::getStandingsForEncounter(self::$_encounterDetails->_encounterId);
+        $this->_currentEncounterStandings = DbFactory::getStandingsForEncounter($this->_encounterDetails->_encounterId);
 
-        self::_sortKillsByTime();
-        self::_setNewKillRanks();
+        $this->_sortKillsByTime();
+        $this->_setNewKillRanks();
 
         $insertSQL      = sprintf("INSERT INTO %s
                                  (guild_id,
@@ -409,9 +416,9 @@ class StandingsHandler {
         $updateSQL      = '';
 
         // handle insert
-        foreach ( self::$_killTimeArray as $guildId => $killTime ) {
+        foreach ( $this->_killTimeArray as $guildId => $killTime ) {
             $guildDetails     = CommonDataContainer::$guildArray[$guildId];
-            $encounterDetails = $guildDetails->_encounterDetails->{self::$_encounterDetails->_encounterId};
+            $encounterDetails = $guildDetails->_encounterDetails->{$this->_encounterDetails->_encounterId};
 
             if ( !empty($insertValueSQL) ) {
                 $insertValueSQL .= ',';
@@ -443,9 +450,9 @@ class StandingsHandler {
 
             $updateSQL .= ' ' . $columnName . ' = CASE';
 
-            foreach ( self::$_killTimeArray as $guildId => $killTime ) {
+            foreach ( $this->_killTimeArray as $guildId => $killTime ) {
                 $guildDetails     = CommonDataContainer::$guildArray[$guildId];
-                $encounterDetails = $guildDetails->_encounterDetails->{self::$_encounterDetails->_encounterId};
+                $encounterDetails = $guildDetails->_encounterDetails->{$this->_encounterDetails->_encounterId};
 
                 if ( $columnName == 'datetime' ) {
                     $encounterDetails->$value = $encounterDetails->_date . ' ' . $encounterDetails->_time;
@@ -457,28 +464,31 @@ class StandingsHandler {
             $updateSQL .= ' END';
         }
 
-        $insertSQL = $insertSQL . ' ' . $insertValueSQL;
-        $insertSQL .= ' ON DUPLICATE KEY UPDATE ' . $updateSQL;
-        $query = $dbh->prepare($insertSQL);
-        $query->execute();
+        if ( !empty($this->_killTimeArray) ) {
+            $insertSQL = $insertSQL . ' ' . $insertValueSQL;
+            $insertSQL .= ' ON DUPLICATE KEY UPDATE ' . $updateSQL;
+            $query = $dbh->prepare($insertSQL);
+            
+            $query->execute();
+        }
     }
 
-    protected static function _sortKillsByTime() {
-        foreach( self::$_currentEncounterStandings as $guildId => $guildDetails) {
-            $guildDetails->generateEncounterDetails('encounter', self::$_encounterDetails->_encounterId);
+    protected function _sortKillsByTime() {
+        foreach( $this->_currentEncounterStandings as $guildId => $guildDetails) {
+            $guildDetails->generateEncounterDetails('encounter', $this->_encounterDetails->_encounterId);
 
-            self::$_killTimeArray[$guildId] = $guildDetails->_encounterDetails->{self::$_encounterDetails->_encounterId}->_strtotime;
+            $this->_killTimeArray[$guildId] = $guildDetails->_encounterDetails->{$this->_encounterDetails->_encounterId}->_strtotime;
         }
 
-        asort(self::$_killTimeArray);
+        asort($this->_killTimeArray);
     }
 
-    protected static function _setNewKillRanks() {
+    protected function _setNewKillRanks() {
         // New Rank Array per Encounter
         $rankArray   = array();
-        $encounterId = self::$_encounterDetails->_encounterId;
+        $encounterId = $this->_encounterDetails->_encounterId;
 
-        foreach ( self::$_killTimeArray as $guildId => $killTime ) {
+        foreach ( $this->_killTimeArray as $guildId => $killTime ) {
             $guildDetails = CommonDataContainer::$guildArray[$guildId];
             $server       = $guildDetails->_server;
             $region       = $guildDetails->_region;

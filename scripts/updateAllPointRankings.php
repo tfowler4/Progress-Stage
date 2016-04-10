@@ -15,17 +15,19 @@ class UpdateAllPointRankings extends Script {
     protected static $_existingEncounterRankingsArray = array();
 
     public static function init() {
-        exit; // Until removed
-        echo "Running Standings<br>";
-        StandingsHandler::update(1, 216, 41);
-        echo "<br>Ending Run of Standings";
-        /*
-        echo "<br>Running Rankings<br>";
-        RankingsHandler::update(286, 236, 45);
-        echo "<br>Ending Run of Rankings";
         exit;
-        */
 
+        foreach ( CommonDataContainer::$dungeonArray as $dungoenId => $dungeonDetails ) {
+            foreach ( $dungeonDetails->_encounters as $encounterId => $encounterDetails ) {
+                $standings = new StandingsHandler();
+                $standings->update($encounterId, $dungoenId);
+
+                $rankings = new RankingsHandler();
+                $rankings->update($encounterId, $dungoenId);
+            }
+        }
+
+        /*
         Logger::log('INFO', 'Starting Update All Point Rankings...', 'dev');
 
         Logger::log('INFO', 'Encounters Needing Updates', 'dev');
@@ -73,6 +75,7 @@ class UpdateAllPointRankings extends Script {
         }
 
         Logger::log('INFO', 'Update All Point Rankings Completed!', 'dev');
+        */
     }
 
     public static function getExistingRankings() {
