@@ -1,274 +1,568 @@
-/* navbar hover menu */
-.dropdown-submenu {
-    position: relative;
-}
+/*
+    Element Defaults
+*/
 
-/* navbar hover menu */
-.dropdown-submenu > .dropdown-menu {
-    top: 0;
-    left: 100%;
-    margin-top: -6px;
-    margin-left: -1px;
-    -webkit-border-radius: 0 6px 6px 6px;
-    -moz-border-radius: 0 6px 6px;
-    border-radius: 0 6px 6px 6px;
-    color: #FFFFFF;
-}
+    /* padding added to handle fixed navbar at top of screen */
+    body { padding-top: 55px; }
 
-/* navbar link hover effect for dropdown */
-.dropdown-submenu a:hover {
-    background-image: none !important;
-    background-color: transparent !important;
-    color: #FFFFFF !important;
-}
+    /* remove resizable textareas */
+    textarea { resize: none; }
 
-/* navbar hover menu */
-.dropdown-submenu:hover>.dropdown-menu {
-    display: block;
-}
-
-/* navbar hover menu */
-.dropdown-submenu > a:after {
-    display: block;
-    content: " ";
-    float: right;
-    width: 0;
-    height: 0;
-    border-color: transparent;
-    border-style: solid;
-    border-width: 5px 0 5px 5px;
-    border-left-color: #ccc;
-    margin-top: 5px;
-    margin-right: -10px;
-}
-
-/* navbar hover menu */
-.dropdown-submenu:hover > a:after {
-    border-left-color: #fff;
-}
-
-/* navbar hover menu */
-.dropdown-submenu.pull-left {
-    float: none;
-}
-
-/* navbar dropdown header text that is unselectable */
-.dropdown-header {
-    color: #9d9d9d;
-    font-weight: bold;
-    font-size: 13px;
-}
-
-/* background for navbar dropdown */
-.navbar-inverse .dropdown-menu {
-    background-color: #222222;
-
-}
-
-/* text color for inverse navbar dropdown menu*/
-.navbar-inverse .dropdown-menu li a {
-    color: #9d9d9d;
-}
-
-/* divider styling on a dropdown menu in an inverse navbar */
-.navbar-inverse .dropdown-menu .divider {
-    background-color: #9d9d9d;
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    opacity: .50;
-}
-
-/* navbar hover menu */
-.dropdown-submenu.pull-left > .dropdown-menu {
-    left: -100%;
-    margin-left: 10px;
-    -webkit-border-radius: 6px 0 6px 6px;
-    -moz-border-radius: 6px 0 6px 6px;
-    border-radius: 6px 0 6px 6px;
-}
-
-/* navbar collapse width settings */
-@media (max-width: 900px) {
-    .navbar-collapse.collapse {
-        display: none !important;
+    /* hairline used as a breakline alternative */
+    hr {
+        height: 10px;
+        width: 0px;
+        padding: 0;
+        margin: 0;
     }
-    .navbar-collapse.collapse.in {
-        display: block !important;
+
+    /* body wrapper to keep the page's footer at the bottom of the page */
+    #body-wrapper { min-height: 65.3vh; }
+/*
+    Element Defaults
+*/
+
+/*
+    Nav Bar
+*/
+
+    /* navbar hover menu */
+    .dropdown-submenu { position: relative; }
+
+    /* navbar hover menu */
+    .dropdown-submenu > .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -6px;
+        margin-left: -1px;
+        -webkit-border-radius: 0 6px 6px 6px;
+        -moz-border-radius: 0 6px 6px;
+        border-radius: 0 6px 6px 6px;
+        color: #FFFFFF;
     }
-    .navbar-header .collapse, .navbar-toggle {
-        display: block !important;
+
+    /* navbar link hover effect for dropdown */
+    .dropdown-submenu a:hover {
+        background-image: none !important;
+        background-color: transparent !important;
+        color: #FFFFFF !important;
     }
-    .navbar-header {
-        float: none;
+
+    /* navbar hover menu */
+    .dropdown-submenu:hover>.dropdown-menu { display: block; }
+
+    /* navbar hover menu */
+    .dropdown-submenu > a:after {
+        display: block;
+        content: " ";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #ccc;
+        margin-top: 5px;
+        margin-right: -10px;
     }
-}
 
-/* TEMPORARY HIGHLIGHT CLASS */
-.highlight {
-    color: red;
-}
+    /* navbar hover menu */
+    .dropdown-submenu:hover > a:after { border-left-color: #fff; }
 
-/* remove element from display */
-.hidden {
-    display: none !important;
-}
+    /* navbar hover menu */
+    .dropdown-submenu.pull-left { float: none; }
 
-/* flag->text margin */
-.flag-icon {
-    margin-right: 4px;
-}
+    /* navbar dropdown header text that is unselectable */
+    .dropdown-header {
+        color: #9d9d9d;
+        font-weight: bold;
+        font-size: 13px;
+    }
 
-/* thumbnail for top guild pane */
-.thumbnail.top-guild {
-    height: 300px;
-    padding-top: 50px;
-}
+    /* background for navbar dropdown */
+    .navbar-inverse .dropdown-menu { background-color: #222222; }
 
-/* hover effect for top guild pane logo */
-.thumbnail.top-guild:hover {
-    border-color: #C0C0C0;
-}
+    /* text color for inverse navbar dropdown menu*/
+    .navbar-inverse .dropdown-menu li a { color: #9d9d9d; }
 
-.thumbnail.top-guild img {
-    height: 200px;
-    line-height: 300px;
-    vertical-align: middle;
-}
+    /* divider styling on a dropdown menu in an inverse navbar */
+    .navbar-inverse .dropdown-menu .divider {
+        background-color: #9d9d9d;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        opacity: .50;
+    }
 
-.thumbnail .screenshot {
-    height: 300px;
-    line-height:300px;
-}
+    /* navbar hover menu */
+    .dropdown-submenu.pull-left > .dropdown-menu {
+        left: -100%;
+        margin-left: 10px;
+        -webkit-border-radius: 6px 0 6px 6px;
+        -moz-border-radius: 6px 0 6px 6px;
+        border-radius: 6px 0 6px 6px;
+    }
 
-.thumbnail .screenshot img {
-    display: inline;
-}
+    /* navbar left-aligned logo container */
+    .navbar-brand {
+        margin-top: -25px;
+        padding: 0;
+    }
 
-.table thead {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
+    /* navbar left-aligned logo image */
+    .navbar-brand img {
+        margin: 0;
+        padding: 0;
+        max-height: 95px !important;
+        width: 95px !important;
+    }
 
-.screenshot-large {
-    max-width: 600px !important;
-}
+    /* navbar collapse width settings */
+    @media ( max-width: 900px ) {
+        .navbar-collapse.collapse {
+            display: none !important;
+        }
+        .navbar-collapse.collapse.in {
+            display: block !important;
+        }
+        .navbar-header .collapse, .navbar-toggle {
+            display: block !important;
+        }
+        .navbar-header {
+            float: none;
+        }
+    }
 
-.carousel-control.right, .carousel-control.left {
-    background-image: none;
-    color: #337ab7;
-}
+/*
+    Nav Bar
+*/
 
-.text-cut {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+/*
+    General Helpers
+*/
 
-#carouselStreams .carousel-inner img {
-    margin-right: auto;
-    margin-left: auto;
-}
+    /* highlight text color for active button or tab */
+    .highlight { color: red; }
 
-.media-overlay-top {
-    width: 100%;
-    height: 50px;
-    position:absolute;
-    top: 0;
-    overflow:hidden;
-}
+    /* text color for guilds with "Inactive" status */
+    .inactive { color: #333333; }
 
-.media-overlay-top-content {
-    max-width: 900px;
-    height: 50px;
-    background-color: rgba(0,0,0,.9);
-    margin-left: auto;
-    margin-right: auto;
-}
+    /* remove element from display */
+    .hidden { display: none; }
 
-.media-overlay-top-content img {
-    height: 50px;
-}
+    /* adds transparency to element by reducing opacity */
+    .faded { opacity: .3; }
 
-.media-overlay-bottom {
-    width: 100%;
-    height: 75px;
-    position:absolute;
-    bottom: 0;
-    overflow:hidden;
-}
+    /* display finger pointer cursor */
+    .clickable { cursor: pointer; }
 
-.media-overlay-bottom-content {
-    max-width: 900px;
-    height: 75px;
-    background-color: rgba(0,0,0,.9);
-    margin-left: auto;
-    margin-right: auto;
-}
+    /* remove any borders from the element */
+    .no-border { border: 0; }
 
-.media-guild-flag {
-    opacity: 0.10;
-}
+    /* add gray border to the left of the element */
+    .border-left { border-left: 1px solid #CCCCCC; }
 
-.media-text-content {
-    position: absolute;
-}
+    /* add gray border to the right of the element */
+    .border-right { border-right: 1px solid #CCCCCC; }
 
-.media-text-content h3 {
-    margin: -4px 0px 0px 5px;
-    color: #FFFFFF;
-}
+    /* flag icon for text, margin between */
+    .flag-icon { margin-right: 4px; }
 
-.carousel-indicators {
-    background-color: none;
-    display: inline-block;
-    width: auto;
-    max-height: 12px;
-    top: 0;
-    right: -100px;
-    margin: 0;
-    margin-top: 15px;
-    text-align:center;
-}
+    /* flag icon - medium size */
+    .flag-icon-med { height: 26px; }
 
-.carousel-indicators li {
-    height: 10px;
-}
+    /* size of company or site logo in footer section */
+    .footer-logo { width: 225px; }
 
-.media-text-content small {
-    color: #FFFFFF;
-}
+    /* medal icon for rankings */
+    .medal-icon {
+        height: 16px;
+        width: 16px;
+    }
 
-.media-guild-logo {
-    max-height: 95px;
-    max-width: 550px;
-}
+    /* default size of guild or site logo */
+    .default-logo {
+        height: 200px;
+        width: 200px;
+    }
 
-#spreadsheetModal .modal-dialog {
-    width: auto;
-}
+    /* cuts text base on parent element width and applies "..." */
+    .text-cut {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
-.navbar-brand {
-    margin-top: -25px;
-    padding: 0;
-}
+    /* page anchor to be used by page navigation to link */
+    .anchor {
+        display: block; 
+        position: relative; 
+        top: -40px; 
+        visibility: hidden;
+    }
 
-.navbar-brand img {
-    margin: 0;
-    padding: 0;
-    max-height: 95px !important;
-    width: 95px !important;
-}
+    /* standing/rankings trend icon - large */
+    .trend-icon-lrg {
+        height: 30px;
+        width: 30px;
+    }
 
-.table-curved {
-    border-collapse: separate;
-}
+    /* standing/rankings trend icon - small */
+    .trend-icon-sml {
+        height: 20px;
+        width: 20px;
+    }
 
-.table-curved {
-    border: solid #C0C0C0 1px; /* #337ab7 */
-    border-radius: 4px 4px 0px 0px;
-}
+    /* social media icon - large */
+    .social-media-icon-lrg {
+        height: 35px;
+        width: 35px;
+    }
+
+    /* social media icon - small */
+    .social-media-icon-sml {
+        height: 20px;
+        width: 20px;
+    }
+
+    /* red faction text color - rift/wildstar */
+    .defiant,.dominion { color: #FF0000; }
+
+    /* blue faction text color - rift/wildstar */
+    .guardian, .exiles { color: #0000FF; }
+
+    /* fix for bootstrap rows with float objects */
+    .row-margin-fix {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+/*
+    General Helpers
+*/
+
+/*
+    Tables
+*/
+
+    /* removing any styling in table thead */
+    .table thead {
+        border: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* default table thead header cell */
+    .table > tbody > tr > th {
+        font-weight: normal;
+        font-size: 12px;
+        color: #000000;
+        border: 0;
+        background-color: #F2F2F2 !important;
+    }
+
+    /* default table thead subHeader row for multi-tables */
+    .table > tbody > tr > th.subHeader { border-bottom: 1px solid #CCCCCC; }
+
+    /* default table thead subHeader row for multi-tables */
+    .table > tbody > tr > th.subTitle, .table > thead > tr > th.subTitle {
+        color: #555555;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    /* default table placed inside of panels */
+    .table.table-pane tbody > tr > th {
+        font-weight: bold;
+        font-size: 14px;
+        border-top: 1px solid #ddd;
+    }
+
+    /* table with curved borders */
+    .table-curved {
+        border-collapse: separate;
+        border: solid #C0C0C0 1px;
+        border-radius: 4px 4px 0px 0px;
+    }
+
+    /* hover effect on table cells */
+    .table-hover tbody tr:hover td { background-color: #CCCCCC !important; }
+
+    /* remove hover efect on header cells */
+    .table-hover tbody tr:hover th { background-color: none !important; }
+
+    /* striped tables default background color */
+    .table-striped { background-color: #FFFFFF !important; }
+
+    /* striped tables alt row stripe background */
+    .table-striped > tbody > tr.table-data:nth-child(2n+1) > td { background-color: #D9D9D9; }
+/*
+    Tables
+*/
+
+/*
+    Bootstrap 3 - Carousel
+*/
+
+    /* carousel control container  */
+    .carousel-control { width: 18%; }
+
+    /* carousel left/right arrows */
+    .carousel-control.right, .carousel-control.left {
+        background-image: none;
+        color: #337ab7;
+    }
+
+    /* carousel indicators container */
+    .carousel-indicators {
+        background-color: none;
+        display: inline-block;
+        width: auto;
+        max-height: 12px;
+        top: 0;
+        right: -100px;
+        margin: 0;
+        margin-top: 15px;
+        text-align:center;
+    }
+
+    /* carousel dot icon indicators */
+    .carousel-indicators li { height: 10px; }
+
+    /* carousel container for latest kills block */
+    #carouselLatestKills {
+        width: 100%;
+        height: 80px;
+        z-index: 1000;
+    }
+
+    #carouselLatestKills .carousel-inner {
+        height: 80px;
+        margin: 0 auto;
+        padding-left: 25px;
+        padding-right:25px;
+    }
+
+    /* carousel control container for latest kills block */
+    #carouselLatestKills .carousel-control { width: 20px !important; }
+
+    /* slide for latest kills block */
+    .latest-kill-slide {
+        float: left;
+        width: 145px;
+        padding-left: 5px;
+        padding-right: 5px;
+        border-right: 1px solid #000;
+    }
+
+    /* carousel inner content for media stream block */
+    #carouselStreams .carousel-inner img {
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    /* media stream slide top overlay */
+    .media-overlay-top {
+        width: 100%;
+        height: 50px;
+        position:absolute;
+        top: 0;
+        overflow:hidden;
+    }
+
+    /* media stream slide bottom overlay */
+    .media-overlay-bottom {
+        width: 100%;
+        height: 75px;
+        position:absolute;
+        bottom: 0;
+        overflow:hidden;
+    }
+
+    /* media stream slide top content container */
+    .media-overlay-top-content {
+        max-width: 900px;
+        height: 50px;
+        background-color: rgba(0,0,0,.9);
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* media stream slide bottom content logo */
+    .media-overlay-top-content img { height: 50px; }
+
+    /* media stream slide bottom content container */
+    .media-overlay-bottom-content {
+        max-width: 900px;
+        height: 75px;
+        background-color: rgba(0,0,0,.9);
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* guild country flag for media stream slide */
+    .media-guild-flag { opacity: 0.10; }
+
+    .media-text-content { position: absolute; }
+
+    /* guild name for media stream slide */
+    .media-text-content h3 {
+        margin: -4px 0px 0px 5px;
+        color: #FFFFFF;
+    }
+
+    /* details text for media stream slide */
+    .media-text-content small { color: #FFFFFF; }
+
+    /* guild logo for media stream slide */
+    .media-guild-logo {
+        max-height: 95px;
+        max-width: 550px;
+    }
+
+/*
+    Bootstrap 3 - Carousel
+*/
+
+/*
+    Placeholder - Advertisement
+*/
+
+    /* leaderboard advertisement block */
+    .ph-ad-leaderboard {
+        display: inline-block;
+        width: 728px;
+        height: 90px;
+        background-color: #000000;
+    }
+
+    /* large sidebar advertisement block */
+    .ph-ad-sidebar-lrg {
+        display: inline-block;
+        width: 300px;
+        height: 600px;
+        background-color:#000000;
+    }
+
+    /* medium sidebar advertisement block */
+    .ph-ad-sidebar-med {
+        display: inline-block;
+        width: 300px;
+        height: 250px;
+        background-color: #000000;
+    }
+
+/*
+    Placeholder - Advertisement
+*/
+
+/*
+    Top Guild Pane
+*/
+
+    /* thumbnail for top guild pane */
+    .thumbnail.top-guild {
+        height: 300px;
+        padding-top: 50px;
+    }
+
+    /* hover effect for top guild pane logo */
+    .thumbnail.top-guild:hover { border-color: #C0C0C0; }
+
+    /* thumbnail class containing guild logo image */
+    .thumbnail.top-guild img {
+        height: 200px;
+        line-height: 300px;
+        vertical-align: middle;
+    }
+
+    /* thumbnail class containing screenshot container */
+    .thumbnail .screenshot {
+        height: 300px;
+        line-height:300px;
+    }
+
+    /* screenshot thumbnail image  */
+    .thumbnail .screenshot img { display: inline; }
+
+/*
+    Top Guild Pane
+*/
+
+/*
+    Bootstrap 3 - Panels
+*/
+
+    /*  */
+    .panel { border-color: #C0C0C0; }
+
+    .panel-heading { background-color: #C0C0C0; }
+
+    .panel-primary > .panel-heading {
+        background-color: #C0C0C0;
+        background: -moz-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* ff3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #C0C0C0), color-stop(100%, #9C9C9C)); /* safari4+,chrome */
+        background: -webkit-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* safari5.1+,chrome10+ */
+        background: -o-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* opera 11.10+ */
+        background: -ms-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* ie10+ */
+        background: linear-gradient(180deg, #C0C0C0 0%, #9C9C9C 100%); /* w3c */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#C0C0C0', endColorstr='#9C9C9C',GradientType=0 ); /* ie6-9 */
+        border-color: #C0C0C0;
+    }
+
+    .panel-primary > .panel-heading > span.h4 {
+        color: #555555;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    /* panel body ued in articles for primary body text */
+    .panel-body.article { padding: 0px 15px 10px 15px }
+
+    /* panel footer used in articles as subheader */
+    .panel-footer.article { padding: 6px 15px 6px 15px; }
+
+/*
+    Bootstrap 3 - Panels
+*/
+
+/*
+    News Model - Side Ranking Panel
+*/
+
+    /* side rankings panel header container */
+    .side-ranking-header {
+        font-family: Impact,sans-serif;
+        color: #777777;
+    }
+
+    /* side ranking pane container */
+    .rank-pane { height: 50px; }
+
+    /* side ranking pane image */
+    .rank-pane .rank-pane-details-image img { margin-top: -20px; }
+
+    /* side ranking pane details text container */
+    .rank-pane-details { height: 25px; }
+
+    /* side ranking pane details rank text container */
+    .rank-pane-details-rank {
+        width: 30px;
+        margin-top: -10px;
+    }
+
+    /* side ranking pane details image container */
+    .rank-pane-details-image {
+        background-color: none;
+        position: absolute;
+        display: block;
+        float: right;
+        right: 50px;
+    }
+
+/*
+    News Model - Side Ranking Panel
+*/
 
 /* bootstrap override fix for modals shifting content to the left */
 .modal-open {
@@ -276,70 +570,7 @@
     overflow-y: hidden;
 }
 
-#footer a {
-    color: #FFFFFF;
-}
-
-/* red faction text color */
-.defiant,.dominion {
-    color: #FF0000;
-}
-
-/* blue faction text color */
-.guardian,.exiles {
-    color: #0000FF;
-}
-
-#body-wrapper {
-    min-height:65.3vh;
-}
-
-textarea {
-    resize: none;
-}
-
-/* adds transparency to element by reducing opacity */
-.faded {
-    opacity: .3;
-}
-
-.panel-heading {
-    background-color: #C0C0C0;
-}
-
-.panel {
-    border-color: #C0C0C0;
-}
-
-.panel-primary > .panel-heading {
-    background-color: #C0C0C0;
-    background: -moz-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* ff3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #C0C0C0), color-stop(100%, #9C9C9C)); /* safari4+,chrome */
-    background: -webkit-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* safari5.1+,chrome10+ */
-    background: -o-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* opera 11.10+ */
-    background: -ms-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* ie10+ */
-    background: linear-gradient(180deg, #C0C0C0 0%, #9C9C9C 100%); /* w3c */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#C0C0C0', endColorstr='#9C9C9C',GradientType=0 ); /* ie6-9 */
-
-    border-color: #C0C0C0;
-
-
-/*
-    DEFAULT GRADIENT
-    background-image: linear-gradient(to bottom,#337ab7 0,#2e6da4 100%);
- */
-}
-
-.panel-primary > .panel-heading > span.h4 {
-    color: #555555;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.medium-flag {
-    height: 26px;
-}
-
+/* model container - primary colorset */
 .modal-primary {
     background-color: #C0C0C0;
     background: -moz-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* ff3.6+ */
@@ -349,10 +580,10 @@ textarea {
     background: -ms-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* ie10+ */
     background: linear-gradient(180deg, #C0C0C0 0%, #9C9C9C 100%); /* w3c */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#C0C0C0', endColorstr='#9C9C9C',GradientType=0 ); /* ie6-9 */
-
     border-radius: 4px 4px 0px 0px;
 }
 
+/* background - primary colorset */
 .bg-primary {
     background-color: #C0C0C0;
     background: -moz-linear-gradient(270deg, #C0C0C0 0%, #9C9C9C 100%); /* ff3.6+ */
@@ -366,168 +597,6 @@ textarea {
     border-radius: 4px 4px 0px 0px;
 }
 
-body { padding-top: 55px; }
+#spreadsheetModal .modal-dialog { width: auto; }
 
-.table-hover tbody tr:hover td {
-    background-color: #CCCCCC !important;
-}
-
-.table-hover tbody tr:hover th {
-    background-color: none !important;
-}
-
-.table-striped {
-    background-color: #FFFFFF !important;
-}
-
-.table-striped > tbody > tr.table-data:nth-child(2n+1) > td {
-   background-color: #D9D9D9;
-}
-
-.table > tbody > tr > th {
-    font-weight: normal;
-    font-size: 12px;
-    color: #000000;
-    border: 0;
-    background-color: #FFFFFF !important;
-}
-
-.table > tbody > tr > th.subHeader {
-    border-bottom: 1px solid #CCCCCC;
-}
-
-.table > tbody > tr > th.subTitle, .table > thead > tr > th.subTitle {
-    color: #555555;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.side-ranking-header {
-    font-family: Impact,sans-serif;
-    color: #777777;
-}
-
-.border-left {
-    border-left: 1px solid #CCCCCC !important;
-}
-
-.border-right {
-    border-right: 1px solid #CCCCCC;
-}
-
-.table.table-pane tbody > tr > th{
-    font-weight: bold;
-    font-size: 14px;
-    border-top: 1px solid #ddd;
-}
-
-.inactive {
-    color: #333333;
-}
-
-.medal-icon {
-    height: 16px;
-    width: 16px;
-}
-
-.trend-icon-lrg {
-    height: 30px;
-    width: 30px;
-}
-
-.trend-icon-sml {
-    height: 20px;
-    width: 20px;
-}
-
-.footer-logo {
-    width: 225px;
-}
-
-.default-logo {
-    height: 200px;
-    width: 200px;
-}
-
-.social-media-icon-lrg {
-    height: 35px;
-    width: 35px;
-}
-
-.social-media-icon-sml {
-    height: 20px;
-    width: 20px;
-}
-
-hr {
-    height: 10px;
-    width: 0px;
-    padding: 0;
-    margin: 0;
-}
-
-.no-border {
-    border: 0;
-}
-
-.ph-ad-leaderboard {
-    display: inline-block;
-    width: 728px;
-    height: 90px;
-    background-color: #000000;
-}
-
-.ph-ad-sidebar-lrg {
-    display: inline-block;
-    width: 300px;
-    height: 600px;
-    background-color:#000000;
-}
-
-.ph-ad-sidebar-med {
-    display: inline-block;
-    width: 300px;
-    height: 250px;
-    background-color: #000000;
-}
-
-.carousel-control {
-    width: 18%;
-}
-
-.panel-body.article {
-    padding: 0px 15px 10px 15px
-}
-
-.panel-footer.article {
-    padding: 6px 15px 6px 15px;
-}
-
-.clickable {
-    cursor: pointer;
-}
-
-.rank-pane {
-    height: 50px;
-}
-
-.rank-pane .rank-pane-details-image img {
-    margin-top: -20px;
-}
-
-.rank-pane-details {
-    height: 25px;
-}
-
-.rank-pane-details-rank {
-    width: 30px;
-    margin-top: -10px;
-}
-
-.rank-pane-details-image {
-    background-color:none;
-    position: absolute;
-    display: block;
-    float: right;
-    right: 50px;
-}
+#footer a { color: #FFFFFF; }

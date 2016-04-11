@@ -290,7 +290,7 @@ class Functions {
             $class = 'class="large-flag"';
         } elseif ( $size == 'medium' ) { 
             $folder .= 'medium/';
-            $class = 'class="medium-flag"';
+            $class = 'class="flag-icon-med"';
         } elseif ( $size == 'small' ) {
             $folder .= 'medium/';
             $class  = 'class="flag-custom"';
